@@ -325,3 +325,59 @@ boundaries.
 
 - B2: pets out of the core, one point at a time, starting with lines
   instead of pets in the hold, the draft and the private link.
+
+## Step 2, part B2: pets out of the core (2026-11-10)
+
+**Built**
+
+- The core books *lines* (a service each) and knows nothing about pets. The
+  hold, the draft, the booking routes, the details step, the private link,
+  the owner's calendar, today page, customer record and content screen ask
+  the extensions that are on at fixed points and never name one.
+- New extension points in `src/extension/types.ts` (server, loaded by the
+  worker too): `bookingLines` (read, prepare, missing, check, confirm),
+  `serviceTags` (a label per service and a filter by address parameter),
+  `previewService`, `describeLines` (a name and notes per booked line),
+  `customerData` (tables moved on a merge and emptied on an erase, plus the
+  export), `catalogActions` (forms of the owner's content screen).
+- Page slots in `src/extension/views.ts` (pages only, generated registry
+  `src/extension-views.generated.ts`): `lineFields`, `manage`,
+  `manageNotices`, `customer`, `catalog`, `privacy`, `landingPages`.
+- `extensions/pets/` now holds everything about pets: the rules, the pets
+  repository, the booking-line logic, the pet fields, pet photos on the
+  private link, the customer's pets panel, the rules panel and its form
+  action, its privacy lines and the dog-grooming campaign page.
+- Wording: the core packs (he, en, ar) say "service" and "us"; pet and salon
+  wording is in `extensions/pets/languages/*.json`, laid over the pack when
+  the extension is on. Keys renamed: `service.remove`, `service.max`,
+  `service.lineN`, `manage.lines`, `stats.count`. `isMessageKey` counts the
+  enabled extensions' strings, so an extension's own error is shown.
+- Renamed: `maxPets` to `maxLines` (migration 0015 copies the setting),
+  `TooManyPets` to `TooManyLines`, calendar class `cal-event-lines`.
+- `tests/fixtures/client.plain.json`: a client with no extensions. The
+  browser tests read which extensions are on (`tests/e2e/client.ts`) and
+  skip the pet steps without pets; CI runs three clients.
+
+**Verified**
+
+- Default client: 224 unit tests, 61 browser tests, production build and
+  worker bundle. 37 of the 40 page pictures are identical; the 3 home page
+  ones differ only in the "free today / tomorrow" heading, which depends on
+  the hour the pictures are taken.
+- Plain client (no extensions): 220 unit tests (4 pet tests skipped), 57
+  browser tests. Sample client (he + ar, pets on): 218 unit, 61 browser.
+
+**Still pet-shaped in the core (next)**
+
+- Tables: `pets`, `service_rules`, `pet_photos` and the `pet_id` column are
+  created by the core migrations, and the lines table is still named
+  `appointment_pets`. They move to `extensions/pets/migrations` (new
+  installs) with a rename of the lines table.
+- AI: photo analysis and the pre-visit note (`src/server/photos.ts`,
+  `src/server/ai/*`, `/api/booking/photo`, the `ai.photo` setting) are
+  written for pets and are reachable only through the pets extension.
+- The export's booking lines no longer carry `pet_id`.
+- Starting content (`db/seed/data.json`, the packs' `content.json`) and the
+  privacy and accessibility pages still describe a grooming salon; they are
+  the client's content and belong to `kit new`.
+- The home page's icons on the service cards alternate scissors and a paw.

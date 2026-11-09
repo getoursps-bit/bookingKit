@@ -106,8 +106,14 @@ migrations and its starting content. `client.json` lists the ones that are
 on, and `pnpm brand` writes the registry the code reads; an extension that
 is off is not in the build, and its code stays in the kit. The core offers
 fixed extension points (see `src/extension/types.ts`) and never carries an
-`if` for one client. `pets`, the grooming salon's customisation, is the
-first extension and is being taken out of the core point by point.
+`if` for one client. What an extension shows in pages is in its `views.tsx`
+(see `src/extension/views.ts`), kept apart so the worker never loads React.
+
+`pets`, the grooming salon's customisation, is the first extension: the pet
+fields of a booking, the dog or cat filter, pet photos, the pet-to-service
+rules and the pet and salon wording all live in `extensions/pets/`. With
+`"extensions": []` the site is a plain booking site; `tests/fixtures/client.plain.json`
+is tested that way.
 
 ## Re-branding
 

@@ -14,9 +14,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # The default client, and a second one with another name, palette and
-        # fonts, so nothing quietly depends on the default.
-        client: [client.json, tests/fixtures/client.sample.json]
+        # The default client; a second one with another name, palette, fonts
+        # and languages; and a plain one with no extensions, so nothing
+        # quietly depends on the default or on an extension being on.
+        client: [client.json, tests/fixtures/client.sample.json, tests/fixtures/client.plain.json]
     services:
       postgres:
         image: postgres:16-alpine

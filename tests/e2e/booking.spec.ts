@@ -2,6 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { type Browser, expect, type Page, test } from "@playwright/test";
 import pg from "pg";
 import sharp from "sharp";
+import seed from "../../db/seed/data.json" with { type: "json" };
 import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { DEFAULT_LOCALE, LOCALES, PACKS } from "../../src/i18n/languages.generated";
@@ -186,7 +187,7 @@ test("a new customer books a dog with the keyboard, then moves and cancels from 
 
   await expect(page).toHaveURL(/\/b\/[\w-]+\?new=1/);
   await expect(page.getByText("התור נקבע!")).toContainText(who.e164.slice(-4));
-  await expect(page.getByText("רקס", { exact: false })).toBeVisible();
+  if (PETS) await expect(page.getByText("רקס", { exact: false })).toBeVisible();
   await axe(page);
 
   // The confirmation and the reminder wait in the outbox for the worker.
@@ -536,8 +537,9 @@ test("the home page's first free time opens the booking with that time offered",
   await free.click();
   await expect(page).toHaveURL(/\/book$/);
   await expect(page.getByText(/בחרתם את/)).toBeVisible();
-  // The home page works the time out for one small adult dog.
-  await chooseService(page, SMALL_DOG);
+  // The home page works the time out for one small adult dog when the client books pets, else for the first service that books online.
+  const first = seed.services.find((service) => service.bookable_online)!.key as keyof (typeof CONTENT)[typeof DEFAULT_LOCALE]["service"];
+  await chooseService(page, PETS ? SMALL_DOG : CONTENT[DEFAULT_LOCALE].service[first].name);
   await expect(page.getByText(/השעה שבחרתם:/)).toBeVisible();
   // The offered time is the one the home page showed.
   const time = /\d{2}:\d{2}/.exec(label)![0];

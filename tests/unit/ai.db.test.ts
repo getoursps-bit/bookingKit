@@ -81,7 +81,8 @@ describe.skipIf(!hasDb)("AI jobs", () => {
       await runAiJobs({ db: pool, ai: createFakeAi() });
       const [job] = await jobs(pool);
       expect(job).toMatchObject({ status: "done", cost: 5 });
-      expect(job.result.textHe).toContain("בדיקה");
+      // The pet's name is in the note when the client books pets.
+      if (hasExtension("pets")) expect(job.result.textHe).toContain("בדיקה");
       expect(await spend(pool)).toBe(5);
     });
   });

@@ -330,6 +330,12 @@ Not by guessing. The two existing clients are the specification:
 | `settings.booking.maxPets` | a limit on pets | the core's limit on lines |
 | strings `pets.*`, `coat.*`, `tag.*`, `details.vet*`, hero sticker, paw icons on service cards, seed `service_rules` | wording and content | the extension's strings and content; the core's views show the brand mark |
 
+Status on 2026-11-10: every row is done except the photo and AI row and the
+database tables, which the build notes list under "Still pet-shaped in the
+core". `suggestServices` was built as two smaller points, `serviceTags` and
+`previewService`, and pet photos stayed inside `pets` rather than becoming
+an extension of their own.
+
 ### Testing two shapes of client
 
 `client.json` is read when the site is built, so a second client is tested

@@ -92,7 +92,7 @@ describe.skipIf(!hasDb)("booking against Postgres", () => {
     });
   });
 
-  it("confirms in one step: pets saved, private link issued, messages and owner alert queued", async () => {
+  it("confirms in one step: line details saved, private link issued, messages and owner alert queued", async () => {
     await withMigratedSchema(async (db) => {
       const hold = await booking.requestHold(holdInput(noon, 1, { source: { utm_source: "instagram" } }), { db });
       if (!hold.ok) throw new Error(hold.reason);
@@ -102,13 +102,15 @@ describe.skipIf(!hasDb)("booking against Postgres", () => {
       expect(confirmed.booking.appointment.status).toBe("confirmed");
       expect(confirmed.booking.appointment.source).toEqual({ utm_source: "instagram" });
       expect((await appointments.getByToken(confirmed.booking.manageToken, db))?.id).toBe(hold.hold.appointmentId);
-      expect(await count(db, "select * from pets")).toBe(1);
-      // The vet and the vaccine confirmation are kept on the pet, with its size from the service.
-      const { rows: pets } = await db.query(
-        "select vet_name, vaccines_confirmed_at is not null as vaccines, age_group, weight_group from pets",
-      );
-      expect(pets[0]).toEqual({ vet_name: "מרפאת בדיקה", vaccines: true, age_group: "adult", weight_group: "small" });
-      expect(await count(db, "select * from appointment_pets where pet_id is not null")).toBe(1);
+      if (pets) {
+        expect(await count(db, "select * from pets")).toBe(1);
+        // The vet and the vaccine confirmation are kept on the pet, with its size from the service.
+        const { rows: pets } = await db.query(
+          "select vet_name, vaccines_confirmed_at is not null as vaccines, age_group, weight_group from pets",
+        );
+        expect(pets[0]).toEqual({ vet_name: "מרפאת בדיקה", vaccines: true, age_group: "adult", weight_group: "small" });
+        expect(await count(db, "select * from appointment_pets where pet_id is not null")).toBe(1);
+      }
       const { rows } = await db.query<{ kind: string }>("select kind from message_outbox order by kind");
       expect(rows.map((row) => row.kind)).toEqual(["confirmation", "owner_alert", "reminder"]);
       expect(await count(db, "select * from owner_events where type = 'booking_created' and read_at is null")).toBe(1);
