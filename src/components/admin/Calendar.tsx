@@ -197,7 +197,7 @@ export function Calendar({
       title: `${booking.customerName} · ${petsOf(booking)}`,
       start: booking.start,
       end: booking.end,
-      className: `ff-event ff-event-${booking.status}`,
+      className: `cal-event cal-event-${booking.status}`,
       editable: booking.status === "confirmed",
       extendedProps: booking,
     }));
@@ -244,7 +244,7 @@ export function Calendar({
   }
 
   function dayCellClass(info: DayCellInfo): string {
-    return closedDays.has(info.dow) ? "ff-day ff-day-closed" : "ff-day";
+    return closedDays.has(info.dow) ? "cal-day cal-day-closed" : "cal-day";
   }
 
   /** Month days: the date, then the day's booking count or "closed". */
@@ -255,11 +255,11 @@ export function Calendar({
       <>
         {info.dayNumberText}
         {count > 0 ? (
-          <span className="ff-day-count" aria-label={t("cal.dayCount", { n: count })}>
+          <span className="cal-day-count" aria-label={t("cal.dayCount", { n: count })}>
             {count}
           </span>
         ) : closedDays.has(info.dow) && !info.isOther ? (
-          <span className="ff-day-closed-label">{t("cal.closed")}</span>
+          <span className="cal-day-closed-label">{t("cal.closed")}</span>
         ) : null}
       </>
     );
@@ -316,25 +316,25 @@ export function Calendar({
     const booking = info.event.extendedProps as Booking;
     if (info.view.type === "dayGridMonth") {
       return (
-        <div className="ff-event-line">
-          <span className="ff-event-time" dir="ltr">
+        <div className="cal-event-line">
+          <span className="cal-event-time" dir="ltr">
             {dateTime(booking.start, { hour: "2-digit", minute: "2-digit" })}
           </span>
-          <span className="ff-event-name">{booking.customerName}</span>
+          <span className="cal-event-name">{booking.customerName}</span>
         </div>
       );
     }
     return (
-      <div className="ff-event-body">
+      <div className="cal-event-body">
         {/* Times read left to right in both languages; narrow week columns show the start only. */}
-        <span className="ff-event-time" dir="ltr">
+        <span className="cal-event-time" dir="ltr">
           {view === "timeGridWeek" ? dateTime(booking.start, { hour: "2-digit", minute: "2-digit" }) : info.timeText}
         </span>
-        <span className="ff-event-name">
+        <span className="cal-event-name">
           {booking.status === "completed" ? <Icon name="check" size={14} /> : null}
           {booking.customerName}
         </span>
-        {info.isShort ? null : <span className="ff-event-pets">{petsOf(booking)}</span>}
+        {info.isShort ? null : <span className="cal-event-pets">{petsOf(booking)}</span>}
       </div>
     );
   }
@@ -564,11 +564,11 @@ export function Calendar({
             eventContent={eventContent}
             eventClass={(info) =>
               [
-                info.view.type === "dayGridMonth" ? "ff-event-month" : "",
-                selected && info.event.id === String(selected.id) ? "ff-event-selected" : "",
+                info.view.type === "dayGridMonth" ? "cal-event-month" : "",
+                selected && info.event.id === String(selected.id) ? "cal-event-selected" : "",
               ].join(" ")
             }
-            moreLinkClass="ff-more"
+            moreLinkClass="cal-more"
             select={onSelect}
             dateClick={onDateClick}
             dayCellClass={dayCellClass}

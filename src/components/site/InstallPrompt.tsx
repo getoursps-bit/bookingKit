@@ -6,7 +6,7 @@ import { Icon } from "@/components/ui/Icon";
 import { useI18n } from "@/i18n/client";
 import { InstallButton, useCanInstall } from "./InstallButton";
 
-const CLOSED_KEY = "ff-install-closed";
+const CLOSED_KEY = "bk-install-closed";
 /** Where a floating card would sit over the buttons a customer needs. */
 const NOT_HERE = /^(\/en)?\/(book|b)(\/|$)/;
 

@@ -7,9 +7,9 @@ export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "he";
 
 /** Remembers the last language a visitor chose, for form posts and the owner area. */
-export const LOCALE_COOKIE = "ff_locale";
+export const LOCALE_COOKIE = "bk_locale";
 /** Set by the proxy on every page request; read through getLocale(). */
-export const LOCALE_HEADER = "x-ff-locale";
+export const LOCALE_HEADER = "x-bk-locale";
 
 export function isLocale(value: unknown): value is Locale {
   return value === "he" || value === "en";

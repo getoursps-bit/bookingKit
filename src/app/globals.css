@@ -355,24 +355,24 @@
   font-family: var(--font-sans);
   font-size: 0.875rem;
 }
-.ff-event {
+.cal-event {
   border-inline-start: 3px solid var(--color-brand) !important;
   border-radius: 0.5rem !important;
   overflow: hidden;
 }
-.ff-event-completed {
+.cal-event-completed {
   border-inline-start-color: var(--color-success) !important;
   background: var(--color-success-soft) !important;
 }
-.ff-event-no_show {
+.cal-event-no_show {
   border-inline-start-color: var(--color-line-strong) !important;
   background: var(--color-paper) !important;
   color: var(--color-ink-muted) !important;
 }
-.ff-event-no_show .ff-event-name {
+.cal-event-no_show .cal-event-name {
   text-decoration: line-through;
 }
-.ff-event-body {
+.cal-event-body {
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -381,11 +381,11 @@
   line-height: 1.3;
   color: var(--color-ink);
 }
-.ff-event-selected {
+.cal-event-selected {
   outline: 2px solid var(--color-brand);
   outline-offset: 1px;
 }
-.ff-event-time {
+.cal-event-time {
   align-self: flex-start;
   overflow: hidden;
   white-space: nowrap;
@@ -395,13 +395,13 @@
   color: var(--color-ink-soft);
   font-variant-numeric: tabular-nums;
 }
-.ff-event-name {
+.cal-event-name {
   display: flex;
   align-items: center;
   gap: 0.25rem;
   font-weight: 600;
 }
-.ff-event-pets {
+.cal-event-pets {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -420,7 +420,7 @@
   border-radius: var(--radius-pill);
 }
 /* Month view: one line per booking, the day's count beside its date, closed days shaded. */
-.ff-event-line {
+.cal-event-line {
   display: flex;
   min-width: 0;
   align-items: baseline;
@@ -428,26 +428,26 @@
   padding: 0.0625rem 0.375rem;
   color: var(--color-ink);
 }
-.ff-event-line .ff-event-name {
+.cal-event-line .cal-event-name {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   font-weight: 500;
 }
-.ff-day-closed {
+.cal-day-closed {
   background: var(--color-paper);
 }
 /* The count and "closed" sit in the day's far corner, clear of the date (and today's circle). */
-.ff-day {
+.cal-day {
   position: relative;
 }
-.ff-day-count,
-.ff-day-closed-label {
+.cal-day-count,
+.cal-day-closed-label {
   position: absolute;
   inset-block-start: 0.375rem;
   inset-inline-end: 0.5rem;
 }
-.ff-day-count {
+.cal-day-count {
   display: inline-grid;
   min-width: 1.375rem;
   height: 1.375rem;
@@ -460,15 +460,15 @@
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
-.ff-day-closed-label {
+.cal-day-closed-label {
   font-size: 0.75rem;
   color: var(--color-ink-muted);
 }
 /* Phone months are too narrow for names: the count shows, and a tap opens the day. */
 @media (max-width: 40rem) {
   /* Scoped so it outranks the library's own !important display rules, which load later. */
-  .admin-calendar .ff-event-month,
-  .admin-calendar .ff-more {
+  .admin-calendar .cal-event-month,
+  .admin-calendar .cal-more {
     display: none !important;
   }
 }

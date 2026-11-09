@@ -5,7 +5,7 @@ import { signValue, verifySignedValue } from "./security";
 // a signed cookie until the visitor books. Kept free of database imports
 // because src/proxy.ts loads it on every request.
 
-export const ATTRIBUTION_COOKIE = "ff_src";
+export const ATTRIBUTION_COOKIE = "bk_src";
 export const ATTRIBUTION_MAX_AGE_S = 30 * 24 * 60 * 60;
 
 const TAGS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid"] as const;

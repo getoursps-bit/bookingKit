@@ -1,5 +1,6 @@
 import pg from "pg";
 import { getConfig } from "./config";
+import { searchPathOption } from "./db-schema";
 import { log } from "./log";
 
 export type Db = pg.Pool | pg.PoolClient;
@@ -12,7 +13,7 @@ export function getPool(): pg.Pool {
   pool = new pg.Pool({
     connectionString: getConfig().DATABASE_URL,
     // Every query runs inside the app's own schema.
-    options: "-c search_path=fluffyfur",
+    options: searchPathOption(),
     max: 5,
     idleTimeoutMillis: 30_000,
     connectionTimeoutMillis: 5_000,

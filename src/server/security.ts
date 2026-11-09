@@ -61,7 +61,7 @@ export function verifySignedValue(secret: string, signed: string): string | null
   return safeEqual(signed.slice(dot + 1), hmac(secret, value)) ? value : null;
 }
 
-export const CSRF_COOKIE = "ff_csrf";
+export const CSRF_COOKIE = "bk_csrf";
 
 /** A random token for the CSRF cookie. The form carries the same value back. */
 export function newCsrfToken(): string {

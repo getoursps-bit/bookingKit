@@ -4,7 +4,7 @@ import { signValue, verifySignedValue } from "../security";
 // The booking steps keep their progress in one signed cookie, so every step is
 // a plain server-rendered page and works without JavaScript.
 
-export const DRAFT_COOKIE = "ff_book";
+export const DRAFT_COOKIE = "bk_book";
 
 /**
  * Booking several pets at once, each with its own service. Off for now (owner,

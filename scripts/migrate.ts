@@ -6,6 +6,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
+import { searchPathOption } from "../src/server/db-schema";
 
 export const MIGRATIONS_DIR = fileURLToPath(new URL("../db/migrations/", import.meta.url));
 
@@ -49,7 +50,7 @@ export async function migrate(db: Queryable, dir = MIGRATIONS_DIR): Promise<stri
 async function main(): Promise<void> {
   const url = process.env.DATABASE_URL;
   if (!url) throw new Error("DATABASE_URL is not set");
-  const client = new pg.Client({ connectionString: url, options: "-c search_path=fluffyfur" });
+  const client = new pg.Client({ connectionString: url, options: searchPathOption() });
   await client.connect();
   try {
     if (process.argv.includes("--check")) {

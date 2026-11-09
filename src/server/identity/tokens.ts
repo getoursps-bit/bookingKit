@@ -5,7 +5,7 @@ import { newRawToken, secretHash } from "./hash";
 // Private links and trusted devices. The raw token goes to the customer only;
 // the database keeps its keyed hash.
 
-export const TRUSTED_DEVICE_COOKIE = "ff_device";
+export const TRUSTED_DEVICE_COOKIE = "bk_device";
 export const TRUSTED_DEVICE_DAYS = 90;
 
 /** A private link for one booking, valid until the visit ends. Returns the raw token. */

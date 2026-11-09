@@ -1,4 +1,4 @@
-# Production image for Fluffy Fur. One image, two entry points:
+# Production image. One image, two entry points:
 #   web (default):  node server.js
 #   worker:         node worker/main.js
 # Release steps:    node worker/migrate.js [--check], node worker/seed.js

@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { DEV_DATABASE_URL } from "./tests/setup/dev-db";
 
 // A port of its own, so a dev server or other container on 3000 is never
 // mistaken for the app under test.
@@ -29,7 +30,7 @@ export default defineConfig({
       APP_BASE_URL: `http://localhost:${port}`,
       SESSION_SECRET: process.env.SESSION_SECRET ?? "e2e-only-secret-e2e-only-secret-000",
       PROVIDERS: "fake",
-      DATABASE_URL: process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5435/postgres",
+      DATABASE_URL: process.env.DATABASE_URL ?? DEV_DATABASE_URL,
     },
   },
 });

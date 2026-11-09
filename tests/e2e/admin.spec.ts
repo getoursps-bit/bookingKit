@@ -4,6 +4,8 @@ import argon2 from "argon2";
 import { generate, generateSecret } from "otplib";
 import pg from "pg";
 import sharp from "sharp";
+import { searchPathOption } from "../../src/server/db-schema";
+import { DEV_DATABASE_URL } from "../setup/dev-db";
 
 // The owner area on a phone: login with password and app code, then every
 // admin page. The staff account is made up for the test and removed after.
@@ -11,14 +13,14 @@ import sharp from "sharp";
 test.describe.configure({ mode: "serial" });
 test.use({ viewport: { width: 390, height: 844 }, locale: "he-IL", hasTouch: true });
 
-const databaseUrl = process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5435/postgres";
+const databaseUrl = process.env.DATABASE_URL ?? DEV_DATABASE_URL;
 const EMAIL = `e2e-${Date.now()}@example.test`;
 // A made-up password for the test account only.
 const PASSWORD = "e2e-password-not-real";
 const SECRET = generateSecret();
 
 async function sql<Row extends pg.QueryResultRow>(text: string, params: unknown[] = []): Promise<Row[]> {
-  const client = new pg.Client({ connectionString: databaseUrl, options: "-c search_path=fluffyfur" });
+  const client = new pg.Client({ connectionString: databaseUrl, options: searchPathOption() });
   await client.connect();
   try {
     return (await client.query<Row>(text, params)).rows;
@@ -160,8 +162,8 @@ test("the calendar shows the day in Hebrew, right to left", async ({ page }) => 
   // The month shows whole weeks; a click on a day opens that day.
   await page.getByRole("button", { name: "חודש", exact: true }).click();
   await expect(page.getByRole("button", { name: "חודש", exact: true })).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator(".ff-day").first()).toBeVisible();
-  await page.locator(".ff-day").nth(10).click();
+  await expect(page.locator(".cal-day").first()).toBeVisible();
+  await page.locator(".cal-day").nth(10).click();
   await expect(page.getByRole("button", { name: "יום", exact: true })).toHaveAttribute("aria-pressed", "true");
 });
 
@@ -169,7 +171,7 @@ test("each admin page renews the session cookie for another 30 days", async ({ p
   await login(page);
   const response = await page.goto("/admin/calendar");
   const cookies = (await response!.headersArray()).filter((header) => header.name.toLowerCase() === "set-cookie");
-  const session = cookies.find((header) => header.value.startsWith("ff_admin="));
+  const session = cookies.find((header) => header.value.startsWith("bk_admin="));
   expect(session?.value).toMatch(/Max-Age=2592000/i);
 });
 

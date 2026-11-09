@@ -31,14 +31,14 @@ pnpm worker                          # in a second shell: sends messages, runs t
 
 Fill in `.env.local` first: `APP_BASE_URL=http://localhost:3000`, a
 `SESSION_SECRET` of at least 32 characters, and
-`DATABASE_URL=postgres://fluffyfur_app:fluffyfur-dev@localhost:5435/postgres`.
+`DATABASE_URL=postgres://app_user:app-dev@localhost:5435/postgres`.
 
 With `PROVIDERS=fake`, WhatsApp, email and push messages are written to the
 `fake_messages` table instead of being sent, photos go to in-memory storage,
 and AI returns fixed answers. Booking codes can be read there:
 
 ```sql
-select recipient, body from fluffyfur.fake_messages order by id desc limit 5;
+select recipient, body from app.fake_messages order by id desc limit 5;
 ```
 
 The owner area is at `/admin`. Create an account (the command prints the key
@@ -106,7 +106,7 @@ off, not faked, when `PROVIDERS=real`.
 
 Hebrew is served at the plain addresses and English under `/en`. The switch
 in the header, footer and owner menu goes through `/lang/<he|en>?back=<path>`
-and is remembered in the `ff_locale` cookie (the owner area has no `/en` and
+and is remembered in the `bk_locale` cookie (the owner area has no `/en` and
 follows the cookie). Every string lives in both `src/i18n/he.json` and
 `src/i18n/en.json`. The owner can fill an English version of each service,
 product, photo text, tagline and message; empty fields show the Hebrew.

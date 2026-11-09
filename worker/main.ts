@@ -3,7 +3,7 @@
 export {};
 
 // Set before the logger loads, so every log line is tagged with this service.
-process.env.FF_SERVICE ??= "worker";
+process.env.APP_SERVICE ??= "worker";
 
 const { log } = await import("../src/server/log");
 const { getConfig } = await import("../src/server/config");

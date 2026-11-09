@@ -1,4 +1,4 @@
-# Fluffy Fur: setup and usage guide
+# Setup and usage guide
 
 This guide is for the person who runs the app (setup, first run, updates) and
 for the salon owner (daily use). Developer setup on a laptop is in
@@ -14,7 +14,7 @@ site header, the phone menu, the footer, or the owner area's menu.
 
 ### What runs
 
-One Docker image (`ghcr.io/getoursps-bit/fluffyfare:<commit>`), started twice:
+One Docker image (`ghcr.io/<owner>/<repository>:<commit>`), started twice:
 
 | Container | Command | Job |
 | --- | --- | --- |
@@ -34,7 +34,7 @@ Never commit the filled-in copy.
 | --- | --- |
 | `APP_BASE_URL` | The public address, e.g. `https://flfy.gtechvps.dev`. Used in every link and message |
 | `SESSION_SECRET` | `openssl rand -hex 32`. Changing it logs everyone out and breaks old private links |
-| `DATABASE_URL` | The app's own restricted Postgres role (rights on the `fluffyfur` schema only) |
+| `DATABASE_URL` | The app's own restricted Postgres role (rights on its own schema only) |
 | `PROVIDERS` | `real` on the server. `fake` only on a laptop or in CI |
 | `SITE_NOINDEX` | `true` until launch day |
 
@@ -101,7 +101,7 @@ different format needs a small adapter in `src/server/notify/email.ts`.
    ```
    EMAIL_API_URL=https://api.resend.com/emails
    EMAIL_API_KEY=<key>
-   EMAIL_FROM=Fluffy Fur <no-reply@your-verified-domain>
+   EMAIL_FROM=Example Salon <no-reply@your-verified-domain>
    ```
 
 4. Restart the containers (`.env` is read only at start), then book at
@@ -170,12 +170,12 @@ different format needs a small adapter in `src/server/notify/email.ts`.
    `docker login ghcr.io -u <github user>` with a token that has
    `read:packages`.
 3. On the server, migrate with the **new** image before switching. Use the
-   network `fluffyfur_web` reaches the database on (`docker inspect fluffyfur_web`):
+   network `<client>_web` reaches the database on (`docker inspect <client>_web`):
 
    ```sh
-   cd ~/Containers/fluffyfur
+   cd ~/Containers/<client>
    TAG=<commit>
-   IMG=ghcr.io/getoursps-bit/fluffyfare:$TAG
+   IMG=ghcr.io/<owner>/<repository>:$TAG
    docker run --rm --env-file .env --network <network> $IMG node worker/migrate.js --check
    docker run --rm --env-file .env --network <network> $IMG node worker/migrate.js
    # only when the release notes say new content was added:

@@ -5,7 +5,7 @@ const redactedFields = ["phone", "email", "name", "token", "code", "password", "
 
 export const log = pino({
   level: process.env.LOG_LEVEL ?? "info",
-  base: { service: process.env.FF_SERVICE ?? "web" },
+  base: { service: process.env.APP_SERVICE ?? "web" },
   timestamp: pino.stdTimeFunctions.isoTime,
   formatters: {
     level: (label) => ({ level: label }),

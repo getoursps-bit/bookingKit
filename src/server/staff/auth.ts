@@ -16,9 +16,9 @@ import { hit } from "../repos/rateLimits";
 export { SESSION_COOKIE, SESSION_DAYS } from "./cookie";
 import { SESSION_DAYS } from "./cookie";
 import { brand } from "@/brand";
-export const PENDING_COOKIE = "ff_admin_2fa";
+export const PENDING_COOKIE = "bk_admin_2fa";
 /** The address an emailed login code was sent to, signed, while the code is live. */
-export const EMAIL_PENDING_COOKIE = "ff_admin_mail";
+export const EMAIL_PENDING_COOKIE = "bk_admin_mail";
 const LOCK = { windowMin: 15, maxFailures: 10 };
 
 export type Staff = { id: number; email: string };

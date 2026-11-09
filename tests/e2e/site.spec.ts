@@ -3,6 +3,8 @@ import { expect, type Page, test } from "@playwright/test";
 import pg from "pg";
 import en from "../../src/i18n/en.json" with { type: "json" };
 import he from "../../src/i18n/he.json" with { type: "json" };
+import { searchPathOption } from "../../src/server/db-schema";
+import { DEV_DATABASE_URL } from "../setup/dev-db";
 
 // Runs against the local (or CI) database, migrated and seeded. The chat
 // number is a fictional test number set for this run and removed afterwards.
@@ -20,10 +22,10 @@ const PAGES = [
   "/l/dog-grooming",
 ];
 
-const databaseUrl = process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5435/postgres";
+const databaseUrl = process.env.DATABASE_URL ?? DEV_DATABASE_URL;
 
 async function setSetting(key: string, value: unknown | null) {
-  const client = new pg.Client({ connectionString: databaseUrl, options: "-c search_path=fluffyfur" });
+  const client = new pg.Client({ connectionString: databaseUrl, options: searchPathOption() });
   await client.connect();
   try {
     if (value === null) await client.query("delete from settings where key = $1", [key]);
@@ -40,7 +42,7 @@ async function setSetting(key: string, value: unknown | null) {
 let previousChat: unknown = null;
 
 test.beforeAll(async () => {
-  const client = new pg.Client({ connectionString: databaseUrl, options: "-c search_path=fluffyfur" });
+  const client = new pg.Client({ connectionString: databaseUrl, options: searchPathOption() });
   await client.connect();
   const { rows } = await client.query("select value from settings where key = 'whatsapp.chatNumber'");
   previousChat = rows[0]?.value ?? null;
@@ -131,7 +133,7 @@ test("the home page carries valid LocalBusiness JSON-LD", async ({ page }) => {
 
 test("campaign tags from the first visit are kept in a signed cookie", async ({ page, context }) => {
   await page.goto("/l/dog-grooming?utm_source=instagram&utm_campaign=test");
-  const cookie = (await context.cookies()).find((entry) => entry.name === "ff_src");
+  const cookie = (await context.cookies()).find((entry) => entry.name === "bk_src");
   expect(cookie?.httpOnly).toBe(true);
   expect(cookie?.value).toContain(".");
 });

@@ -3,6 +3,8 @@ import { type Browser, expect, type Page, test } from "@playwright/test";
 import pg from "pg";
 import sharp from "sharp";
 import en from "../../src/i18n/en.json" with { type: "json" };
+import { searchPathOption } from "../../src/server/db-schema";
+import { DEV_DATABASE_URL } from "../setup/dev-db";
 
 // The booking flow end to end, on a phone-size screen with fake providers and
 // the seeded database. Every customer here uses a random number from the
@@ -11,11 +13,11 @@ import en from "../../src/i18n/en.json" with { type: "json" };
 test.describe.configure({ mode: "serial" });
 test.use({ viewport: { width: 390, height: 844 }, locale: "he-IL", hasTouch: true });
 
-const databaseUrl = process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5435/postgres";
+const databaseUrl = process.env.DATABASE_URL ?? DEV_DATABASE_URL;
 const TEST_PREFIX = "+9725559";
 
 async function sql<Row extends pg.QueryResultRow>(text: string, params: unknown[] = []): Promise<Row[]> {
-  const client = new pg.Client({ connectionString: databaseUrl, options: "-c search_path=fluffyfur" });
+  const client = new pg.Client({ connectionString: databaseUrl, options: searchPathOption() });
   await client.connect();
   try {
     return (await client.query<Row>(text, params)).rows;
