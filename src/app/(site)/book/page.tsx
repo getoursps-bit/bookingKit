@@ -169,7 +169,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
           <span className="min-w-0 flex-1">
             <span className="block text-sm text-ink-muted">{t("time.service")}</span>
             <span className="block font-bold">
-              {chosen.map((service) => pick(locale, service.nameHe, service.nameEn)).join(", ")}
+              {chosen.map((service) => pick(locale, service, "name")).join(", ")}
             </span>
           </span>
           <a href={lp("/book?step=service")} className="text-sm font-semibold text-brand-strong">
@@ -213,7 +213,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
       "name" | "phone" | "email" | undefined;
     const names = draft.serviceIds.map((id) => {
       const service = services.find((candidate) => candidate.id === id);
-      return service ? pick(locale, service.nameHe, service.nameEn) : "";
+      return service ? pick(locale, service, "name") : "";
     });
     const summary = t("contact.summary", {
       pets: names.join(", "),

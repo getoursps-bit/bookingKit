@@ -24,7 +24,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
         hours={hours.map((day) =>
           day.closed || !day.opens || !day.closes ? null : { weekday: day.weekday, opens: day.opens, closes: day.closes },
         )}
-        services={services.map(({ id, nameHe, nameEn, durationMin }) => ({ id, name: pick(locale, nameHe, nameEn), durationMin }))}
+        services={services.map((service) => ({ id: service.id, name: pick(locale, service, "name"), durationMin: service.durationMin }))}
       />
     </div>
   );

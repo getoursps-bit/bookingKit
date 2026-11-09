@@ -6,8 +6,13 @@ import { DEFAULT_LOCALE, type Locale, LOCALES, PACKS } from "./languages.generat
 
 export { DEFAULT_LOCALE, type Locale, LOCALES, PACKS };
 
+/** Every language but the one given. Typed loosely on purpose: with one language the list is empty, not impossible. */
+export function othersThan(locale: Locale): Locale[] {
+  return (LOCALES as readonly Locale[]).filter((other) => other !== locale);
+}
+
 /** The languages that have an address prefix: every one but the default. */
-export const OTHER_LOCALES: readonly Locale[] = LOCALES.filter((locale) => locale !== DEFAULT_LOCALE);
+export const OTHER_LOCALES: readonly Locale[] = othersThan(DEFAULT_LOCALE);
 
 /** Remembers the last language a visitor chose, for form posts and the owner area. */
 export const LOCALE_COOKIE = "bk_locale";

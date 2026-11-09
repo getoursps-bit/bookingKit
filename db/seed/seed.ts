@@ -1,7 +1,7 @@
 // Inserts the business's starting content from data.he.json. Rows that already
 // exist are skipped, so running it twice changes nothing and never overwrites
-// the owner's edits. English text from data.en.json only fills English fields
-// that are still empty, matched by the seeded Hebrew name or template key.
+// the owner's edits. English text from data.en.json only fills English
+// translations that are still empty, matched by the seeded Hebrew name or template key.
 //   pnpm seed
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -60,6 +60,23 @@ function named<T>(content: T, name: string): T {
   return JSON.parse(JSON.stringify(content).replaceAll("%BRAND%", JSON.stringify(name).slice(1, -1))) as T;
 }
 
+/** Fills English text that is still empty; never overwrites what the owner wrote. */
+async function translate(
+  db: Queryable,
+  entity: string,
+  key: string | number,
+  fields: Record<string, string | null | undefined>,
+): Promise<void> {
+  for (const [field, value] of Object.entries(fields)) {
+    if (!value?.trim()) continue;
+    await db.query(
+      `insert into content_translations (entity, entity_key, field, locale, value) values ($1, $2, $3, 'en', $4)
+       on conflict (entity, entity_key, field, locale) do nothing`,
+      [entity, String(key), field, value],
+    );
+  }
+}
+
 export async function seed(db: Queryable, hebrew: SeedData = data, inEnglish: SeedEnglish = english): Promise<void> {
   const content = named(hebrew, brandName("he"));
   const en = named(inEnglish, brandName("en"));
@@ -83,11 +100,7 @@ export async function seed(db: Queryable, hebrew: SeedData = data, inEnglish: Se
     serviceIds.set(service.key, Number(rows[0]!.id));
     const english = en.services[service.key];
     if (english) {
-      await db.query(
-        `update services set name_en = coalesce(name_en, $2), includes_en = coalesce(includes_en, $3)
-         where name_he = $1`,
-        [service.name_he, english.name_en, english.includes_en],
-      );
+      await translate(db, "service", serviceIds.get(service.key)!, { name: english.name_en, includes: english.includes_en });
     }
   }
 
@@ -111,11 +124,8 @@ export async function seed(db: Queryable, hebrew: SeedData = data, inEnglish: Se
     );
     const english = en.products[product.name_he];
     if (english) {
-      await db.query(
-        `update products set name_en = coalesce(name_en, $2), description_en = coalesce(description_en, $3)
-         where name_he = $1`,
-        [product.name_he, english.name_en, english.description_en],
-      );
+      const { rows } = await db.query<{ id: string }>("select id from products where name_he = $1", [product.name_he]);
+      await translate(db, "product", rows[0]!.id, { name: english.name_en, description: english.description_en });
     }
   }
 
@@ -148,11 +158,10 @@ export async function seed(db: Queryable, hebrew: SeedData = data, inEnglish: Se
     );
     const english = en.message_templates[`${template.key}:${template.channel}`];
     if (english) {
-      await db.query(
-        `update message_templates set body_en = coalesce(body_en, $3), subject_en = coalesce(subject_en, $4)
-         where key = $1 and channel = $2`,
-        [template.key, template.channel, english.body_en, english.subject_en],
-      );
+      await translate(db, "message_template", `${template.key}:${template.channel}`, {
+        body: english.body_en,
+        subject: english.subject_en,
+      });
     }
   }
 

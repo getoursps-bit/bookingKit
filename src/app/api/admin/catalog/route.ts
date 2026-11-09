@@ -20,6 +20,7 @@ import { normalizePhone } from "@/server/links";
 import { savePublicPhoto } from "@/server/photos";
 import { getStorage } from "@/server/storage";
 import { adminRequest, backTo } from "@/server/staff/http";
+import { translationsFrom } from "@/server/translation/content";
 
 export const dynamic = "force-dynamic";
 
@@ -71,18 +72,17 @@ export async function POST(request: NextRequest) {
     case "service": {
       const id = form.id ? Number(form.id) : undefined;
       const existing = id ? (await listServices()).find((service) => service.id === id) : undefined;
-      const nameHe = text(form.nameHe, 80);
+      const name = text(form.name, 80);
       const durationMin = int(form.durationMin, 5, 480);
       const price = agorot(form.price);
-      if ((id && !existing) || !nameHe || durationMin === null || price === null)
+      if ((id && !existing) || !name || durationMin === null || price === null)
         return back("services", { error: "invalid" });
       await upsertService(
         {
           id,
-          nameHe,
-          includesHe: text(form.includesHe, 500),
-          nameEn: text(form.nameEn, 80),
-          includesEn: text(form.includesEn, 500),
+          name,
+          includes: text(form.includes, 500),
+          translations: translationsFrom(form, { name: 80, includes: 500 }),
           durationMin,
           priceFromAgorot: price,
           bookableOnline: form.bookableOnline === "on",
@@ -115,19 +115,18 @@ export async function POST(request: NextRequest) {
     case "product": {
       const id = form.id ? Number(form.id) : undefined;
       const existing = id ? (await listProducts()).find((product) => product.id === id) : undefined;
-      const nameHe = text(form.nameHe, 80);
+      const name = text(form.name, 80);
       const price = agorot(form.price);
-      if ((id && !existing) || !nameHe || price === null) return back("products", { error: "invalid" });
+      if ((id && !existing) || !name || price === null) return back("products", { error: "invalid" });
       const oldKey = existing?.imageKey ?? null;
       const photo = await choosePhoto(files.photo?.[0], form.removePhoto === "on", oldKey, "products");
       if (photo.error) return back("products", { error: photo.error });
       await upsertProduct(
         {
           id,
-          nameHe,
-          descriptionHe: text(form.descriptionHe, 300),
-          nameEn: text(form.nameEn, 80),
-          descriptionEn: text(form.descriptionEn, 300),
+          name,
+          description: text(form.description, 300),
+          translations: translationsFrom(form, { name: 80, description: 300 }),
           priceAgorot: price,
           imageKey: photo.key,
           active: form.active === "on",
@@ -164,7 +163,7 @@ export async function POST(request: NextRequest) {
         {
           name,
           tagline: text(form.tagline, 160),
-          taglineEn: text(form.taglineEn, 160),
+          translations: translationsFrom(form, { tagline: 160 }),
           city: text(form.city, 80),
           address: text(form.address, 160),
           phoneE164: phone,
@@ -178,16 +177,15 @@ export async function POST(request: NextRequest) {
       return back("profile", { ok: "saved" });
     }
     case "template": {
-      const bodyHe = text(form.bodyHe, 1000);
-      if (!bodyHe || !form.key) return back("templates", { error: "invalid" });
+      const body = text(form.body, 1000);
+      if (!body || !form.key) return back("templates", { error: "invalid" });
       const result = await updateTemplate(
         form.key,
         form.channel as Channel,
         {
-          bodyHe,
-          subjectHe: text(form.subjectHe, 160),
-          bodyEn: text(form.bodyEn, 1000),
-          subjectEn: text(form.subjectEn, 160),
+          body,
+          subject: text(form.subject, 160),
+          translations: translationsFrom(form, { body: 1000, subject: 160 }),
         },
         staff.id,
       );

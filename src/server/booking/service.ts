@@ -107,7 +107,7 @@ async function resolveLines(
     lines.push({
       petId: null,
       serviceId: service.id,
-      serviceNameHe: service.nameHe,
+      serviceNameHe: service.name,
       durationMin: service.durationMin,
       priceFromAgorot: service.priceFromAgorot,
     });

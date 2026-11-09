@@ -2,6 +2,7 @@ import { Phone } from "@/components/site/values";
 import { getI18n } from "@/i18n/server";
 import { pageMetadata } from "@/server/seo";
 import { getSiteData, isNoindex } from "@/server/site";
+import { DEFAULT_LOCALE } from "@/i18n/locales";
 
 // Statement required for a public service site under the Equal Rights for
 // Persons with Disabilities (Service Accessibility) Regulations, 2013, and
@@ -17,14 +18,12 @@ export async function generateMetadata() {
 export default async function AccessibilityPage() {
   const { t, locale } = await getI18n();
   const { profile } = await getSiteData();
+  // Written for Hebrew and English so far; any other language reads the default one.
+  const Text = BODIES[locale] ?? BODIES[DEFAULT_LOCALE] ?? Hebrew;
   return (
     <article className="mx-auto max-w-3xl space-y-4 rounded-[20px] border border-line p-6 leading-relaxed md:rounded-card md:p-10">
       <h1 className="text-3xl font-bold md:text-4xl">{t("nav.accessibility")}</h1>
-      {locale === "en" ? (
-        <English name={profile.name} phone={profile.phoneE164} />
-      ) : (
-        <Hebrew name={profile.name} phone={profile.phoneE164} />
-      )}
+      <Text name={profile.name} phone={profile.phoneE164} />
     </article>
   );
 }
@@ -122,3 +121,5 @@ function English({ name, phone }: Body) {
     </>
   );
 }
+
+const BODIES: Record<string, typeof Hebrew | undefined> = { he: Hebrew, en: English };

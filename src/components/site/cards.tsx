@@ -36,8 +36,8 @@ export async function ServiceCard({
 }) {
   const { t, locale } = await getI18n();
   const Heading = headingLevel === 2 ? "h2" : "h3";
-  const name = pick(locale, service.nameHe, service.nameEn);
-  const includes = pick(locale, service.includesHe, service.includesEn);
+  const name = pick(locale, service, "name");
+  const includes = pick(locale, service, "includes");
   return (
     <article className="flex h-full flex-col gap-2 rounded-[18px] border border-line bg-surface p-4 md:gap-3.5 md:rounded-[20px] md:p-6">
       <div className="flex items-start justify-between gap-3">
@@ -93,7 +93,7 @@ export async function ServiceCard({
 /** One service as a quiet row: name and who it is for, then "from" price and length. The whole row books it. */
 export async function ServiceRow({ service, tag }: { service: Service; tag?: PetTag }) {
   const { t, locale } = await getI18n();
-  const name = pick(locale, service.nameHe, service.nameEn);
+  const name = pick(locale, service, "name");
   const content = (
     <>
       <span className="flex flex-col gap-1">
@@ -144,8 +144,8 @@ export async function ProductCard({
 }) {
   const { t, locale } = await getI18n();
   const Heading = headingLevel === 2 ? "h2" : "h3";
-  const name = pick(locale, product.nameHe, product.nameEn);
-  const description = pick(locale, product.descriptionHe, product.descriptionEn);
+  const name = pick(locale, product, "name");
+  const description = pick(locale, product, "description");
   return (
     <article
       className={`flex h-full flex-col gap-1.5 md:gap-2 ${compact ? "" : "rounded-[20px] border border-line p-4"}`}

@@ -1,5 +1,6 @@
 import { getConfig } from "../config";
 import type { OutgoingMessage, SendResult, WhatsAppChannel } from "./types";
+import { DEFAULT_LOCALE } from "@/i18n/locales";
 
 const GRAPH = "https://graph.facebook.com/v21.0";
 // Meta error codes that mean this number cannot get WhatsApp messages, so the
@@ -39,7 +40,7 @@ export function createWhatsApp(): WhatsAppChannel {
             ...(message.providerTemplate
               ? {
                   type: "template",
-                  template: { name: message.providerTemplate, language: { code: message.locale ?? "he" }, components },
+                  template: { name: message.providerTemplate, language: { code: message.locale ?? DEFAULT_LOCALE }, components },
                 }
               : { type: "text", text: { body: message.body } }),
           }),

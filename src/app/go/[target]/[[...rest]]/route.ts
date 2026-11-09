@@ -72,7 +72,7 @@ export async function GET(request: NextRequest, { params }: Props): Promise<Resp
     const product = products.find((candidate) => candidate.id === Number(rest[0]));
     const text = product
       ? translator(locale)("products.orderText", {
-          name: pick(locale, product.nameHe, product.nameEn),
+          name: pick(locale, product, "name"),
           price: formatPrice(product.priceAgorot, locale),
         })
       : undefined;

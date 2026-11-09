@@ -9,7 +9,7 @@ export type SiteData = { profile: BusinessProfile; hours: OpeningHours[]; settin
 const EMPTY_PROFILE: BusinessProfile = {
   name: brandName(DEFAULT_LOCALE),
   tagline: null,
-  taglineEn: null,
+  translations: {},
   city: null,
   address: null,
   phoneE164: null,

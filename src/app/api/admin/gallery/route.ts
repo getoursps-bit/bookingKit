@@ -4,6 +4,8 @@ import { getFeatures } from "@/server/features";
 import { savePublicPhoto } from "@/server/photos";
 import { addGalleryImage, listGallery } from "@/server/repos/catalog";
 import { adminRequest, backTo } from "@/server/staff/http";
+import { DEFAULT_LOCALE, OTHER_LOCALES } from "@/i18n/locales";
+import { translationsFrom } from "@/server/translation/content";
 
 export const dynamic = "force-dynamic";
 
@@ -24,8 +26,16 @@ export async function POST(request: NextRequest) {
   if (photos.length === 0) return backTo(request, back, { error: "invalid" });
 
   const optional = (name: string) => (form.withText === "on" && form[name]?.trim().slice(0, 200)) || null;
-  const altHe = optional("altHe");
-  const altEn = optional("altEn");
+  const alt = optional("alt");
+  const caption = optional("caption");
+  const texts = form.withText === "on" ? translationsFrom(form, { alt: 200, caption: 200 }) : {};
+  // A photo with no description gets the standard one, in every language.
+  const translations = Object.fromEntries(
+    OTHER_LOCALES.map((locale) => {
+      const given = texts[locale] ?? {};
+      return [locale, { ...given, alt: given.alt || (alt ? "" : translator(locale)("gallery.defaultAlt")) }];
+    }),
+  );
   let sortOrder = (await listGallery()).length;
   let failed = 0;
   for (const photo of photos) {
@@ -37,10 +47,9 @@ export async function POST(request: NextRequest) {
     await addGalleryImage(
       {
         storageKey,
-        altHe: altHe ?? translator("he")("gallery.defaultAlt"),
-        captionHe: optional("captionHe"),
-        altEn: altEn ?? (altHe ? null : translator("en")("gallery.defaultAlt")),
-        captionEn: optional("captionEn"),
+        alt: alt ?? translator(DEFAULT_LOCALE)("gallery.defaultAlt"),
+        caption,
+        translations,
         sortOrder: sortOrder++,
       },
       { staffId: staff.id },

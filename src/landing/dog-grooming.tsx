@@ -1,7 +1,6 @@
 import { petTags } from "@/components/site/cards";
 import { BookCta, Faq, GalleryStrip, Hero, ServiceHighlight } from "@/components/site/landing";
 import { pick } from "@/i18n/content";
-import type { Locale } from "@/i18n/locales";
 import { getI18n } from "@/i18n/server";
 import { listGallery, listServiceRules, listServices } from "@/server/repos/catalog";
 import { getStorage } from "@/server/storage";
@@ -9,7 +8,7 @@ import type { LandingMeta } from ".";
 
 // Example campaign page for Instagram dog-grooming posts: /l/dog-grooming.
 
-export const meta: Record<Locale, LandingMeta> = {
+export const meta: Record<string, LandingMeta> = {
   he: {
     title: "טיפוח לכלבים",
     description: "תספורת, רחצה וטיפוח לכלבים קטנים וגדולים. קובעים תור באתר תוך דקה.",
@@ -84,8 +83,8 @@ export default async function DogGroomingLanding() {
         items={gallery.map((image) => ({
           id: image.id,
           url: storage.publicUrl(image.storageKey),
-          alt: pick(locale, image.altHe, image.altEn),
-          caption: pick(locale, image.captionHe, image.captionEn),
+          alt: pick(locale, image, "alt"),
+          caption: pick(locale, image, "caption"),
         }))}
       />
       <Faq items={[...copy.faq]} />

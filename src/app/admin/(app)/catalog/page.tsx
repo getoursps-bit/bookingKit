@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { GalleryUploadForm } from "@/components/admin/GalleryUploadForm";
 import { ActionForm, AdminNotice, Panel } from "@/components/admin/parts";
-import type { Locale } from "@/i18n/locales";
-import { pick } from "@/i18n/content";
+import { pick, type Translations } from "@/i18n/content";
+import { DEFAULT_LOCALE, type Locale, OTHER_LOCALES, PACKS } from "@/i18n/locales";
 import { getI18n } from "@/i18n/server";
 import { type MessageKey, type Translate } from "@/i18n/t";
 import { translator } from "@/i18n/translator";
@@ -26,8 +26,8 @@ export async function generateMetadata() {
   return { title: t("admin.nav.catalog") };
 }
 
-/** The page's words: the translator, the language, and a label marked as the English field. */
-type Words = { t: Translate; locale: Locale; en: (key: MessageKey) => string };
+/** The page's words: the translator and the language. */
+type Words = { t: Translate; locale: Locale };
 
 const shekels = (agorot: number) => (agorot / 100).toFixed(agorot % 100 === 0 ? 0 : 2);
 
@@ -40,6 +40,42 @@ function Field({ label, children, wide }: { label: string; children: ReactNode; 
   );
 }
 
+/** The same field once for each other language of the site, written in that language. Nothing on a one-language site. */
+function Translated({
+  t,
+  label,
+  field,
+  translations,
+  max,
+  area,
+  wide,
+  className,
+}: {
+  t: Translate;
+  label: MessageKey;
+  field: string;
+  translations?: Translations;
+  max: number;
+  area?: boolean;
+  wide?: boolean;
+  className?: string;
+}) {
+  return OTHER_LOCALES.map((code) => {
+    const input = {
+      name: `${field}:${code}`,
+      maxLength: max,
+      defaultValue: translations?.[code]?.[field] ?? "",
+      dir: PACKS[code].dir,
+      lang: code,
+    };
+    return (
+      <Field key={code} label={`${t(label)} (${PACKS[code].name})`} wide={wide}>
+        {area ? <textarea {...input} className={className ?? "input min-h-16"} /> : <input {...input} className="input" />}
+      </Field>
+    );
+  });
+}
+
 function Check({ name, label, checked }: { name: string; label: string; checked: boolean }) {
   return (
     <label className="flex items-center gap-2">
@@ -49,7 +85,7 @@ function Check({ name, label, checked }: { name: string; label: string; checked:
   );
 }
 
-function ServiceForm({ csrf, service, words: { t, en } }: { csrf: string; service?: Service; words: Words }) {
+function ServiceForm({ csrf, service, words: { t } }: { csrf: string; service?: Service; words: Words }) {
   return (
     <ActionForm
       action="/api/admin/catalog"
@@ -59,11 +95,9 @@ function ServiceForm({ csrf, service, words: { t, en } }: { csrf: string; servic
       className="grid gap-3 sm:grid-cols-2"
     >
       <Field label={t("catalog.name")}>
-        <input name="nameHe" required maxLength={80} defaultValue={service?.nameHe} className="input" />
+        <input name="name" required maxLength={80} defaultValue={service?.name} className="input" />
       </Field>
-      <Field label={en("catalog.name")}>
-        <input name="nameEn" maxLength={80} defaultValue={service?.nameEn ?? ""} dir="ltr" lang="en" className="input" />
-      </Field>
+      <Translated t={t} label="catalog.name" field="name" translations={service?.translations} max={80} />
       <div className="grid grid-cols-3 gap-2">
         <Field label={t("catalog.duration")}>
           <input name="durationMin" type="number" inputMode="numeric" min={5} max={480} step={5} required defaultValue={service?.durationMin} dir="ltr" className="input" />
@@ -76,18 +110,9 @@ function ServiceForm({ csrf, service, words: { t, en } }: { csrf: string; servic
         </Field>
       </div>
       <Field label={t("catalog.includes")} wide>
-        <textarea name="includesHe" maxLength={500} defaultValue={service?.includesHe ?? ""} className="input min-h-16" />
+        <textarea name="includes" maxLength={500} defaultValue={service?.includes ?? ""} className="input min-h-16" />
       </Field>
-      <Field label={en("catalog.includes")} wide>
-        <textarea
-          name="includesEn"
-          maxLength={500}
-          defaultValue={service?.includesEn ?? ""}
-          dir="ltr"
-          lang="en"
-          className="input min-h-16"
-        />
-      </Field>
+      <Translated t={t} label="catalog.includes" field="includes" translations={service?.translations} max={500} area wide />
       <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
         <Check name="bookableOnline" label={t("catalog.online")} checked={service?.bookableOnline ?? true} />
         <Check name="active" label={t("catalog.active")} checked={service?.active ?? true} />
@@ -136,7 +161,7 @@ function ProductForm({
   product,
   photoUrl,
   uploads,
-  words: { t, en },
+  words: { t },
 }: {
   csrf: string;
   product?: Product;
@@ -155,11 +180,9 @@ function ProductForm({
       className="grid gap-3 sm:grid-cols-2"
     >
       <Field label={t("catalog.name")}>
-        <input name="nameHe" required maxLength={80} defaultValue={product?.nameHe} className="input" />
+        <input name="name" required maxLength={80} defaultValue={product?.name} className="input" />
       </Field>
-      <Field label={en("catalog.name")}>
-        <input name="nameEn" maxLength={80} defaultValue={product?.nameEn ?? ""} dir="ltr" lang="en" className="input" />
-      </Field>
+      <Translated t={t} label="catalog.name" field="name" translations={product?.translations} max={80} />
       <div className="grid grid-cols-2 gap-2">
         <Field label={t("catalog.price")}>
           <input name="price" inputMode="decimal" required defaultValue={product ? shekels(product.priceAgorot) : ""} dir="ltr" className="input" />
@@ -169,18 +192,9 @@ function ProductForm({
         </Field>
       </div>
       <Field label={t("catalog.description")} wide>
-        <input name="descriptionHe" maxLength={300} defaultValue={product?.descriptionHe ?? ""} className="input" />
+        <input name="description" maxLength={300} defaultValue={product?.description ?? ""} className="input" />
       </Field>
-      <Field label={en("catalog.description")} wide>
-        <input
-          name="descriptionEn"
-          maxLength={300}
-          defaultValue={product?.descriptionEn ?? ""}
-          dir="ltr"
-          lang="en"
-          className="input"
-        />
-      </Field>
+      <Translated t={t} label="catalog.description" field="description" translations={product?.translations} max={300} wide />
       <PhotoField label={t("catalog.photo")} photoUrl={photoUrl} uploads={uploads} t={t} />
       <div className="flex items-center gap-4 sm:col-span-2">
         <Check name="active" label={t("catalog.active")} checked={product?.active ?? true} />
@@ -214,8 +228,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
   const search = await searchParams;
   const { csrf } = await requireStaffPage();
   const { t, locale } = await getI18n();
-  const en = (key: MessageKey) => `${t(key)}${translator(locale)("catalog.englishSuffix")}`;
-  const words: Words = { t, locale, en };
+  const words: Words = { t, locale };
   const inactive = ` (${translator(locale)("catalog.inactive")})`;
   const channelName = (channel: "whatsapp" | "email" | "push") =>
     channel === "whatsapp" ? t("contact.whatsapp") : translator(locale)(`channel.${channel}`);
@@ -238,7 +251,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
       <Panel id="services" title={t("catalog.services")}>
         <div className="flex flex-col gap-2">
           {services.map((service) => (
-            <Item key={service.id} title={`${pick(locale, service.nameHe, service.nameEn)}${service.active ? "" : inactive}`}>
+            <Item key={service.id} title={`${pick(locale, service, "name")}${service.active ? "" : inactive}`}>
               <ServiceForm csrf={csrf} service={service} words={words} />
             </Item>
           ))}
@@ -273,7 +286,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
                 <select name="serviceId" defaultValue={rule.serviceId} className="input w-auto" aria-label={t("catalog.services")}>
                   {services.map((service) => (
                     <option key={service.id} value={service.id}>
-                      {pick(locale, service.nameHe, service.nameEn)}
+                      {pick(locale, service, "name")}
                     </option>
                   ))}
                 </select>
@@ -289,7 +302,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
       <Panel id="products" title={t("catalog.products")}>
         <div className="flex flex-col gap-2">
           {products.map((product) => (
-            <Item key={product.id} title={`${pick(locale, product.nameHe, product.nameEn)}${product.active ? "" : inactive}`}>
+            <Item key={product.id} title={`${pick(locale, product, "name")}${product.active ? "" : inactive}`}>
               <ProductForm
                 csrf={csrf}
                 product={product}
@@ -312,9 +325,9 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
               <li key={image.id} className="flex flex-col gap-2 rounded-2xl bg-paper p-2">
                 {uploads ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={storage.publicUrl(image.storageKey)} alt={pick(locale, image.altHe, image.altEn)} className="aspect-square w-full rounded-xl object-cover" />
+                  <img src={storage.publicUrl(image.storageKey)} alt={pick(locale, image, "alt")} className="aspect-square w-full rounded-xl object-cover" />
                 ) : (
-                  <span className="text-sm">{pick(locale, image.altHe, image.altEn)}</span>
+                  <span className="text-sm">{pick(locale, image, "alt")}</span>
                 )}
                 <ActionForm action="/api/admin/catalog" csrf={csrf} name="removeImage" hidden={{ id: image.id }}>
                   <button type="submit" className="btn btn-secondary w-full">
@@ -336,17 +349,13 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
               <div className="hidden gap-3 group-has-checked:grid sm:grid-cols-2">
                 <p className="text-sm text-ink-muted sm:col-span-2">{t("catalog.uploadHelp")}</p>
                 <Field label={t("catalog.alt")}>
-                  <input name="altHe" maxLength={200} className="input" />
+                  <input name="alt" maxLength={200} className="input" />
                 </Field>
                 <Field label={t("catalog.caption")}>
-                  <input name="captionHe" maxLength={200} className="input" />
+                  <input name="caption" maxLength={200} className="input" />
                 </Field>
-                <Field label={en("catalog.alt")}>
-                  <input name="altEn" maxLength={200} dir="ltr" lang="en" className="input" />
-                </Field>
-                <Field label={en("catalog.caption")}>
-                  <input name="captionEn" maxLength={200} dir="ltr" lang="en" className="input" />
-                </Field>
+                <Translated t={t} label="catalog.alt" field="alt" max={200} />
+                <Translated t={t} label="catalog.caption" field="caption" max={200} />
               </div>
             </div>
             <button type="submit" className="btn btn-primary sm:col-span-2 sm:justify-self-end">
@@ -382,9 +391,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
           <Field label={t("catalog.tagline")} wide>
             <input name="tagline" maxLength={160} defaultValue={profile?.tagline ?? ""} className="input" />
           </Field>
-          <Field label={en("catalog.tagline")} wide>
-            <input name="taglineEn" maxLength={160} defaultValue={profile?.taglineEn ?? ""} dir="ltr" lang="en" className="input" />
-          </Field>
+          <Translated t={t} label="catalog.tagline" field="tagline" translations={profile?.translations} max={160} wide />
           <Field label={t("catalog.city")}>
             <input name="city" maxLength={80} defaultValue={profile?.city ?? ""} className="input" />
           </Field>
@@ -416,14 +423,16 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
             <Item key={`${template.key}:${template.channel}`} title={`${template.key} · ${channelName(template.channel)}`}>
               {template.channel === "whatsapp" ? (
                 <>
-                  <p className="rounded-xl bg-surface p-3 text-sm" lang="he" dir="rtl">
-                    {template.bodyHe}
+                  <p className="rounded-xl bg-surface p-3 text-sm" lang={DEFAULT_LOCALE} dir={PACKS[DEFAULT_LOCALE].dir}>
+                    {template.body}
                   </p>
-                  {template.bodyEn ? (
-                    <p className="mt-2 rounded-xl bg-surface p-3 text-sm" lang="en" dir="ltr">
-                      {template.bodyEn}
-                    </p>
-                  ) : null}
+                  {OTHER_LOCALES.map((code) =>
+                    template.translations[code]?.body ? (
+                      <p key={code} className="mt-2 rounded-xl bg-surface p-3 text-sm" lang={code} dir={PACKS[code].dir}>
+                        {template.translations[code].body}
+                      </p>
+                    ) : null,
+                  )}
                   <p className="mt-2 text-xs text-ink-muted">{t("catalog.templateLocked")}</p>
                 </>
               ) : (
@@ -436,34 +445,24 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
                 >
                   {template.channel === "email" ? (
                     <Field label={translator(locale)("catalog.subject")}>
-                      <input name="subjectHe" maxLength={160} defaultValue={template.subjectHe ?? ""} className="input" />
+                      <input name="subject" maxLength={160} defaultValue={template.subject ?? ""} className="input" />
                     </Field>
                   ) : null}
                   <Field label={translator(locale)("catalog.body")}>
-                    <textarea name="bodyHe" required maxLength={1000} defaultValue={template.bodyHe} className="input min-h-20" />
+                    <textarea name="body" required maxLength={1000} defaultValue={template.body} className="input min-h-20" />
                   </Field>
                   {template.channel === "email" ? (
-                    <Field label={`${translator(locale)("catalog.subject")}${translator(locale)("catalog.englishSuffix")}`}>
-                      <input
-                        name="subjectEn"
-                        maxLength={160}
-                        defaultValue={template.subjectEn ?? ""}
-                        dir="ltr"
-                        lang="en"
-                        className="input"
-                      />
-                    </Field>
+                    <Translated t={t} label="catalog.subject" field="subject" translations={template.translations} max={160} />
                   ) : null}
-                  <Field label={`${translator(locale)("catalog.body")}${translator(locale)("catalog.englishSuffix")}`}>
-                    <textarea
-                      name="bodyEn"
-                      maxLength={1000}
-                      defaultValue={template.bodyEn ?? ""}
-                      dir="ltr"
-                      lang="en"
-                      className="input min-h-20"
-                    />
-                  </Field>
+                  <Translated
+                    t={t}
+                    label="catalog.body"
+                    field="body"
+                    translations={template.translations}
+                    max={1000}
+                    area
+                    className="input min-h-20"
+                  />
                   <button type="submit" className="btn btn-primary self-start">
                     {t("admin.save")}
                   </button>

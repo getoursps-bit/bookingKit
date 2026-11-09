@@ -1,4 +1,4 @@
-import { type Locale, LOCALES, PACKS } from "@/i18n/locales";
+import { type Locale, othersThan, PACKS } from "@/i18n/locales";
 
 /**
  * Links to the owner area in each other language. The route remembers the
@@ -6,7 +6,7 @@ import { type Locale, LOCALES, PACKS } from "@/i18n/locales";
  * language it switches to, so it carries that language's `lang` and direction.
  */
 export function LanguageSwitch({ locale, back, className }: { locale: Locale; back: string; className?: string }) {
-  return LOCALES.filter((other) => other !== locale).map((other) => (
+  return othersThan(locale).map((other) => (
     <a
       key={other}
       href={`/lang/${other}?back=${encodeURIComponent(back)}`}

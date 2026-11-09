@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { useI18n } from "@/i18n/client";
-import { localePath, LOCALES, PACKS, splitLocale } from "@/i18n/locales";
+import { localePath, othersThan, PACKS, splitLocale } from "@/i18n/locales";
 
 function SwitchLinks({ className }: { className?: string }) {
   const { locale } = useI18n();
@@ -11,7 +11,7 @@ function SwitchLinks({ className }: { className?: string }) {
   const search = useSearchParams().toString();
   const { path } = splitLocale(pathname);
   // A full page load: the language changes the page direction and every string.
-  return LOCALES.filter((other) => other !== locale).map((other) => (
+  return othersThan(locale).map((other) => (
     <a
       key={other}
       href={localePath(other, `${path}${search ? `?${search}` : ""}`)}

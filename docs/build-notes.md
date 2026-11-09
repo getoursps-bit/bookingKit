@@ -163,7 +163,62 @@ Design: [`designs/step2_modules_languages.md`](designs/step2_modules_languages.m
   Hebrew and English only; another language gets its dates but English
   button labels until its wording is added.
 
+### A4. Content translations (2026-11-09)
+
+**Built**
+
+- Migration `0014_content_translations.sql`: the translation module's table
+  (`entity`, `entity_key`, `field`, `locale`, `value`), the English text
+  entered so far copied into it, and the customer language check widened to
+  any two-letter code. The `_en` columns stay, unread, so the previous
+  version still runs on the database.
+- `src/server/translation/content.ts`: `TRANSLATABLE` (what each kind of row
+  can translate), `translationsColumn()` for the repositories' queries,
+  `saveTranslations()` (replaces only the languages given, drops empty
+  text), `dropTranslations()`, `translatedSql()` for text built in SQL, and
+  `translationsFrom()` for forms, whose fields are named `name:en`.
+- Services, products, gallery photos, the profile and message templates
+  carry `name`, `includes`, `description`, `alt`, `caption`, `tagline`,
+  `body`, `subject` in the default language plus `translations`; the old
+  `nameHe`/`nameEn` pairs are gone. `pick(locale, row, "name")` replaces
+  `pick(locale, he, en)`.
+- The owner area shows one field per other language for each text, labelled
+  in the owner's language with the other language's own name, written in
+  that language's direction. A one-language site shows none.
+- Messages: a customer gets the language they booked in when the template
+  has wording in it (`messageLocale`), the default language otherwise.
+- The seed writes English into the table, never into the old columns.
+- The legal pages, the landing page text, the language switches and the
+  link-preview alternates no longer assume two languages. Tests are
+  type-checked by `tsconfig.tests.json`, not by `next build`: they are
+  written for the kit's default client, which has Hebrew and English.
+
+**Verified**
+
+- The migration on a database seeded by the previous version: 6 service
+  names, 8 product names, 18 message bodies carried into the table.
+- 214 unit tests (7 new for the module), 61 browser tests, the 40 page
+  pictures unchanged (the English pages now read the table).
+- A Hebrew-only client (`languages.others: []`) builds the site and the
+  worker: no `/en` addresses in the sitemap, no English in the browser
+  scripts.
+
+**Small visible change**
+
+- In the owner area the other language's field is labelled with that
+  language's own name, "שם (English)", where it said "שם (אנגלית)".
+
+**Not yet**
+
+- The legal pages are still written in code, in Hebrew and English; another
+  language reads the default one. They are also written for a grooming
+  salon, which is the extensions step's problem.
+- The seed still has Hebrew content with an English overlay; a pack's
+  `content.json` (A5) replaces that.
+- The test suite is for a two-language client; it does not yet skip its
+  English parts for a client without English.
+
 **Next**
 
-- A4: `content_translations`, `translated()`, per-language fields in the
-  owner area, and the legal pages from the packs.
+- A5: the contract, `pnpm lang:contract` and `pnpm lang:check`, and the
+  packs' `content.json` seeded through the module.

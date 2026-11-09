@@ -1,7 +1,6 @@
 // The customer's booking steps after choosing a time: hold the slot, prove the
 // phone (by code, or by a trusted device), confirm. Also what the private-link
 // page reads and the consent switch it offers.
-import { pick } from "../../i18n/content";
 import type { Locale } from "../../i18n/locales";
 import { getAi } from "../ai";
 import { getFeatures } from "../features";
@@ -17,6 +16,7 @@ import { route } from "../notify/routing";
 import { monthlyCount } from "../repos/outbox";
 import { getSettings } from "../repos/settings";
 import { type BookingError, type Confirmed, confirmBooking, type Context, requestHold } from "./service";
+import { translatedSql } from "../translation/content";
 
 type HoldInput = Parameters<typeof requestHold>[0];
 
@@ -208,8 +208,9 @@ export async function bookingView(token: string, ctx: Context = {}): Promise<Boo
   if (!appointment) return null;
   const settings = await getSettings(db);
   const customer = await customers.getCustomer(appointment.customerId, db);
-  const rows = await query<Omit<BookingView["pets"][number], "serviceName"> & { nameHe: string; nameEn: string | null }>(
-    `select ap.pet_id::int as "petId", p.name, s.name_he as "nameHe", s.name_en as "nameEn", ap.duration_min as "durationMin",
+  const pets = await query<BookingView["pets"][number]>(
+    `select ap.pet_id::int as "petId", p.name,
+       ${translatedSql("service", "name", "s.id", "s.name_he", ctx.locale)} as "serviceName", ap.duration_min as "durationMin",
        ap.price_from_agorot as "priceFromAgorot", p.breed, p.coat_condition as "coatCondition",
        exists (select 1 from pet_photos ph where ph.pet_id = ap.pet_id and ph.appointment_id = ap.appointment_id) as "hasPhoto",
        (select j.result from ai_jobs j where j.kind = 'photo' and j.status = 'done'
@@ -221,7 +222,6 @@ export async function bookingView(token: string, ctx: Context = {}): Promise<Boo
     [appointment.id],
     db,
   );
-  const pets = rows.map(({ nameHe, nameEn, ...pet }) => ({ ...pet, serviceName: pick(ctx.locale ?? "he", nameHe, nameEn) }));
   const [consent] = await query<{ on: boolean }>(
     `select coalesce((select revoked_at is null from consents
        where customer_id = $1 and purpose = 'appointment_messages'

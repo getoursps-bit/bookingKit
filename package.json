@@ -19,7 +19,7 @@
     "import:dibs": "tsx scripts/import-dibs.ts",
     "staff:create": "tsx scripts/staff-create.ts",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.tests.json",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "format": "prettier --write ."

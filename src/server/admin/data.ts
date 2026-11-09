@@ -1,10 +1,11 @@
 import { type Db, getPool, query } from "../db";
 import type { AppointmentStatus } from "../repos/appointments";
-import type { Locale } from "@/i18n/locales";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/locales";
+import { translatedSql } from "../translation/content";
 
-/** The service name column in the owner's language: English when filled, Hebrew otherwise. */
+/** The service name in the owner's language: its translation when filled, the default language otherwise. */
 function serviceName(locale: Locale | undefined): string {
-  return locale === "en" ? "coalesce(nullif(s.name_en, ''), s.name_he)" : "s.name_he";
+  return translatedSql("service", "name", "s.id", "s.name_he", locale);
 }
 
 // Read-only queries behind the admin pages.
@@ -145,7 +146,7 @@ export type CustomerBooking = { id: number; start: Date; status: AppointmentStat
 /** One customer's bookings, newest first, for the customer record. */
 export async function customerBookings(
   customerId: number,
-  locale: Locale = "he",
+  locale: Locale = DEFAULT_LOCALE,
   db: Db = getPool(),
 ): Promise<CustomerBooking[]> {
   return query<CustomerBooking>(

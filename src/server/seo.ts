@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { BusinessProfile, OpeningHours } from "./repos/catalog";
 import { pick } from "@/i18n/content";
-import { localePath, LOCALES, PACKS } from "@/i18n/locales";
+import { localePath, LOCALES, othersThan, PACKS } from "@/i18n/locales";
 import { getLocale } from "@/i18n/server";
 import { socialLink } from "./links";
 
@@ -60,7 +60,7 @@ export async function pageMetadata(
 ): Promise<Metadata> {
   const locale = await getLocale();
   const title = page.title ? `${page.title} | ${profile.name}` : profile.name;
-  const description = page.description ?? pick(locale, profile.tagline, profile.taglineEn) ?? undefined;
+  const description = page.description ?? pick(locale, profile, "tagline") ?? undefined;
   return {
     title,
     description,
@@ -75,7 +75,7 @@ export async function pageMetadata(
       title,
       description,
       locale: PACKS[locale].openGraph,
-      alternateLocale: LOCALES.filter((language) => language !== locale).map((language) => PACKS[language].openGraph),
+      alternateLocale: othersThan(locale).map((language) => PACKS[language].openGraph),
       type: "website",
       siteName: profile.name,
     },

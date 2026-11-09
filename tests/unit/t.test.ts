@@ -86,11 +86,12 @@ describe("language addresses", () => {
 });
 
 describe("owner content and formats in English", () => {
-  it("falls back to Hebrew when the English field is empty", () => {
-    expect(pick("en", "תספורת", "Haircut")).toBe("Haircut");
-    expect(pick("en", "תספורת", null)).toBe("תספורת");
-    expect(pick("en", "תספורת", "  ")).toBe("תספורת");
-    expect(pick("he", "תספורת", "Haircut")).toBe("תספורת");
+  it("falls back to the default language when a translation is empty", () => {
+    const row = (name: string | undefined) => ({ name: "תספורת", translations: name === undefined ? {} : { en: { name } } });
+    expect(pick("en", row("Haircut"), "name")).toBe("Haircut");
+    expect(pick("en", row(undefined), "name")).toBe("תספורת");
+    expect(pick("en", row("  "), "name")).toBe("תספורת");
+    expect(pick("he", row("Haircut"), "name")).toBe("תספורת");
   });
 
   it("formats prices and durations", () => {

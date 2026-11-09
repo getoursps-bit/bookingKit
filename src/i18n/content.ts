@@ -1,8 +1,17 @@
-import type { Locale } from "./locales";
+import { DEFAULT_LOCALE, type Locale } from "./locales";
 
-/** The owner's text in the page's language: the English field when filled, the Hebrew one otherwise. */
-export function pick(locale: Locale, he: string, en: string | null | undefined): string;
-export function pick(locale: Locale, he: string | null, en: string | null | undefined): string | null;
-export function pick(locale: Locale, he: string | null, en: string | null | undefined): string | null {
-  return locale === "en" && en?.trim() ? en : he;
+/** A row's text in the site's other languages: language code, then field name. */
+export type Translations = { [locale: string]: { [field: string]: string } | undefined };
+
+/**
+ * A row's text in the page's language: the translation when the owner filled
+ * one, the default language otherwise. `pick(locale, service, "name")`.
+ */
+export function pick<Row extends { translations: Translations }, Field extends keyof Row & string>(
+  locale: Locale,
+  row: Row,
+  field: Field,
+): Row[Field] {
+  if (locale === DEFAULT_LOCALE) return row[field];
+  return (row.translations[locale]?.[field]?.trim() || row[field]) as Row[Field];
 }

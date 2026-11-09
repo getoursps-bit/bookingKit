@@ -6,10 +6,9 @@ import type { Service, ServiceRule } from "@/server/repos/catalog";
 // The seed's services and default rules, with ids as the database would give them.
 const services: Service[] = seedData.services.map((service, index) => ({
   id: index + 1,
-  nameHe: service.name_he,
-  includesHe: service.includes_he,
-  nameEn: null,
-  includesEn: null,
+  name: service.name_he,
+  includes: service.includes_he,
+  translations: {},
   durationMin: service.duration_min,
   priceFromAgorot: service.price_from_agorot,
   bookableOnline: service.bookable_online,

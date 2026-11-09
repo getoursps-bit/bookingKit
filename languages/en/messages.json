@@ -498,7 +498,6 @@
     "templates": "Message wording",
     "templatesHelp": "Words in curly braces, like {when} or {link}, are filled in automatically. Keep them in the wording.",
     "templateLocked": "The WhatsApp wording is fixed by the template approved by Meta. To change it, a new template must be approved.",
-    "englishSuffix": " (English)",
     "subject": "Subject",
     "body": "Wording",
     "inactive": "inactive"

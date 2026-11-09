@@ -55,7 +55,7 @@ describe("LocalBusiness JSON-LD", () => {
   const profile: BusinessProfile = {
     name: "Example Salon",
     tagline: "מספרה לכלבים ולחתולים",
-    taglineEn: null,
+    translations: {},
     city: "עיר לדוגמה",
     address: "רחוב לדוגמה 1",
     phoneE164: CHAT,

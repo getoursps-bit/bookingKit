@@ -12,7 +12,9 @@ describe.skipIf(!hasDb)("the seed", () => {
       expect(profile.rows).toEqual([{ name: brandName("he") }]);
 
       const templates = await pool.query<{ text: string }>(
-        `select concat_ws(' ', body_he, subject_he, body_en, subject_en) as text from message_templates`,
+        `select concat_ws(' ', body_he, subject_he, (select string_agg(t.value, ' ') from content_translations t
+           where t.entity = 'message_template' and t.entity_key = key || ':' || channel)) as text
+         from message_templates`,
       );
       expect(templates.rows.length).toBeGreaterThan(0);
       expect(templates.rows.filter((row) => row.text.includes("%BRAND%"))).toEqual([]);

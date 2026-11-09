@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { DEFAULT_LOCALE } from "@/i18n/locales";
 import { getLocale } from "@/i18n/server";
 import { LANDING_PAGES } from "@/landing";
 import { pageMetadata } from "@/server/seo";
@@ -12,7 +13,7 @@ export async function generateMetadata({ params }: Props) {
   if (!page) return {};
   const locale = await getLocale();
   const { profile, settings } = await getSiteData();
-  return pageMetadata(profile, { ...page.meta[locale], path: `/l/${slug}` }, isNoindex(settings));
+  return pageMetadata(profile, { ...(page.meta[locale] ?? page.meta[DEFAULT_LOCALE]), path: `/l/${slug}` }, isNoindex(settings));
 }
 
 export default async function LandingRoute({ params }: Props) {

@@ -105,21 +105,22 @@ language columns again.
 
 ```text
 content_translations
-  entity     text    -- "service", "product", "gallery_image", "profile", "message_template"
-  entity_id  bigint
-  field      text    -- "name", "description", "body", …
-  locale     text    -- "en", "ar"
-  value      text
-  primary key (entity, entity_id, field, locale)
+  entity      text    -- "service", "product", "gallery_image", "profile", "message_template"
+  entity_key  text    -- the row's id, or "key:channel" for a message template
+  field       text    -- "name", "description", "body", …
+  locale      text    -- "en", "ar"
+  value       text
+  primary key (entity, entity_key, field, locale)
 ```
 
 - The text in the client's default language stays in the existing main
   column, so a one-language client never touches this table.
 - Migration: create the table and copy the `_en` values into it. The `_en`
   columns stay until a later release (additive first).
-- Reading: `translated(rows, entity, locale)` fills a list of rows with their
-  translations in one query; a missing translation shows the default
-  language, as `pick()` does now.
+- Reading: each row carries a `translations` column, built in the same
+  query; `pick(locale, row, "name")` gives the text in a language, the
+  default language when the translation is empty. Queries that build a line
+  of text in the database use `translatedSql()`.
 - The owner area shows one field per language the client has switched on,
   not a fixed "English" field, and saves through the module.
 - Customers get messages in the language they booked in, as now.

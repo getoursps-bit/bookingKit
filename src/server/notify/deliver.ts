@@ -1,4 +1,5 @@
-import type { Locale } from "../../i18n/locales";
+import { pick } from "../../i18n/content";
+import { DEFAULT_LOCALE, type Locale, toLocale } from "../../i18n/locales";
 import { type Db, getPool } from "../db";
 import { getFeatures } from "../features";
 import { log } from "../log";
@@ -13,9 +14,10 @@ import type { Channel } from "./types";
 /** Template variables, or a function that gives them in the language the message is sent in. */
 export type Vars = Record<string, string> | ((locale: Locale) => Record<string, string>);
 
-/** English when the customer booked in English and this template has English text; Hebrew otherwise. */
+/** The language the customer booked in when this template has wording in it; the default language otherwise. */
 export function messageLocale(template: Template, to: Recipient): Locale {
-  return to.locale === "en" && template.bodyEn?.trim() ? "en" : "he";
+  const locale = toLocale(to.locale);
+  return locale === DEFAULT_LOCALE || template.translations[locale]?.body?.trim() ? locale : DEFAULT_LOCALE;
 }
 
 export type Delivery = { ok: true; channel: Channel } | { ok: false; reason: "NoChannel" | "Failed" | "Retrying" };
@@ -60,13 +62,13 @@ export async function deliver(
     if (!address || !template) continue;
     const locale = messageLocale(template, to);
     const filled = typeof vars === "function" ? vars(locale) : vars;
-    const { text, params } = render(locale === "en" ? template.bodyEn! : template.bodyHe, filled);
+    const { text, params } = render(pick(locale, template, "body"), filled);
     const result = await channelFor(channel, opts.db).send({
       kind: row.kind,
       templateKey: row.templateKey,
       to: address,
       body: text,
-      subject: locale === "en" ? template.subjectEn?.trim() || template.subjectHe : template.subjectHe,
+      subject: pick(locale, template, "subject"),
       providerTemplate: template.providerTemplate,
       params,
       buttonParam: opts.buttonParam ?? null,

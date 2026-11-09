@@ -78,6 +78,7 @@ src/app/api/          form and JSON endpoints, webhooks, health
 src/components/       site, booking, admin and shared UI
 languages/<code>/     one pack per language: its strings (messages.json) and what the code needs to know about it (pack.json)
 src/i18n/             the string lookup (on next-intl), language addresses and formats
+src/server/translation/  the owner's text in the other languages (content_translations)
 src/landing/          campaign landing pages (code)
 src/server/           domain logic: booking engine, identity, notify (outbox and route()),
                       repos, ai, photos, import, staff, time (Asia/Jerusalem)
@@ -153,9 +154,12 @@ no switch.
 To add a language to a client, add its code to `others` and run `pnpm brand`.
 To add a language to the kit, add its folder first.
 
-Still tied to Hebrew and English until the content step: the owner's own
-text (services, products, photo texts, tagline, message templates) has a
-Hebrew field and an English one; empty English fields show the Hebrew.
-Customers get messages in the language they booked in. English WhatsApp
-messages need the same templates approved in English in Meta first; until
-then, leave the WhatsApp English wording empty and those messages go out in Hebrew.
+The owner's own text (services, products, photo texts, tagline, message
+wording) is written in the default language, and the owner area shows one
+extra field per other language. Those translations live in one table,
+`content_translations`, owned by `src/server/translation/`; an empty
+translation shows the default language. Customers get messages in the
+language they booked in when the template has wording in it. WhatsApp
+messages in another language need the same templates approved in that
+language in Meta first; until then, leave that wording empty and those
+messages go out in the default language.

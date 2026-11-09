@@ -77,7 +77,7 @@ export async function ServiceStep({
                         {t("service.petN", { n: index + 1 })}
                       </span>
                     ) : null}
-                    <span className="block font-bold">{pick(locale, service.nameHe, service.nameEn)}</span>
+                    <span className="block font-bold">{pick(locale, service, "name")}</span>
                     {facts(service)}
                   </span>
                   <form method="post" action={ACTION}>
@@ -87,7 +87,7 @@ export async function ServiceStep({
                     <button type="submit" className="btn btn-secondary min-h-10 px-3 text-sm">
                       <Icon name="close" size={16} />
                       {t("pets.remove")}
-                      <span className="visually-hidden"> {pick(locale, service.nameHe, service.nameEn)}</span>
+                      <span className="visually-hidden"> {pick(locale, service, "name")}</span>
                     </button>
                   </form>
                 </li>
@@ -123,8 +123,8 @@ export async function ServiceStep({
           </div>
           <ul className="flex flex-col gap-2">
             {shown.map((service) => {
-              const name = pick(locale, service.nameHe, service.nameEn);
-              const includes = pick(locale, service.includesHe, service.includesEn);
+              const name = pick(locale, service, "name");
+              const includes = pick(locale, service, "includes");
               const tag = tags.get(service.id);
               const current = !multi && chosen.some((candidate) => candidate.id === service.id);
               return (

@@ -1,4 +1,4 @@
-import { type Locale, localePath } from "../../i18n/locales";
+import { DEFAULT_LOCALE, type Locale, localePath } from "../../i18n/locales";
 import { type MessageKey } from "../../i18n/t";
 import { translator } from "../../i18n/translator";
 import { getConfig } from "../config";
@@ -85,7 +85,7 @@ async function sendBookingMessage(row: OutboxRow, db: Db, now: Date): Promise<vo
   const to = await customerRecipient(row.customerId, db);
   // The private link opens the site in the customer's language; the time and
   // change follow the language the message itself goes out in.
-  const linkLocale: Locale = to.locale ?? "he";
+  const linkLocale: Locale = to.locale ?? DEFAULT_LOCALE;
   const link = `${base}${localePath(linkLocale, token ? `/b/${token}` : "/book")}`;
   const vars = (locale: Locale): Record<string, string> => {
     const when = formatLocal(appointment.start, "EEEE dd/MM HH:mm", locale);

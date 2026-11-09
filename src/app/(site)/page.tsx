@@ -140,7 +140,7 @@ export default async function HomePage() {
   const jsonLd = localBusinessJsonLd(profile, hours, getConfig().APP_BASE_URL);
   const coverUrl = profile.coverKey ? storage.publicUrl(profile.coverKey) || null : null;
   const status = openStatus(t, hours, now);
-  const tagline = pick(locale, profile.tagline, profile.taglineEn) ?? t("home.heroText");
+  const tagline = pick(locale, profile, "tagline") ?? t("home.heroText");
   const eyebrow = profile.city ? `${t("home.eyebrow")} · ${profile.city}` : t("home.eyebrow");
   const chat = whatsappLink(settings["whatsapp.chatNumber"]);
   const visitButtons = contactButtons(t, profile, settings["whatsapp.chatNumber"]).filter((button) =>
@@ -288,8 +288,8 @@ export default async function HomePage() {
           </div>
           <ul className="grid gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
             {services.slice(0, 6).map((service, index) => {
-              const name = pick(locale, service.nameHe, service.nameEn);
-              const includes = pick(locale, service.includesHe, service.includesEn);
+              const name = pick(locale, service, "name");
+              const includes = pick(locale, service, "includes");
               const tint = tintAt(index);
               return (
                 <li key={service.id}>
@@ -345,7 +345,7 @@ export default async function HomePage() {
           </div>
           <ul className="grid grid-cols-2 grid-rows-[105px_105px_150px] gap-2.5 md:grid-cols-4 md:grid-rows-[220px_220px] md:gap-4">
             {photos.map((image, index) => {
-              const alt = pick(locale, image.altHe, image.altEn);
+              const alt = pick(locale, image, "alt");
               const url = storage.publicUrl(image.storageKey);
               return (
                 <li key={image.id} className={`min-h-0 ${MOSAIC[index]}`}>
@@ -390,7 +390,7 @@ export default async function HomePage() {
           >
             <ul className="flex gap-3 md:grid md:grid-cols-4 md:gap-4">
               {products.slice(0, 8).map((product, index) => {
-                const name = pick(locale, product.nameHe, product.nameEn);
+                const name = pick(locale, product, "name");
                 const imageUrl = product.imageKey ? storage.publicUrl(product.imageKey) || null : null;
                 return (
                   <li key={product.id} className="w-40 shrink-0 md:w-auto">

@@ -217,12 +217,18 @@ test("the owner uploads several gallery photos with no text, and text stays opti
   const alt = `e2e gallery ${Date.now()}`;
   const upload = page.locator('form[action="/api/admin/gallery"] button[type="submit"]');
   const [{ last }] = (await sql<{ last: string }>("select coalesce(max(id), 0) as last from gallery_images")) as [{ last: string }];
-  const added = () => sql<{ alt_he: string; alt_en: string | null }>("select alt_he, alt_en from gallery_images where id > $1", [last]);
+  const added = () =>
+    sql<{ alt_he: string; alt_en: string | null }>(
+      `select g.alt_he, (select t.value from content_translations t
+         where t.entity = 'gallery_image' and t.entity_key = g.id::text and t.field = 'alt' and t.locale = 'en') as alt_en
+       from gallery_images g where g.id > $1 order by g.id`,
+      [last],
+    );
   await login(page);
   await page.goto("/admin/catalog#gallery");
   await expect(page.getByText("הסכמה")).toHaveCount(0);
   try {
-    await expect(page.locator('input[name="altHe"]')).toBeHidden();
+    await expect(page.locator('input[name="alt"]')).toBeHidden();
     const file = page.locator('input[name="file"]');
     await expect(file).toHaveAttribute("multiple", "");
     await file.setInputFiles([await photo("a.png", "#a86"), await photo("b.png", "#68a"), await photo("c.png", "#6a8")]);
@@ -235,7 +241,7 @@ test("the owner uploads several gallery photos with no text, and text stays opti
 
     // With the box ticked the text is kept; one bad file is named and the good one stays.
     await page.getByLabel("הוספת תיאור וכיתוב").check();
-    await page.locator('input[name="altHe"]').fill(alt);
+    await page.locator('input[name="alt"]').fill(alt);
     await page.locator('input[name="file"]').setInputFiles([
       await photo("good.png", "#86a"),
       { name: "bad.png", mimeType: "image/png", buffer: Buffer.from("not an image") },
@@ -281,7 +287,7 @@ test("the owner adds, replaces and removes a product photo", async ({ page }) =>
   await page.goto("/admin/catalog#products");
   const added = page.locator("#products").locator("xpath=ancestor::section").locator("details").last();
   await added.locator("summary").click();
-  await added.locator('input[name="nameHe"]').fill(name);
+  await added.locator('input[name="name"]').fill(name);
   await added.locator('input[name="price"]').fill("20");
   await added.locator('input[name="photo"]').setInputFiles(await photo("p.png", "#a86"));
   await added.getByRole("button", { name: "הוספה" }).click();

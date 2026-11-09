@@ -24,8 +24,8 @@ export default async function GalleryPage() {
         items={images.map((image) => ({
           id: image.id,
           url: storage.publicUrl(image.storageKey),
-          alt: pick(locale, image.altHe, image.altEn),
-          caption: pick(locale, image.captionHe, image.captionEn),
+          alt: pick(locale, image, "alt"),
+          caption: pick(locale, image, "caption"),
         }))}
       />
     </>

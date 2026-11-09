@@ -1,0 +1,9 @@
+{
+  // The tests, checked by `pnpm typecheck` but not by `next build`: they are
+  // written for the kit's default client (Hebrew and English) and may name a
+  // language a one-language client does not have.
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "incremental": false },
+  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts"],
+  "exclude": ["node_modules", "worker/dist"]
+}

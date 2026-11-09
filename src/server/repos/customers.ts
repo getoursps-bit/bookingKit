@@ -1,5 +1,6 @@
 import { type Db, query, withTransaction } from "../db";
 import type { AgeGroup, Species, WeightGroup } from "./catalog";
+import type { Locale } from "@/i18n/locales";
 
 export type Customer = {
   id: number;
@@ -71,7 +72,7 @@ export async function findOrCreateByPhone(
 }
 
 /** The language the customer last booked in; their messages follow it. */
-export async function setLocale(customerId: number, locale: "he" | "en", db?: Db): Promise<void> {
+export async function setLocale(customerId: number, locale: Locale, db?: Db): Promise<void> {
   await query("update customers set locale = $2 where id = $1 and locale <> $2", [customerId, locale], db);
 }
 

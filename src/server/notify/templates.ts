@@ -1,23 +1,28 @@
+import type { Translations } from "@/i18n/content";
 import { type Db, query, withTransaction } from "../db";
 import { writeAudit } from "../repos/audit";
 import { isolate } from "@/i18n/t";
+import { saveTranslations, translationsColumn } from "../translation/content";
 import type { Channel } from "./types";
 
 export type Template = {
   key: string;
   channel: Channel;
-  bodyHe: string;
-  subjectHe: string | null;
-  /** Optional English wording; empty means the Hebrew is sent. */
-  bodyEn: string | null;
-  subjectEn: string | null;
+  /** In the site's default language. */
+  body: string;
+  subject: string | null;
+  /** Optional wording in the other languages; a language left empty is sent in the default one. */
+  translations: Translations;
   providerTemplate: string | null;
 };
 
+const TEMPLATE_COLUMNS = `key, channel, body_he as body, subject_he as subject,
+  ${translationsColumn("message_template", "message_templates.key || ':' || message_templates.channel")},
+  provider_template as "providerTemplate"`;
+
 export async function getTemplate(key: string, channel: Channel, db?: Db): Promise<Template | null> {
   const [row] = await query<Template>(
-    `select key, channel, body_he as "bodyHe", subject_he as "subjectHe", body_en as "bodyEn",
-       subject_en as "subjectEn", provider_template as "providerTemplate"
+    `select ${TEMPLATE_COLUMNS}
      from message_templates where key = $1 and channel = $2`,
     [key, channel],
     db,
@@ -43,8 +48,7 @@ export function render(body: string, vars: Record<string, string>): { text: stri
 
 export async function listTemplates(db?: Db): Promise<Template[]> {
   return query<Template>(
-    `select key, channel, body_he as "bodyHe", subject_he as "subjectHe", body_en as "bodyEn",
-       subject_en as "subjectEn", provider_template as "providerTemplate"
+    `select ${TEMPLATE_COLUMNS}
      from message_templates order by key, channel`,
     [],
     db,
@@ -58,13 +62,13 @@ function placeholders(text: string): string {
 /**
  * The owner edits email and push wording. WhatsApp text is fixed by the
  * template Meta approved, so it is not editable here. The placeholders must
- * stay the same, or the message would lose its time or link; English text,
- * when given, must carry the same placeholders as the Hebrew.
+ * stay the same, or the message would lose its time or link; wording in
+ * another language, when given, must carry the same placeholders.
  */
 export async function updateTemplate(
   key: string,
   channel: Channel,
-  text: { bodyHe: string; subjectHe: string | null; bodyEn: string | null; subjectEn: string | null },
+  text: { body: string; subject: string | null; translations: Translations },
   staffId: number,
   db?: Db,
 ): Promise<"ok" | "locked" | "placeholders" | "missing"> {
@@ -72,14 +76,16 @@ export async function updateTemplate(
   return withTransaction(async (client) => {
     const before = await getTemplate(key, channel, client);
     if (!before) return "missing";
-    if (placeholders(before.bodyHe) !== placeholders(text.bodyHe)) return "placeholders";
-    if (text.bodyEn?.trim() && placeholders(text.bodyEn) !== placeholders(text.bodyHe)) return "placeholders";
+    if (placeholders(before.body) !== placeholders(text.body)) return "placeholders";
+    for (const other of Object.values(text.translations)) {
+      if (other?.body?.trim() && placeholders(other.body) !== placeholders(text.body)) return "placeholders";
+    }
     await query(
-      `update message_templates set body_he = $3, subject_he = $4, body_en = $5, subject_en = $6
-       where key = $1 and channel = $2`,
-      [key, channel, text.bodyHe, text.subjectHe, text.bodyEn?.trim() || null, text.subjectEn?.trim() || null],
+      "update message_templates set body_he = $3, subject_he = $4 where key = $1 and channel = $2",
+      [key, channel, text.body, text.subject],
       client,
     );
+    await saveTranslations("message_template", `${key}:${channel}`, text.translations, client);
     await writeAudit(client, {
       staffId,
       actor: "staff",

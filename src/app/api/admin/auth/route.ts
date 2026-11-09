@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { clientAddress, csrfOk, next, readForm, setCookie } from "@/server/booking/http";
-import { isLocale } from "@/i18n/locales";
+import { toLocale } from "@/i18n/locales";
 import { getConfig } from "@/server/config";
 import { hit } from "@/server/repos/rateLimits";
 import { signValue, verifySignedValue } from "@/server/security";
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
   if (form.action === "emailSend") {
     const address = (form.email ?? "").trim().toLowerCase();
     if (!/^[^@\s]+@[^@\s]+$/.test(address)) return next(request, "/admin/login?step=email&error=Wrong", {}, 400);
-    const sent = await sendEmailCode(address, isLocale(form.locale) ? form.locale : "he");
+    const sent = await sendEmailCode(address, toLocale(form.locale));
     if (!sent.ok)
       return next(request, `/admin/login?step=email&error=${sent.reason}`, {}, sent.reason === "Locked" ? 429 : 502);
     // The address rides in a signed cookie, so the code step needs only the code.

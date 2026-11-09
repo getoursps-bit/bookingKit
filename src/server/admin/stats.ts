@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/locales";
+import { translatedSql } from "../translation/content";
 import { addLocalDays, weekdayOf } from "../booking/slots";
 import { type Db, getPool, query } from "../db";
 import { localDateOf, localDayBounds } from "../time";
@@ -122,7 +123,7 @@ export async function getStats(
       db,
     ),
     query<{ name: string; count: number }>(
-      `select ${opts.locale === "en" ? "coalesce(nullif(trim(s.name_en), ''), s.name_he)" : "s.name_he"} as name,
+      `select ${translatedSql("service", "name", "s.id", "s.name_he", opts.locale)} as name,
               count(*)::int as count
        from appointment_pets ap
        join appointments a on a.id = ap.appointment_id
