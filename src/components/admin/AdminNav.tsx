@@ -23,7 +23,7 @@ export function AdminNav() {
   const pathname = usePathname();
   const { t, locale } = useI18n();
   return (
-    <nav aria-label={t("admin.nav")}>
+    <nav aria-label={t("admin.navLabel")}>
       <ul className="flex gap-1 overflow-x-auto pb-1 md:flex-col md:overflow-visible">
         {LINKS.map((link) => {
           const current = link.href === "/admin" ? pathname === "/admin" : pathname.startsWith(link.href);

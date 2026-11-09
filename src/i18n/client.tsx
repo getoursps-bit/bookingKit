@@ -1,20 +1,21 @@
 "use client";
 
-import { createContext, type ReactNode, useContext, useMemo } from "react";
-import { DEFAULT_LOCALE, dirOf, type Locale, localePath } from "./locales";
-import { translator } from "./t";
+import { useLocale, useTranslations } from "next-intl";
+import { useMemo } from "react";
+import { dirOf, type Locale, localePath } from "./locales";
+import { withIsolation } from "./t";
 
-const LocaleContext = createContext<Locale>(DEFAULT_LOCALE);
-
-/** Set once by the root layout, so client components write in the page's language. */
-export function LocaleProvider({ locale, children }: { locale: Locale; children: ReactNode }) {
-  return <LocaleContext.Provider value={locale}>{children}</LocaleContext.Provider>;
-}
-
+/** Everything a browser component needs to write in the page's language. The root layout provides the strings. */
 export function useI18n() {
-  const locale = useContext(LocaleContext);
+  const locale = useLocale() as Locale;
+  const translate = useTranslations();
   return useMemo(
-    () => ({ locale, dir: dirOf(locale), t: translator(locale), lp: (path: string) => localePath(locale, path) }),
-    [locale],
+    () => ({
+      locale,
+      dir: dirOf(locale),
+      t: withIsolation(translate),
+      lp: (path: string) => localePath(locale, path),
+    }),
+    [locale, translate],
   );
 }

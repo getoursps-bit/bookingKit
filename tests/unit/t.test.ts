@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
-import en from "@/i18n/en.json";
+import enFile from "@/i18n/en.json";
 import { formatDuration, formatPrice } from "@/i18n/format";
-import he from "@/i18n/he.json";
+import heFile from "@/i18n/he.json";
+import { flatten } from "@/i18n/flatten";
 import { pick } from "@/i18n/content";
 import { isLocalizedPath, localePath, splitLocale } from "@/i18n/locales";
-import { isolate, translator } from "@/i18n/t";
+import { isolate } from "@/i18n/t";
+import { translator } from "@/i18n/translator";
+
+const en = flatten(enFile);
+const he = flatten(heFile);
 
 const placeholders = (text: string) => [...text.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort();
 

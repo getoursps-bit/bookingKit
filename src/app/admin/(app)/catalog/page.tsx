@@ -4,7 +4,8 @@ import { ActionForm, AdminNotice, Panel } from "@/components/admin/parts";
 import type { Locale } from "@/i18n/locales";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
-import { translator, type MessageKey, type Translate } from "@/i18n/t";
+import { type MessageKey, type Translate } from "@/i18n/t";
+import { translator } from "@/i18n/translator";
 import { getFeatures } from "@/server/features";
 import { listTemplates } from "@/server/notify/templates";
 import {

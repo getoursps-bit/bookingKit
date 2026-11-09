@@ -77,3 +77,51 @@ Design: [`designs/step1_brand.md`](designs/step1_brand.md).
   installed (Rubik, Fredoka, Nunito, Heebo).
 - The bundled `worker/dist/migrate.js` only finds the migrations inside the
   image layout, as before.
+
+## Step 2: core, views, extensions and translation
+
+Design: [`designs/step2_modules_languages.md`](designs/step2_modules_languages.md).
+
+### A1–A2. Two clients in the tests; strings through next-intl (2026-11-09)
+
+**Built**
+
+- `scripts/with-client.sh <file> <command>` runs a command with another
+  client file in place of `client.json` and puts the committed one back. CI
+  runs the whole check for the default client and the sample client.
+- The interface strings are read through **next-intl** (4.14.9):
+  `getI18n()` uses `getTranslations()`, `useI18n()` uses `useTranslations()`,
+  and `translator()` (worker, manifests, redirects) uses `createTranslator()`
+  from `use-intl/core`. The three names and every call site are unchanged.
+- `src/i18n/request.ts` gives the library each request's language and
+  strings; the root layout's `NextIntlClientProvider` passes them to browser
+  components.
+- The language files are nested (`{ "home": { "heroTitle": … } }`), as the
+  library needs; keys are still written `"home.heroTitle"` and are typed.
+  Two keys that were both a string and a group were renamed:
+  `settings.booking` → `settings.bookingTitle`, `admin.nav` → `admin.navLabel`.
+- `src/i18n` now: `t.ts` (types, `isolate`, the isolating wrapper; no
+  strings), `messages.ts` (all languages with the client's wording; server
+  and worker only), `translator.ts`, `keys.ts` (`isMessageKey`),
+  `flatten.ts` (for tests).
+
+**Verified**
+
+- Every string in both languages, with and without values (2,132 outputs),
+  renders to exactly the same text as before the swap.
+- 206 unit tests, 61 browser tests, and the 40 page pictures unchanged.
+
+**Decided while building**
+
+- The language in the address stays our own proxy code; see the design for
+  why the library's routing was not taken.
+- The browser used to carry both languages inside its script bundle. It now
+  gets the one language in use with each page (about 35 KB before
+  compression). If that proves heavy, the provider can be given only the
+  groups that browser components use.
+
+**Next**
+
+- A3: language packs as folders, `languages` in `client.json`, direction,
+  fonts and formats from the pack, prices and durations through the
+  library's formatter.

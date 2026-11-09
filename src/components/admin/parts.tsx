@@ -1,17 +1,16 @@
 import type { ReactNode } from "react";
 import { Alert } from "@/components/booking/parts";
-import he from "@/i18n/he.json";
+import { isMessageKey } from "@/i18n/keys";
 import { getI18n } from "@/i18n/server";
-import type { MessageKey } from "@/i18n/t";
 
 /** The `?ok=` / `?error=` notice an admin action leaves on the page it returns to. */
 export async function AdminNotice({ ok, error }: { ok?: string; error?: string }) {
   const { t } = await getI18n();
   const errorKey = `admin.error.${error}`;
-  if (error) return <Alert kind="error">{errorKey in he ? t(errorKey as MessageKey) : t("admin.error.invalid")}</Alert>;
+  if (error) return <Alert kind="error">{isMessageKey(errorKey) ? t(errorKey) : t("admin.error.invalid")}</Alert>;
   if (ok) {
     const okKey = ok.includes(".") ? ok : "admin.saved";
-    return <Alert kind="ok">{okKey in he ? t(okKey as MessageKey) : t("admin.saved")}</Alert>;
+    return <Alert kind="ok">{isMessageKey(okKey) ? t(okKey) : t("admin.saved")}</Alert>;
   }
   return null;
 }

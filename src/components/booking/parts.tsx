@@ -1,5 +1,5 @@
 import { Alert } from "@/components/ui/Alert";
-import he from "@/i18n/he.json";
+import { isMessageKey } from "@/i18n/keys";
 import { getI18n } from "@/i18n/server";
 import type { MessageKey, Translate } from "@/i18n/t";
 
@@ -26,7 +26,7 @@ export async function FormSecrets({ csrf, renderedAt }: { csrf: string; rendered
 export function errorText(t: Translate, key: string | undefined): string | null {
   if (!key) return null;
   const full = `err.${key}`;
-  return full in he ? t(full as MessageKey) : null;
+  return isMessageKey(full) ? t(full) : null;
 }
 
 // Kept here too so existing imports keep working; client code imports it from ui/Alert.

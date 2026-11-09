@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { formatPrice } from "@/i18n/format";
 import { pick } from "@/i18n/content";
 import { localePath } from "@/i18n/locales";
-import { translator } from "@/i18n/t";
+import { translator } from "@/i18n/translator";
 import { MULTI_PET_BOOKING } from "@/server/booking/draft";
 import { getDraft, requestLocale, setDraft } from "@/server/booking/http";
 import { getConfig } from "@/server/config";

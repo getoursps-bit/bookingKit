@@ -3,9 +3,14 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { brandCss, CSS_FILE, readClient } from "../../scripts/brand-css";
 import type { ThemeColor } from "../../src/brand.schema";
-import en from "../../src/i18n/en.json";
-import he from "../../src/i18n/he.json";
-import { translator } from "../../src/i18n/t";
+import enFile from "../../src/i18n/en.json";
+import { flatten } from "../../src/i18n/flatten";
+import heFile from "../../src/i18n/he.json";
+import type { MessageKey } from "../../src/i18n/t";
+import { translator } from "../../src/i18n/translator";
+
+const en: Record<string, string> = flatten(enFile);
+const he: Record<string, string> = flatten(heFile);
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
 const client = readClient();
@@ -52,14 +57,14 @@ describe("client.json", () => {
   it("puts the client's name and wording into the interface strings", () => {
     expect(translator("he")("site.name")).toBe(client.brand.name.he);
     expect(translator("en")("admin.title")).toContain(client.brand.name.en);
-    for (const [key, text] of Object.entries(client.brand.messages.he)) expect(translator("he")(key as keyof typeof he)).toBe(text);
+    for (const [key, text] of Object.entries(client.brand.messages.he)) expect(translator("he")(key as MessageKey)).toBe(text);
   });
 
   it("only rewords strings that exist, with the same placeholders", () => {
     for (const [locale, base] of Object.entries({ he, en } as const)) {
       for (const [key, text] of Object.entries(client.brand.messages[locale as "he" | "en"])) {
         expect(base, `${locale} ${key}`).toHaveProperty([key]);
-        expect(placeholders(text), `${locale} ${key}`).toEqual(placeholders(base[key as keyof typeof base]));
+        expect(placeholders(text), `${locale} ${key}`).toEqual(placeholders(base[key] ?? ""));
       }
     }
   });

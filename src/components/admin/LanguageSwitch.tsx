@@ -1,5 +1,5 @@
 import type { Locale } from "@/i18n/locales";
-import { translator } from "@/i18n/t";
+import { translator } from "@/i18n/translator";
 
 /**
  * A link to the owner area in the other language. The route remembers the

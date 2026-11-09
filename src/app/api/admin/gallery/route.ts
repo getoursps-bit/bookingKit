@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { translator } from "@/i18n/t";
+import { translator } from "@/i18n/translator";
 import { getFeatures } from "@/server/features";
 import { savePublicPhoto } from "@/server/photos";
 import { addGalleryImage, listGallery } from "@/server/repos/catalog";

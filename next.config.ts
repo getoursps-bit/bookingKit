@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 
 // Showcase and pre-launch builds stay out of search results. On top of this
 // switch, the admin setting `site.noindex` adds a robots meta tag and closes
@@ -27,4 +28,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// next-intl reads the language and strings of each request from this file.
+export default createNextIntlPlugin("./src/i18n/request.ts")(nextConfig);

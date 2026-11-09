@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { brand, theme } from "@/brand";
-import { translator } from "@/i18n/t";
+import { translator } from "@/i18n/translator";
 
 export const dynamic = "force-static";
 

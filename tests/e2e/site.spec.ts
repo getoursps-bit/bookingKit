@@ -1,10 +1,14 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 import pg from "pg";
-import en from "../../src/i18n/en.json" with { type: "json" };
-import he from "../../src/i18n/he.json" with { type: "json" };
+import enFile from "../../src/i18n/en.json" with { type: "json" };
+import heFile from "../../src/i18n/he.json" with { type: "json" };
 import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
+import { flatten } from "../../src/i18n/flatten";
+
+const en = flatten(enFile);
+const he = flatten(heFile);
 
 // Runs against the local (or CI) database, migrated and seeded. The chat
 // number is a fictional test number set for this run and removed afterwards.

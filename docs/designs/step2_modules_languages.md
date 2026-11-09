@@ -67,20 +67,25 @@ the worker's messages use the same strings.
 
 | Today (hand-written) | With next-intl |
 |---|---|
-| `translator()`, `getI18n()`, `useI18n()` in `src/i18n` | `getTranslations()` / `useTranslations()`; `createTranslator()` in the worker |
-| Language prefix handling in `src/proxy.ts` and `locales.ts` (`localePath`, `splitLocale`) | Its routing: the default language at plain addresses, others under `/<code>`, as now |
-| `lp()` for links | Its `Link` and `getPathname` |
+| `translator()`, `getI18n()`, `useI18n()` in `src/i18n` | Built on `getTranslations()` / `useTranslations()`; `createTranslator()` in the worker. The three names stay, so the 480 call sites do not change |
+| Both languages' strings inside the browser bundle | Its provider sends the browser only the language in use |
 | `formatPrice`, `formatDuration`, date formats per language | Its formatter, built on the browser's `Intl`; plurals written in the strings in ICU syntax |
 | `dirOf()` with a hard-coded list | Direction from the language pack |
-| Missing-key check in `tests/unit/t.test.ts` | Its typed keys, plus the same parity test over every pack |
+| Missing-key check in `tests/unit/t.test.ts` | Typed keys, plus the same parity test over every pack |
 
-What stays ours, because the library does not do it:
+What stays ours, because the library does not do it or does it differently:
 
 - `isolate()`: wrapping numbers, prices and phone numbers so they keep their
   direction inside Hebrew or Arabic text. A thin wrapper applies it to every
   value passed into a string, as today.
 - The client's own wording from `client.json`, laid over the pack.
-- The owner area following the language cookie instead of the address.
+- **Language in the address.** The library's own routing needs every public
+  page moved under a `[locale]` folder and brings its own cookie and
+  redirects. Ours is about 50 lines in the proxy and is already tested for
+  things the library does differently: a visitor cannot set the language
+  header, the choice is saved only on a real visit, the switch works without
+  JavaScript, and the owner area follows the cookie. It is kept and made to
+  work for any list of languages.
 
 Changes this forces:
 

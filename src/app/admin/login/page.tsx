@@ -6,8 +6,8 @@ import { SubmitButton } from "@/components/booking/SubmitButton";
 import { Icon } from "@/components/ui/Icon";
 import { LanguageSwitch } from "@/components/admin/LanguageSwitch";
 import { getI18n } from "@/i18n/server";
-import type { MessageKey, Translate } from "@/i18n/t";
-import he from "@/i18n/he.json";
+import type { Translate } from "@/i18n/t";
+import { isMessageKey } from "@/i18n/keys";
 import { getFeatures } from "@/server/features";
 import { CSRF_COOKIE } from "@/server/security";
 import {
@@ -25,7 +25,7 @@ export async function generateMetadata() {
 
 function notice(t: Translate, prefix: "login.error" | "login.ok", key: string | undefined): string | null {
   const full = `${prefix}.${key}`;
-  return key && full in he ? t(full as MessageKey) : null;
+  return key && isMessageKey(full) ? t(full) : null;
 }
 
 export default async function LoginPage({

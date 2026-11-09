@@ -1,7 +1,8 @@
+import { getTranslations } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import { cache } from "react";
 import { dirOf, type Locale, LOCALE_COOKIE, LOCALE_HEADER, localePath, toLocale } from "./locales";
-import { translator } from "./t";
+import { withIsolation } from "./t";
 
 /**
  * The language of the page being rendered. Public pages take it from the
@@ -19,7 +20,7 @@ export const getI18n = cache(async () => {
   return {
     locale,
     dir: dirOf(locale),
-    t: translator(locale),
+    t: withIsolation(await getTranslations()),
     /** A public address in this language. */
     lp: (path: string) => localePath(locale, path),
   };

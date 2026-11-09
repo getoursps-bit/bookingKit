@@ -14,7 +14,7 @@ export async function generateMetadata() {
 const GROUPS: { id: string; title: MessageKey; keys: SettingKey[] }[] = [
   {
     id: "booking",
-    title: "settings.booking",
+    title: "settings.bookingTitle",
     keys: [
       "booking.slotStepMin",
       "booking.gapMin",

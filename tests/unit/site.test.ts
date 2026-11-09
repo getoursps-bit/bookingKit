@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { formatDuration, formatPrice } from "@/i18n/format";
-import { translator } from "@/i18n/t";
+import { translator } from "@/i18n/translator";
 import { attributionFromUrl, encodeAttribution, readAttribution } from "@/server/attribution";
 import { displayPhone, socialLink, wazeLink, whatsappLink } from "@/server/links";
 import type { BusinessProfile, OpeningHours } from "@/server/repos/catalog";

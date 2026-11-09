@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
+import { NextIntlClientProvider } from "next-intl";
 import type { ReactNode } from "react";
 import { theme } from "@/brand";
 import { SkipLink } from "@/components/ui/SkipLink";
-import { LocaleProvider } from "@/i18n/client";
 import { getI18n } from "@/i18n/server";
 import "./globals.css";
 
@@ -32,10 +32,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang={locale} dir={dir}>
       <body className="flex min-h-dvh flex-col">
-        <LocaleProvider locale={locale}>
+        <NextIntlClientProvider>
           <SkipLink />
           {children}
-        </LocaleProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -1,23 +1,17 @@
-import { brand } from "../brand";
-import en from "./en.json";
-import he from "./he.json";
-import type { Locale } from "./locales";
+import type he from "./he.json";
 
-export type MessageKey = keyof typeof he;
+// The types and the two small helpers every caller shares. This file holds no
+// strings, so browser code can import it freely; the strings reach the browser
+// through next-intl's provider in the root layout.
+
+/** The dotted keys of a nested language file. */
+export type Paths<Group, Prefix extends string = ""> = {
+  [Key in keyof Group & string]: Group[Key] extends string ? `${Prefix}${Key}` : Paths<Group[Key], `${Prefix}${Key}.`>;
+}[keyof Group & string];
+
+/** Every string's key, written with dots: "home.heroTitle". */
+export type MessageKey = Paths<typeof he>;
 export type Translate = (key: MessageKey, vars?: Record<string, string | number>) => string;
-
-type Dictionary = Record<MessageKey, string>;
-
-/** A dictionary with the client's own wording laid over it, and `{brand}` filled with the client's name. */
-function forClient(locale: Locale, base: Dictionary): Dictionary {
-  const strings = { ...base, ...brand.messages[locale] } as Dictionary;
-  for (const key of Object.keys(strings) as MessageKey[])
-    strings[key] = strings[key].replaceAll("{brand}", brand.name[locale]);
-  return strings;
-}
-
-// Both dictionaries carry every key; the type check fails if English misses one.
-const STRINGS: Record<Locale, Dictionary> = { he: forClient("he", he), en: forClient("en", en) };
 
 // Unicode first-strong isolate and pop-directional isolate. Wrapping a value in
 // them keeps phone numbers, prices and times in the right order inside Hebrew
@@ -30,12 +24,25 @@ export function isolate(value: string | number): string {
   return `${FSI}${value}${PDI}`;
 }
 
-/** The string lookup for one language: fills `{name}` placeholders, isolating each value. */
-export function translator(locale: Locale): Translate {
-  const strings = STRINGS[locale];
-  return (key, vars = {}) =>
-    strings[key].replace(/\{(\w+)\}/g, (placeholder, name: string) => {
+/** next-intl's translator, whatever strings it was made for. */
+type LibraryTranslator = { raw(key: never): unknown };
+/** The part of it used here: format a string, or read it as written. */
+type Lookup = { (key: string, values?: Record<string, string>): string; raw(key: string): unknown };
+
+/**
+ * Our string lookup on top of the library's: every value is isolated, and a
+ * placeholder with no value stays visible as `{name}` instead of failing.
+ */
+export function withIsolation(library: LibraryTranslator): Translate {
+  const translate = library as unknown as Lookup;
+  return (key, vars = {}) => {
+    const names = [...String(translate.raw(key)).matchAll(/\{(\w+)\}/g)].map((match) => match[1]!);
+    if (names.length === 0) return translate(key);
+    const values: Record<string, string> = {};
+    for (const name of names) {
       const value = vars[name];
-      return value === undefined ? placeholder : isolate(value);
-    });
+      values[name] = value === undefined ? `{${name}}` : isolate(value);
+    }
+    return translate(key, values);
+  };
 }

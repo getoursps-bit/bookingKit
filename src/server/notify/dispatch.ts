@@ -1,5 +1,6 @@
 import { type Locale, localePath } from "../../i18n/locales";
-import { type MessageKey, translator } from "../../i18n/t";
+import { type MessageKey } from "../../i18n/t";
+import { translator } from "../../i18n/translator";
 import { getConfig } from "../config";
 import { type Db, getPool, query } from "../db";
 import { getFeatures } from "../features";
