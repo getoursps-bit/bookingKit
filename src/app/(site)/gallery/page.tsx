@@ -1,0 +1,33 @@
+import { GalleryGrid } from "@/components/site/GalleryGrid";
+import { PageHeader } from "@/components/site/PageHeader";
+import { pick } from "@/i18n/content";
+import { getI18n } from "@/i18n/server";
+import { listGallery } from "@/server/repos/catalog";
+import { pageMetadata } from "@/server/seo";
+import { getSiteData, isNoindex } from "@/server/site";
+import { getStorage } from "@/server/storage";
+
+export async function generateMetadata() {
+  const { t } = await getI18n();
+  const { profile, settings } = await getSiteData();
+  return pageMetadata(profile, { title: t("gallery.title"), path: "/gallery" }, isNoindex(settings));
+}
+
+export default async function GalleryPage() {
+  const { t, locale } = await getI18n();
+  const images = await listGallery();
+  const storage = getStorage();
+  return (
+    <>
+      <PageHeader icon="image" title={t("gallery.title")} />
+      <GalleryGrid
+        items={images.map((image) => ({
+          id: image.id,
+          url: storage.publicUrl(image.storageKey),
+          alt: pick(locale, image.altHe, image.altEn),
+          caption: pick(locale, image.captionHe, image.captionEn),
+        }))}
+      />
+    </>
+  );
+}

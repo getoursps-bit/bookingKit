@@ -1,0 +1,26 @@
+{
+  "_note": "Column names in the Dibs CSV export, and Dibs service names mapped to the service names on the new site (services.name_he). Update once the real export is seen (open question Q6). A service missing here is reported as unmapped and not imported.",
+  "columns": {
+    "ref": "מזהה",
+    "name": "שם לקוח",
+    "phone": "טלפון",
+    "date": "תאריך",
+    "time": "שעה",
+    "duration": "משך",
+    "service": "שירות",
+    "notes": "הערות"
+  },
+  "dateFormat": "dd/MM/yyyy",
+  "services": {
+    "חתול": "חתול",
+    "גילוח לחתול בטשטוש": "גילוח לחתול בטשטוש",
+    "כלב קטן": "כלב - גזע קטן עד 10 קילו",
+    "כלב - גזע קטן עד 10 קילו": "כלב - גזע קטן עד 10 קילו",
+    "כלב גדול": "כלב - גזע גדול מעל 10 קילו",
+    "כלב - גזע גדול מעל 10 קילו": "כלב - גזע גדול מעל 10 קילו",
+    "גורים": "טיפוח גורים",
+    "טיפוח גורים": "טיפוח גורים",
+    "ציפורניים": "גזיזת ציפורניים",
+    "גזיזת ציפורניים": "גזיזת ציפורניים"
+  }
+}

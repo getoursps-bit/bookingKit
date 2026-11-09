@@ -1,0 +1,137 @@
+{
+  "services": {
+    "cat": {
+      "name_en": "Cat",
+      "includes_en": "Shave or haircut, nail trim, teeth cleaning, eye and ear area, bath as needed"
+    },
+    "cat_sedation": {
+      "name_en": "Cat shave under sedation",
+      "includes_en": "Shave or haircut, nail trim, teeth cleaning, eye and ear area, bath as needed"
+    },
+    "dog_small": {
+      "name_en": "Dog - small breed, up to 10 kg",
+      "includes_en": "Haircut, bath, sanitary trim, nails, paws, ears and eyes"
+    },
+    "dog_large": {
+      "name_en": "Dog - large breed, over 10 kg",
+      "includes_en": "Haircut, bath, sanitary trim, nails, paws, ears and eyes"
+    },
+    "puppy": {
+      "name_en": "Puppy grooming",
+      "includes_en": "Up to 6 months old: bath, brushing, paw and face shaping, nails, ear hair removal"
+    },
+    "nails": {
+      "name_en": "Nail trim",
+      "includes_en": "Nails only"
+    }
+  },
+  "products": {
+    "מרכך": {
+      "name_en": "Conditioner",
+      "description_en": "Detangles and moisturizes, for dogs and cats"
+    },
+    "שמפו היפואלרגני": {
+      "name_en": "Hypoallergenic shampoo",
+      "description_en": "For sensitive skin, for dogs, cats and puppies"
+    },
+    "שמפו ללא שטיפה": {
+      "name_en": "No-rinse shampoo",
+      "description_en": "For cats and kittens, 220 ml, baby powder scent"
+    },
+    "משחה למניעת יובש וטיפול בסדקים": {
+      "name_en": "Balm for dryness and cracks",
+      "description_en": "Care for nose and paws"
+    },
+    "FUR DE LUXE": {
+      "name_en": "FUR DE LUXE",
+      "description_en": "Perfume oil, 10 ml, musk"
+    },
+    "Fluffy Fresh": {
+      "name_en": "Fluffy Fresh",
+      "description_en": "Perfume oil, 10 ml, baby powder scent"
+    },
+    "PawFume No.4": {
+      "name_en": "PawFume No.4",
+      "description_en": "Perfume oil, 10 ml, floral oriental"
+    },
+    "ערכת טיפוח לכלב ולחתול": {
+      "name_en": "Dog and cat grooming kit",
+      "description_en": "Shampoo, conditioner, perfume and balm"
+    }
+  },
+  "message_templates": {
+    "code:whatsapp": {
+      "body_en": "Your Fluffy Fur verification code: {code}. The code is valid for 10 minutes.",
+      "subject_en": null
+    },
+    "code:email": {
+      "body_en": "Your verification code: {code}. The code is valid for 10 minutes.",
+      "subject_en": "Your Fluffy Fur verification code"
+    },
+    "staff_code:email": {
+      "body_en": "Your admin login code: {code}. The code is valid for 10 minutes. If you did not ask for it, you can ignore this email.",
+      "subject_en": "Fluffy Fur admin login code"
+    },
+    "confirmation:whatsapp": {
+      "body_en": "Your Fluffy Fur appointment is booked for {when}. To view, change or cancel: {link}",
+      "subject_en": null
+    },
+    "confirmation:email": {
+      "body_en": "Your appointment is booked for {when}. To view, change or cancel: {link}",
+      "subject_en": "Your Fluffy Fur appointment is booked"
+    },
+    "reminder:whatsapp": {
+      "body_en": "Reminder: you have an appointment at Fluffy Fur tomorrow at {when}. To change or cancel: {link}",
+      "subject_en": null
+    },
+    "reminder:email": {
+      "body_en": "Reminder: you have an appointment tomorrow at {when}. To change or cancel: {link}",
+      "subject_en": "Fluffy Fur appointment reminder"
+    },
+    "customer_change:whatsapp": {
+      "body_en": "Your Fluffy Fur appointment was updated: {change}. Details: {link}",
+      "subject_en": null
+    },
+    "customer_change:email": {
+      "body_en": "Your appointment was updated: {change}. Details: {link}",
+      "subject_en": "Your Fluffy Fur appointment was updated"
+    },
+    "owner_change:whatsapp": {
+      "body_en": "The salon updated your appointment: {change}. Details: {link}",
+      "subject_en": null
+    },
+    "owner_change:email": {
+      "body_en": "The salon updated your appointment: {change}. Details: {link}",
+      "subject_en": "The salon updated your appointment"
+    },
+    "import_link:whatsapp": {
+      "body_en": "Fluffy Fur has moved to a new website. Your appointment on {when} has been kept. To view, change or cancel: {link}",
+      "subject_en": null
+    },
+    "import_link:email": {
+      "body_en": "Your appointment on {when} has been kept. To view, change or cancel: {link}",
+      "subject_en": "Fluffy Fur has moved to a new website"
+    },
+    "owner_alert:push": {
+      "body_en": "{title}",
+      "subject_en": null
+    },
+    "owner_alert:email": {
+      "body_en": "{title}. Details in the admin area.",
+      "subject_en": "Alert from Fluffy Fur"
+    },
+    "owner_check:push": {
+      "body_en": "Daily check: notifications are working.",
+      "subject_en": null
+    },
+    "owner_check:email": {
+      "body_en": "The daily check didn't reach any device. Open the admin area and turn notifications on again.",
+      "subject_en": "Browser notifications didn't arrive"
+    },
+    "auto_reply:whatsapp": {
+      "body_en": "Thanks for your message! This number only sends automated messages. To change or cancel an appointment, use the personal link you received. To chat with the salon: {chat}",
+      "subject_en": null
+    }
+  },
+  "business_profile": { "tagline_en": null }
+}
