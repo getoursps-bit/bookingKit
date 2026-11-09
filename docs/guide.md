@@ -178,7 +178,7 @@ different format needs a small adapter in `src/server/notify/email.ts`.
    IMG=ghcr.io/getoursps-bit/fluffyfare:$TAG
    docker run --rm --env-file .env --network <network> $IMG node worker/migrate.js --check
    docker run --rm --env-file .env --network <network> $IMG node worker/migrate.js
-   # only when docs/build-notes.md says new content was added:
+   # only when the release notes say new content was added:
    docker run --rm --env-file .env --network <network> $IMG node worker/seed.js
    ```
 

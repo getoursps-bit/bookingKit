@@ -20,7 +20,7 @@ const PAGES = [
   "/l/dog-grooming",
 ];
 
-const databaseUrl = process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5433/postgres";
+const databaseUrl = process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5435/postgres";
 
 async function setSetting(key: string, value: unknown | null) {
   const client = new pg.Client({ connectionString: databaseUrl, options: "-c search_path=fluffyfur" });

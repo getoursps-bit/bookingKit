@@ -11,7 +11,7 @@ import sharp from "sharp";
 test.describe.configure({ mode: "serial" });
 test.use({ viewport: { width: 390, height: 844 }, locale: "he-IL", hasTouch: true });
 
-const databaseUrl = process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5433/postgres";
+const databaseUrl = process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5435/postgres";
 const EMAIL = `e2e-${Date.now()}@example.test`;
 // A made-up password for the test account only.
 const PASSWORD = "e2e-password-not-real";

@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 // A port of its own, so a dev server or other container on 3000 is never
 // mistaken for the app under test.
-const port = Number(process.env.E2E_PORT ?? 3200);
+const port = Number(process.env.E2E_PORT ?? 3600);
 
 // End-to-end tests run on a phone-sized screen in Hebrew, because most
 // visitors arrive from Instagram on a phone.
@@ -29,7 +29,7 @@ export default defineConfig({
       APP_BASE_URL: `http://localhost:${port}`,
       SESSION_SECRET: process.env.SESSION_SECRET ?? "e2e-only-secret-e2e-only-secret-000",
       PROVIDERS: "fake",
-      DATABASE_URL: process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5433/postgres",
+      DATABASE_URL: process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5435/postgres",
     },
   },
 });

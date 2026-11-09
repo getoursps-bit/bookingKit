@@ -20,3 +20,6 @@ next-env.d.ts
 
 # Local-only notes, never committed
 local/
+
+# Page pictures taken by tests/e2e/visual.spec.ts; they differ by machine
+tests/e2e/*-snapshots/

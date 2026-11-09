@@ -11,7 +11,7 @@ import en from "../../src/i18n/en.json" with { type: "json" };
 test.describe.configure({ mode: "serial" });
 test.use({ viewport: { width: 390, height: 844 }, locale: "he-IL", hasTouch: true });
 
-const databaseUrl = process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5433/postgres";
+const databaseUrl = process.env.DATABASE_URL ?? "postgres://fluffyfur_app:fluffyfur-dev@localhost:5435/postgres";
 const TEST_PREFIX = "+9725559";
 
 async function sql<Row extends pg.QueryResultRow>(text: string, params: unknown[] = []): Promise<Row[]> {

@@ -2,6 +2,7 @@
 #   docker compose -f docker/compose.dev.yml up -d
 # Image storage uses the in-memory fake locally (PROVIDERS=fake), so no S3
 # service runs here.
+name: bookingkit
 services:
   postgres:
     image: postgres:16-alpine
@@ -10,7 +11,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     ports:
-      - "5433:5432"
+      - "5435:5432"
     volumes:
       - ./dev-init:/docker-entrypoint-initdb.d:ro
       - pgdata:/var/lib/postgresql/data

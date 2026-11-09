@@ -21,7 +21,7 @@ import { getSiteData, isNoindex } from "@/server/site";
 import { getStorage } from "@/server/storage";
 import { formatLocal, localDateOf } from "@/server/time";
 
-// The home page from the "v3" design (docs/designs/templates/temp2): the
+// The home page from the "v3" design (docs/reference/templates/temp2): the
 // cover in an arch, a slogan, and a white card with the next free times and
 // the booking button; then the services on a pink band, a photo mosaic, the
 // product shelf, the visit card with the hours, and "already booked?". The

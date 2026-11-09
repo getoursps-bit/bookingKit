@@ -1,15 +1,19 @@
-# Fluffy Fur
+# bookingKit
 
-Hebrew, right-to-left website and booking system for one grooming salon:
-public site, online booking with WhatsApp or email codes, private booking
-links, an owner area with calendar and alerts, optional AI help, and a Dibs
-import for switch day.
+The shared template that each client's booking site is cloned from: public
+site, online booking with WhatsApp or email codes, private booking links, an
+owner area with calendar and alerts, optional AI help, and a Dibs import for
+switch day. Hebrew, right to left, with English under `/en`.
 
-- Design: [`docs/designs/fluffy_fur.md`](docs/designs/fluffy_fur.md) (wins over the brief)
-- Original brief: [`docs/build-brief.md`](docs/build-brief.md)
-- What was built, stage by stage: [`docs/build-notes.md`](docs/build-notes.md)
+It started as a copy of Fluffy Fur, a grooming salon, so that is the default
+brand and the pet features are still here.
+
+- Where this is going, one file per step: [`docs/designs/`](docs/designs/)
+- What was built: [`docs/build-notes.md`](docs/build-notes.md)
 - Setup and daily use: [`docs/guide.md`](docs/guide.md)
 - Switch day: [`docs/launch-checklist.md`](docs/launch-checklist.md)
+- Why the engine works the way it does (Fluffy Fur's design and notes):
+  [`docs/reference/`](docs/reference/)
 
 ## Local setup
 
@@ -19,7 +23,7 @@ Needs Node 22, pnpm 9 and Docker.
 pnpm install
 cp env.example .env.local            # PROVIDERS=fake: no outside service is called
 set -a; . ./.env.local; set +a       # the scripts and the worker read the environment
-docker compose -f docker/compose.dev.yml up -d   # Postgres on port 5433
+docker compose -f docker/compose.dev.yml up -d   # Postgres on port 5435
 pnpm migrate && pnpm seed            # schema and starting content; safe to repeat
 pnpm dev                             # http://localhost:3000
 pnpm worker                          # in a second shell: sends messages, runs timed jobs
@@ -27,7 +31,7 @@ pnpm worker                          # in a second shell: sends messages, runs t
 
 Fill in `.env.local` first: `APP_BASE_URL=http://localhost:3000`, a
 `SESSION_SECRET` of at least 32 characters, and
-`DATABASE_URL=postgres://fluffyfur_app:fluffyfur-dev@localhost:5433/postgres`.
+`DATABASE_URL=postgres://fluffyfur_app:fluffyfur-dev@localhost:5435/postgres`.
 
 With `PROVIDERS=fake`, WhatsApp, email and push messages are written to the
 `fake_messages` table instead of being sent, photos go to in-memory storage,
