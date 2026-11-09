@@ -17,8 +17,13 @@ in `docs/reference/` to explain why the engine works the way it does.
   `public/`, `worker/` or `db/`; a unit test checks this.
 - `src/app/brand.css` is generated from `client.json`. Never edit it by hand;
   run `pnpm brand` and commit the result.
-- A feature a client does not want is switched off, never deleted.
-- A change that only one client needs belongs in that client's repo, not here.
+- The system has three layers: core (booking, website, platform), views, and
+  extensions. A client's idea (pets, booking approval) is an extension, never
+  an `if` in the core. See `docs/designs/step2_modules_languages.md`.
+- An extension a client does not use is switched off, never deleted.
+- A change that only one client needs belongs in that client's repo, as an
+  extension or a view of its own, not here.
+- Prefer a well-known library to hand-written code where one exists.
 - Client repos are separate clones with their own database, image and domain.
   Never connect this repo to a client's server or database.
 

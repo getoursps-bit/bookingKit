@@ -1,33 +1,46 @@
-# bookingKit, step 2: the translation module and feature modules
+# bookingKit, step 2: core, views, extensions and translation
 
 Status: draft for approval. Nothing here is built yet.
 
 ## Context
 
-Step 1 put the brand in `client.json`. Two things still make the kit one
-client's:
+The kit is a booking system with a website merged into it. Step 1 put the
+brand in `client.json`. What still makes the kit one client's is that the
+system and one client's customisation are mixed in the same files:
 
-- **Languages are written into the code.** Hebrew and English are named in
-  about 40 places (`src/i18n/locales.ts`, `format.ts`, the proxy, emails, the
-  calendar), and each owner text has an `_en` column. Safa added Arabic by
-  editing about 55 files and adding an `_ar` column to every table, and still
-  missed two places (emails and the calendar render Arabic left to right).
-- **Features are all-or-nothing.** Pets, gallery, products and the rest are
-  always on. Safa removed the pet features by deleting them.
+- **Fluffy Fur's customisation** (pets: species and size rules, vet and
+  vaccine fields, pet photos) sits inside the booking steps, the calendar and
+  the customer page.
+- **Safa's customisation** (bookings the owner approves, two opening periods
+  a day) was made by editing the same core files in a copy, after deleting
+  the pet parts.
+- **Languages** are written into the code in about 40 places, and each owner
+  text has an `_en` column. Safa added Arabic by editing about 55 files.
 
-Step 2 makes both a setting in `client.json`:
+Pets and Safa's changes are not features of the system. They are clients'
+customisations. The system itself has three layers, and a customisation is a
+fourth thing added on top:
 
-```json
-{
-  "languages": { "default": "he", "others": ["en"] },
-  "modules": { "pets": true, "gallery": true, "products": true, "…": true }
-}
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Extensions   a client's customisation: pets, approval, …     │
+├──────────────────────────────────────────────────────────────┤
+│ Views        pages and screens; customisable per client      │
+├──────────────────────────────────────────────────────────────┤
+│ Core         booking  │  website  │  platform                │
+│              what makes it a booking system and a website    │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-Two rules from the owner of this kit:
+- **Core** never contains a client's idea. It is the same for every client.
+- **Views** show core data, trigger core actions and react to core events.
+  A client can restyle or replace a view without touching the core.
+- **Extensions** add to the core or the views through fixed extension
+  points. An extension that a client does not use is not switched on; its
+  code stays in place and is never deleted.
 
-- A module that is switched off stays in the code. Nothing is deleted.
-- Use well-known libraries where they exist instead of hand-written code.
+Rule from the owner of this kit: use well-known libraries where they exist
+instead of hand-written code.
 
 ## Part A: the translation module
 
@@ -41,9 +54,9 @@ client with several.
 | 1. Strings | The system's own text: buttons, labels, messages, errors | A language file per language, in the code | Laravel's `lang/` files, WordPress localisation |
 | 2. Content | What the business enters: services, products, photo texts, tagline, message templates | The database | A translation plugin's table |
 
-No other module knows how translation is stored. A module only **declares**
-which of its strings and which of its content fields can be translated; the
-translation module does the rest.
+Nothing else knows how translation is stored. A core module or an extension
+only **declares** which of its strings and content fields can be translated;
+the translation module does the rest.
 
 ### Level 1: strings, with next-intl
 
@@ -127,7 +140,7 @@ which already has 441 of the kit's 533 strings.
 ### The contract: how a person or an AI fills a pack
 
 `pnpm lang:contract` writes `languages/contract.json`, a description of
-everything that can be translated, built from what the modules declare:
+everything that can be translated, built from what the core modules and extensions declare:
 
 ```json
 {
@@ -156,65 +169,110 @@ prompt from `kit new` will say "fill the pack for `<code>` from the
 contract"), and checked by a command. The live site calls no translation
 service and needs no key for it.
 
-## Part B: modules
+## Part B: core, views and extensions
 
-### What a module is
+### Core
 
-A named feature that can be switched off without removing code. One registry
-file, `src/modules.ts`, lists each module:
+Three core modules. Each one has its entities (data), its actions (what can
+be done) and its events (what it announces). Nothing outside a core module
+reads its tables directly.
 
-- its key, a one-line description (shown later by `kit new` as a tick list);
-- the modules it needs (for example `petPhotos` needs `pets`);
-- the outside service it needs, if any (WhatsApp, storage, AI).
+| Core module | What makes it what it is | Entities | Actions | Events |
+|---|---|---|---|---|
+| **Booking** | A booking system: someone offers services at times, and customers book them | Service, opening hours, time off, customer, appointment and its lines, hold, manage link | Find free times, hold, book, move, cancel, mark done or no-show | Booked, moved, cancelled, reminder due |
+| **Website** | A website: pages about the business that visitors read | Business profile, page, gallery photo, catalogue item (product), landing page, menu | Edit content, upload a photo, publish | Content changed |
+| **Platform** | What both need | Staff and sessions, settings, message outbox and templates, translations, theme, stored files | Log in, send a message, translate, store a file | Message sent or failed, reply received |
 
-`getFeatures()` (`src/server/features.ts`) already answers "is this on?" for
-every page and route, from which services have keys. It gains the module
-switches: a feature is on when its module is on **and** its service is
-configured. The 16 existing call sites do not change.
+Notes on the boundaries:
 
-Switched off means, for every module:
+- An appointment has **lines**: one service each, with an optional label and
+  note. The core does not know what a line is "for". (Fluffy Fur's pet and
+  Safa's treatment area are both this.)
+- Messaging is platform: every message still goes through the outbox and
+  `route()`. Booking raises "booked"; platform decides the channel.
+- The gallery, the catalogue and the install-as-app prompt are plain website
+  parts. A client that has no photos or products simply has none; the pages
+  and menu entries hide when empty, as Safa's products already do.
+- The translation module (Part A) and the theme (step 1) are platform.
+- AI help, WhatsApp, email, push and storage are outside services behind
+  platform interfaces, on when their keys are set, as today.
 
-- its pages answer "not found" and leave the menus and the sitemap;
-- its owner-area screens and settings are hidden;
-- its API routes refuse;
-- its worker jobs skip;
-- its strings, tables and code stay where they are.
+### Views
 
-The database is the same for every client: all migrations always run. A
-switched-off module has empty tables. This keeps one schema to test and makes
-switching a module on later a one-line change.
+The view layer is every page and owner-area screen. A view:
 
-### The modules
+- gets its data from core entities through read functions, never from SQL;
+- triggers core actions (forms and buttons post to them);
+- shows what core events produced (alerts, the inbox, notices).
 
-| Module | Covers | Notes |
+How it is made customisable:
+
+- Route files in `src/app` become thin: load data from the core, render a
+  named view. The views themselves live in `src/views/`.
+- A client replaces a view by listing its own in `theme/views.ts`
+  (`{ "home": MyHome }`). Anything not listed uses the kit's view. Colours,
+  fonts and rounding already come from `client.json`.
+- Views have **slots**: named places where an extension can add something,
+  for example "booking: details of each line", "calendar: under the
+  customer's name", "customer page: panels".
+
+This is what lets a client look different (Safa's phone-width column and
+treatment picker) without a fork of the core.
+
+### Extensions
+
+An extension is a folder, `extensions/<name>/`, with one manifest that says
+what it adds. It can use only these extension points:
+
+| Extension point | What it lets an extension do | First real use |
 |---|---|---|
-| `translation` | Languages at both levels (Part A) | Always present; one language or several |
-| `pets` | Pet details in booking, species and size rules that pick the service, vet and vaccine fields, pets on the customer page and calendar | The hard one: it is inside the booking steps. Off = the customer picks services directly and can leave a note, as Safa works |
-| `petPhotos` | Photo upload in booking and the AI look at it | Needs `pets`, storage, AI |
-| `multiBooking` | Several pets or services in one booking | Replaces the constant `MULTI_PET_BOOKING` |
-| `gallery` | Gallery page, home section, owner upload | Needs storage |
-| `products` | Products page, home section, WhatsApp ordering | |
-| `landingPages` | Campaign pages under `/l/` | |
-| `installApp` | Install prompt and home button | |
-| `emailLogin` | Owner login by a code sent by email | Needs email |
-| `aiHelp` | Message summaries and auto-reply | Needs AI |
-| `dibsImport` | The one-time import from Dibs | A script, not a page |
-| `approval` | Bookings wait for the owner's yes | From Safa |
-| `splitHours` | Two opening periods in a day | From Safa |
-| `logoUpload` | Owner uploads the logo and cover | From Safa (cover is already here) |
-| `contactIcons` | Waze, Google Maps and Apple Maps buttons | From Safa |
+| Extra fields | Add fields to an appointment line, a customer or a service, with their form inputs and checks | Pets: species, size, age, coat, vet, vaccines |
+| Booking steps | Add a step to the booking flow, or content to a step's slot | Pets: "tell us about your pet" |
+| Service rules | Suggest or limit services from what the customer entered | Pets: species and size choose the service |
+| Booking hooks | Run before or after a core action and change its outcome within set limits | Approval: a new booking waits for the owner's yes |
+| Availability rules | Change which times are free | Split hours: two opening periods a day |
+| View slots | Add UI in a named slot | Pets on the calendar and customer page |
+| Owner screens | Add a screen or a settings group to the owner area | Pets: the rules editor |
+| Messages | Add message kinds and templates | Approval: "your request was accepted" |
+| Own tables | Its own migrations, in tables with its own prefix | `ext_pets_*` |
+| Translations | Declare its strings and content fields in the contract (Part A) | All |
 
-Core, never switched off: booking, free times, the no-overlap rule,
-verification codes, private links, the message outbox, reminders, the owner
-area, hours, settings, both app manifests.
+`client.json` lists which extensions are on:
 
-### Icons and wording that follow a module
+```json
+{ "extensions": ["pets", "pet-photos"] }
+```
 
-The paws next to a pet's name and the scissors on service cards belong to
-`pets`. With `pets` off the service cards use the brand mark. Pet wording
-(`pets.*`, `coat.*`, the home page's "dogs and cats" lines) moves from the
-shared strings into the pets module's own strings, so a client without pets
-never ships them.
+- Off means not registered: no steps, no fields, no screens. Its code and
+  tables stay. Migrations of every extension in the kit always run, so there
+  is one database shape to test.
+- An extension never edits a core file. If it needs something the points do
+  not offer, the core gets a new extension point, not a client `if`.
+- AI never blocks or changes a booking; an extension cannot override that or
+  the no-overlap rule.
+
+Where extensions live:
+
+- **In the kit:** ones worth sharing. To start: `pets` and `pet-photos`
+  (taken out of today's code), `approval` and `split-hours` (from Safa),
+  `dibs-import` (the one-time import tool).
+- **In a client's repo:** ones only that client needs, in the same
+  `extensions/` folder shape.
+
+Because a client's changes are confined to `client.json`, `theme/`, and
+`extensions/`, a client repo can take kit updates by merging, instead of
+re-doing the same feature in two places.
+
+### How the extension points get designed
+
+Not by guessing. The two existing clients are the specification:
+
+1. Take pets out of the core into an extension. Every place the core had to
+   know about pets becomes an extension point. When Fluffy Fur's whole test
+   suite passes with pets as an extension, the points are right for it.
+2. Rebuild Safa's approval and split hours as extensions on the same core.
+   Where they do not fit, the points are adjusted.
+3. A third client then starts from points that two real clients have used.
 
 ### Testing two shapes of client
 
@@ -223,13 +281,13 @@ by building with it. `scripts/with-client.sh <file> <command>` puts another
 client file in place, runs the command and puts the committed one back. CI
 runs the whole check twice:
 
-- the default client: Hebrew and English, every module on (today's suite);
-- the sample client: as its languages and modules are added, Arabic first
-  with Hebrew, and `pets` and `products` off.
+- the default client: Hebrew and English, `pets` and `pet-photos` on
+  (today's suite);
+- the sample client: Arabic first with Hebrew, no extensions, then with
+  `approval` and `split-hours`.
 
-Tests that only make sense for one shape read `client.json` and skip
-themselves otherwise. Unit tests check each module off alone: its pages
-answer "not found" and the menus stay valid.
+A core test never mentions an extension. Each extension has its own tests,
+which skip themselves when it is off.
 
 ## Other places a library replaces hand-written code
 
@@ -261,12 +319,19 @@ the message outbox. They are the product.
    5. The contract, `pnpm lang:contract` and `pnpm lang:check`.
    6. The Arabic pack, filled from the contract, and the sample client
       switched to Arabic first.
-2. **Modules** (about 1 to 2 weeks)
-   1. The registry, `modules` in `client.json`, `getFeatures()`.
-   2. The simple modules: gallery, products, landing pages, install, email
-      login, AI help.
-   3. `pets`, `petPhotos`, `multiBooking`.
-   4. Safa's four, brought over as modules.
+2. **Core boundaries** (about 1 week)
+   1. Booking, website and platform as three folders with read functions,
+      actions and events; no SQL outside them.
+   2. Appointment lines without pets in the core's own vocabulary.
+3. **Views** (about 1 week)
+   1. Thin routes; views in `src/views/`; `theme/views.ts` overrides.
+   2. Slots where the first extensions need them.
+4. **Extensions** (about 2 weeks)
+   1. The extension manifest and loader; `extensions` in `client.json`.
+   2. `pets` and `pet-photos` taken out of the core. The default client's
+      tests and page pictures must not change.
+   3. `approval` and `split-hours` rebuilt from Safa.
+   4. `dibs-import`.
 
 Each sub-step ends with tests passing, the page pictures of the default
 client unchanged, and a note in `docs/build-notes.md`.
@@ -281,8 +346,11 @@ client unchanged, and a note in `docs/build-notes.md`.
 
 ## Decided
 
-- Language is one module covering system strings and database content, for
-  one language or several (2026-11-09).
+- The system is core (booking, website, platform), views, and extensions.
+  Pets and Safa's changes are clients' customisations, built as extensions;
+  they are not part of the system (2026-11-09).
+- Language is one platform module covering system strings and database
+  content, for one language or several (2026-11-09).
 - System strings use a library (next-intl), like Laravel's translation files
   or WordPress localisation.
 - An AI or a person fills a language from a contract that describes the
