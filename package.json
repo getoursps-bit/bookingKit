@@ -16,6 +16,7 @@
     "migrate": "tsx scripts/migrate.ts",
     "seed": "tsx db/seed/seed.ts",
     "brand": "tsx scripts/apply-client.ts",
+    "lang:check": "tsx scripts/lang-check.ts",
     "import:dibs": "tsx scripts/import-dibs.ts",
     "staff:create": "tsx scripts/staff-create.ts",
     "lint": "eslint .",

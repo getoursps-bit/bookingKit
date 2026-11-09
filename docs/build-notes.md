@@ -218,7 +218,35 @@ Design: [`designs/step2_modules_languages.md`](designs/step2_modules_languages.m
 - The test suite is for a two-language client; it does not yet skip its
   English parts for a client without English.
 
+### A5. The contract, the checker, and content in the packs (2026-11-09)
+
+**Built**
+
+- The seed is split: `db/seed/data.json` holds the structure (durations,
+  prices, hours, rules, which templates exist, with a `key` on every row)
+  and each pack's `content.json` holds the text. The seed fills the tables'
+  own text columns from the site's default language and the translations
+  table from every other language of the site, so an Arabic-first client
+  seeds Arabic content. The seed's own language names are gone.
+- `TRANSLATABLE` in the translation module now carries each field's longest
+  length, and the owner-area routes read the limits from it.
+- `languages/contract.json`, written by `pnpm brand` (`scripts/lang-contract.ts`):
+  how to fill a pack, every string with its placeholders and the text of each
+  pack in the kit, and every piece of starting content with its limit and
+  placeholders. Hebrew is the reference pack.
+- `pnpm lang:check [code]` (`scripts/lang-check.ts`): wrong things are
+  errors (unknown keys or fields, placeholders that differ, text over its
+  limit, a bad `pack.json`); strings and content a pack lacks are listed as
+  missing. A unit test runs it on every pack (nothing wrong) and on the
+  client's languages (nothing missing), and on a planted bad pack
+  (`tests/fixtures/languages/xx`), which it must fault in seven ways.
+
+**Verified**
+
+- 219 unit tests, 61 browser tests, the 40 page pictures unchanged; the
+  bundled `worker/dist/seed.js` runs.
+
 **Next**
 
-- A5: the contract, `pnpm lang:contract` and `pnpm lang:check`, and the
-  packs' `content.json` seeded through the module.
+- A6: the Arabic pack, filled from the contract, and the sample client
+  switched to Arabic first.

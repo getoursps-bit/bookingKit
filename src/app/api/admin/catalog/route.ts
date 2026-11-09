@@ -20,7 +20,7 @@ import { normalizePhone } from "@/server/links";
 import { savePublicPhoto } from "@/server/photos";
 import { getStorage } from "@/server/storage";
 import { adminRequest, backTo } from "@/server/staff/http";
-import { translationsFrom } from "@/server/translation/content";
+import { TRANSLATABLE, translationsFrom } from "@/server/translation/content";
 
 export const dynamic = "force-dynamic";
 
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
           id,
           name,
           includes: text(form.includes, 500),
-          translations: translationsFrom(form, { name: 80, includes: 500 }),
+          translations: translationsFrom(form, TRANSLATABLE.service),
           durationMin,
           priceFromAgorot: price,
           bookableOnline: form.bookableOnline === "on",
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
           id,
           name,
           description: text(form.description, 300),
-          translations: translationsFrom(form, { name: 80, description: 300 }),
+          translations: translationsFrom(form, TRANSLATABLE.product),
           priceAgorot: price,
           imageKey: photo.key,
           active: form.active === "on",
@@ -163,7 +163,7 @@ export async function POST(request: NextRequest) {
         {
           name,
           tagline: text(form.tagline, 160),
-          translations: translationsFrom(form, { tagline: 160 }),
+          translations: translationsFrom(form, TRANSLATABLE.profile),
           city: text(form.city, 80),
           address: text(form.address, 160),
           phoneE164: phone,
@@ -185,7 +185,7 @@ export async function POST(request: NextRequest) {
         {
           body,
           subject: text(form.subject, 160),
-          translations: translationsFrom(form, { body: 1000, subject: 160 }),
+          translations: translationsFrom(form, TRANSLATABLE.message_template),
         },
         staff.id,
       );

@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest";
-import seedData from "../../db/seed/data.he.json";
+import seedData from "../../db/seed/data.json";
+import text from "../../languages/he/content.json";
 import { PetDescription, profileFor, resolveService, speciesFor } from "@/server/booking/serviceRules";
 import type { Service, ServiceRule } from "@/server/repos/catalog";
 
 // The seed's services and default rules, with ids as the database would give them.
 const services: Service[] = seedData.services.map((service, index) => ({
   id: index + 1,
-  name: service.name_he,
-  includes: service.includes_he,
+  name: text.service[service.key as keyof typeof text.service].name,
+  includes: text.service[service.key as keyof typeof text.service].includes,
   translations: {},
   durationMin: service.duration_min,
   priceFromAgorot: service.price_from_agorot,

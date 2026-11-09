@@ -1,0 +1,17 @@
+{
+  "service": {
+    "cat": {
+      "name": "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+      "colour": "x"
+    },
+    "unicorn": {
+      "name": "x"
+    }
+  },
+  "message_template": {
+    "code:whatsapp": {
+      "body": "No code here"
+    }
+  },
+  "furniture": {}
+}

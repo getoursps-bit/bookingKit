@@ -1,0 +1,9 @@
+{
+  "site": {
+    "name": "{brand}",
+    "callUs": "Call: {telephone}"
+  },
+  "nope": {
+    "x": "not a real key"
+  }
+}

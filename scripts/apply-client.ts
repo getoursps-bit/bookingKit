@@ -2,12 +2,14 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { type Client, clientSchema, FONTS, type Pack, packSchema } from "../src/brand.schema";
+import { contract } from "./lang-contract";
 
 // Writes the files that are worked out from client.json and the language
 // packs in languages/:
 //   src/app/brand.css                  font imports and the Tailwind theme values
 //   src/i18n/languages.generated.ts    the client's languages and what the code needs to know about each
-//   src/i18n/packs.generated.ts        their strings and date names (server and worker only)
+//   src/i18n/packs.generated.ts        their strings, starting content and date names (server and worker only)
+//   languages/contract.json            what a language pack must hold, for whoever fills one
 // Tailwind and the bundler read these when the site is built, so they are
 // generated ahead and committed; a unit test fails when they drift apart.
 //   pnpm brand           writes the files
@@ -109,13 +111,20 @@ export function languagesTs(client: Client, packs: Record<string, Pack>): string
 export function packsTs(client: Client, packs: Record<string, Pack>): string {
   const locales = localesOf(client);
   const dates = locales.map((code) => `${packs[code]!.dateFns} as ${code}Dates`).join(", ");
+  for (const code of locales) {
+    if (!existsSync(path.join(ROOT, "languages", code, "content.json")))
+      throw new Error(`languages/${code}/content.json is missing: the starting content in ${code}`);
+  }
   return [
     `// ${HEADER}`,
     `import { ${dates} } from "date-fns/locale";`,
+    ...locales.map((code) => `import ${code}Content from "../../languages/${code}/content.json";`),
     ...locales.map((code) => `import ${code}Messages from "../../languages/${code}/messages.json";`),
     'import type { Locale } from "./languages.generated";',
     "",
     `export const MESSAGES = { ${locales.map((code) => `${code}: ${code}Messages`).join(", ")} };`,
+    "/** The starting content (services, products, message wording) in each language. */",
+    `export const CONTENT: Record<Locale, typeof ${locales[0]}Content> = { ${locales.map((code) => `${code}: ${code}Content`).join(", ")} };`,
     `export const DATE_LOCALES: Record<Locale, typeof ${locales[0]}Dates> = { ${locales.map((code) => `${code}: ${code}Dates`).join(", ")} };`,
     "",
   ].join("\n");
@@ -128,6 +137,7 @@ export function generated(client: Client): Record<string, string> {
     "src/app/brand.css": brandCss(client),
     "src/i18n/languages.generated.ts": languagesTs(client, packs),
     "src/i18n/packs.generated.ts": packsTs(client, packs),
+    "languages/contract.json": JSON.stringify(contract(), null, 2) + "\n",
   };
 }
 

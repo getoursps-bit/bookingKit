@@ -118,7 +118,7 @@ different format needs a small adapter in `src/server/notify/email.ts`.
    WhatsApp permissions and generate a token. The temporary token on the
    setup page expires after 24 hours.
 4. **Templates**: create these in WhatsApp Manager, language **Hebrew**, with
-   the wording from `db/seed/data.he.json`. Each `{word}` becomes `{{1}}`,
+   the wording from `languages/he/content.json`. Each `{word}` becomes `{{1}}`,
    `{{2}}`... in the order it appears.
 
    | Name | Category | Button |
@@ -127,7 +127,7 @@ different format needs a small adapter in `src/server/notify/email.ts`.
    | `booking_confirmation`, `booking_reminder`, `booking_customer_change`, `booking_owner_change`, `booking_import_link` | Utility | URL `https://<domain>/b/{{1}}` |
 
    For English customers, add an **English** version of each template
-   (wording in `db/seed/data.en.json`) with the button URL
+   (wording in `languages/en/content.json`) with the button URL
    `https://<domain>/en/b/{{1}}`. Until a template is approved in English,
    leave its English WhatsApp wording empty in the owner area: English
    customers then get the Hebrew message, which always works.

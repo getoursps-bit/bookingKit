@@ -15,8 +15,8 @@ in `docs/reference/` to explain why the engine works the way it does.
   rounding, logo mark, app icon, brand wording) lives in `client.json`. No
   client name, brand colour or client prefix anywhere else in `src/`,
   `public/`, `worker/` or `db/`; a unit test checks this.
-- `src/app/brand.css` and `src/i18n/*.generated.ts` are generated from
-  `client.json` and the language packs. Never edit them by hand; run
+- `src/app/brand.css`, `src/i18n/*.generated.ts` and `languages/contract.json`
+  are generated from `client.json` and the language packs. Never edit them by hand; run
   `pnpm brand` and commit the result.
 - The system has three layers: core (booking, website, platform), views, and
   extensions. A client's idea (pets, booking approval) is an extension, never
@@ -49,7 +49,8 @@ in `docs/reference/` to explain why the engine works the way it does.
 
 - `docker compose -f docker/compose.dev.yml up -d` starts local Postgres (port 5435).
 - `pnpm migrate` (`--check` lists pending) and `pnpm seed` apply the schema and starting content; both are safe to repeat.
-- `pnpm brand` regenerates `src/app/brand.css` and `src/i18n/*.generated.ts` after `client.json` or a language pack changes.
+- `pnpm brand` regenerates `src/app/brand.css`, `src/i18n/*.generated.ts` and `languages/contract.json` after `client.json` or a language pack changes.
+- `pnpm lang:check [code]` checks the language packs against the reference pack and the seed.
 - `pnpm dev`, `pnpm test`, `pnpm lint`, `pnpm typecheck`, `pnpm build`.
 - `pnpm test:e2e` needs `pnpm exec playwright install chromium` once; it starts its own server on port 3600.
 - `VISUAL=1 pnpm test:e2e visual` compares page pictures (`--update-snapshots` takes them).

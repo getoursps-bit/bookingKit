@@ -1,0 +1,255 @@
+{
+  "services": [
+    {
+      "key": "cat",
+      "duration_min": 50,
+      "price_from_agorot": 20000,
+      "bookable_online": true
+    },
+    {
+      "key": "cat_sedation",
+      "duration_min": 15,
+      "price_from_agorot": 30000,
+      "bookable_online": false
+    },
+    {
+      "key": "dog_small",
+      "duration_min": 80,
+      "price_from_agorot": 22000,
+      "bookable_online": true
+    },
+    {
+      "key": "dog_large",
+      "duration_min": 100,
+      "price_from_agorot": 30000,
+      "bookable_online": true
+    },
+    {
+      "key": "puppy",
+      "duration_min": 50,
+      "price_from_agorot": 20000,
+      "bookable_online": true
+    },
+    {
+      "key": "nails",
+      "duration_min": 10,
+      "price_from_agorot": 3000,
+      "bookable_online": true
+    }
+  ],
+  "service_rules": [
+    {
+      "species": "dog",
+      "age_group": "young",
+      "weight_group": null,
+      "request": "groom",
+      "service": "puppy"
+    },
+    {
+      "species": "dog",
+      "age_group": "adult",
+      "weight_group": "small",
+      "request": "groom",
+      "service": "dog_small"
+    },
+    {
+      "species": "dog",
+      "age_group": "adult",
+      "weight_group": "large",
+      "request": "groom",
+      "service": "dog_large"
+    },
+    {
+      "species": "dog",
+      "age_group": "adult",
+      "weight_group": "unknown",
+      "request": "groom",
+      "service": "dog_large"
+    },
+    {
+      "species": "cat",
+      "age_group": null,
+      "weight_group": null,
+      "request": "groom",
+      "service": "cat"
+    },
+    {
+      "species": "dog",
+      "age_group": null,
+      "weight_group": null,
+      "request": "nails",
+      "service": "nails"
+    },
+    {
+      "species": "cat",
+      "age_group": null,
+      "weight_group": null,
+      "request": "nails",
+      "service": "nails"
+    }
+  ],
+  "products": [
+    {
+      "key": "conditioner",
+      "price_agorot": 6990
+    },
+    {
+      "key": "hypoallergenic_shampoo",
+      "price_agorot": 7990
+    },
+    {
+      "key": "no_rinse_shampoo",
+      "price_agorot": 7990
+    },
+    {
+      "key": "balm_for_dryness_and_cracks",
+      "price_agorot": 5990
+    },
+    {
+      "key": "fur_de_luxe",
+      "price_agorot": 3990
+    },
+    {
+      "key": "fluffy_fresh",
+      "price_agorot": 3990
+    },
+    {
+      "key": "pawfume_no_4",
+      "price_agorot": 3990
+    },
+    {
+      "key": "dog_and_cat_grooming_kit",
+      "price_agorot": 23990
+    }
+  ],
+  "opening_hours": [
+    {
+      "weekday": 0,
+      "opens": "12:00",
+      "closes": "19:00",
+      "closed": false
+    },
+    {
+      "weekday": 1,
+      "opens": "09:00",
+      "closes": "16:00",
+      "closed": false
+    },
+    {
+      "weekday": 2,
+      "opens": "09:00",
+      "closes": "16:00",
+      "closed": false
+    },
+    {
+      "weekday": 3,
+      "opens": null,
+      "closes": null,
+      "closed": true
+    },
+    {
+      "weekday": 4,
+      "opens": "09:00",
+      "closes": "16:00",
+      "closed": false
+    },
+    {
+      "weekday": 5,
+      "opens": null,
+      "closes": null,
+      "closed": true
+    },
+    {
+      "weekday": 6,
+      "opens": "09:00",
+      "closes": "16:00",
+      "closed": false
+    }
+  ],
+  "message_templates": [
+    {
+      "key": "code",
+      "channel": "whatsapp",
+      "category": "authentication",
+      "provider_template": "booking_code"
+    },
+    {
+      "key": "code",
+      "channel": "email"
+    },
+    {
+      "key": "staff_code",
+      "channel": "email"
+    },
+    {
+      "key": "confirmation",
+      "channel": "whatsapp",
+      "category": "utility",
+      "provider_template": "booking_confirmation"
+    },
+    {
+      "key": "confirmation",
+      "channel": "email"
+    },
+    {
+      "key": "reminder",
+      "channel": "whatsapp",
+      "category": "utility",
+      "provider_template": "booking_reminder"
+    },
+    {
+      "key": "reminder",
+      "channel": "email"
+    },
+    {
+      "key": "customer_change",
+      "channel": "whatsapp",
+      "category": "utility",
+      "provider_template": "booking_customer_change"
+    },
+    {
+      "key": "customer_change",
+      "channel": "email"
+    },
+    {
+      "key": "owner_change",
+      "channel": "whatsapp",
+      "category": "utility",
+      "provider_template": "booking_owner_change"
+    },
+    {
+      "key": "owner_change",
+      "channel": "email"
+    },
+    {
+      "key": "import_link",
+      "channel": "whatsapp",
+      "category": "utility",
+      "provider_template": "booking_import_link"
+    },
+    {
+      "key": "import_link",
+      "channel": "email"
+    },
+    {
+      "key": "owner_alert",
+      "channel": "push"
+    },
+    {
+      "key": "owner_alert",
+      "channel": "email"
+    },
+    {
+      "key": "owner_check",
+      "channel": "push"
+    },
+    {
+      "key": "owner_check",
+      "channel": "email"
+    },
+    {
+      "key": "auto_reply",
+      "channel": "whatsapp"
+    }
+  ]
+}

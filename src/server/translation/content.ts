@@ -8,14 +8,14 @@ import { type Db, query } from "../db";
 // a row in content_translations, so a new language needs no new column.
 // Nothing else reads or writes that table.
 
-/** What can be translated: each kind of row and its text fields. */
+/** What can be translated: each kind of row, its text fields and their longest length. */
 export const TRANSLATABLE = {
-  service: ["name", "includes"],
-  product: ["name", "description"],
-  gallery_image: ["alt", "caption"],
-  profile: ["tagline"],
-  message_template: ["body", "subject"],
-} as const;
+  service: { name: 80, includes: 500 },
+  product: { name: 80, description: 300 },
+  gallery_image: { alt: 200, caption: 200 },
+  profile: { tagline: 160 },
+  message_template: { body: 1000, subject: 160 },
+} as const satisfies Record<string, Record<string, number>>;
 
 export type Entity = keyof typeof TRANSLATABLE;
 
@@ -35,12 +35,12 @@ export function translationsColumn(entity: Entity, key: string): string {
 
 /** Only the fields this kind of row has, trimmed, without empty ones. */
 export function cleanTranslations(entity: Entity, translations: Translations): Translations {
-  const fields: readonly string[] = TRANSLATABLE[entity];
+  const limits: Record<string, number> = TRANSLATABLE[entity];
   const clean: Translations = {};
   for (const [locale, texts] of Object.entries(translations)) {
     const kept = Object.entries(texts ?? {})
-      .map(([field, text]) => [field, text.trim()] as const)
-      .filter(([field, text]) => fields.includes(field) && text !== "");
+      .map(([field, text]) => [field, text.trim().slice(0, limits[field] ?? 0)] as const)
+      .filter(([field, text]) => field in limits && text !== "");
     clean[locale] = Object.fromEntries(kept);
   }
   return clean;
@@ -109,6 +109,7 @@ export function translatedSql(
  * left empty clears that translation.
  */
 export function translationsFrom(form: Record<string, string | undefined>, limits: Record<string, number>): Translations {
+  // Limits as in TRANSLATABLE[entity]; each field is cut to its length.
   return Object.fromEntries(
     OTHER_LOCALES.map((locale) => [
       locale,

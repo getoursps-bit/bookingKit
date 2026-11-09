@@ -1,29 +1,25 @@
-// Inserts the business's starting content from data.he.json. Rows that already
-// exist are skipped, so running it twice changes nothing and never overwrites
-// the owner's edits. English text from data.en.json only fills English
-// translations that are still empty, matched by the seeded Hebrew name or template key.
+// Inserts the business's starting content. Its structure (durations, prices,
+// hours, which templates exist) is data.json; its text comes from the language
+// packs: the site's default language fills each table's own text column, and
+// every other language of the site goes into the translations table. Rows
+// that already exist are skipped, so running it twice changes nothing and
+// never overwrites the owner's edits.
 //   pnpm seed
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 import { brandName } from "../../src/brand";
+import { DEFAULT_LOCALE, type Locale, LOCALES } from "../../src/i18n/locales";
+import { CONTENT } from "../../src/i18n/packs.generated";
+import { searchPathOption } from "../../src/server/db-schema";
 import { SETTINGS_DEFAULTS } from "../../src/server/repos/settings";
 // Imported, not read from disk, so the bundled release script carries it.
-import data from "./data.he.json" with { type: "json" };
-import english from "./data.en.json" with { type: "json" };
-import { searchPathOption } from "../../src/server/db-schema";
+import data from "./data.json" with { type: "json" };
 
 type Queryable = pg.Client | pg.PoolClient | pg.Pool;
 
 type SeedData = {
-  services: {
-    key: string;
-    name_he: string;
-    includes_he: string;
-    duration_min: number;
-    price_from_agorot: number;
-    bookable_online: boolean;
-  }[];
+  services: { key: string; duration_min: number; price_from_agorot: number; bookable_online: boolean }[];
   service_rules: {
     species: string;
     age_group: string | null;
@@ -31,25 +27,13 @@ type SeedData = {
     request: string;
     service: string;
   }[];
-  products: { name_he: string; description_he: string; price_agorot: number }[];
+  products: { key: string; price_agorot: number }[];
   opening_hours: { weekday: number; opens: string | null; closes: string | null; closed: boolean }[];
-  business_profile: { name: string };
-  message_templates: {
-    key: string;
-    channel: string;
-    body_he: string;
-    subject_he?: string;
-    provider_template?: string;
-    category?: string;
-  }[];
+  message_templates: { key: string; channel: string; provider_template?: string; category?: string }[];
 };
 
-type SeedEnglish = {
-  services: Record<string, { name_en: string; includes_en: string }>;
-  products: Record<string, { name_en: string; description_en: string }>;
-  /** Keyed "key:channel". */
-  message_templates: Record<string, { body_en: string; subject_en: string | null }>;
-};
+/** A language pack's content.json: kind of row, then the row's key, then its text fields. */
+type Content = Record<string, Record<string, Record<string, string | undefined> | undefined> | undefined>;
 
 /**
  * The seed text says %BRAND% where the client's name goes, and it is filled in
@@ -60,51 +44,52 @@ function named<T>(content: T, name: string): T {
   return JSON.parse(JSON.stringify(content).replaceAll("%BRAND%", JSON.stringify(name).slice(1, -1))) as T;
 }
 
-/** Fills English text that is still empty; never overwrites what the owner wrote. */
+/** Fills translations that are still empty; never overwrites what the owner wrote. */
 async function translate(
   db: Queryable,
+  locale: Locale,
   entity: string,
   key: string | number,
-  fields: Record<string, string | null | undefined>,
+  fields: Record<string, string | undefined> | undefined,
 ): Promise<void> {
-  for (const [field, value] of Object.entries(fields)) {
+  for (const [field, value] of Object.entries(fields ?? {})) {
     if (!value?.trim()) continue;
     await db.query(
-      `insert into content_translations (entity, entity_key, field, locale, value) values ($1, $2, $3, 'en', $4)
+      `insert into content_translations (entity, entity_key, field, locale, value) values ($1, $2, $3, $4, $5)
        on conflict (entity, entity_key, field, locale) do nothing`,
-      [entity, String(key), field, value],
+      [entity, String(key), field, locale, value],
     );
   }
 }
 
-export async function seed(db: Queryable, hebrew: SeedData = data, inEnglish: SeedEnglish = english): Promise<void> {
-  const content = named(hebrew, brandName("he"));
-  const en = named(inEnglish, brandName("en"));
+export async function seed(db: Queryable, structure: SeedData = data): Promise<void> {
+  const text = Object.fromEntries(
+    LOCALES.map((locale) => [locale, named(CONTENT[locale] as Content, brandName(locale))]),
+  ) as Record<Locale, Content>;
+  const main = text[DEFAULT_LOCALE];
+  const others = LOCALES.filter((locale) => locale !== DEFAULT_LOCALE);
+  const field = (entity: string, key: string, name: string): string => {
+    const value = main[entity]?.[key]?.[name];
+    if (value === undefined) throw new Error(`languages/${DEFAULT_LOCALE}/content.json has no ${entity}.${key}.${name}`);
+    return value;
+  };
 
   const serviceIds = new Map<string, number>();
-  for (const [index, service] of content.services.entries()) {
+  for (const [index, service] of structure.services.entries()) {
+    const name = field("service", service.key, "name");
     await db.query(
       `insert into services (name_he, includes_he, duration_min, price_from_agorot, bookable_online, sort_order)
        values ($1, $2, $3, $4, $5, $6)
        on conflict (name_he) do nothing`,
-      [
-        service.name_he,
-        service.includes_he,
-        service.duration_min,
-        service.price_from_agorot,
-        service.bookable_online,
-        index,
-      ],
+      [name, main.service?.[service.key]?.includes ?? null, service.duration_min, service.price_from_agorot, service.bookable_online, index],
     );
-    const { rows } = await db.query<{ id: string }>("select id from services where name_he = $1", [service.name_he]);
-    serviceIds.set(service.key, Number(rows[0]!.id));
-    const english = en.services[service.key];
-    if (english) {
-      await translate(db, "service", serviceIds.get(service.key)!, { name: english.name_en, includes: english.includes_en });
-    }
+    const { rows } = await db.query<{ id: string }>("select id from services where name_he = $1", [name]);
+    const id = Number(rows[0]!.id);
+    serviceIds.set(service.key, id);
+    for (const locale of others) await translate(db, locale, "service", id, text[locale].service?.[service.key]);
   }
 
-  for (const rule of content.service_rules) {
+  for (const rule of structure.service_rules) {
     const serviceId = serviceIds.get(rule.service);
     if (!serviceId) throw new Error(`Seed rule points to unknown service "${rule.service}"`);
     await db.query(
@@ -115,21 +100,19 @@ export async function seed(db: Queryable, hebrew: SeedData = data, inEnglish: Se
     );
   }
 
-  for (const [index, product] of content.products.entries()) {
+  for (const [index, product] of structure.products.entries()) {
+    const name = field("product", product.key, "name");
     await db.query(
       `insert into products (name_he, description_he, price_agorot, sort_order)
        values ($1, $2, $3, $4)
        on conflict (name_he) do nothing`,
-      [product.name_he, product.description_he, product.price_agorot, index],
+      [name, main.product?.[product.key]?.description ?? null, product.price_agorot, index],
     );
-    const english = en.products[product.name_he];
-    if (english) {
-      const { rows } = await db.query<{ id: string }>("select id from products where name_he = $1", [product.name_he]);
-      await translate(db, "product", rows[0]!.id, { name: english.name_en, description: english.description_en });
-    }
+    const { rows } = await db.query<{ id: string }>("select id from products where name_he = $1", [name]);
+    for (const locale of others) await translate(db, locale, "product", rows[0]!.id, text[locale].product?.[product.key]);
   }
 
-  for (const day of content.opening_hours) {
+  for (const day of structure.opening_hours) {
     await db.query(
       `insert into opening_hours (weekday, opens, closes, closed)
        values ($1, $2, $3, $4)
@@ -139,10 +122,11 @@ export async function seed(db: Queryable, hebrew: SeedData = data, inEnglish: Se
   }
 
   await db.query("insert into business_profile (id, name) values (1, $1) on conflict (id) do nothing", [
-    content.business_profile.name,
+    brandName(DEFAULT_LOCALE),
   ]);
 
-  for (const template of content.message_templates) {
+  for (const template of structure.message_templates) {
+    const key = `${template.key}:${template.channel}`;
     await db.query(
       `insert into message_templates (key, channel, body_he, subject_he, provider_template, category)
        values ($1, $2, $3, $4, $5, $6)
@@ -150,19 +134,13 @@ export async function seed(db: Queryable, hebrew: SeedData = data, inEnglish: Se
       [
         template.key,
         template.channel,
-        template.body_he,
-        template.subject_he ?? null,
+        field("message_template", key, "body"),
+        main.message_template?.[key]?.subject ?? null,
         template.provider_template ?? null,
         template.category ?? null,
       ],
     );
-    const english = en.message_templates[`${template.key}:${template.channel}`];
-    if (english) {
-      await translate(db, "message_template", `${template.key}:${template.channel}`, {
-        body: english.body_en,
-        subject: english.subject_en,
-      });
-    }
+    for (const locale of others) await translate(db, locale, "message_template", key, text[locale].message_template?.[key]);
   }
 
   for (const [key, value] of Object.entries(SETTINGS_DEFAULTS)) {

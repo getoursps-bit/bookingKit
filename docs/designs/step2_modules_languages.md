@@ -148,17 +148,19 @@ which already has 441 of the kit's 533 strings.
 
 ### The contract: how a person or an AI fills a pack
 
-`pnpm lang:contract` writes `languages/contract.json`, a description of
+`pnpm brand` also writes `languages/contract.json`, a description of
 everything that can be translated, built from what the core modules and extensions declare:
 
 ```json
 {
+  "reference": "he",
+  "howTo": ["…"],
   "strings": {
-    "home.firstFree": { "source": "התור הפנוי הקרוב: {when}", "placeholders": ["when"], "module": "core", "note": "Button on the home page" }
+    "home.firstFree": { "placeholders": ["when"], "text": { "he": "התור הפנוי הקרוב: {when}", "en": "First available: {when}" } }
   },
   "content": {
-    "service": { "key": "key", "fields": { "name": { "max": 80 }, "includes": { "max": 300 } }, "module": "core" },
-    "message_template": { "key": "key:channel", "fields": { "body": { "keepPlaceholders": true }, "subject": {} } }
+    "service": { "fields": { "name": { "max": 80 }, "includes": { "max": 500 } }, "items": { "cat": { "name": { "placeholders": [], "text": { "he": "חתול", "en": "Cat" } } } } },
+    "message_template": { "fields": { "body": { "max": 1000, "keepPlaceholders": true }, "subject": { "max": 160 } }, "items": { "…": {} } }
   }
 }
 ```
@@ -325,7 +327,7 @@ the message outbox. They are the product.
       formats from the pack; the hard-coded language checks removed.
    4. `content_translations`, `translated()`, and the owner area's
       per-language fields.
-   5. The contract, `pnpm lang:contract` and `pnpm lang:check`.
+   5. The contract (written by `pnpm brand`) and `pnpm lang:check`.
    6. The Arabic pack, filled from the contract, and the sample client
       switched to Arabic first.
 2. **Core boundaries** (about 1 week)

@@ -59,7 +59,8 @@ pnpm staff:create owner@example.test
 | `pnpm lint` / `pnpm typecheck` | ESLint (fails on physical left/right CSS) and TypeScript |
 | `pnpm migrate` | Applies pending SQL migrations; `--check` only lists them |
 | `pnpm seed` | Inserts starting content without overwriting edits |
-| `pnpm brand` | Writes the stylesheet and the language list from `client.json` and the packs; `--check` only compares |
+| `pnpm brand` | Writes the stylesheet, the language list and the language contract from `client.json` and the packs; `--check` only compares |
+| `pnpm lang:check [code]` | Checks the language packs: wrong placeholders, unknown keys, text over its limit, and what is still missing |
 | `pnpm staff:create <email>` | Creates or resets an owner account |
 | `pnpm import:dibs <file.csv> --dry-run` | Practice Dibs import: stages, checks and reports only |
 | `pnpm import:dibs <file.csv> --freeze-time=<ISO>` | Real import (no messages, no alerts) |
@@ -138,7 +139,19 @@ Each language is a pack, a folder under `languages/`:
 - `pack.json`: the language's own name, its direction, and the locales used
   for prices, link previews and day and month names;
 - `messages.json`: every interface string. Hebrew is the reference: a unit
-  test fails when a pack misses a key or a placeholder.
+  test fails when a pack misses a key or a placeholder;
+- `content.json`: the starting content in that language (service and
+  product names and descriptions, message wording). The seed's structure
+  (durations, prices, hours, which templates exist) is `db/seed/data.json`;
+  the site's default language fills the tables' own text columns and every
+  other language goes into `content_translations`.
+
+`languages/contract.json` (written by `pnpm brand`) describes everything a
+pack must hold: each string with its placeholders, each piece of content
+with its length limit, and the text of the packs already in the kit. It is
+the one file a translator, or an AI, needs to write a new pack.
+`pnpm lang:check <code>` then reports what is wrong and what is still
+missing.
 
 The strings are read through [next-intl](https://next-intl.dev); plurals are
 written in the strings in ICU syntax (see `duration` in a pack). A font for
@@ -151,8 +164,10 @@ shows each other language by its own name, goes through
 owner area has no prefix and follows the cookie). A one-language site shows
 no switch.
 
-To add a language to a client, add its code to `others` and run `pnpm brand`.
-To add a language to the kit, add its folder first.
+To add a language to the kit: make `languages/<code>/` with `pack.json`,
+`messages.json` and `content.json` from the contract, and run
+`pnpm lang:check <code>` until it is complete. To add it to a client: add its
+code to `others` in `client.json` and run `pnpm brand`.
 
 The owner's own text (services, products, photo texts, tagline, message
 wording) is written in the default language, and the owner area shows one

@@ -1,0 +1,127 @@
+{
+  "service": {
+    "cat": {
+      "name": "חתול",
+      "includes": "גילוח או תספורת, גזיזת ציפורניים, ניקוי שיניים, אזור העיניים והאוזניים, רחצה לפי הצורך"
+    },
+    "cat_sedation": {
+      "name": "גילוח לחתול בטשטוש",
+      "includes": "גילוח או תספורת, גזיזת ציפורניים, ניקוי שיניים, אזור העיניים והאוזניים, רחצה לפי הצורך"
+    },
+    "dog_small": {
+      "name": "כלב - גזע קטן עד 10 קילו",
+      "includes": "תספורת, רחצה, גילוח אזור אינטימי, ציפורניים, כפות, אוזניים ועיניים"
+    },
+    "dog_large": {
+      "name": "כלב - גזע גדול מעל 10 קילו",
+      "includes": "תספורת, רחצה, גילוח אזור אינטימי, ציפורניים, כפות, אוזניים ועיניים"
+    },
+    "puppy": {
+      "name": "טיפוח גורים",
+      "includes": "עד גיל 6 חודשים: רחצה, הברשה, עיצוב כפות ופנים, ציפורניים, הסרת שיער מהאוזניים"
+    },
+    "nails": {
+      "name": "גזיזת ציפורניים",
+      "includes": "ציפורניים בלבד"
+    }
+  },
+  "product": {
+    "conditioner": {
+      "name": "מרכך",
+      "description": "מפריד קשרים ומעניק לחות, לכלבים ולחתולים"
+    },
+    "hypoallergenic_shampoo": {
+      "name": "שמפו היפואלרגני",
+      "description": "לעור רגיש, לכלבים, חתולים וגורים"
+    },
+    "no_rinse_shampoo": {
+      "name": "שמפו ללא שטיפה",
+      "description": "לחתולים וגורי חתולים, 220 מ\"ל, בניחוח אבקת תינוקות"
+    },
+    "balm_for_dryness_and_cracks": {
+      "name": "משחה למניעת יובש וטיפול בסדקים",
+      "description": "טיפוח לאף ולכפות"
+    },
+    "fur_de_luxe": {
+      "name": "FUR DE LUXE",
+      "description": "שמן בושם, 10 מ\"ל, מאסק"
+    },
+    "fluffy_fresh": {
+      "name": "Fluffy Fresh",
+      "description": "שמן בושם, 10 מ\"ל, בניחוח אבקת תינוקות"
+    },
+    "pawfume_no_4": {
+      "name": "PawFume No.4",
+      "description": "שמן בושם, 10 מ\"ל, פרחוני מזרחי"
+    },
+    "dog_and_cat_grooming_kit": {
+      "name": "ערכת טיפוח לכלב ולחתול",
+      "description": "שמפו, מרכך, בושם ומשחה"
+    }
+  },
+  "message_template": {
+    "code:whatsapp": {
+      "body": "קוד האימות שלך ל-%BRAND%: {code}. הקוד בתוקף ל-10 דקות."
+    },
+    "code:email": {
+      "body": "קוד האימות שלך: {code}. הקוד בתוקף ל-10 דקות.",
+      "subject": "קוד אימות ל-%BRAND%"
+    },
+    "staff_code:email": {
+      "body": "קוד הכניסה שלך לאזור הניהול: {code}. הקוד בתוקף ל-10 דקות. אם לא ביקשת אותו, אפשר להתעלם מהאימייל.",
+      "subject": "קוד כניסה לניהול %BRAND%"
+    },
+    "confirmation:whatsapp": {
+      "body": "התור שלך ב-%BRAND% נקבע ל-{when}. לצפייה, שינוי או ביטול: {link}"
+    },
+    "confirmation:email": {
+      "body": "התור שלך נקבע ל-{when}. לצפייה, שינוי או ביטול: {link}",
+      "subject": "התור שלך ב-%BRAND% נקבע"
+    },
+    "reminder:whatsapp": {
+      "body": "תזכורת: מחר ב-{when} יש לך תור ב-%BRAND%. לשינוי או ביטול: {link}"
+    },
+    "reminder:email": {
+      "body": "תזכורת: מחר ב-{when} יש לך תור. לשינוי או ביטול: {link}",
+      "subject": "תזכורת לתור ב-%BRAND%"
+    },
+    "customer_change:whatsapp": {
+      "body": "התור שלך ב-%BRAND% עודכן: {change}. פרטים: {link}"
+    },
+    "customer_change:email": {
+      "body": "התור שלך עודכן: {change}. פרטים: {link}",
+      "subject": "התור שלך ב-%BRAND% עודכן"
+    },
+    "owner_change:whatsapp": {
+      "body": "המספרה עדכנה את התור שלך: {change}. פרטים: {link}"
+    },
+    "owner_change:email": {
+      "body": "המספרה עדכנה את התור שלך: {change}. פרטים: {link}",
+      "subject": "המספרה עדכנה את התור שלך"
+    },
+    "import_link:whatsapp": {
+      "body": "%BRAND% עברה לאתר חדש. התור שלך ב-{when} נשמר. לצפייה, שינוי או ביטול: {link}"
+    },
+    "import_link:email": {
+      "body": "התור שלך ב-{when} נשמר. לצפייה, שינוי או ביטול: {link}",
+      "subject": "%BRAND% עברה לאתר חדש"
+    },
+    "owner_alert:push": {
+      "body": "{title}"
+    },
+    "owner_alert:email": {
+      "body": "{title}. פרטים באזור הניהול.",
+      "subject": "התראה מ-%BRAND%"
+    },
+    "owner_check:push": {
+      "body": "בדיקה יומית: ההתראות פועלות."
+    },
+    "owner_check:email": {
+      "body": "הבדיקה היומית לא הגיעה לאף מכשיר. כדאי לפתוח את אזור הניהול ולהפעיל התראות מחדש.",
+      "subject": "ההתראות בדפדפן לא הגיעו"
+    },
+    "auto_reply:whatsapp": {
+      "body": "תודה על ההודעה! המספר הזה שולח הודעות אוטומטיות בלבד. לשינוי או ביטול תור יש להשתמש בקישור האישי שקיבלתם. לשיחה עם המספרה: {chat}"
+    }
+  }
+}

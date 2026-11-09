@@ -1,0 +1,127 @@
+{
+  "service": {
+    "cat": {
+      "name": "Cat",
+      "includes": "Shave or haircut, nail trim, teeth cleaning, eye and ear area, bath as needed"
+    },
+    "cat_sedation": {
+      "name": "Cat shave under sedation",
+      "includes": "Shave or haircut, nail trim, teeth cleaning, eye and ear area, bath as needed"
+    },
+    "dog_small": {
+      "name": "Dog - small breed, up to 10 kg",
+      "includes": "Haircut, bath, sanitary trim, nails, paws, ears and eyes"
+    },
+    "dog_large": {
+      "name": "Dog - large breed, over 10 kg",
+      "includes": "Haircut, bath, sanitary trim, nails, paws, ears and eyes"
+    },
+    "puppy": {
+      "name": "Puppy grooming",
+      "includes": "Up to 6 months old: bath, brushing, paw and face shaping, nails, ear hair removal"
+    },
+    "nails": {
+      "name": "Nail trim",
+      "includes": "Nails only"
+    }
+  },
+  "product": {
+    "conditioner": {
+      "name": "Conditioner",
+      "description": "Detangles and moisturizes, for dogs and cats"
+    },
+    "hypoallergenic_shampoo": {
+      "name": "Hypoallergenic shampoo",
+      "description": "For sensitive skin, for dogs, cats and puppies"
+    },
+    "no_rinse_shampoo": {
+      "name": "No-rinse shampoo",
+      "description": "For cats and kittens, 220 ml, baby powder scent"
+    },
+    "balm_for_dryness_and_cracks": {
+      "name": "Balm for dryness and cracks",
+      "description": "Care for nose and paws"
+    },
+    "fur_de_luxe": {
+      "name": "FUR DE LUXE",
+      "description": "Perfume oil, 10 ml, musk"
+    },
+    "fluffy_fresh": {
+      "name": "Fluffy Fresh",
+      "description": "Perfume oil, 10 ml, baby powder scent"
+    },
+    "pawfume_no_4": {
+      "name": "PawFume No.4",
+      "description": "Perfume oil, 10 ml, floral oriental"
+    },
+    "dog_and_cat_grooming_kit": {
+      "name": "Dog and cat grooming kit",
+      "description": "Shampoo, conditioner, perfume and balm"
+    }
+  },
+  "message_template": {
+    "code:whatsapp": {
+      "body": "Your %BRAND% verification code: {code}. The code is valid for 10 minutes."
+    },
+    "code:email": {
+      "body": "Your verification code: {code}. The code is valid for 10 minutes.",
+      "subject": "Your %BRAND% verification code"
+    },
+    "staff_code:email": {
+      "body": "Your admin login code: {code}. The code is valid for 10 minutes. If you did not ask for it, you can ignore this email.",
+      "subject": "%BRAND% admin login code"
+    },
+    "confirmation:whatsapp": {
+      "body": "Your %BRAND% appointment is booked for {when}. To view, change or cancel: {link}"
+    },
+    "confirmation:email": {
+      "body": "Your appointment is booked for {when}. To view, change or cancel: {link}",
+      "subject": "Your %BRAND% appointment is booked"
+    },
+    "reminder:whatsapp": {
+      "body": "Reminder: you have an appointment at %BRAND% tomorrow at {when}. To change or cancel: {link}"
+    },
+    "reminder:email": {
+      "body": "Reminder: you have an appointment tomorrow at {when}. To change or cancel: {link}",
+      "subject": "%BRAND% appointment reminder"
+    },
+    "customer_change:whatsapp": {
+      "body": "Your %BRAND% appointment was updated: {change}. Details: {link}"
+    },
+    "customer_change:email": {
+      "body": "Your appointment was updated: {change}. Details: {link}",
+      "subject": "Your %BRAND% appointment was updated"
+    },
+    "owner_change:whatsapp": {
+      "body": "The salon updated your appointment: {change}. Details: {link}"
+    },
+    "owner_change:email": {
+      "body": "The salon updated your appointment: {change}. Details: {link}",
+      "subject": "The salon updated your appointment"
+    },
+    "import_link:whatsapp": {
+      "body": "%BRAND% has moved to a new website. Your appointment on {when} has been kept. To view, change or cancel: {link}"
+    },
+    "import_link:email": {
+      "body": "Your appointment on {when} has been kept. To view, change or cancel: {link}",
+      "subject": "%BRAND% has moved to a new website"
+    },
+    "owner_alert:push": {
+      "body": "{title}"
+    },
+    "owner_alert:email": {
+      "body": "{title}. Details in the admin area.",
+      "subject": "Alert from %BRAND%"
+    },
+    "owner_check:push": {
+      "body": "Daily check: notifications are working."
+    },
+    "owner_check:email": {
+      "body": "The daily check didn't reach any device. Open the admin area and turn notifications on again.",
+      "subject": "Browser notifications didn't arrive"
+    },
+    "auto_reply:whatsapp": {
+      "body": "Thanks for your message! This number only sends automated messages. To change or cancel an appointment, use the personal link you received. To chat with the salon: {chat}"
+    }
+  }
+}

@@ -14,7 +14,7 @@ before the next. Commands run inside the app container
       `AI_PRICE_OUTPUT_AGOROT_PER_MTOK`). The switches in Settings stay off
       until the owner turns them on.
 - [ ] **Meta templates approved**, in Hebrew, with the same names as in
-      `db/seed/data.he.json`: `booking_code` (authentication, copy-code button),
+      `db/seed/data.json` (wording in `languages/<code>/content.json`): `booking_code` (authentication, copy-code button),
       `booking_confirmation`, `booking_reminder`, `booking_customer_change`, `booking_owner_change`,
       `booking_import_link` (utility, URL button `https://<domain>/b/{{1}}`).
       Sender display name set.

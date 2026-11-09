@@ -5,7 +5,7 @@ import { savePublicPhoto } from "@/server/photos";
 import { addGalleryImage, listGallery } from "@/server/repos/catalog";
 import { adminRequest, backTo } from "@/server/staff/http";
 import { DEFAULT_LOCALE, OTHER_LOCALES } from "@/i18n/locales";
-import { translationsFrom } from "@/server/translation/content";
+import { TRANSLATABLE, translationsFrom } from "@/server/translation/content";
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
   const optional = (name: string) => (form.withText === "on" && form[name]?.trim().slice(0, 200)) || null;
   const alt = optional("alt");
   const caption = optional("caption");
-  const texts = form.withText === "on" ? translationsFrom(form, { alt: 200, caption: 200 }) : {};
+  const texts = form.withText === "on" ? translationsFrom(form, TRANSLATABLE.gallery_image) : {};
   // A photo with no description gets the standard one, in every language.
   const translations = Object.fromEntries(
     OTHER_LOCALES.map((locale) => {

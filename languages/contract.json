@@ -1,0 +1,4395 @@
+{
+  "reference": "he",
+  "howTo": [
+    "A language pack is the folder languages/<code>/ with pack.json, messages.json and content.json.",
+    "messages.json: every key under `strings`, nested by the dots in the key, with the same placeholders as the reference text. Plural strings use ICU syntax, as the reference does.",
+    "content.json: for each kind of row under `content`, the same item keys and fields; keep every field within `max` characters, and keep the placeholders of a message body exactly.",
+    "%BRAND% stands for the business name and is filled in when the content is seeded.",
+    "Run `pnpm lang:check <code>` until it reports nothing missing and nothing wrong."
+  ],
+  "strings": {
+    "site.name": {
+      "placeholders": [
+        "brand"
+      ],
+      "text": {
+        "he": "{brand}",
+        "en": "{brand}"
+      }
+    },
+    "site.callUs": {
+      "placeholders": [
+        "phone"
+      ],
+      "text": {
+        "he": "לשאלות אפשר להתקשר: {phone}",
+        "en": "Questions? Give us a call: {phone}"
+      }
+    },
+    "site.newWindow": {
+      "placeholders": [],
+      "text": {
+        "he": "(נפתח בחלון חדש)",
+        "en": "(opens in a new window)"
+      }
+    },
+    "nav.skipToContent": {
+      "placeholders": [],
+      "text": {
+        "he": "דילוג לתוכן הראשי",
+        "en": "Skip to main content"
+      }
+    },
+    "nav.main": {
+      "placeholders": [],
+      "text": {
+        "he": "ניווט ראשי",
+        "en": "Main navigation"
+      }
+    },
+    "nav.footer": {
+      "placeholders": [],
+      "text": {
+        "he": "קישורים נוספים",
+        "en": "More links"
+      }
+    },
+    "nav.home": {
+      "placeholders": [],
+      "text": {
+        "he": "ראשי",
+        "en": "Home"
+      }
+    },
+    "nav.services": {
+      "placeholders": [],
+      "text": {
+        "he": "שירותים ומחירים",
+        "en": "Services & prices"
+      }
+    },
+    "nav.products": {
+      "placeholders": [],
+      "text": {
+        "he": "מוצרים",
+        "en": "Products"
+      }
+    },
+    "nav.gallery": {
+      "placeholders": [],
+      "text": {
+        "he": "גלריה",
+        "en": "Gallery"
+      }
+    },
+    "nav.hours": {
+      "placeholders": [],
+      "text": {
+        "he": "שעות פתיחה",
+        "en": "Opening hours"
+      }
+    },
+    "nav.contact": {
+      "placeholders": [],
+      "text": {
+        "he": "יצירת קשר",
+        "en": "Contact"
+      }
+    },
+    "nav.book": {
+      "placeholders": [],
+      "text": {
+        "he": "קביעת תור",
+        "en": "Book an appointment"
+      }
+    },
+    "nav.accessibility": {
+      "placeholders": [],
+      "text": {
+        "he": "הצהרת נגישות",
+        "en": "Accessibility statement"
+      }
+    },
+    "nav.privacy": {
+      "placeholders": [],
+      "text": {
+        "he": "מדיניות פרטיות",
+        "en": "Privacy policy"
+      }
+    },
+    "nav.app": {
+      "placeholders": [],
+      "text": {
+        "he": "ניווט מהיר",
+        "en": "Quick navigation"
+      }
+    },
+    "nav.servicesShort": {
+      "placeholders": [],
+      "text": {
+        "he": "שירותים",
+        "en": "Services"
+      }
+    },
+    "nav.contactShort": {
+      "placeholders": [],
+      "text": {
+        "he": "קשר",
+        "en": "Contact"
+      }
+    },
+    "nav.menu": {
+      "placeholders": [],
+      "text": {
+        "he": "תפריט",
+        "en": "Menu"
+      }
+    },
+    "nav.closeMenu": {
+      "placeholders": [],
+      "text": {
+        "he": "סגירת התפריט",
+        "en": "Close menu"
+      }
+    },
+    "nav.myBooking": {
+      "placeholders": [],
+      "text": {
+        "he": "התור שלי",
+        "en": "My appointment"
+      }
+    },
+    "nav.a11yShort": {
+      "placeholders": [],
+      "text": {
+        "he": "נגישות",
+        "en": "Accessibility"
+      }
+    },
+    "home.bookNow": {
+      "placeholders": [],
+      "text": {
+        "he": "לקביעת תור",
+        "en": "Book now"
+      }
+    },
+    "home.servicesTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "בוחרים פינוק",
+        "en": "Pick a pamper"
+      }
+    },
+    "home.allServices": {
+      "placeholders": [],
+      "text": {
+        "he": "לכל השירותים והמחירים",
+        "en": "All services & prices"
+      }
+    },
+    "home.hoursTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "שעות פתיחה",
+        "en": "Opening hours"
+      }
+    },
+    "home.allHours": {
+      "placeholders": [],
+      "text": {
+        "he": "לשעות ולימים סגורים",
+        "en": "Hours & closed days"
+      }
+    },
+    "home.galleryTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "גלריה",
+        "en": "Gallery"
+      }
+    },
+    "home.eyebrow": {
+      "placeholders": [],
+      "text": {
+        "he": "מספרה לכלבים ולחתולים",
+        "en": "Grooming salon for dogs and cats"
+      }
+    },
+    "home.heroText": {
+      "placeholders": [],
+      "text": {
+        "he": "טיפוח עדין ומקצועי, בתור שקובעים מהנייד בפחות מדקה.",
+        "en": "Gentle, professional grooming, with an appointment you can book from your phone in under a minute."
+      }
+    },
+    "home.openUntil": {
+      "placeholders": [
+        "time"
+      ],
+      "text": {
+        "he": "פתוח היום עד {time}",
+        "en": "Open today until {time}"
+      }
+    },
+    "home.opensToday": {
+      "placeholders": [
+        "time"
+      ],
+      "text": {
+        "he": "נפתח היום ב-{time}",
+        "en": "Opens today at {time}"
+      }
+    },
+    "home.closedToday": {
+      "placeholders": [],
+      "text": {
+        "he": "סגור היום",
+        "en": "Closed today"
+      }
+    },
+    "home.choose": {
+      "placeholders": [],
+      "text": {
+        "he": "בחירה",
+        "en": "Choose"
+      }
+    },
+    "home.seeAllPhotos": {
+      "placeholders": [
+        "n"
+      ],
+      "text": {
+        "he": "לכל {n} התמונות",
+        "en": "See all {n} photos"
+      }
+    },
+    "home.productsTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "מדף הספא",
+        "en": "The spa shelf"
+      }
+    },
+    "home.productsNote": {
+      "placeholders": [],
+      "text": {
+        "he": "נמכר אצלנו במקום.",
+        "en": "Sold on site."
+      }
+    },
+    "home.manageTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "כבר קבעתם תור?",
+        "en": "Already booked?"
+      }
+    },
+    "home.manageText": {
+      "placeholders": [],
+      "text": {
+        "he": "לראות, להזיז או לבטל את התור בקישור ששלחנו לכם בהודעה.",
+        "en": "View, move or cancel your visit with the link we sent you by message."
+      }
+    },
+    "home.manageCta": {
+      "placeholders": [],
+      "text": {
+        "he": "איבדתם את הקישור? צרו קשר",
+        "en": "Lost the link? Contact us"
+      }
+    },
+    "home.heroTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "רך, נקי",
+        "en": "Soft, clean"
+      }
+    },
+    "home.heroTitleAccent": {
+      "placeholders": [],
+      "text": {
+        "he": "ומטופח במיוחד",
+        "en": "& well cared for"
+      }
+    },
+    "home.sticker": {
+      "placeholders": [],
+      "text": {
+        "he": "כלבים וחתולים",
+        "en": "Dogs & cats"
+      }
+    },
+    "home.firstFree": {
+      "placeholders": [
+        "when"
+      ],
+      "text": {
+        "he": "התור הפנוי הקרוב: {when}",
+        "en": "First available: {when}"
+      }
+    },
+    "home.todayAt": {
+      "placeholders": [
+        "time"
+      ],
+      "text": {
+        "he": "היום {time}",
+        "en": "today {time}"
+      }
+    },
+    "home.tomorrowAt": {
+      "placeholders": [
+        "time"
+      ],
+      "text": {
+        "he": "מחר {time}",
+        "en": "tomorrow {time}"
+      }
+    },
+    "home.freeToday": {
+      "placeholders": [],
+      "text": {
+        "he": "פנוי היום",
+        "en": "Free today"
+      }
+    },
+    "home.freeTomorrow": {
+      "placeholders": [],
+      "text": {
+        "he": "פנוי מחר",
+        "en": "Free tomorrow"
+      }
+    },
+    "home.freeOn": {
+      "placeholders": [
+        "day"
+      ],
+      "text": {
+        "he": "פנוי {day}",
+        "en": "Free {day}"
+      }
+    },
+    "home.orWhatsApp": {
+      "placeholders": [],
+      "text": {
+        "he": "או כותבים לנו בוואטסאפ",
+        "en": "or say hi on WhatsApp"
+      }
+    },
+    "home.servicesIntro": {
+      "placeholders": [],
+      "text": {
+        "he": "לוחצים על + וקובעים. המחירים התחלתיים, המחיר הסופי בסלון.",
+        "en": "Tap + to book. Prices are \"from\"; the final price is set at the salon."
+      }
+    },
+    "home.visitTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "בואו לבקר",
+        "en": "Come say hi"
+      }
+    },
+    "home.tabServices": {
+      "placeholders": [],
+      "text": {
+        "he": "שירותים",
+        "en": "Services"
+      }
+    },
+    "home.tabProducts": {
+      "placeholders": [],
+      "text": {
+        "he": "מוצרים",
+        "en": "Products"
+      }
+    },
+    "contact.buttonsTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "דרכים ליצור קשר",
+        "en": "Ways to reach us"
+      }
+    },
+    "contact.call": {
+      "placeholders": [],
+      "text": {
+        "he": "התקשרו",
+        "en": "Call"
+      }
+    },
+    "contact.whatsapp": {
+      "placeholders": [],
+      "text": {
+        "he": "וואטסאפ",
+        "en": "WhatsApp"
+      }
+    },
+    "contact.waze": {
+      "placeholders": [],
+      "text": {
+        "he": "ניווט ב-Waze",
+        "en": "Navigate with Waze"
+      }
+    },
+    "contact.instagram": {
+      "placeholders": [],
+      "text": {
+        "he": "אינסטגרם",
+        "en": "Instagram"
+      }
+    },
+    "contact.facebook": {
+      "placeholders": [],
+      "text": {
+        "he": "פייסבוק",
+        "en": "Facebook"
+      }
+    },
+    "contact.tiktok": {
+      "placeholders": [],
+      "text": {
+        "he": "טיקטוק",
+        "en": "TikTok"
+      }
+    },
+    "contact.title": {
+      "placeholders": [],
+      "text": {
+        "he": "איך נחזור אליכם?",
+        "en": "How can we reach you?"
+      }
+    },
+    "contact.address": {
+      "placeholders": [],
+      "text": {
+        "he": "כתובת",
+        "en": "Address"
+      }
+    },
+    "contact.phone": {
+      "placeholders": [],
+      "text": {
+        "he": "טלפון נייד",
+        "en": "Mobile phone"
+      }
+    },
+    "contact.chatNumber": {
+      "placeholders": [],
+      "text": {
+        "he": "וואטסאפ לשאלות ולהזמנת מוצרים",
+        "en": "WhatsApp for questions and product orders"
+      }
+    },
+    "contact.senderNumber": {
+      "placeholders": [],
+      "text": {
+        "he": "המספר שממנו נשלחים אישורים ותזכורות",
+        "en": "The number that sends confirmations and reminders"
+      }
+    },
+    "contact.senderNote": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעות למספר הזה לא נקראות. לשאלות כתבו למספר הוואטסאפ של המספרה או התקשרו.",
+        "en": "Messages to this number aren't read. For questions, message the salon's WhatsApp number or give us a call."
+      }
+    },
+    "contact.map": {
+      "placeholders": [],
+      "text": {
+        "he": "פתיחה במפה",
+        "en": "Open in maps"
+      }
+    },
+    "contact.missing": {
+      "placeholders": [],
+      "text": {
+        "he": "הפרטים יעודכנו בקרוב.",
+        "en": "Details coming soon."
+      }
+    },
+    "contact.name": {
+      "placeholders": [],
+      "text": {
+        "he": "שם מלא",
+        "en": "Full name"
+      }
+    },
+    "contact.phoneHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "קוד האימות והאישור יישלחו בוואטסאפ למספר הזה.",
+        "en": "We'll send the verification code and confirmation to this number on WhatsApp."
+      }
+    },
+    "contact.email": {
+      "placeholders": [],
+      "text": {
+        "he": "מייל (לא חובה)",
+        "en": "Email (optional)"
+      }
+    },
+    "contact.emailHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "רק אם וואטסאפ לא יגיע.",
+        "en": "Only used if WhatsApp doesn't get through."
+      }
+    },
+    "contact.submit": {
+      "placeholders": [],
+      "text": {
+        "he": "שליחת קוד אימות",
+        "en": "Send verification code"
+      }
+    },
+    "contact.summary": {
+      "placeholders": [
+        "pets",
+        "when"
+      ],
+      "text": {
+        "he": "{pets} · {when}",
+        "en": "{pets} · {when}"
+      }
+    },
+    "contact.website": {
+      "placeholders": [],
+      "text": {
+        "he": "אתר (השאירו ריק)",
+        "en": "Website (leave blank)"
+      }
+    },
+    "contact.emailRequired": {
+      "placeholders": [],
+      "text": {
+        "he": "מייל",
+        "en": "Email"
+      }
+    },
+    "contact.emailRequiredHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "קוד האימות והאישור יישלחו לכתובת הזו.",
+        "en": "Your verification code and confirmation are sent to this address."
+      }
+    },
+    "services.title": {
+      "placeholders": [],
+      "text": {
+        "he": "שירותים ומחירים",
+        "en": "Services & prices"
+      }
+    },
+    "services.finalPrice": {
+      "placeholders": [],
+      "text": {
+        "he": "המחירים הם מחירי \"החל מ\". המחיר הסופי נקבע במספרה, לפי הגודל ומצב הפרווה.",
+        "en": "Prices are \"from\" prices. The final price is set at the salon, based on size and coat condition."
+      }
+    },
+    "services.includes": {
+      "placeholders": [],
+      "text": {
+        "he": "כולל",
+        "en": "Includes"
+      }
+    },
+    "services.duration": {
+      "placeholders": [],
+      "text": {
+        "he": "משך",
+        "en": "Duration"
+      }
+    },
+    "services.price": {
+      "placeholders": [],
+      "text": {
+        "he": "מחיר",
+        "en": "Price"
+      }
+    },
+    "services.from": {
+      "placeholders": [
+        "price"
+      ],
+      "text": {
+        "he": "החל מ-{price}",
+        "en": "From {price}"
+      }
+    },
+    "services.callToBook": {
+      "placeholders": [],
+      "text": {
+        "he": "את השירות הזה קובעים בטלפון בלבד",
+        "en": "This service can only be booked by phone"
+      }
+    },
+    "products.title": {
+      "placeholders": [],
+      "text": {
+        "he": "מוצרים",
+        "en": "Products"
+      }
+    },
+    "products.intro": {
+      "placeholders": [],
+      "text": {
+        "he": "אפשר להזמין כל מוצר בוואטסאפ ולאסוף במספרה. אין תשלום באתר.",
+        "en": "Order any product on WhatsApp and pick it up at the salon. No payment on the website."
+      }
+    },
+    "products.order": {
+      "placeholders": [],
+      "text": {
+        "he": "הזמנה בוואטסאפ",
+        "en": "Order on WhatsApp"
+      }
+    },
+    "products.orderText": {
+      "placeholders": [
+        "name",
+        "price"
+      ],
+      "text": {
+        "he": "שלום, אשמח להזמין: {name} ({price})",
+        "en": "Hi, I'd like to order: {name} ({price})"
+      }
+    },
+    "products.orderByPhone": {
+      "placeholders": [],
+      "text": {
+        "he": "להזמנה התקשרו למספרה",
+        "en": "To order, call the salon"
+      }
+    },
+    "products.empty": {
+      "placeholders": [],
+      "text": {
+        "he": "המוצרים יעלו בקרוב.",
+        "en": "Products coming soon."
+      }
+    },
+    "gallery.title": {
+      "placeholders": [],
+      "text": {
+        "he": "גלריה",
+        "en": "Gallery"
+      }
+    },
+    "gallery.empty": {
+      "placeholders": [],
+      "text": {
+        "he": "התמונות יעלו בקרוב.",
+        "en": "Photos coming soon."
+      }
+    },
+    "gallery.open": {
+      "placeholders": [
+        "alt"
+      ],
+      "text": {
+        "he": "הצגת התמונה בגודל מלא: {alt}",
+        "en": "View full-size photo: {alt}"
+      }
+    },
+    "gallery.defaultAlt": {
+      "placeholders": [],
+      "text": {
+        "he": "תמונה מהגלריה של המספרה",
+        "en": "A photo from the salon's gallery"
+      }
+    },
+    "hours.title": {
+      "placeholders": [],
+      "text": {
+        "he": "שעות פתיחה",
+        "en": "Opening hours"
+      }
+    },
+    "hours.today": {
+      "placeholders": [],
+      "text": {
+        "he": "היום",
+        "en": "Today"
+      }
+    },
+    "hours.closed": {
+      "placeholders": [],
+      "text": {
+        "he": "סגור",
+        "en": "Closed"
+      }
+    },
+    "hours.range": {
+      "placeholders": [
+        "closes",
+        "opens"
+      ],
+      "text": {
+        "he": "{opens}–{closes}",
+        "en": "{opens}–{closes}"
+      }
+    },
+    "hours.timeOffTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "ימים ושעות שהמספרה סגורה בקרוב",
+        "en": "Upcoming days and hours the salon is closed"
+      }
+    },
+    "hours.noTimeOff": {
+      "placeholders": [],
+      "text": {
+        "he": "אין סגירות מתוכננות בחודש הקרוב.",
+        "en": "No closures planned for the coming month."
+      }
+    },
+    "hours.openNow": {
+      "placeholders": [],
+      "text": {
+        "he": "פתוח עכשיו",
+        "en": "Open now"
+      }
+    },
+    "hours.closedNow": {
+      "placeholders": [],
+      "text": {
+        "he": "סגור עכשיו",
+        "en": "Closed now"
+      }
+    },
+    "hours.weekly": {
+      "placeholders": [],
+      "text": {
+        "he": "שעות פתיחה שבועיות",
+        "en": "Weekly opening hours"
+      }
+    },
+    "hours.opens": {
+      "placeholders": [],
+      "text": {
+        "he": "פתיחה",
+        "en": "Opens"
+      }
+    },
+    "hours.closes": {
+      "placeholders": [],
+      "text": {
+        "he": "סגירה",
+        "en": "Closes"
+      }
+    },
+    "hours.closedDay": {
+      "placeholders": [],
+      "text": {
+        "he": "סגור",
+        "en": "Closed"
+      }
+    },
+    "hours.timeOff": {
+      "placeholders": [],
+      "text": {
+        "he": "חופשות וימים סגורים",
+        "en": "Time off and closed days"
+      }
+    },
+    "hours.from": {
+      "placeholders": [],
+      "text": {
+        "he": "מ-",
+        "en": "From"
+      }
+    },
+    "hours.to": {
+      "placeholders": [],
+      "text": {
+        "he": "עד",
+        "en": "To"
+      }
+    },
+    "hours.reason": {
+      "placeholders": [],
+      "text": {
+        "he": "סיבה (לא חובה)",
+        "en": "Reason (optional)"
+      }
+    },
+    "hours.affected": {
+      "placeholders": [],
+      "text": {
+        "he": "בזמן הזה יש תורים קבועים:",
+        "en": "There are appointments booked during this time:"
+      }
+    },
+    "hours.cancelAffected": {
+      "placeholders": [],
+      "text": {
+        "he": "ביטול התורים האלה והודעה ללקוחות",
+        "en": "Cancel these appointments and notify the customers"
+      }
+    },
+    "hours.allDay": {
+      "placeholders": [],
+      "text": {
+        "he": "כל היום",
+        "en": "All day"
+      }
+    },
+    "day.0": {
+      "placeholders": [],
+      "text": {
+        "he": "ראשון",
+        "en": "Sunday"
+      }
+    },
+    "day.1": {
+      "placeholders": [],
+      "text": {
+        "he": "שני",
+        "en": "Monday"
+      }
+    },
+    "day.2": {
+      "placeholders": [],
+      "text": {
+        "he": "שלישי",
+        "en": "Tuesday"
+      }
+    },
+    "day.3": {
+      "placeholders": [],
+      "text": {
+        "he": "רביעי",
+        "en": "Wednesday"
+      }
+    },
+    "day.4": {
+      "placeholders": [],
+      "text": {
+        "he": "חמישי",
+        "en": "Thursday"
+      }
+    },
+    "day.5": {
+      "placeholders": [],
+      "text": {
+        "he": "שישי",
+        "en": "Friday"
+      }
+    },
+    "day.6": {
+      "placeholders": [],
+      "text": {
+        "he": "שבת",
+        "en": "Saturday"
+      }
+    },
+    "book.title": {
+      "placeholders": [],
+      "text": {
+        "he": "קביעת תור",
+        "en": "Book an appointment"
+      }
+    },
+    "book.byPhone": {
+      "placeholders": [],
+      "text": {
+        "he": "כרגע קובעים תורים בטלפון בלבד. נשמח לשמוע מכם.",
+        "en": "For now, appointments are booked by phone only. We'd love to hear from you."
+      }
+    },
+    "book.intro": {
+      "placeholders": [],
+      "text": {
+        "he": "ארבעה צעדים קצרים: שירות, מועד, פרטים וקוד אימות.",
+        "en": "Four quick steps: service, time, details and verification code."
+      }
+    },
+    "book.progress": {
+      "placeholders": [],
+      "text": {
+        "he": "שלבי ההזמנה",
+        "en": "Booking steps"
+      }
+    },
+    "book.stepOf": {
+      "placeholders": [
+        "n"
+      ],
+      "text": {
+        "he": "שלב {n} מתוך 4",
+        "en": "Step {n} of 4"
+      }
+    },
+    "book.step.service": {
+      "placeholders": [],
+      "text": {
+        "he": "שירות",
+        "en": "Service"
+      }
+    },
+    "book.step.time": {
+      "placeholders": [],
+      "text": {
+        "he": "מועד",
+        "en": "Time"
+      }
+    },
+    "book.step.contact": {
+      "placeholders": [],
+      "text": {
+        "he": "פרטים",
+        "en": "Details"
+      }
+    },
+    "book.step.code": {
+      "placeholders": [],
+      "text": {
+        "he": "אימות",
+        "en": "Verify"
+      }
+    },
+    "book.back": {
+      "placeholders": [],
+      "text": {
+        "he": "חזרה",
+        "en": "Back"
+      }
+    },
+    "book.continue": {
+      "placeholders": [],
+      "text": {
+        "he": "המשך",
+        "en": "Continue"
+      }
+    },
+    "book.restart": {
+      "placeholders": [],
+      "text": {
+        "he": "התחלה מחדש",
+        "en": "Start over"
+      }
+    },
+    "book.whatsappOutage": {
+      "placeholders": [],
+      "text": {
+        "he": "שליחת הודעות בוואטסאפ מושבתת כרגע. הקוד יישלח במייל, או שאפשר להתקשר למספרה.",
+        "en": "WhatsApp messages are down right now. We'll send the code by email, or you can call the salon."
+      }
+    },
+    "book.cancelled": {
+      "placeholders": [],
+      "text": {
+        "he": "התור בוטל. נשמח לראות אתכם שוב.",
+        "en": "Your appointment was cancelled. We hope to see you again."
+      }
+    },
+    "book.pickedTime": {
+      "placeholders": [
+        "when"
+      ],
+      "text": {
+        "he": "בחרתם את {when}. בוחרים שירות, ובשלב הבא מאשרים את השעה.",
+        "en": "You chose {when}. Choose a service, then confirm the time on the next step."
+      }
+    },
+    "landing.faqTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "שאלות נפוצות",
+        "en": "Frequently asked questions"
+      }
+    },
+    "notFound.title": {
+      "placeholders": [],
+      "text": {
+        "he": "הדף לא נמצא",
+        "en": "Page not found"
+      }
+    },
+    "notFound.back": {
+      "placeholders": [],
+      "text": {
+        "he": "חזרה לדף הראשי",
+        "en": "Back to the home page"
+      }
+    },
+    "form.required": {
+      "placeholders": [],
+      "text": {
+        "he": "שדה חובה",
+        "en": "Required"
+      }
+    },
+    "form.errorSummary": {
+      "placeholders": [],
+      "text": {
+        "he": "יש לתקן את השדות המסומנים",
+        "en": "Please fix the marked fields"
+      }
+    },
+    "dialog.close": {
+      "placeholders": [],
+      "text": {
+        "he": "סגירה",
+        "en": "Close"
+      }
+    },
+    "pwa.install": {
+      "placeholders": [],
+      "text": {
+        "he": "התקנה כאפליקציה",
+        "en": "Install as an app"
+      }
+    },
+    "pwa.stepsTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "התקנת האפליקציה",
+        "en": "Install the app"
+      }
+    },
+    "pwa.ios1": {
+      "placeholders": [],
+      "text": {
+        "he": "לוחצים על כפתור השיתוף של הדפדפן (ריבוע עם חץ למעלה).",
+        "en": "Tap the browser's Share button (a square with an arrow pointing up)."
+      }
+    },
+    "pwa.ios2": {
+      "placeholders": [],
+      "text": {
+        "he": "בוחרים \"הוספה למסך הבית\". אם לא רואים, גוללים למטה ברשימה.",
+        "en": "Choose \"Add to Home Screen\". If you don't see it, scroll down the list."
+      }
+    },
+    "pwa.ios3": {
+      "placeholders": [],
+      "text": {
+        "he": "לוחצים \"הוספה\". האפליקציה תופיע במסך הבית.",
+        "en": "Tap \"Add\". The app appears on your Home Screen."
+      }
+    },
+    "pwa.mac1": {
+      "placeholders": [],
+      "text": {
+        "he": "בשורת התפריטים למעלה פותחים את \"קובץ\" (File).",
+        "en": "In the menu bar at the top, open \"File\"."
+      }
+    },
+    "pwa.mac2": {
+      "placeholders": [],
+      "text": {
+        "he": "בוחרים \"הוספה ל-Dock\" (Add to Dock) ומאשרים.",
+        "en": "Choose \"Add to Dock\" and confirm."
+      }
+    },
+    "pwa.other1": {
+      "placeholders": [],
+      "text": {
+        "he": "פותחים את התפריט של הדפדפן (שלוש הנקודות).",
+        "en": "Open the browser's menu (the three dots)."
+      }
+    },
+    "pwa.other2": {
+      "placeholders": [],
+      "text": {
+        "he": "בוחרים \"התקנת האפליקציה\" או \"הוספה למסך הבית\".",
+        "en": "Choose \"Install app\" or \"Add to Home screen\"."
+      }
+    },
+    "pwa.note": {
+      "placeholders": [],
+      "text": {
+        "he": "לא רואים את האפשרות? פותחים את האתר ישירות ב-Safari או ב-Chrome, ולא מתוך אינסטגרם או פייסבוק.",
+        "en": "Can't see the option? Open the site directly in Safari or Chrome, not from inside Instagram or Facebook."
+      }
+    },
+    "pwa.description": {
+      "placeholders": [],
+      "text": {
+        "he": "קביעת תור, שירותים ומחירים, מוצרים ושעות פתיחה.",
+        "en": "Book an appointment, services and prices, products and opening hours."
+      }
+    },
+    "offline.title": {
+      "placeholders": [],
+      "text": {
+        "he": "אין חיבור לאינטרנט",
+        "en": "No internet connection"
+      }
+    },
+    "offline.text": {
+      "placeholders": [],
+      "text": {
+        "he": "נראה שהמכשיר לא מחובר. אפשר לנסות שוב כשהחיבור יחזור.",
+        "en": "Looks like your device is offline. You can try again once you're back online."
+      }
+    },
+    "offline.retry": {
+      "placeholders": [],
+      "text": {
+        "he": "לנסות שוב",
+        "en": "Try again"
+      }
+    },
+    "pets.remove": {
+      "placeholders": [],
+      "text": {
+        "he": "הסרה",
+        "en": "Remove"
+      }
+    },
+    "pets.name": {
+      "placeholders": [],
+      "text": {
+        "he": "שם החיה",
+        "en": "Pet's name"
+      }
+    },
+    "pets.species": {
+      "placeholders": [],
+      "text": {
+        "he": "סוג",
+        "en": "Type"
+      }
+    },
+    "pets.dog": {
+      "placeholders": [],
+      "text": {
+        "he": "כלב",
+        "en": "Dog"
+      }
+    },
+    "pets.cat": {
+      "placeholders": [],
+      "text": {
+        "he": "חתול",
+        "en": "Cat"
+      }
+    },
+    "pets.young": {
+      "placeholders": [],
+      "text": {
+        "he": "עד חצי שנה",
+        "en": "Up to 6 months"
+      }
+    },
+    "pets.adult": {
+      "placeholders": [],
+      "text": {
+        "he": "מעל חצי שנה",
+        "en": "Over 6 months"
+      }
+    },
+    "pets.small": {
+      "placeholders": [],
+      "text": {
+        "he": "עד 10 ק\"ג",
+        "en": "Up to 10 kg"
+      }
+    },
+    "pets.large": {
+      "placeholders": [],
+      "text": {
+        "he": "מעל 10 ק\"ג",
+        "en": "Over 10 kg"
+      }
+    },
+    "pets.unknownWeight": {
+      "placeholders": [],
+      "text": {
+        "he": "לא בטוחים",
+        "en": "Not sure"
+      }
+    },
+    "pets.groom": {
+      "placeholders": [],
+      "text": {
+        "he": "טיפוח מלא",
+        "en": "Full grooming"
+      }
+    },
+    "pets.nails": {
+      "placeholders": [],
+      "text": {
+        "he": "גזירת ציפורניים",
+        "en": "Nail trim"
+      }
+    },
+    "pets.breed": {
+      "placeholders": [],
+      "text": {
+        "he": "גזע",
+        "en": "Breed"
+      }
+    },
+    "pets.max": {
+      "placeholders": [
+        "n"
+      ],
+      "text": {
+        "he": "אפשר לקבוע עד {n} חיות בתור אחד.",
+        "en": "You can book up to {n} pets in one appointment."
+      }
+    },
+    "service.title": {
+      "placeholders": [],
+      "text": {
+        "he": "איזה שירות לקבוע?",
+        "en": "Which service would you like?"
+      }
+    },
+    "service.chosen": {
+      "placeholders": [],
+      "text": {
+        "he": "השירותים שבחרתם",
+        "en": "Your chosen services"
+      }
+    },
+    "service.none": {
+      "placeholders": [],
+      "text": {
+        "he": "עוד לא נבחר שירות.",
+        "en": "No service chosen yet."
+      }
+    },
+    "service.petN": {
+      "placeholders": [
+        "n"
+      ],
+      "text": {
+        "he": "חיה {n}",
+        "en": "Pet {n}"
+      }
+    },
+    "service.toTime": {
+      "placeholders": [],
+      "text": {
+        "he": "המשך לבחירת מועד",
+        "en": "Continue to pick a time"
+      }
+    },
+    "service.chooseTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "בחירת שירות",
+        "en": "Choose a service"
+      }
+    },
+    "service.anotherTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "מגיעים עם עוד חיה? בחרו לה שירות",
+        "en": "Bringing another pet? Choose its service"
+      }
+    },
+    "service.showAll": {
+      "placeholders": [],
+      "text": {
+        "he": "כל השירותים",
+        "en": "All services"
+      }
+    },
+    "service.add": {
+      "placeholders": [],
+      "text": {
+        "he": "הוספה",
+        "en": "Add"
+      }
+    },
+    "details.title": {
+      "placeholders": [],
+      "text": {
+        "he": "כמעט סיימנו: פרטי החיה ופרטי קשר",
+        "en": "Almost done: your pet and your details"
+      }
+    },
+    "details.petTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "פרטי החיה",
+        "en": "About your pet"
+      }
+    },
+    "details.contactTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "הפרטים שלכם",
+        "en": "Your details"
+      }
+    },
+    "details.vet": {
+      "placeholders": [],
+      "text": {
+        "he": "שם הווטרינר או המרפאה",
+        "en": "Vet or clinic name"
+      }
+    },
+    "details.vetHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "מי שמטפל בחיה, למקרה שנצטרך ליצור קשר.",
+        "en": "Who treats your pet, in case we need to reach them."
+      }
+    },
+    "details.vaccines": {
+      "placeholders": [],
+      "text": {
+        "he": "יש לחיה תעודת חיסונים",
+        "en": "The pet has a vaccination certificate"
+      }
+    },
+    "time.title": {
+      "placeholders": [],
+      "text": {
+        "he": "מתי נוח לכם?",
+        "en": "When works for you?"
+      }
+    },
+    "time.length": {
+      "placeholders": [
+        "minutes"
+      ],
+      "text": {
+        "he": "משך התור: {minutes} דקות",
+        "en": "Appointment length: {minutes} minutes"
+      }
+    },
+    "time.week": {
+      "placeholders": [],
+      "text": {
+        "he": "ימים בשבוע",
+        "en": "Days of the week"
+      }
+    },
+    "time.prevWeek": {
+      "placeholders": [],
+      "text": {
+        "he": "שבוע קודם",
+        "en": "Previous week"
+      }
+    },
+    "time.nextWeek": {
+      "placeholders": [],
+      "text": {
+        "he": "שבוע הבא",
+        "en": "Next week"
+      }
+    },
+    "time.free": {
+      "placeholders": [],
+      "text": {
+        "he": "יש מקום",
+        "en": "Available"
+      }
+    },
+    "time.full": {
+      "placeholders": [],
+      "text": {
+        "he": "מלא",
+        "en": "Full"
+      }
+    },
+    "time.closed": {
+      "placeholders": [],
+      "text": {
+        "he": "סגור",
+        "en": "Closed"
+      }
+    },
+    "time.slots": {
+      "placeholders": [
+        "day"
+      ],
+      "text": {
+        "he": "שעות פנויות ב-{day}",
+        "en": "Available times on {day}"
+      }
+    },
+    "time.noSlots": {
+      "placeholders": [],
+      "text": {
+        "he": "אין שעות פנויות ביום הזה. אפשר לבחור יום אחר.",
+        "en": "No available times on this day. Please pick another day."
+      }
+    },
+    "time.first": {
+      "placeholders": [
+        "when"
+      ],
+      "text": {
+        "he": "המועד הפנוי הקרוב: {when}",
+        "en": "Next available time: {when}"
+      }
+    },
+    "time.takeFirst": {
+      "placeholders": [],
+      "text": {
+        "he": "לקחת את המועד הזה",
+        "en": "Take this time"
+      }
+    },
+    "time.picked": {
+      "placeholders": [
+        "when"
+      ],
+      "text": {
+        "he": "השעה שבחרתם: {when}",
+        "en": "The time you chose: {when}"
+      }
+    },
+    "time.pickedGone": {
+      "placeholders": [
+        "when"
+      ],
+      "text": {
+        "he": "השעה שבחרתם ({when}) לא מתאימה לתור עם החיות האלה. הנה השעות הפנויות.",
+        "en": "The time you chose ({when}) doesn't fit a booking with these pets. Here are the free times."
+      }
+    },
+    "time.none": {
+      "placeholders": [],
+      "text": {
+        "he": "אין מועדים פנויים בחודש הקרוב. כדאי להתקשר למספרה.",
+        "en": "No available times in the coming month. Please call the salon."
+      }
+    },
+    "time.service": {
+      "placeholders": [],
+      "text": {
+        "he": "השירות שבחרתם",
+        "en": "Your service"
+      }
+    },
+    "time.changeService": {
+      "placeholders": [],
+      "text": {
+        "he": "שינוי",
+        "en": "Change"
+      }
+    },
+    "code.title": {
+      "placeholders": [],
+      "text": {
+        "he": "הזנת קוד האימות",
+        "en": "Enter your verification code"
+      }
+    },
+    "code.sentWhatsapp": {
+      "placeholders": [],
+      "text": {
+        "he": "שלחנו קוד בן 6 ספרות בוואטסאפ.",
+        "en": "We sent a 6-digit code on WhatsApp."
+      }
+    },
+    "code.sentEmail": {
+      "placeholders": [],
+      "text": {
+        "he": "שלחנו קוד בן 6 ספרות למייל.",
+        "en": "We sent a 6-digit code to your email."
+      }
+    },
+    "code.label": {
+      "placeholders": [],
+      "text": {
+        "he": "קוד אימות",
+        "en": "Verification code"
+      }
+    },
+    "code.help": {
+      "placeholders": [],
+      "text": {
+        "he": "6 ספרות. הקוד בתוקף ל-10 דקות.",
+        "en": "6 digits. The code is valid for 10 minutes."
+      }
+    },
+    "code.submit": {
+      "placeholders": [],
+      "text": {
+        "he": "אישור התור",
+        "en": "Confirm appointment"
+      }
+    },
+    "code.holdUntil": {
+      "placeholders": [
+        "time"
+      ],
+      "text": {
+        "he": "המועד שמור עבורכם עד {time}.",
+        "en": "We're holding this time for you until {time}."
+      }
+    },
+    "code.sentEmailTo": {
+      "placeholders": [
+        "to"
+      ],
+      "text": {
+        "he": "שלחנו קוד בן 6 ספרות אל {to}.",
+        "en": "We sent a 6-digit code to {to}."
+      }
+    },
+    "code.sentWhatsappTo": {
+      "placeholders": [
+        "to"
+      ],
+      "text": {
+        "he": "שלחנו קוד בן 6 ספרות בוואטסאפ למספר שמסתיים ב-{to}.",
+        "en": "We sent a 6-digit code on WhatsApp to the number ending {to}."
+      }
+    },
+    "code.emailOnFile": {
+      "placeholders": [
+        "email"
+      ],
+      "text": {
+        "he": "למספר הטלפון הזה כבר רשום המייל {email}, ולכן הקוד נשלח אליו.",
+        "en": "This phone number already has the email {email}, so the code went there."
+      }
+    },
+    "code.replaceEmail": {
+      "placeholders": [
+        "email"
+      ],
+      "text": {
+        "he": "אחרי האימות, להחליף אותו במייל החדש {email}",
+        "en": "After the code, replace it with the new email {email}"
+      }
+    },
+    "code.toPhone": {
+      "placeholders": [],
+      "text": {
+        "he": "אין גישה למייל? שלחו את הקוד לטלפון",
+        "en": "Can't open that email? Send the code to my phone"
+      }
+    },
+    "code.noArrive": {
+      "placeholders": [],
+      "text": {
+        "he": "הקוד לא הגיע?",
+        "en": "Didn't get the code?"
+      }
+    },
+    "code.byEmail": {
+      "placeholders": [],
+      "text": {
+        "he": "שליחה במייל",
+        "en": "Send by email"
+      }
+    },
+    "code.emailLabel": {
+      "placeholders": [],
+      "text": {
+        "he": "המייל שלכם, לקבלת הקוד",
+        "en": "Your email, to get the code there"
+      }
+    },
+    "code.again": {
+      "placeholders": [],
+      "text": {
+        "he": "שליחה חוזרת בוואטסאפ",
+        "en": "Resend on WhatsApp"
+      }
+    },
+    "code.wait": {
+      "placeholders": [
+        "seconds"
+      ],
+      "text": {
+        "he": "אפשר לבקש שליחה חוזרת בעוד {seconds} שניות.",
+        "en": "You can request a new code in {seconds} seconds."
+      }
+    },
+    "code.orCall": {
+      "placeholders": [],
+      "text": {
+        "he": "או להתקשר למספרה",
+        "en": "or call the salon"
+      }
+    },
+    "manage.confirmedEmail": {
+      "placeholders": [
+        "to"
+      ],
+      "text": {
+        "he": "התור נקבע! האישור נשלח במייל אל {to}.",
+        "en": "You're booked! The confirmation is on its way by email to {to}."
+      }
+    },
+    "manage.confirmedWhatsapp": {
+      "placeholders": [
+        "to"
+      ],
+      "text": {
+        "he": "התור נקבע! האישור נשלח בוואטסאפ למספר שמסתיים ב-{to}.",
+        "en": "You're booked! The confirmation is on its way on WhatsApp to the number ending {to}."
+      }
+    },
+    "manage.title": {
+      "placeholders": [],
+      "text": {
+        "he": "התור שלכם",
+        "en": "Your appointment"
+      }
+    },
+    "manage.confirmed": {
+      "placeholders": [],
+      "text": {
+        "he": "התור נקבע! שלחנו אישור בהודעה.",
+        "en": "You're booked! We sent you a confirmation message."
+      }
+    },
+    "manage.moved": {
+      "placeholders": [],
+      "text": {
+        "he": "התור הועבר למועד החדש.",
+        "en": "Your appointment has been moved to the new time."
+      }
+    },
+    "manage.messagesOff": {
+      "placeholders": [],
+      "text": {
+        "he": "הפסקנו לשלוח הודעות על התור.",
+        "en": "We've stopped sending messages about this appointment."
+      }
+    },
+    "manage.messagesOn": {
+      "placeholders": [],
+      "text": {
+        "he": "נמשיך לשלוח הודעות על התור.",
+        "en": "We'll keep sending messages about this appointment."
+      }
+    },
+    "manage.when": {
+      "placeholders": [],
+      "text": {
+        "he": "מועד",
+        "en": "When"
+      }
+    },
+    "manage.pets": {
+      "placeholders": [],
+      "text": {
+        "he": "חיות ושירותים",
+        "en": "Pets & services"
+      }
+    },
+    "manage.name": {
+      "placeholders": [],
+      "text": {
+        "he": "על שם",
+        "en": "Booked under"
+      }
+    },
+    "manage.priceFrom": {
+      "placeholders": [],
+      "text": {
+        "he": "החל מ-",
+        "en": "From "
+      }
+    },
+    "manage.status.confirmed": {
+      "placeholders": [],
+      "text": {
+        "he": "מאושר",
+        "en": "Confirmed"
+      }
+    },
+    "manage.status.cancelled": {
+      "placeholders": [],
+      "text": {
+        "he": "בוטל",
+        "en": "Cancelled"
+      }
+    },
+    "manage.status.completed": {
+      "placeholders": [],
+      "text": {
+        "he": "הסתיים",
+        "en": "Completed"
+      }
+    },
+    "manage.status.no_show": {
+      "placeholders": [],
+      "text": {
+        "he": "לא הגיעו",
+        "en": "No-show"
+      }
+    },
+    "manage.move": {
+      "placeholders": [],
+      "text": {
+        "he": "העברת התור",
+        "en": "Move appointment"
+      }
+    },
+    "manage.moveTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "בחירת מועד חדש",
+        "en": "Choose a new time"
+      }
+    },
+    "manage.moveSubmit": {
+      "placeholders": [],
+      "text": {
+        "he": "העברה לשעה הזו",
+        "en": "Move to this time"
+      }
+    },
+    "manage.cancel": {
+      "placeholders": [],
+      "text": {
+        "he": "ביטול התור",
+        "en": "Cancel appointment"
+      }
+    },
+    "manage.cancelConfirm": {
+      "placeholders": [],
+      "text": {
+        "he": "כן, לבטל את התור",
+        "en": "Yes, cancel the appointment"
+      }
+    },
+    "manage.cancelAsk": {
+      "placeholders": [],
+      "text": {
+        "he": "לבטל את התור? אי אפשר לבטל את הביטול.",
+        "en": "Cancel this appointment? This can't be undone."
+      }
+    },
+    "manage.cutoff": {
+      "placeholders": [
+        "hours"
+      ],
+      "text": {
+        "he": "שינוי או ביטול באתר אפשריים עד {hours} שעות לפני התור. מעכשיו רק בטלפון.",
+        "en": "You can change or cancel online up to {hours} hours before the appointment. From now on, by phone only."
+      }
+    },
+    "manage.messages": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעות על התור",
+        "en": "Appointment messages"
+      }
+    },
+    "manage.stopMessages": {
+      "placeholders": [],
+      "text": {
+        "he": "הפסקת הודעות על התור",
+        "en": "Stop appointment messages"
+      }
+    },
+    "manage.startMessages": {
+      "placeholders": [],
+      "text": {
+        "he": "חידוש הודעות על התור",
+        "en": "Resume appointment messages"
+      }
+    },
+    "manage.gone": {
+      "placeholders": [],
+      "text": {
+        "he": "הקישור לא בתוקף",
+        "en": "This link is no longer valid"
+      }
+    },
+    "manage.goneText": {
+      "placeholders": [],
+      "text": {
+        "he": "התור הסתיים, בוטל או שהקישור שגוי. אפשר לקבוע תור חדש.",
+        "en": "The appointment is over, was cancelled, or the link is wrong. You can book a new appointment."
+      }
+    },
+    "manage.bookAgain": {
+      "placeholders": [],
+      "text": {
+        "he": "קביעת תור חדש",
+        "en": "Book a new appointment"
+      }
+    },
+    "manage.private": {
+      "placeholders": [],
+      "text": {
+        "he": "זה קישור אישי. לא כדאי לשתף אותו.",
+        "en": "This is a personal link. Please don't share it."
+      }
+    },
+    "manage.photoAdded": {
+      "placeholders": [],
+      "text": {
+        "he": "התמונה התקבלה. ההצעות יופיעו כאן בקרוב.",
+        "en": "Photo received. Suggestions will show up here soon."
+      }
+    },
+    "manage.photoSaved": {
+      "placeholders": [],
+      "text": {
+        "he": "הפרטים נשמרו. תודה!",
+        "en": "Details saved. Thank you!"
+      }
+    },
+    "manage.photos": {
+      "placeholders": [],
+      "text": {
+        "he": "תמונה של החיה (לא חובה)",
+        "en": "A photo of your pet (optional)"
+      }
+    },
+    "manage.photosHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "תמונה עוזרת למספרה להתכונן. נציע סוג פרווה ומצב שלה, ואפשר לתקן. התמונה נמחקת 90 יום אחרי התור.",
+        "en": "A photo helps the salon get ready. We'll suggest the coat type and condition, and you can correct them. The photo is deleted 90 days after the appointment."
+      }
+    },
+    "manage.photoPick": {
+      "placeholders": [],
+      "text": {
+        "he": "בחירת תמונה",
+        "en": "Choose a photo"
+      }
+    },
+    "manage.photoSend": {
+      "placeholders": [],
+      "text": {
+        "he": "שליחת התמונה",
+        "en": "Send photo"
+      }
+    },
+    "manage.photoWaiting": {
+      "placeholders": [],
+      "text": {
+        "he": "התמונה התקבלה, ההצעות בדרך.",
+        "en": "Photo received, suggestions are on the way."
+      }
+    },
+    "manage.suggestion": {
+      "placeholders": [],
+      "text": {
+        "he": "מה ראינו בתמונה",
+        "en": "What we saw in the photo"
+      }
+    },
+    "manage.breed": {
+      "placeholders": [],
+      "text": {
+        "he": "גזע",
+        "en": "Breed"
+      }
+    },
+    "manage.coat": {
+      "placeholders": [],
+      "text": {
+        "he": "סוג פרווה",
+        "en": "Coat type"
+      }
+    },
+    "manage.condition": {
+      "placeholders": [],
+      "text": {
+        "he": "מצב הפרווה",
+        "en": "Coat condition"
+      }
+    },
+    "manage.suggestionNote": {
+      "placeholders": [],
+      "text": {
+        "he": "המחיר הסופי נקבע במספרה.",
+        "en": "The final price is set at the salon."
+      }
+    },
+    "manage.accept": {
+      "placeholders": [],
+      "text": {
+        "he": "שמירה",
+        "en": "Save"
+      }
+    },
+    "manage.savedCondition": {
+      "placeholders": [],
+      "text": {
+        "he": "מצב פרווה שמור",
+        "en": "Saved coat condition"
+      }
+    },
+    "err.expired": {
+      "placeholders": [],
+      "text": {
+        "he": "הדף פג תוקף. אפשר לנסות שוב.",
+        "en": "This page has expired. Please try again."
+      }
+    },
+    "err.tooFast": {
+      "placeholders": [],
+      "text": {
+        "he": "משהו השתבש בשליחה. נא לנסות שוב.",
+        "en": "Something went wrong while sending. Please try again."
+      }
+    },
+    "err.tooManyPets": {
+      "placeholders": [],
+      "text": {
+        "he": "הגעתם למספר החיות המרבי לתור אחד.",
+        "en": "You've reached the maximum number of pets for one appointment."
+      }
+    },
+    "err.noServices": {
+      "placeholders": [],
+      "text": {
+        "he": "צריך לבחור שירות אחד לפחות.",
+        "en": "Choose at least one service."
+      }
+    },
+    "err.chooseService": {
+      "placeholders": [],
+      "text": {
+        "he": "אי אפשר לקבוע את השירות הזה באתר. כדאי להתקשר למספרה.",
+        "en": "That service can't be booked online. Please call the salon."
+      }
+    },
+    "err.petNameRequired": {
+      "placeholders": [],
+      "text": {
+        "he": "חסר שם לאחת החיות.",
+        "en": "One of the pets is missing a name."
+      }
+    },
+    "err.speciesRequired": {
+      "placeholders": [],
+      "text": {
+        "he": "צריך לבחור כלב או חתול לכל חיה.",
+        "en": "Choose dog or cat for each pet."
+      }
+    },
+    "err.vetRequired": {
+      "placeholders": [],
+      "text": {
+        "he": "חסר שם הווטרינר או המרפאה לאחת החיות.",
+        "en": "One of the pets is missing a vet or clinic name."
+      }
+    },
+    "err.TooManyPets": {
+      "placeholders": [],
+      "text": {
+        "he": "הגעתם למספר החיות המרבי לתור אחד.",
+        "en": "You've reached the maximum number of pets for one appointment."
+      }
+    },
+    "err.NoRule": {
+      "placeholders": [],
+      "text": {
+        "he": "לא מצאנו שירות מתאים לאחת החיות. כדאי להתקשר למספרה.",
+        "en": "We couldn't find a matching service for one of the pets. Please call the salon."
+      }
+    },
+    "err.NotBookableOnline": {
+      "placeholders": [],
+      "text": {
+        "he": "את השירות לאחת החיות קובעים בטלפון בלבד.",
+        "en": "The service for one of the pets can only be booked by phone."
+      }
+    },
+    "err.chooseTime": {
+      "placeholders": [],
+      "text": {
+        "he": "צריך לבחור שעה.",
+        "en": "Please choose a time."
+      }
+    },
+    "err.SlotTaken": {
+      "placeholders": [],
+      "text": {
+        "he": "מישהו הספיק לקחת את השעה הזו. נא לבחור שעה אחרת.",
+        "en": "Someone just took this time. Please choose another time."
+      }
+    },
+    "err.SlotUnavailable": {
+      "placeholders": [],
+      "text": {
+        "he": "השעה הזו כבר לא פנויה. נא לבחור שעה אחרת.",
+        "en": "This time is no longer available. Please choose another time."
+      }
+    },
+    "err.RateLimited": {
+      "placeholders": [],
+      "text": {
+        "he": "היו יותר מדי ניסיונות. נא לנסות שוב מאוחר יותר או להתקשר.",
+        "en": "Too many attempts. Please try again later or give us a call."
+      }
+    },
+    "err.HoldExpired": {
+      "placeholders": [],
+      "text": {
+        "he": "זמן השמירה על המועד עבר. נא לבחור שעה שוב.",
+        "en": "The hold on this time has expired. Please choose a time again."
+      }
+    },
+    "err.nameInvalid": {
+      "placeholders": [],
+      "text": {
+        "he": "נא למלא שם.",
+        "en": "Please enter a name."
+      }
+    },
+    "err.phoneInvalid": {
+      "placeholders": [],
+      "text": {
+        "he": "מספר הטלפון לא תקין.",
+        "en": "This phone number isn't valid."
+      }
+    },
+    "err.emailInvalid": {
+      "placeholders": [],
+      "text": {
+        "he": "כתובת המייל לא תקינה.",
+        "en": "This email address isn't valid."
+      }
+    },
+    "err.Wrong": {
+      "placeholders": [],
+      "text": {
+        "he": "הקוד לא נכון. נא לבדוק ולנסות שוב.",
+        "en": "That code isn't right. Please check it and try again."
+      }
+    },
+    "err.Expired": {
+      "placeholders": [],
+      "text": {
+        "he": "תוקף הקוד פג. אפשר לבקש קוד חדש.",
+        "en": "This code has expired. You can request a new one."
+      }
+    },
+    "err.TooManyAttempts": {
+      "placeholders": [],
+      "text": {
+        "he": "היו יותר מדי ניסיונות. אפשר לבקש קוד חדש.",
+        "en": "Too many attempts. You can request a new code."
+      }
+    },
+    "err.codeRateLimited": {
+      "placeholders": [],
+      "text": {
+        "he": "נשלחו יותר מדי קודים. נא לנסות שוב בעוד שעה או להתקשר.",
+        "en": "Too many codes have been sent. Please try again in an hour or give us a call."
+      }
+    },
+    "err.codeNoChannel": {
+      "placeholders": [],
+      "text": {
+        "he": "לא הצלחנו לשלוח קוד כרגע. אפשר להתקשר למספרה ונקבע יחד.",
+        "en": "We couldn't send a code right now. Call the salon and we'll book it together."
+      }
+    },
+    "err.codeFailed": {
+      "placeholders": [],
+      "text": {
+        "he": "שליחת הקוד נכשלה. אפשר לנסות במייל או להתקשר למספרה.",
+        "en": "We couldn't send the code. You can try by email or call the salon."
+      }
+    },
+    "err.NotFound": {
+      "placeholders": [],
+      "text": {
+        "he": "התור לא נמצא.",
+        "en": "Appointment not found."
+      }
+    },
+    "err.PastCutoff": {
+      "placeholders": [],
+      "text": {
+        "he": "כבר אי אפשר לשנות את התור באתר. נא להתקשר למספרה.",
+        "en": "This appointment can no longer be changed online. Please call the salon."
+      }
+    },
+    "err.photoInvalid": {
+      "placeholders": [],
+      "text": {
+        "he": "לא הצלחנו לקרוא את התמונה. אפשר לנסות תמונה אחרת (JPG, PNG או WebP, עד 8MB).",
+        "en": "We couldn't read the photo. Try a different photo (JPG, PNG or WebP, up to 8MB)."
+      }
+    },
+    "err.photoOff": {
+      "placeholders": [],
+      "text": {
+        "he": "העלאת תמונות לא זמינה כרגע.",
+        "en": "Photo uploads aren't available right now."
+      }
+    },
+    "err.emailRequired": {
+      "placeholders": [],
+      "text": {
+        "he": "נא למלא כתובת מייל, כדי שנוכל לשלוח את קוד האימות.",
+        "en": "Please enter your email address so we can send the verification code."
+      }
+    },
+    "admin.title": {
+      "placeholders": [
+        "brand"
+      ],
+      "text": {
+        "he": "ניהול {brand}",
+        "en": "{brand} admin"
+      }
+    },
+    "admin.short": {
+      "placeholders": [],
+      "text": {
+        "he": "ניהול",
+        "en": "Admin"
+      }
+    },
+    "admin.navLabel": {
+      "placeholders": [],
+      "text": {
+        "he": "תפריט ניהול",
+        "en": "Admin menu"
+      }
+    },
+    "admin.nav.today": {
+      "placeholders": [],
+      "text": {
+        "he": "היום",
+        "en": "Today"
+      }
+    },
+    "admin.nav.calendar": {
+      "placeholders": [],
+      "text": {
+        "he": "יומן",
+        "en": "Calendar"
+      }
+    },
+    "admin.nav.inbox": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעות",
+        "en": "Messages"
+      }
+    },
+    "admin.nav.customers": {
+      "placeholders": [],
+      "text": {
+        "he": "לקוחות",
+        "en": "Customers"
+      }
+    },
+    "admin.nav.catalog": {
+      "placeholders": [],
+      "text": {
+        "he": "תוכן",
+        "en": "Content"
+      }
+    },
+    "admin.nav.hours": {
+      "placeholders": [],
+      "text": {
+        "he": "שעות",
+        "en": "Hours"
+      }
+    },
+    "admin.nav.settings": {
+      "placeholders": [],
+      "text": {
+        "he": "הגדרות",
+        "en": "Settings"
+      }
+    },
+    "admin.nav.stats": {
+      "placeholders": [],
+      "text": {
+        "he": "נתונים",
+        "en": "Stats"
+      }
+    },
+    "admin.logout": {
+      "placeholders": [],
+      "text": {
+        "he": "יציאה",
+        "en": "Log out"
+      }
+    },
+    "admin.save": {
+      "placeholders": [],
+      "text": {
+        "he": "שמירה",
+        "en": "Save"
+      }
+    },
+    "admin.saved": {
+      "placeholders": [],
+      "text": {
+        "he": "נשמר.",
+        "en": "Saved."
+      }
+    },
+    "admin.delete": {
+      "placeholders": [],
+      "text": {
+        "he": "מחיקה",
+        "en": "Delete"
+      }
+    },
+    "admin.add": {
+      "placeholders": [],
+      "text": {
+        "he": "הוספה",
+        "en": "Add"
+      }
+    },
+    "admin.cancel": {
+      "placeholders": [],
+      "text": {
+        "he": "ביטול",
+        "en": "Cancel"
+      }
+    },
+    "admin.none": {
+      "placeholders": [],
+      "text": {
+        "he": "אין כרגע.",
+        "en": "Nothing right now."
+      }
+    },
+    "admin.error.expired": {
+      "placeholders": [],
+      "text": {
+        "he": "הדף פג תוקף. נא לנסות שוב.",
+        "en": "This page has expired. Please try again."
+      }
+    },
+    "admin.error.invalid": {
+      "placeholders": [],
+      "text": {
+        "he": "חלק מהשדות לא תקינים.",
+        "en": "Some fields aren't valid."
+      }
+    },
+    "admin.error.SlotTaken": {
+      "placeholders": [],
+      "text": {
+        "he": "השעה הזו תפוסה.",
+        "en": "This time is already taken."
+      }
+    },
+    "admin.error.NotFound": {
+      "placeholders": [],
+      "text": {
+        "he": "לא נמצא.",
+        "en": "Not found."
+      }
+    },
+    "admin.error.NoRule": {
+      "placeholders": [],
+      "text": {
+        "he": "השירות לא נמצא.",
+        "en": "Service not found."
+      }
+    },
+    "admin.error.storageOff": {
+      "placeholders": [],
+      "text": {
+        "he": "העלאת תמונות לא מוגדרת עדיין.",
+        "en": "Photo uploads aren't set up yet."
+      }
+    },
+    "admin.error.photo": {
+      "placeholders": [],
+      "text": {
+        "he": "לא הצלחנו לשמור את התמונה. אפשר להעלות JPG,‏ PNG או WebP עד 8MB.",
+        "en": "The photo could not be saved. Use a JPG, PNG or WebP of up to 8 MB."
+      }
+    },
+    "admin.error.placeholders": {
+      "placeholders": [],
+      "text": {
+        "he": "הנוסח חייב לכלול את אותן מילים בסוגריים מסולסלים כמו קודם.",
+        "en": "The wording must include the same words in curly braces as before."
+      }
+    },
+    "login.title": {
+      "placeholders": [],
+      "text": {
+        "he": "כניסה לניהול",
+        "en": "Admin login"
+      }
+    },
+    "login.email": {
+      "placeholders": [],
+      "text": {
+        "he": "אימייל",
+        "en": "Email"
+      }
+    },
+    "login.password": {
+      "placeholders": [],
+      "text": {
+        "he": "סיסמה",
+        "en": "Password"
+      }
+    },
+    "login.next": {
+      "placeholders": [],
+      "text": {
+        "he": "המשך",
+        "en": "Continue"
+      }
+    },
+    "login.codeTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "קוד מאפליקציית האימות",
+        "en": "Code from your authenticator app"
+      }
+    },
+    "login.code": {
+      "placeholders": [],
+      "text": {
+        "he": "קוד בן 6 ספרות",
+        "en": "6-digit code"
+      }
+    },
+    "login.submit": {
+      "placeholders": [],
+      "text": {
+        "he": "כניסה",
+        "en": "Log in"
+      }
+    },
+    "login.error.Wrong": {
+      "placeholders": [],
+      "text": {
+        "he": "האימייל או הסיסמה שגויים.",
+        "en": "The email or password is incorrect."
+      }
+    },
+    "login.error.Locked": {
+      "placeholders": [],
+      "text": {
+        "he": "היו יותר מדי ניסיונות. אפשר לנסות שוב בעוד רבע שעה.",
+        "en": "Too many attempts. You can try again in 15 minutes."
+      }
+    },
+    "login.error.Code": {
+      "placeholders": [],
+      "text": {
+        "he": "הקוד שגוי או שכבר נעשה בו שימוש.",
+        "en": "The code is wrong or has already been used."
+      }
+    },
+    "login.error.expired": {
+      "placeholders": [],
+      "text": {
+        "he": "פג הזמן. נא להתחיל שוב.",
+        "en": "Time's up. Please start again."
+      }
+    },
+    "login.error.EmailFailed": {
+      "placeholders": [],
+      "text": {
+        "he": "לא הצלחנו לשלוח את האימייל. נא לנסות שוב או להיכנס עם הסיסמה.",
+        "en": "The email could not be sent. Try again, or log in with your password."
+      }
+    },
+    "login.emailOption": {
+      "placeholders": [],
+      "text": {
+        "he": "כניסה עם קוד באימייל",
+        "en": "Log in with a code by email"
+      }
+    },
+    "login.passwordOption": {
+      "placeholders": [],
+      "text": {
+        "he": "כניסה עם סיסמה ואפליקציית אימות",
+        "en": "Log in with password and authenticator app"
+      }
+    },
+    "login.emailTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "כניסה עם קוד באימייל",
+        "en": "Log in with a code by email"
+      }
+    },
+    "login.emailHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "נשלח קוד בן 6 ספרות לאימייל של חשבון הניהול.",
+        "en": "We'll send a 6-digit code to the admin account's email."
+      }
+    },
+    "login.sendCode": {
+      "placeholders": [],
+      "text": {
+        "he": "שליחת קוד",
+        "en": "Send code"
+      }
+    },
+    "login.emailCodeTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "הקוד מהאימייל",
+        "en": "The code from your email"
+      }
+    },
+    "login.emailSent": {
+      "placeholders": [
+        "minutes"
+      ],
+      "text": {
+        "he": "אם הכתובת שייכת לחשבון ניהול, נשלח אליה קוד. הוא בתוקף ל-{minutes} דקות.",
+        "en": "If this address belongs to an admin account, a code is on its way. It is valid for {minutes} minutes."
+      }
+    },
+    "login.resend": {
+      "placeholders": [],
+      "text": {
+        "he": "שליחת קוד חדש",
+        "en": "Send a new code"
+      }
+    },
+    "login.ok.out": {
+      "placeholders": [],
+      "text": {
+        "he": "יצאתם מהמערכת.",
+        "en": "You've logged out."
+      }
+    },
+    "today.next": {
+      "placeholders": [],
+      "text": {
+        "he": "התורים הקרובים",
+        "en": "Upcoming appointments"
+      }
+    },
+    "today.noBookings": {
+      "placeholders": [],
+      "text": {
+        "he": "אין תורים קרובים.",
+        "en": "No upcoming appointments."
+      }
+    },
+    "today.events": {
+      "placeholders": [],
+      "text": {
+        "he": "עדכונים חדשים",
+        "en": "New updates"
+      }
+    },
+    "today.markRead": {
+      "placeholders": [],
+      "text": {
+        "he": "סימון כנקרא",
+        "en": "Mark as read"
+      }
+    },
+    "today.failed": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעות שלא נשלחו (כדאי להתקשר)",
+        "en": "Messages that weren't sent (consider calling)"
+      }
+    },
+    "today.devices": {
+      "placeholders": [],
+      "text": {
+        "he": "התראות במכשירים",
+        "en": "Device notifications"
+      }
+    },
+    "today.pushOff": {
+      "placeholders": [],
+      "text": {
+        "he": "התראות דחיפה עוד לא מוגדרות בשרת.",
+        "en": "Push notifications aren't set up on the server yet."
+      }
+    },
+    "today.enable": {
+      "placeholders": [],
+      "text": {
+        "he": "הפעלת התראות במכשיר הזה",
+        "en": "Turn on notifications on this device"
+      }
+    },
+    "today.enabled": {
+      "placeholders": [],
+      "text": {
+        "he": "ההתראות הופעלו במכשיר הזה.",
+        "en": "Notifications are on for this device."
+      }
+    },
+    "today.denied": {
+      "placeholders": [],
+      "text": {
+        "he": "הדפדפן חוסם התראות. אפשר לאשר אותן בהגדרות הדפדפן.",
+        "en": "Your browser is blocking notifications. You can allow them in your browser settings."
+      }
+    },
+    "today.unsupported": {
+      "placeholders": [],
+      "text": {
+        "he": "הדפדפן הזה לא תומך בהתראות. באייפון יש להוסיף קודם את אזור הניהול למסך הבית.",
+        "en": "This browser doesn't support notifications. On iPhone, add the admin area to your Home Screen first."
+      }
+    },
+    "today.test": {
+      "placeholders": [],
+      "text": {
+        "he": "שליחת התראת בדיקה",
+        "en": "Send a test notification"
+      }
+    },
+    "today.testSent": {
+      "placeholders": [],
+      "text": {
+        "he": "התראת הבדיקה בדרך.",
+        "en": "Test notification is on its way."
+      }
+    },
+    "today.lastReceipt": {
+      "placeholders": [],
+      "text": {
+        "he": "אישור אחרון: ",
+        "en": "Last received: "
+      }
+    },
+    "today.noReceipt": {
+      "placeholders": [],
+      "text": {
+        "he": "עוד לא התקבל אישור",
+        "en": "Nothing received yet"
+      }
+    },
+    "today.removeDevice": {
+      "placeholders": [],
+      "text": {
+        "he": "הסרת המכשיר",
+        "en": "Remove device"
+      }
+    },
+    "event.booking_created": {
+      "placeholders": [],
+      "text": {
+        "he": "תור חדש",
+        "en": "New appointment"
+      }
+    },
+    "event.booking_moved": {
+      "placeholders": [],
+      "text": {
+        "he": "תור הועבר",
+        "en": "Appointment moved"
+      }
+    },
+    "event.booking_cancelled": {
+      "placeholders": [],
+      "text": {
+        "he": "תור בוטל",
+        "en": "Appointment cancelled"
+      }
+    },
+    "event.message_failed": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעה ללקוח לא נשלחה",
+        "en": "Customer message not sent"
+      }
+    },
+    "event.reply_received": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעה חדשה ממספר ההודעות",
+        "en": "New message to the messaging number"
+      }
+    },
+    "event.ai_cap_reached": {
+      "placeholders": [],
+      "text": {
+        "he": "הגעתם לתקרת ה-AI החודשית",
+        "en": "You've reached the monthly AI limit"
+      }
+    },
+    "event.alerts_stopped": {
+      "placeholders": [],
+      "text": {
+        "he": "ההתראות הפסיקו להגיע",
+        "en": "Notifications have stopped arriving"
+      }
+    },
+    "event.message_cap": {
+      "placeholders": [],
+      "text": {
+        "he": "מכסת ההודעות החודשית מתמלאת",
+        "en": "The monthly message limit is filling up"
+      }
+    },
+    "cal.title": {
+      "placeholders": [],
+      "text": {
+        "he": "יומן",
+        "en": "Calendar"
+      }
+    },
+    "cal.new": {
+      "placeholders": [],
+      "text": {
+        "he": "תור חדש",
+        "en": "New appointment"
+      }
+    },
+    "cal.customer": {
+      "placeholders": [],
+      "text": {
+        "he": "שם הלקוח",
+        "en": "Customer name"
+      }
+    },
+    "cal.phone": {
+      "placeholders": [],
+      "text": {
+        "he": "טלפון",
+        "en": "Phone"
+      }
+    },
+    "cal.services": {
+      "placeholders": [],
+      "text": {
+        "he": "שירותים",
+        "en": "Services"
+      }
+    },
+    "cal.start": {
+      "placeholders": [],
+      "text": {
+        "he": "התחלה",
+        "en": "Start"
+      }
+    },
+    "cal.notes": {
+      "placeholders": [],
+      "text": {
+        "he": "הערות",
+        "en": "Notes"
+      }
+    },
+    "cal.notify": {
+      "placeholders": [],
+      "text": {
+        "he": "לשלוח ללקוח אישור",
+        "en": "Send the customer a confirmation"
+      }
+    },
+    "cal.create": {
+      "placeholders": [],
+      "text": {
+        "he": "קביעת התור",
+        "en": "Book appointment"
+      }
+    },
+    "cal.details": {
+      "placeholders": [],
+      "text": {
+        "he": "פרטי התור",
+        "en": "Appointment details"
+      }
+    },
+    "cal.complete": {
+      "placeholders": [],
+      "text": {
+        "he": "הגיעו – הסתיים",
+        "en": "Arrived – done"
+      }
+    },
+    "cal.noShow": {
+      "placeholders": [],
+      "text": {
+        "he": "לא הגיעו",
+        "en": "No-show"
+      }
+    },
+    "cal.extend": {
+      "placeholders": [],
+      "text": {
+        "he": "הארכה ב-15 דקות",
+        "en": "Extend by 15 minutes"
+      }
+    },
+    "cal.cancelNotify": {
+      "placeholders": [],
+      "text": {
+        "he": "ביטול והודעה ללקוח",
+        "en": "Cancel and notify customer"
+      }
+    },
+    "cal.close": {
+      "placeholders": [],
+      "text": {
+        "he": "סגירה",
+        "en": "Close"
+      }
+    },
+    "cal.moved": {
+      "placeholders": [],
+      "text": {
+        "he": "התור הועבר והלקוח קיבל הודעה.",
+        "en": "The appointment was moved and the customer was notified."
+      }
+    },
+    "cal.moveFailed": {
+      "placeholders": [],
+      "text": {
+        "he": "לא ניתן להעביר לשם: השעה תפוסה.",
+        "en": "Can't move it there: that time is taken."
+      }
+    },
+    "cal.outsideHours": {
+      "placeholders": [],
+      "text": {
+        "he": "לא ניתן לקבוע שם: השעה מחוץ לשעות הפתיחה.",
+        "en": "Can't book there: that's outside opening hours."
+      }
+    },
+    "cal.timeOff": {
+      "placeholders": [],
+      "text": {
+        "he": "לא ניתן לקבוע שם: זה זמן חופש ביומן.",
+        "en": "Can't book there: that's blocked as time off."
+      }
+    },
+    "cal.today": {
+      "placeholders": [],
+      "text": {
+        "he": "היום",
+        "en": "Today"
+      }
+    },
+    "cal.day": {
+      "placeholders": [],
+      "text": {
+        "he": "יום",
+        "en": "Day"
+      }
+    },
+    "cal.week": {
+      "placeholders": [],
+      "text": {
+        "he": "שבוע",
+        "en": "Week"
+      }
+    },
+    "cal.view": {
+      "placeholders": [],
+      "text": {
+        "he": "תצוגה",
+        "en": "View"
+      }
+    },
+    "cal.month": {
+      "placeholders": [],
+      "text": {
+        "he": "חודש",
+        "en": "Month"
+      }
+    },
+    "cal.closed": {
+      "placeholders": [],
+      "text": {
+        "he": "סגור",
+        "en": "Closed"
+      }
+    },
+    "cal.dayCount": {
+      "placeholders": [
+        "n"
+      ],
+      "text": {
+        "he": "{n} תורים",
+        "en": "{n} appointments"
+      }
+    },
+    "cal.status.confirmed": {
+      "placeholders": [],
+      "text": {
+        "he": "מאושר",
+        "en": "Confirmed"
+      }
+    },
+    "cal.status.completed": {
+      "placeholders": [],
+      "text": {
+        "he": "הגיע",
+        "en": "Arrived"
+      }
+    },
+    "cal.status.no_show": {
+      "placeholders": [],
+      "text": {
+        "he": "לא הגיע",
+        "en": "No-show"
+      }
+    },
+    "cal.prev": {
+      "placeholders": [],
+      "text": {
+        "he": "הקודם",
+        "en": "Previous"
+      }
+    },
+    "cal.next": {
+      "placeholders": [],
+      "text": {
+        "he": "הבא",
+        "en": "Next"
+      }
+    },
+    "cal.vet": {
+      "placeholders": [
+        "name"
+      ],
+      "text": {
+        "he": "וטרינר: {name}",
+        "en": "Vet: {name}"
+      }
+    },
+    "cal.vaccinesYes": {
+      "placeholders": [],
+      "text": {
+        "he": "יש תעודת חיסונים",
+        "en": "Has a vaccination certificate"
+      }
+    },
+    "cal.vaccinesNo": {
+      "placeholders": [],
+      "text": {
+        "he": "אין תעודת חיסונים",
+        "en": "No vaccination certificate"
+      }
+    },
+    "catalog.services": {
+      "placeholders": [],
+      "text": {
+        "he": "שירותים ומחירים",
+        "en": "Services & prices"
+      }
+    },
+    "catalog.name": {
+      "placeholders": [],
+      "text": {
+        "he": "שם",
+        "en": "Name"
+      }
+    },
+    "catalog.includes": {
+      "placeholders": [],
+      "text": {
+        "he": "מה כולל",
+        "en": "What's included"
+      }
+    },
+    "catalog.duration": {
+      "placeholders": [],
+      "text": {
+        "he": "משך (דקות)",
+        "en": "Duration (minutes)"
+      }
+    },
+    "catalog.price": {
+      "placeholders": [],
+      "text": {
+        "he": "מחיר החל מ- (₪)",
+        "en": "Price from (₪)"
+      }
+    },
+    "catalog.online": {
+      "placeholders": [],
+      "text": {
+        "he": "אפשר לקבוע באתר",
+        "en": "Can be booked online"
+      }
+    },
+    "catalog.active": {
+      "placeholders": [],
+      "text": {
+        "he": "פעיל",
+        "en": "Active"
+      }
+    },
+    "catalog.order": {
+      "placeholders": [],
+      "text": {
+        "he": "סדר",
+        "en": "Order"
+      }
+    },
+    "catalog.rules": {
+      "placeholders": [],
+      "text": {
+        "he": "איזה שירות לכל חיה",
+        "en": "Which service for each pet"
+      }
+    },
+    "catalog.products": {
+      "placeholders": [],
+      "text": {
+        "he": "מוצרים",
+        "en": "Products"
+      }
+    },
+    "catalog.description": {
+      "placeholders": [],
+      "text": {
+        "he": "תיאור",
+        "en": "Description"
+      }
+    },
+    "catalog.gallery": {
+      "placeholders": [],
+      "text": {
+        "he": "גלריה",
+        "en": "Gallery"
+      }
+    },
+    "catalog.upload": {
+      "placeholders": [],
+      "text": {
+        "he": "העלאת תמונות",
+        "en": "Upload photos"
+      }
+    },
+    "catalog.addText": {
+      "placeholders": [],
+      "text": {
+        "he": "הוספת תיאור וכיתוב",
+        "en": "Add a description and caption"
+      }
+    },
+    "catalog.uploadHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "התיאור והכיתוב יישמרו לכל התמונות בהעלאה הזאת.",
+        "en": "The description and caption are saved for every photo in this upload."
+      }
+    },
+    "catalog.uploading": {
+      "placeholders": [
+        "done",
+        "total"
+      ],
+      "text": {
+        "he": "מעלים תמונה {done} מתוך {total}…",
+        "en": "Uploading photo {done} of {total}…"
+      }
+    },
+    "catalog.uploadFailed": {
+      "placeholders": [
+        "failed",
+        "names",
+        "total"
+      ],
+      "text": {
+        "he": "{failed} מתוך {total} תמונות לא הועלו: {names}. אפשר להעלות JPG,‏ PNG או WebP עד 8MB.",
+        "en": "{failed} of {total} photos were not uploaded: {names}. Use a JPG, PNG or WebP of up to 8 MB."
+      }
+    },
+    "catalog.photo": {
+      "placeholders": [],
+      "text": {
+        "he": "תמונת המוצר",
+        "en": "Product photo"
+      }
+    },
+    "catalog.cover": {
+      "placeholders": [],
+      "text": {
+        "he": "תמונת השער (בראש דף הבית)",
+        "en": "Cover photo (top of the home page)"
+      }
+    },
+    "catalog.replacePhoto": {
+      "placeholders": [],
+      "text": {
+        "he": "החלפת התמונה",
+        "en": "Replace the photo"
+      }
+    },
+    "catalog.removePhoto": {
+      "placeholders": [],
+      "text": {
+        "he": "הסרת התמונה",
+        "en": "Remove the photo"
+      }
+    },
+    "catalog.alt": {
+      "placeholders": [],
+      "text": {
+        "he": "תיאור התמונה (לקוראי מסך)",
+        "en": "Photo description (for screen readers)"
+      }
+    },
+    "catalog.caption": {
+      "placeholders": [],
+      "text": {
+        "he": "כיתוב",
+        "en": "Caption"
+      }
+    },
+    "catalog.profile": {
+      "placeholders": [],
+      "text": {
+        "he": "פרטי המספרה",
+        "en": "Salon details"
+      }
+    },
+    "catalog.tagline": {
+      "placeholders": [],
+      "text": {
+        "he": "משפט פתיחה",
+        "en": "Tagline"
+      }
+    },
+    "catalog.city": {
+      "placeholders": [],
+      "text": {
+        "he": "עיר",
+        "en": "City"
+      }
+    },
+    "catalog.address": {
+      "placeholders": [],
+      "text": {
+        "he": "כתובת",
+        "en": "Address"
+      }
+    },
+    "catalog.templates": {
+      "placeholders": [],
+      "text": {
+        "he": "נוסחי הודעות",
+        "en": "Message wording"
+      }
+    },
+    "catalog.templatesHelp": {
+      "placeholders": [
+        "link",
+        "when"
+      ],
+      "text": {
+        "he": "מילים בסוגריים מסולסלים, כמו {when} או {link}, מתמלאות אוטומטית. יש להשאיר אותן בנוסח.",
+        "en": "Words in curly braces, like {when} or {link}, are filled in automatically. Keep them in the wording."
+      }
+    },
+    "catalog.templateLocked": {
+      "placeholders": [],
+      "text": {
+        "he": "נוסח וואטסאפ קבוע לפי התבנית שאושרה ב-Meta. לשינוי צריך לאשר תבנית חדשה.",
+        "en": "The WhatsApp wording is fixed by the template approved by Meta. To change it, a new template must be approved."
+      }
+    },
+    "catalog.subject": {
+      "placeholders": [],
+      "text": {
+        "he": "נושא",
+        "en": "Subject"
+      }
+    },
+    "catalog.body": {
+      "placeholders": [],
+      "text": {
+        "he": "נוסח",
+        "en": "Wording"
+      }
+    },
+    "catalog.inactive": {
+      "placeholders": [],
+      "text": {
+        "he": "לא פעיל",
+        "en": "inactive"
+      }
+    },
+    "customers.search": {
+      "placeholders": [],
+      "text": {
+        "he": "חיפוש לפי שם או טלפון",
+        "en": "Search by name or phone"
+      }
+    },
+    "customers.find": {
+      "placeholders": [],
+      "text": {
+        "he": "חיפוש",
+        "en": "Search"
+      }
+    },
+    "customers.none": {
+      "placeholders": [],
+      "text": {
+        "he": "לא נמצאו לקוחות.",
+        "en": "No customers found."
+      }
+    },
+    "customers.pets": {
+      "placeholders": [],
+      "text": {
+        "he": "חיות",
+        "en": "Pets"
+      }
+    },
+    "customers.bookings": {
+      "placeholders": [],
+      "text": {
+        "he": "תורים",
+        "en": "Appointments"
+      }
+    },
+    "customers.notes": {
+      "placeholders": [],
+      "text": {
+        "he": "הערות פנימיות",
+        "en": "Internal notes"
+      }
+    },
+    "customers.consents": {
+      "placeholders": [],
+      "text": {
+        "he": "הסכמות",
+        "en": "Consents"
+      }
+    },
+    "customers.merge": {
+      "placeholders": [],
+      "text": {
+        "he": "איחוד עם לקוח אחר",
+        "en": "Merge with another customer"
+      }
+    },
+    "customers.mergeId": {
+      "placeholders": [],
+      "text": {
+        "he": "מספר הלקוח שיאוחד לתוך הרשומה הזו",
+        "en": "ID of the customer to merge into this record"
+      }
+    },
+    "customers.export": {
+      "placeholders": [],
+      "text": {
+        "he": "ייצוא כל המידע (JSON)",
+        "en": "Export all data (JSON)"
+      }
+    },
+    "customers.erase": {
+      "placeholders": [],
+      "text": {
+        "he": "מחיקת המידע האישי",
+        "en": "Delete personal data"
+      }
+    },
+    "customers.eraseAsk": {
+      "placeholders": [],
+      "text": {
+        "he": "למחוק את הפרטים האישיים? ההיסטוריה נשמרת בלי שם וטלפון. אי אפשר לבטל.",
+        "en": "Delete the personal details? The history is kept without name and phone. This can't be undone."
+      }
+    },
+    "customers.eraseConfirm": {
+      "placeholders": [],
+      "text": {
+        "he": "כן, למחוק",
+        "en": "Yes, delete"
+      }
+    },
+    "customers.erased": {
+      "placeholders": [],
+      "text": {
+        "he": "הפרטים האישיים נמחקו.",
+        "en": "Personal details deleted."
+      }
+    },
+    "customers.merged": {
+      "placeholders": [],
+      "text": {
+        "he": "הלקוחות אוחדו.",
+        "en": "Customers merged."
+      }
+    },
+    "customers.title": {
+      "placeholders": [],
+      "text": {
+        "he": "לקוח",
+        "en": "Customer"
+      }
+    },
+    "customers.vaccinesConfirmed": {
+      "placeholders": [
+        "date"
+      ],
+      "text": {
+        "he": "יש תעודת חיסונים (נכון ל-{date})",
+        "en": "Has a vaccination certificate (as of {date})"
+      }
+    },
+    "inbox.events": {
+      "placeholders": [],
+      "text": {
+        "he": "עדכונים",
+        "en": "Updates"
+      }
+    },
+    "inbox.replies": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעות שהתקבלו",
+        "en": "Messages received"
+      }
+    },
+    "inbox.failed": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעות שנכשלו",
+        "en": "Failed messages"
+      }
+    },
+    "inbox.markAll": {
+      "placeholders": [],
+      "text": {
+        "he": "סימון הכול כנקרא",
+        "en": "Mark all as read"
+      }
+    },
+    "inbox.markRead": {
+      "placeholders": [],
+      "text": {
+        "he": "סימון כנקרא",
+        "en": "Mark as read"
+      }
+    },
+    "inbox.repliesHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעות שלקוחות שלחו למספר האוטומטי. הן קיבלו תשובה קבועה עם מספר הצ'אט של המספרה.",
+        "en": "Messages customers sent to the automated number. They got a standard reply with the salon's chat number."
+      }
+    },
+    "settings.bookingTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "כללי קביעת תורים",
+        "en": "Booking rules"
+      }
+    },
+    "settings.features": {
+      "placeholders": [],
+      "text": {
+        "he": "מתגים",
+        "en": "Switches"
+      }
+    },
+    "settings.numbers": {
+      "placeholders": [],
+      "text": {
+        "he": "מספרי וואטסאפ",
+        "en": "WhatsApp numbers"
+      }
+    },
+    "settings.caps": {
+      "placeholders": [],
+      "text": {
+        "he": "תקרות חודשיות",
+        "en": "Monthly limits"
+      }
+    },
+    "settings.booking.slotStepMin": {
+      "placeholders": [],
+      "text": {
+        "he": "מרווח בין שעות התחלה (דקות)",
+        "en": "Interval between start times (minutes)"
+      }
+    },
+    "settings.booking.gapMin": {
+      "placeholders": [],
+      "text": {
+        "he": "הפסקה בין חיות (דקות)",
+        "en": "Break between pets (minutes)"
+      }
+    },
+    "settings.booking.bufferMin": {
+      "placeholders": [],
+      "text": {
+        "he": "זמן ניקיון אחרי תור (דקות)",
+        "en": "Cleanup time after an appointment (minutes)"
+      }
+    },
+    "settings.booking.noticeMin": {
+      "placeholders": [],
+      "text": {
+        "he": "התראה מינימלית מראש (דקות)",
+        "en": "Minimum advance notice (minutes)"
+      }
+    },
+    "settings.booking.horizonDays": {
+      "placeholders": [],
+      "text": {
+        "he": "כמה ימים קדימה אפשר לקבוע",
+        "en": "How many days ahead customers can book"
+      }
+    },
+    "settings.booking.maxPets": {
+      "placeholders": [],
+      "text": {
+        "he": "מספר חיות מרבי בתור",
+        "en": "Maximum pets per appointment"
+      }
+    },
+    "settings.booking.cutoffHours": {
+      "placeholders": [],
+      "text": {
+        "he": "עד כמה שעות לפני אפשר לשנות או לבטל",
+        "en": "Up to how many hours before customers can change or cancel"
+      }
+    },
+    "settings.booking.holdMin": {
+      "placeholders": [],
+      "text": {
+        "he": "כמה דקות שומרים מועד בזמן הקוד",
+        "en": "How many minutes a time is held while the code is entered"
+      }
+    },
+    "settings.ai.photo": {
+      "placeholders": [],
+      "text": {
+        "he": "ניתוח תמונות חיות ב-AI",
+        "en": "AI pet photo analysis"
+      }
+    },
+    "settings.ai.summary": {
+      "placeholders": [],
+      "text": {
+        "he": "סיכום לפני תור ב-AI",
+        "en": "AI summary before an appointment"
+      }
+    },
+    "settings.messaging.whatsappOutage": {
+      "placeholders": [],
+      "text": {
+        "he": "וואטסאפ מושבת – לשלוח הכול במייל",
+        "en": "WhatsApp is down – send everything by email"
+      }
+    },
+    "settings.site.noindex": {
+      "placeholders": [],
+      "text": {
+        "he": "להסתיר את האתר ממנועי חיפוש",
+        "en": "Hide the site from search engines"
+      }
+    },
+    "settings.whatsapp.senderNumber": {
+      "placeholders": [],
+      "text": {
+        "he": "מספר ההודעות האוטומטיות",
+        "en": "Automated messages number"
+      }
+    },
+    "settings.whatsapp.chatNumber": {
+      "placeholders": [],
+      "text": {
+        "he": "מספר הצ'אט עם המספרה",
+        "en": "Salon chat number"
+      }
+    },
+    "settings.cap.messagesMonthly": {
+      "placeholders": [],
+      "text": {
+        "he": "מספר הודעות בחודש",
+        "en": "Messages per month"
+      }
+    },
+    "settings.cap.aiMonthlyAgorot": {
+      "placeholders": [],
+      "text": {
+        "he": "תקציב AI בחודש (אגורות)",
+        "en": "Monthly AI budget (agorot)"
+      }
+    },
+    "settings.saved": {
+      "placeholders": [],
+      "text": {
+        "he": "ההגדרות נשמרו.",
+        "en": "Settings saved."
+      }
+    },
+    "settings.aiOff": {
+      "placeholders": [],
+      "text": {
+        "he": "אין מפתח AI מוגדר, לכן המתגים האלה לא פעילים.",
+        "en": "No AI key is set up, so these switches are inactive."
+      }
+    },
+    "settings.phoneHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "מספר ישראלי, למשל 050-0000000.",
+        "en": "An Israeli number, for example 050-0000000."
+      }
+    },
+    "coat.normal": {
+      "placeholders": [],
+      "text": {
+        "he": "תקין",
+        "en": "Normal"
+      }
+    },
+    "coat.tangled": {
+      "placeholders": [],
+      "text": {
+        "he": "מעט קשרים",
+        "en": "A few tangles"
+      }
+    },
+    "coat.matted": {
+      "placeholders": [],
+      "text": {
+        "he": "קשרים",
+        "en": "Matted"
+      }
+    },
+    "coat.very_matted": {
+      "placeholders": [],
+      "text": {
+        "he": "הרבה קשרים",
+        "en": "Heavily matted"
+      }
+    },
+    "coat.unclear": {
+      "placeholders": [],
+      "text": {
+        "he": "לא ברור",
+        "en": "Unclear"
+      }
+    },
+    "tag.dog": {
+      "placeholders": [],
+      "text": {
+        "he": "כלב",
+        "en": "Dog"
+      }
+    },
+    "tag.cat": {
+      "placeholders": [],
+      "text": {
+        "he": "חתול",
+        "en": "Cat"
+      }
+    },
+    "tag.puppy": {
+      "placeholders": [],
+      "text": {
+        "he": "גור",
+        "en": "Puppy"
+      }
+    },
+    "tag.both": {
+      "placeholders": [],
+      "text": {
+        "he": "כלב / חתול",
+        "en": "Dog / Cat"
+      }
+    },
+    "footer.info": {
+      "placeholders": [],
+      "text": {
+        "he": "מידע",
+        "en": "Info"
+      }
+    },
+    "footer.follow": {
+      "placeholders": [],
+      "text": {
+        "he": "עקבו אחרינו",
+        "en": "Follow us"
+      }
+    },
+    "channel.email": {
+      "placeholders": [],
+      "text": {
+        "he": "מייל",
+        "en": "Email"
+      }
+    },
+    "channel.push": {
+      "placeholders": [],
+      "text": {
+        "he": "התראה",
+        "en": "Notification"
+      }
+    },
+    "consent.appointment_messages": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעות על תורים",
+        "en": "Booking messages"
+      }
+    },
+    "consent.photo_analysis": {
+      "placeholders": [],
+      "text": {
+        "he": "ניתוח תמונות",
+        "en": "Photo analysis"
+      }
+    },
+    "consent.gallery_photo": {
+      "placeholders": [],
+      "text": {
+        "he": "תמונה בגלריה",
+        "en": "Gallery photo"
+      }
+    },
+    "msg.change.moved": {
+      "placeholders": [
+        "when"
+      ],
+      "text": {
+        "he": "הועבר ל-{when}",
+        "en": "Moved to {when}"
+      }
+    },
+    "msg.change.cancelled": {
+      "placeholders": [],
+      "text": {
+        "he": "בוטל",
+        "en": "Cancelled"
+      }
+    },
+    "stats.title": {
+      "placeholders": [],
+      "text": {
+        "he": "נתונים",
+        "en": "Stats"
+      }
+    },
+    "stats.period": {
+      "placeholders": [],
+      "text": {
+        "he": "תקופה",
+        "en": "Period"
+      }
+    },
+    "stats.days": {
+      "placeholders": [
+        "n"
+      ],
+      "text": {
+        "he": "{n} ימים",
+        "en": "{n} days"
+      }
+    },
+    "stats.range": {
+      "placeholders": [
+        "from",
+        "to"
+      ],
+      "text": {
+        "he": "{from} – {to}",
+        "en": "{from} – {to}"
+      }
+    },
+    "stats.bookings": {
+      "placeholders": [],
+      "text": {
+        "he": "תורים שנקבעו",
+        "en": "Bookings made"
+      }
+    },
+    "stats.bookingsSplit": {
+      "placeholders": [
+        "imported",
+        "online",
+        "owner"
+      ],
+      "text": {
+        "he": "{online} באתר · {owner} במספרה · {imported} מיובאים",
+        "en": "{online} online · {owner} by the salon · {imported} imported"
+      }
+    },
+    "stats.cancelled": {
+      "placeholders": [],
+      "text": {
+        "he": "בוטלו",
+        "en": "Cancelled"
+      }
+    },
+    "stats.cancelledNote": {
+      "placeholders": [],
+      "text": {
+        "he": "מתוך התורים שנקבעו בתקופה",
+        "en": "Of the bookings made in this period"
+      }
+    },
+    "stats.visits": {
+      "placeholders": [],
+      "text": {
+        "he": "ביקורים שהתקיימו",
+        "en": "Visits held"
+      }
+    },
+    "stats.noShows": {
+      "placeholders": [
+        "n"
+      ],
+      "text": {
+        "he": "{n} לא הגיעו",
+        "en": "{n} no-shows"
+      }
+    },
+    "stats.bookClicks": {
+      "placeholders": [],
+      "text": {
+        "he": "לחיצות על \"קביעת תור\"",
+        "en": "\"Book\" clicks"
+      }
+    },
+    "stats.conversion": {
+      "placeholders": [
+        "pct"
+      ],
+      "text": {
+        "he": "{pct} מהן הסתיימו בתור באתר",
+        "en": "{pct} of them ended in an online booking"
+      }
+    },
+    "stats.noClicks": {
+      "placeholders": [],
+      "text": {
+        "he": "אין עדיין לחיצות",
+        "en": "No clicks yet"
+      }
+    },
+    "stats.orderClicks": {
+      "placeholders": [],
+      "text": {
+        "he": "הזמנות מוצרים בוואטסאפ",
+        "en": "Product orders on WhatsApp"
+      }
+    },
+    "stats.orderNote": {
+      "placeholders": [],
+      "text": {
+        "he": "לחיצות על \"הזמנה בוואטסאפ\"",
+        "en": "Clicks on \"Order on WhatsApp\""
+      }
+    },
+    "stats.messages": {
+      "placeholders": [],
+      "text": {
+        "he": "הודעות שנשלחו",
+        "en": "Messages sent"
+      }
+    },
+    "stats.messagesSplit": {
+      "placeholders": [
+        "email",
+        "push",
+        "whatsapp"
+      ],
+      "text": {
+        "he": "וואטסאפ {whatsapp} · מייל {email} · התראות {push}",
+        "en": "WhatsApp {whatsapp} · email {email} · alerts {push}"
+      }
+    },
+    "stats.messagesFailed": {
+      "placeholders": [
+        "n"
+      ],
+      "text": {
+        "he": "{n} נכשלו",
+        "en": "{n} failed"
+      }
+    },
+    "stats.cost": {
+      "placeholders": [],
+      "text": {
+        "he": "עלות ההודעות",
+        "en": "Message cost"
+      }
+    },
+    "stats.aiCost": {
+      "placeholders": [
+        "cost"
+      ],
+      "text": {
+        "he": "בינה מלאכותית החודש: {cost}",
+        "en": "AI this month: {cost}"
+      }
+    },
+    "stats.weekly": {
+      "placeholders": [],
+      "text": {
+        "he": "תורים שנקבעו בכל שבוע",
+        "en": "Bookings made each week"
+      }
+    },
+    "stats.weeklyNote": {
+      "placeholders": [
+        "n"
+      ],
+      "text": {
+        "he": "{n} השבועות האחרונים, מיום ראשון עד שבת. השבוע הנוכחי עדיין לא נגמר.",
+        "en": "Last {n} weeks, Sunday to Saturday. The current week isn't over yet."
+      }
+    },
+    "stats.weekBar": {
+      "placeholders": [
+        "date",
+        "n"
+      ],
+      "text": {
+        "he": "שבוע מ-{date}: {n} תורים",
+        "en": "Week of {date}: {n} bookings"
+      }
+    },
+    "stats.showTable": {
+      "placeholders": [],
+      "text": {
+        "he": "הצגה כטבלה",
+        "en": "Show as a table"
+      }
+    },
+    "stats.week": {
+      "placeholders": [],
+      "text": {
+        "he": "שבוע מתחיל ב-",
+        "en": "Week starting"
+      }
+    },
+    "stats.count": {
+      "placeholders": [],
+      "text": {
+        "he": "תורים",
+        "en": "Bookings"
+      }
+    },
+    "stats.sources": {
+      "placeholders": [],
+      "text": {
+        "he": "מאיפה הגיעו ההזמנות באתר",
+        "en": "Where online bookings came from"
+      }
+    },
+    "stats.sourcesNote": {
+      "placeholders": [],
+      "text": {
+        "he": "לפי תגי הקמפיין בקישור, למשל utm_source=instagram.",
+        "en": "From the campaign tags in the link, for example utm_source=instagram."
+      }
+    },
+    "stats.direct": {
+      "placeholders": [],
+      "text": {
+        "he": "ישירות, בלי קמפיין",
+        "en": "Direct, no campaign"
+      }
+    },
+    "stats.source": {
+      "placeholders": [],
+      "text": {
+        "he": "מקור",
+        "en": "Source"
+      }
+    },
+    "stats.services": {
+      "placeholders": [],
+      "text": {
+        "he": "שירותים מבוקשים",
+        "en": "Most-booked services"
+      }
+    },
+    "stats.servicesNote": {
+      "placeholders": [],
+      "text": {
+        "he": "מספר החיות לכל שירות, בביקורים שבתקופה.",
+        "en": "Pets per service, for visits in this period."
+      }
+    },
+    "stats.service": {
+      "placeholders": [],
+      "text": {
+        "he": "שירות",
+        "en": "Service"
+      }
+    },
+    "stats.pets": {
+      "placeholders": [],
+      "text": {
+        "he": "חיות",
+        "en": "Pets"
+      }
+    },
+    "stats.empty": {
+      "placeholders": [],
+      "text": {
+        "he": "אין עדיין נתונים לתקופה הזו.",
+        "en": "No data for this period yet."
+      }
+    },
+    "duration.hours": {
+      "placeholders": [
+        "hours"
+      ],
+      "text": {
+        "he": "{hours, plural, =1 {שעה} =2 {שעתיים} other {# שעות}}",
+        "en": "{hours, plural, other {# h}}"
+      }
+    },
+    "duration.minutes": {
+      "placeholders": [
+        "minutes"
+      ],
+      "text": {
+        "he": "{minutes, plural, =1 {דקה} other {# דקות}}",
+        "en": "{minutes, plural, other {# min}}"
+      }
+    },
+    "duration.both": {
+      "placeholders": [
+        "hours",
+        "minutes"
+      ],
+      "text": {
+        "he": "{hours} ו-{minutes}",
+        "en": "{hours} {minutes}"
+      }
+    }
+  },
+  "content": {
+    "service": {
+      "fields": {
+        "name": {
+          "max": 80
+        },
+        "includes": {
+          "max": 500
+        }
+      },
+      "items": {
+        "cat": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "חתול",
+              "en": "Cat"
+            }
+          },
+          "includes": {
+            "placeholders": [],
+            "text": {
+              "he": "גילוח או תספורת, גזיזת ציפורניים, ניקוי שיניים, אזור העיניים והאוזניים, רחצה לפי הצורך",
+              "en": "Shave or haircut, nail trim, teeth cleaning, eye and ear area, bath as needed"
+            }
+          }
+        },
+        "cat_sedation": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "גילוח לחתול בטשטוש",
+              "en": "Cat shave under sedation"
+            }
+          },
+          "includes": {
+            "placeholders": [],
+            "text": {
+              "he": "גילוח או תספורת, גזיזת ציפורניים, ניקוי שיניים, אזור העיניים והאוזניים, רחצה לפי הצורך",
+              "en": "Shave or haircut, nail trim, teeth cleaning, eye and ear area, bath as needed"
+            }
+          }
+        },
+        "dog_small": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "כלב - גזע קטן עד 10 קילו",
+              "en": "Dog - small breed, up to 10 kg"
+            }
+          },
+          "includes": {
+            "placeholders": [],
+            "text": {
+              "he": "תספורת, רחצה, גילוח אזור אינטימי, ציפורניים, כפות, אוזניים ועיניים",
+              "en": "Haircut, bath, sanitary trim, nails, paws, ears and eyes"
+            }
+          }
+        },
+        "dog_large": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "כלב - גזע גדול מעל 10 קילו",
+              "en": "Dog - large breed, over 10 kg"
+            }
+          },
+          "includes": {
+            "placeholders": [],
+            "text": {
+              "he": "תספורת, רחצה, גילוח אזור אינטימי, ציפורניים, כפות, אוזניים ועיניים",
+              "en": "Haircut, bath, sanitary trim, nails, paws, ears and eyes"
+            }
+          }
+        },
+        "puppy": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "טיפוח גורים",
+              "en": "Puppy grooming"
+            }
+          },
+          "includes": {
+            "placeholders": [],
+            "text": {
+              "he": "עד גיל 6 חודשים: רחצה, הברשה, עיצוב כפות ופנים, ציפורניים, הסרת שיער מהאוזניים",
+              "en": "Up to 6 months old: bath, brushing, paw and face shaping, nails, ear hair removal"
+            }
+          }
+        },
+        "nails": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "גזיזת ציפורניים",
+              "en": "Nail trim"
+            }
+          },
+          "includes": {
+            "placeholders": [],
+            "text": {
+              "he": "ציפורניים בלבד",
+              "en": "Nails only"
+            }
+          }
+        }
+      }
+    },
+    "product": {
+      "fields": {
+        "name": {
+          "max": 80
+        },
+        "description": {
+          "max": 300
+        }
+      },
+      "items": {
+        "conditioner": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "מרכך",
+              "en": "Conditioner"
+            }
+          },
+          "description": {
+            "placeholders": [],
+            "text": {
+              "he": "מפריד קשרים ומעניק לחות, לכלבים ולחתולים",
+              "en": "Detangles and moisturizes, for dogs and cats"
+            }
+          }
+        },
+        "hypoallergenic_shampoo": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "שמפו היפואלרגני",
+              "en": "Hypoallergenic shampoo"
+            }
+          },
+          "description": {
+            "placeholders": [],
+            "text": {
+              "he": "לעור רגיש, לכלבים, חתולים וגורים",
+              "en": "For sensitive skin, for dogs, cats and puppies"
+            }
+          }
+        },
+        "no_rinse_shampoo": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "שמפו ללא שטיפה",
+              "en": "No-rinse shampoo"
+            }
+          },
+          "description": {
+            "placeholders": [],
+            "text": {
+              "he": "לחתולים וגורי חתולים, 220 מ\"ל, בניחוח אבקת תינוקות",
+              "en": "For cats and kittens, 220 ml, baby powder scent"
+            }
+          }
+        },
+        "balm_for_dryness_and_cracks": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "משחה למניעת יובש וטיפול בסדקים",
+              "en": "Balm for dryness and cracks"
+            }
+          },
+          "description": {
+            "placeholders": [],
+            "text": {
+              "he": "טיפוח לאף ולכפות",
+              "en": "Care for nose and paws"
+            }
+          }
+        },
+        "fur_de_luxe": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "FUR DE LUXE",
+              "en": "FUR DE LUXE"
+            }
+          },
+          "description": {
+            "placeholders": [],
+            "text": {
+              "he": "שמן בושם, 10 מ\"ל, מאסק",
+              "en": "Perfume oil, 10 ml, musk"
+            }
+          }
+        },
+        "fluffy_fresh": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "Fluffy Fresh",
+              "en": "Fluffy Fresh"
+            }
+          },
+          "description": {
+            "placeholders": [],
+            "text": {
+              "he": "שמן בושם, 10 מ\"ל, בניחוח אבקת תינוקות",
+              "en": "Perfume oil, 10 ml, baby powder scent"
+            }
+          }
+        },
+        "pawfume_no_4": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "PawFume No.4",
+              "en": "PawFume No.4"
+            }
+          },
+          "description": {
+            "placeholders": [],
+            "text": {
+              "he": "שמן בושם, 10 מ\"ל, פרחוני מזרחי",
+              "en": "Perfume oil, 10 ml, floral oriental"
+            }
+          }
+        },
+        "dog_and_cat_grooming_kit": {
+          "name": {
+            "placeholders": [],
+            "text": {
+              "he": "ערכת טיפוח לכלב ולחתול",
+              "en": "Dog and cat grooming kit"
+            }
+          },
+          "description": {
+            "placeholders": [],
+            "text": {
+              "he": "שמפו, מרכך, בושם ומשחה",
+              "en": "Shampoo, conditioner, perfume and balm"
+            }
+          }
+        }
+      }
+    },
+    "message_template": {
+      "fields": {
+        "body": {
+          "max": 1000,
+          "keepPlaceholders": true
+        },
+        "subject": {
+          "max": 160
+        }
+      },
+      "items": {
+        "code:whatsapp": {
+          "body": {
+            "placeholders": [
+              "code"
+            ],
+            "text": {
+              "he": "קוד האימות שלך ל-%BRAND%: {code}. הקוד בתוקף ל-10 דקות.",
+              "en": "Your %BRAND% verification code: {code}. The code is valid for 10 minutes."
+            }
+          }
+        },
+        "code:email": {
+          "body": {
+            "placeholders": [
+              "code"
+            ],
+            "text": {
+              "he": "קוד האימות שלך: {code}. הקוד בתוקף ל-10 דקות.",
+              "en": "Your verification code: {code}. The code is valid for 10 minutes."
+            }
+          },
+          "subject": {
+            "placeholders": [],
+            "text": {
+              "he": "קוד אימות ל-%BRAND%",
+              "en": "Your %BRAND% verification code"
+            }
+          }
+        },
+        "staff_code:email": {
+          "body": {
+            "placeholders": [
+              "code"
+            ],
+            "text": {
+              "he": "קוד הכניסה שלך לאזור הניהול: {code}. הקוד בתוקף ל-10 דקות. אם לא ביקשת אותו, אפשר להתעלם מהאימייל.",
+              "en": "Your admin login code: {code}. The code is valid for 10 minutes. If you did not ask for it, you can ignore this email."
+            }
+          },
+          "subject": {
+            "placeholders": [],
+            "text": {
+              "he": "קוד כניסה לניהול %BRAND%",
+              "en": "%BRAND% admin login code"
+            }
+          }
+        },
+        "confirmation:whatsapp": {
+          "body": {
+            "placeholders": [
+              "link",
+              "when"
+            ],
+            "text": {
+              "he": "התור שלך ב-%BRAND% נקבע ל-{when}. לצפייה, שינוי או ביטול: {link}",
+              "en": "Your %BRAND% appointment is booked for {when}. To view, change or cancel: {link}"
+            }
+          }
+        },
+        "confirmation:email": {
+          "body": {
+            "placeholders": [
+              "link",
+              "when"
+            ],
+            "text": {
+              "he": "התור שלך נקבע ל-{when}. לצפייה, שינוי או ביטול: {link}",
+              "en": "Your appointment is booked for {when}. To view, change or cancel: {link}"
+            }
+          },
+          "subject": {
+            "placeholders": [],
+            "text": {
+              "he": "התור שלך ב-%BRAND% נקבע",
+              "en": "Your %BRAND% appointment is booked"
+            }
+          }
+        },
+        "reminder:whatsapp": {
+          "body": {
+            "placeholders": [
+              "link",
+              "when"
+            ],
+            "text": {
+              "he": "תזכורת: מחר ב-{when} יש לך תור ב-%BRAND%. לשינוי או ביטול: {link}",
+              "en": "Reminder: you have an appointment at %BRAND% tomorrow at {when}. To change or cancel: {link}"
+            }
+          }
+        },
+        "reminder:email": {
+          "body": {
+            "placeholders": [
+              "link",
+              "when"
+            ],
+            "text": {
+              "he": "תזכורת: מחר ב-{when} יש לך תור. לשינוי או ביטול: {link}",
+              "en": "Reminder: you have an appointment tomorrow at {when}. To change or cancel: {link}"
+            }
+          },
+          "subject": {
+            "placeholders": [],
+            "text": {
+              "he": "תזכורת לתור ב-%BRAND%",
+              "en": "%BRAND% appointment reminder"
+            }
+          }
+        },
+        "customer_change:whatsapp": {
+          "body": {
+            "placeholders": [
+              "change",
+              "link"
+            ],
+            "text": {
+              "he": "התור שלך ב-%BRAND% עודכן: {change}. פרטים: {link}",
+              "en": "Your %BRAND% appointment was updated: {change}. Details: {link}"
+            }
+          }
+        },
+        "customer_change:email": {
+          "body": {
+            "placeholders": [
+              "change",
+              "link"
+            ],
+            "text": {
+              "he": "התור שלך עודכן: {change}. פרטים: {link}",
+              "en": "Your appointment was updated: {change}. Details: {link}"
+            }
+          },
+          "subject": {
+            "placeholders": [],
+            "text": {
+              "he": "התור שלך ב-%BRAND% עודכן",
+              "en": "Your %BRAND% appointment was updated"
+            }
+          }
+        },
+        "owner_change:whatsapp": {
+          "body": {
+            "placeholders": [
+              "change",
+              "link"
+            ],
+            "text": {
+              "he": "המספרה עדכנה את התור שלך: {change}. פרטים: {link}",
+              "en": "The salon updated your appointment: {change}. Details: {link}"
+            }
+          }
+        },
+        "owner_change:email": {
+          "body": {
+            "placeholders": [
+              "change",
+              "link"
+            ],
+            "text": {
+              "he": "המספרה עדכנה את התור שלך: {change}. פרטים: {link}",
+              "en": "The salon updated your appointment: {change}. Details: {link}"
+            }
+          },
+          "subject": {
+            "placeholders": [],
+            "text": {
+              "he": "המספרה עדכנה את התור שלך",
+              "en": "The salon updated your appointment"
+            }
+          }
+        },
+        "import_link:whatsapp": {
+          "body": {
+            "placeholders": [
+              "link",
+              "when"
+            ],
+            "text": {
+              "he": "%BRAND% עברה לאתר חדש. התור שלך ב-{when} נשמר. לצפייה, שינוי או ביטול: {link}",
+              "en": "%BRAND% has moved to a new website. Your appointment on {when} has been kept. To view, change or cancel: {link}"
+            }
+          }
+        },
+        "import_link:email": {
+          "body": {
+            "placeholders": [
+              "link",
+              "when"
+            ],
+            "text": {
+              "he": "התור שלך ב-{when} נשמר. לצפייה, שינוי או ביטול: {link}",
+              "en": "Your appointment on {when} has been kept. To view, change or cancel: {link}"
+            }
+          },
+          "subject": {
+            "placeholders": [],
+            "text": {
+              "he": "%BRAND% עברה לאתר חדש",
+              "en": "%BRAND% has moved to a new website"
+            }
+          }
+        },
+        "owner_alert:push": {
+          "body": {
+            "placeholders": [
+              "title"
+            ],
+            "text": {
+              "he": "{title}",
+              "en": "{title}"
+            }
+          }
+        },
+        "owner_alert:email": {
+          "body": {
+            "placeholders": [
+              "title"
+            ],
+            "text": {
+              "he": "{title}. פרטים באזור הניהול.",
+              "en": "{title}. Details in the admin area."
+            }
+          },
+          "subject": {
+            "placeholders": [],
+            "text": {
+              "he": "התראה מ-%BRAND%",
+              "en": "Alert from %BRAND%"
+            }
+          }
+        },
+        "owner_check:push": {
+          "body": {
+            "placeholders": [],
+            "text": {
+              "he": "בדיקה יומית: ההתראות פועלות.",
+              "en": "Daily check: notifications are working."
+            }
+          }
+        },
+        "owner_check:email": {
+          "body": {
+            "placeholders": [],
+            "text": {
+              "he": "הבדיקה היומית לא הגיעה לאף מכשיר. כדאי לפתוח את אזור הניהול ולהפעיל התראות מחדש.",
+              "en": "The daily check didn't reach any device. Open the admin area and turn notifications on again."
+            }
+          },
+          "subject": {
+            "placeholders": [],
+            "text": {
+              "he": "ההתראות בדפדפן לא הגיעו",
+              "en": "Browser notifications didn't arrive"
+            }
+          }
+        },
+        "auto_reply:whatsapp": {
+          "body": {
+            "placeholders": [
+              "chat"
+            ],
+            "text": {
+              "he": "תודה על ההודעה! המספר הזה שולח הודעות אוטומטיות בלבד. לשינוי או ביטול תור יש להשתמש בקישור האישי שקיבלתם. לשיחה עם המספרה: {chat}",
+              "en": "Thanks for your message! This number only sends automated messages. To change or cancel an appointment, use the personal link you received. To chat with the salon: {chat}"
+            }
+          }
+        }
+      }
+    }
+  }
+}

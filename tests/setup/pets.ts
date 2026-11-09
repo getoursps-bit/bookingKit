@@ -1,4 +1,4 @@
-import content from "../../db/seed/data.he.json";
+import content from "../../db/seed/data.json";
 
 /**
  * A seeded service's id. Each test schema is new and the seed adds the
