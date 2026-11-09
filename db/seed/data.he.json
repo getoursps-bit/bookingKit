@@ -81,71 +81,71 @@
     { "weekday": 5, "opens": null, "closes": null, "closed": true },
     { "weekday": 6, "opens": "09:00", "closes": "16:00", "closed": false }
   ],
-  "business_profile": { "name": "Fluffy Fur" },
+  "business_profile": { "name": "%BRAND%" },
   "message_templates": [
     {
       "key": "code",
       "channel": "whatsapp",
       "category": "authentication",
-      "provider_template": "ff_code",
-      "body_he": "קוד האימות שלך ל-Fluffy Fur: {code}. הקוד בתוקף ל-10 דקות."
+      "provider_template": "booking_code",
+      "body_he": "קוד האימות שלך ל-%BRAND%: {code}. הקוד בתוקף ל-10 דקות."
     },
     {
       "key": "code",
       "channel": "email",
-      "subject_he": "קוד אימות ל-Fluffy Fur",
+      "subject_he": "קוד אימות ל-%BRAND%",
       "body_he": "קוד האימות שלך: {code}. הקוד בתוקף ל-10 דקות."
     },
     {
       "key": "staff_code",
       "channel": "email",
-      "subject_he": "קוד כניסה לניהול Fluffy Fur",
+      "subject_he": "קוד כניסה לניהול %BRAND%",
       "body_he": "קוד הכניסה שלך לאזור הניהול: {code}. הקוד בתוקף ל-10 דקות. אם לא ביקשת אותו, אפשר להתעלם מהאימייל."
     },
     {
       "key": "confirmation",
       "channel": "whatsapp",
       "category": "utility",
-      "provider_template": "ff_confirmation",
-      "body_he": "התור שלך ב-Fluffy Fur נקבע ל-{when}. לצפייה, שינוי או ביטול: {link}"
+      "provider_template": "booking_confirmation",
+      "body_he": "התור שלך ב-%BRAND% נקבע ל-{when}. לצפייה, שינוי או ביטול: {link}"
     },
     {
       "key": "confirmation",
       "channel": "email",
-      "subject_he": "התור שלך ב-Fluffy Fur נקבע",
+      "subject_he": "התור שלך ב-%BRAND% נקבע",
       "body_he": "התור שלך נקבע ל-{when}. לצפייה, שינוי או ביטול: {link}"
     },
     {
       "key": "reminder",
       "channel": "whatsapp",
       "category": "utility",
-      "provider_template": "ff_reminder",
-      "body_he": "תזכורת: מחר ב-{when} יש לך תור ב-Fluffy Fur. לשינוי או ביטול: {link}"
+      "provider_template": "booking_reminder",
+      "body_he": "תזכורת: מחר ב-{when} יש לך תור ב-%BRAND%. לשינוי או ביטול: {link}"
     },
     {
       "key": "reminder",
       "channel": "email",
-      "subject_he": "תזכורת לתור ב-Fluffy Fur",
+      "subject_he": "תזכורת לתור ב-%BRAND%",
       "body_he": "תזכורת: מחר ב-{when} יש לך תור. לשינוי או ביטול: {link}"
     },
     {
       "key": "customer_change",
       "channel": "whatsapp",
       "category": "utility",
-      "provider_template": "ff_customer_change",
-      "body_he": "התור שלך ב-Fluffy Fur עודכן: {change}. פרטים: {link}"
+      "provider_template": "booking_customer_change",
+      "body_he": "התור שלך ב-%BRAND% עודכן: {change}. פרטים: {link}"
     },
     {
       "key": "customer_change",
       "channel": "email",
-      "subject_he": "התור שלך ב-Fluffy Fur עודכן",
+      "subject_he": "התור שלך ב-%BRAND% עודכן",
       "body_he": "התור שלך עודכן: {change}. פרטים: {link}"
     },
     {
       "key": "owner_change",
       "channel": "whatsapp",
       "category": "utility",
-      "provider_template": "ff_owner_change",
+      "provider_template": "booking_owner_change",
       "body_he": "המספרה עדכנה את התור שלך: {change}. פרטים: {link}"
     },
     {
@@ -158,20 +158,20 @@
       "key": "import_link",
       "channel": "whatsapp",
       "category": "utility",
-      "provider_template": "ff_import_link",
-      "body_he": "Fluffy Fur עברה לאתר חדש. התור שלך ב-{when} נשמר. לצפייה, שינוי או ביטול: {link}"
+      "provider_template": "booking_import_link",
+      "body_he": "%BRAND% עברה לאתר חדש. התור שלך ב-{when} נשמר. לצפייה, שינוי או ביטול: {link}"
     },
     {
       "key": "import_link",
       "channel": "email",
-      "subject_he": "Fluffy Fur עברה לאתר חדש",
+      "subject_he": "%BRAND% עברה לאתר חדש",
       "body_he": "התור שלך ב-{when} נשמר. לצפייה, שינוי או ביטול: {link}"
     },
     { "key": "owner_alert", "channel": "push", "body_he": "{title}" },
     {
       "key": "owner_alert",
       "channel": "email",
-      "subject_he": "התראה מ-Fluffy Fur",
+      "subject_he": "התראה מ-%BRAND%",
       "body_he": "{title}. פרטים באזור הניהול."
     },
     { "key": "owner_check", "channel": "push", "body_he": "בדיקה יומית: ההתראות פועלות." },

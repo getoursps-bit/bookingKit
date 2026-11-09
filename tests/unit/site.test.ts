@@ -53,7 +53,7 @@ describe("other links and formats", () => {
 
 describe("LocalBusiness JSON-LD", () => {
   const profile: BusinessProfile = {
-    name: "Fluffy Fur",
+    name: "Example Salon",
     tagline: "מספרה לכלבים ולחתולים",
     taglineEn: null,
     city: "עיר לדוגמה",
@@ -73,7 +73,7 @@ describe("LocalBusiness JSON-LD", () => {
     expect(data).toMatchObject({
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      name: "Fluffy Fur",
+      name: "Example Salon",
       telephone: CHAT,
       address: { "@type": "PostalAddress", streetAddress: "רחוב לדוגמה 1", addressCountry: "IL" },
       sameAs: ["https://instagram.com/example"],

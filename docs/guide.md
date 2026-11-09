@@ -123,8 +123,8 @@ different format needs a small adapter in `src/server/notify/email.ts`.
 
    | Name | Category | Button |
    | --- | --- | --- |
-   | `ff_code` | Authentication | Copy code |
-   | `ff_confirmation`, `ff_reminder`, `ff_customer_change`, `ff_owner_change`, `ff_import_link` | Utility | URL `https://<domain>/b/{{1}}` |
+   | `booking_code` | Authentication | Copy code |
+   | `booking_confirmation`, `booking_reminder`, `booking_customer_change`, `booking_owner_change`, `booking_import_link` | Utility | URL `https://<domain>/b/{{1}}` |
 
    For English customers, add an **English** version of each template
    (wording in `db/seed/data.en.json`) with the button URL

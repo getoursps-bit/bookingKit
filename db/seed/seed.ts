@@ -1,4 +1,4 @@
-// Inserts the salon's starting content from data.he.json. Rows that already
+// Inserts the business's starting content from data.he.json. Rows that already
 // exist are skipped, so running it twice changes nothing and never overwrites
 // the owner's edits. English text from data.en.json only fills English fields
 // that are still empty, matched by the seeded Hebrew name or template key.
@@ -6,6 +6,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
+import { brand } from "../../src/brand";
 import { SETTINGS_DEFAULTS } from "../../src/server/repos/settings";
 // Imported, not read from disk, so the bundled release script carries it.
 import data from "./data.he.json" with { type: "json" };
@@ -49,7 +50,18 @@ type SeedEnglish = {
   message_templates: Record<string, { body_en: string; subject_en: string | null }>;
 };
 
-export async function seed(db: Queryable, content: SeedData = data, en: SeedEnglish = english): Promise<void> {
+/**
+ * The seed text says %BRAND% where the client's name goes, and it is filled in
+ * here. Not a {placeholder}: those are filled when a message is sent and are
+ * counted as its parameters.
+ */
+function named<T>(content: T, name: string): T {
+  return JSON.parse(JSON.stringify(content).replaceAll("%BRAND%", JSON.stringify(name).slice(1, -1))) as T;
+}
+
+export async function seed(db: Queryable, hebrew: SeedData = data, inEnglish: SeedEnglish = english): Promise<void> {
+  const content = named(hebrew, brand.name.he);
+  const en = named(inEnglish, brand.name.en);
 
   const serviceIds = new Map<string, number>();
   for (const [index, service] of content.services.entries()) {

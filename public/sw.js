@@ -1,4 +1,4 @@
-// Fluffy Fur service worker for the public site.
+// Service worker for the public site.
 //
 // Kept small on purpose: pages always come from the network, because they
 // show live free times and private booking details. The worker only:
@@ -6,7 +6,7 @@
 //   - shows /offline when a page cannot load without a connection.
 // It never stores booking, manage-link, admin or API responses.
 
-const VERSION = "ff-v1";
+const VERSION = "app-v1";
 const STATIC_CACHE = `${VERSION}-static`;
 const OFFLINE_URL = "/offline";
 

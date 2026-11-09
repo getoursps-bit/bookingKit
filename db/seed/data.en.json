@@ -61,40 +61,40 @@
   },
   "message_templates": {
     "code:whatsapp": {
-      "body_en": "Your Fluffy Fur verification code: {code}. The code is valid for 10 minutes.",
+      "body_en": "Your %BRAND% verification code: {code}. The code is valid for 10 minutes.",
       "subject_en": null
     },
     "code:email": {
       "body_en": "Your verification code: {code}. The code is valid for 10 minutes.",
-      "subject_en": "Your Fluffy Fur verification code"
+      "subject_en": "Your %BRAND% verification code"
     },
     "staff_code:email": {
       "body_en": "Your admin login code: {code}. The code is valid for 10 minutes. If you did not ask for it, you can ignore this email.",
-      "subject_en": "Fluffy Fur admin login code"
+      "subject_en": "%BRAND% admin login code"
     },
     "confirmation:whatsapp": {
-      "body_en": "Your Fluffy Fur appointment is booked for {when}. To view, change or cancel: {link}",
+      "body_en": "Your %BRAND% appointment is booked for {when}. To view, change or cancel: {link}",
       "subject_en": null
     },
     "confirmation:email": {
       "body_en": "Your appointment is booked for {when}. To view, change or cancel: {link}",
-      "subject_en": "Your Fluffy Fur appointment is booked"
+      "subject_en": "Your %BRAND% appointment is booked"
     },
     "reminder:whatsapp": {
-      "body_en": "Reminder: you have an appointment at Fluffy Fur tomorrow at {when}. To change or cancel: {link}",
+      "body_en": "Reminder: you have an appointment at %BRAND% tomorrow at {when}. To change or cancel: {link}",
       "subject_en": null
     },
     "reminder:email": {
       "body_en": "Reminder: you have an appointment tomorrow at {when}. To change or cancel: {link}",
-      "subject_en": "Fluffy Fur appointment reminder"
+      "subject_en": "%BRAND% appointment reminder"
     },
     "customer_change:whatsapp": {
-      "body_en": "Your Fluffy Fur appointment was updated: {change}. Details: {link}",
+      "body_en": "Your %BRAND% appointment was updated: {change}. Details: {link}",
       "subject_en": null
     },
     "customer_change:email": {
       "body_en": "Your appointment was updated: {change}. Details: {link}",
-      "subject_en": "Your Fluffy Fur appointment was updated"
+      "subject_en": "Your %BRAND% appointment was updated"
     },
     "owner_change:whatsapp": {
       "body_en": "The salon updated your appointment: {change}. Details: {link}",
@@ -105,12 +105,12 @@
       "subject_en": "The salon updated your appointment"
     },
     "import_link:whatsapp": {
-      "body_en": "Fluffy Fur has moved to a new website. Your appointment on {when} has been kept. To view, change or cancel: {link}",
+      "body_en": "%BRAND% has moved to a new website. Your appointment on {when} has been kept. To view, change or cancel: {link}",
       "subject_en": null
     },
     "import_link:email": {
       "body_en": "Your appointment on {when} has been kept. To view, change or cancel: {link}",
-      "subject_en": "Fluffy Fur has moved to a new website"
+      "subject_en": "%BRAND% has moved to a new website"
     },
     "owner_alert:push": {
       "body_en": "{title}",
@@ -118,7 +118,7 @@
     },
     "owner_alert:email": {
       "body_en": "{title}. Details in the admin area.",
-      "subject_en": "Alert from Fluffy Fur"
+      "subject_en": "Alert from %BRAND%"
     },
     "owner_check:push": {
       "body_en": "Daily check: notifications are working.",

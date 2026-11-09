@@ -23,7 +23,7 @@ self.addEventListener("push", (event) => {
   } catch {
     data = {};
   }
-  const title = TITLES[data.type] || "Fluffy Fur";
+  const title = TITLES[data.type] || "התראה";
   const time = data.time ? new Date(data.time).toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Jerusalem" }) : "";
   event.waitUntil(
     Promise.all([

@@ -14,9 +14,9 @@ before the next. Commands run inside the app container
       `AI_PRICE_OUTPUT_AGOROT_PER_MTOK`). The switches in Settings stay off
       until the owner turns them on.
 - [ ] **Meta templates approved**, in Hebrew, with the same names as in
-      `db/seed/data.he.json`: `ff_code` (authentication, copy-code button),
-      `ff_confirmation`, `ff_reminder`, `ff_customer_change`, `ff_owner_change`,
-      `ff_import_link` (utility, URL button `https://<domain>/b/{{1}}`).
+      `db/seed/data.he.json`: `booking_code` (authentication, copy-code button),
+      `booking_confirmation`, `booking_reminder`, `booking_customer_change`, `booking_owner_change`,
+      `booking_import_link` (utility, URL button `https://<domain>/b/{{1}}`).
       Sender display name set.
 - [ ] **Both WhatsApp numbers set** in Admin → Settings: the automated sender
       and the salon's chat number (the auto-reply points to it).
