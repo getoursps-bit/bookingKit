@@ -273,6 +273,38 @@ Because a client's changes are confined to `client.json`, `theme/`, and
 `extensions/`, a client repo can take kit updates by merging, instead of
 re-doing the same feature in two places.
 
+### How an extension is wired (as planned for the build)
+
+```text
+extensions/pets/
+  extension.ts            the manifest: id, what it needs, and what it adds
+  languages/he.json       its own strings, one file per language, same shape as a pack
+  languages/en.json
+  content/…               its starting content per language, if any
+  migrations/0001_….sql   its own tables, prefixed; applied after the core's, always
+  server/…                its rules and repositories
+  views/…                 what it puts into the views' slots and its booking step
+```
+
+- `client.json` lists `extensions`. `pnpm brand` writes
+  `src/extensions.generated.ts`, which imports only the enabled manifests, so
+  a switched-off extension is not even in the build. Its code and
+  migrations stay in the kit.
+- The manifest is typed: it can only fill the extension points the core
+  offers (the table above). The core asks the registry at each point:
+  "which fields does a booking line have?", "which steps come before
+  details?", "what goes in the calendar's event slot?".
+- Strings: an extension's `languages/<code>.json` is merged into the pack
+  when the extension is on; the contract lists them under the extension's
+  name and `pnpm lang:check` covers them.
+- Tables: the migration runner applies `db/migrations` and then every
+  extension's `migrations`, in the kit, whether the extension is on or
+  not, so there is one database shape to test. (The pet tables the core
+  created in its early migrations stay where they are: migrations are
+  append-only.)
+- A client's own extension lives in its repo in the same shape and is
+  listed the same way.
+
 ### How the extension points get designed
 
 Not by guessing. The two existing clients are the specification:
@@ -283,6 +315,20 @@ Not by guessing. The two existing clients are the specification:
 2. Rebuild Safa's approval and split hours as extensions on the same core.
    Where they do not fit, the points are adjusted.
 3. A third client then starts from points that two real clients have used.
+
+### Where pets are in the core today (what has to come out)
+
+| Core place | Pet knowledge | Becomes |
+|---|---|---|
+| `booking/service.ts` `PetInput`, `requestHold` | a line is a pet with species, name, breed, vet, vaccines | a line is a service plus extension fields; pets declares the fields and their checks |
+| `booking/serviceRules.ts`, `ServiceStep` | species and size choose the service | the `suggestServices` point; pets owns the rules table and editor |
+| `booking/draft.ts` `DraftPet`, `MULTI_PET_BOOKING` | the draft holds pets | the draft holds lines; "several lines" is a core setting |
+| `booking/flow.ts` `bookingView`, `savedPetsFor` | the private link lists pets | lists lines; pets fills the line's slot |
+| `ContactStep` `PetFieldset`, `PetPhotos`, `api/booking/photo` | pet details and photo in the flow | pets' booking step and pet-photos' slot |
+| `repos/customers.ts` pets, `admin/data.ts`, `Calendar.tsx`, customer page | pets on the owner's screens | slots on the calendar event and the customer page |
+| `photos.ts`, `ai/*`, `ai_jobs`, settings `ai.photo`, `ai.summary` | photo analysis of pets | the pet-photos extension |
+| `settings.booking.maxPets` | a limit on pets | the core's limit on lines |
+| strings `pets.*`, `coat.*`, `tag.*`, `details.vet*`, hero sticker, paw icons on service cards, seed `service_rules` | wording and content | the extension's strings and content; the core's views show the brand mark |
 
 ### Testing two shapes of client
 
@@ -330,19 +376,29 @@ the message outbox. They are the product.
    5. The contract (written by `pnpm brand`) and `pnpm lang:check`.
    6. The Arabic pack, filled from the contract, and the sample client
       switched to Arabic first.
-2. **Core boundaries** (about 1 week)
+2. **The extension mechanism** (about 3 days)
+   1. `extensions` in `client.json`, the manifest type with the first
+      points (strings, migrations, settings), the generated registry, the
+      migration runner reading extension folders, strings merged into the
+      packs and listed in the contract.
+   2. `pets` as an extension that so far only owns its strings and the
+      `service_rules` seed, with the default client unchanged.
+3. **Pets out of the core** (about 1.5 weeks), one point at a time, the
+   page pictures and the whole suite unchanged after each:
+   1. Lines instead of pets in the hold, the draft and the private link;
+      extension fields on a line.
+   2. Service suggestion as a point; the rules table and editor move.
+   3. The pets booking step and the pet-photos extension.
+   4. Slots on the calendar event and the customer page.
+   5. A sample client with no extensions books plainly, and its suite
+      passes. Core strings carry no pet words.
+4. **Core boundaries and views** (about 1.5 weeks)
    1. Booking, website and platform as three folders with read functions,
       actions and events; no SQL outside them.
-   2. Appointment lines without pets in the core's own vocabulary.
-3. **Views** (about 1 week)
-   1. Thin routes; views in `src/views/`; `theme/views.ts` overrides.
-   2. Slots where the first extensions need them.
-4. **Extensions** (about 2 weeks)
-   1. The extension manifest and loader; `extensions` in `client.json`.
-   2. `pets` and `pet-photos` taken out of the core. The default client's
-      tests and page pictures must not change.
-   3. `approval` and `split-hours` rebuilt from Safa.
-   4. `dibs-import`.
+   2. Thin routes; views in `src/views/`; `theme/views.ts` overrides.
+5. **Safa's customisations as extensions** (about 1 week): `approval`,
+   `split-hours`, `logo-upload`, `contact-icons`; adjust the points where
+   they do not fit.
 
 Each sub-step ends with tests passing, the page pictures of the default
 client unchanged, and a note in `docs/build-notes.md`.
