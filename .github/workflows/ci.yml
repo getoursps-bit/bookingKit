@@ -11,6 +11,12 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        # The default client, and a second one with another name, palette and
+        # fonts, so nothing quietly depends on the default.
+        client: [client.json, tests/fixtures/client.sample.json]
     services:
       postgres:
         image: postgres:16-alpine
@@ -37,6 +43,9 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Use the second client
+        if: matrix.client != 'client.json'
+        run: cp "${{ matrix.client }}" client.json && pnpm brand
       - name: Prepare database (same as docker/dev-init)
         run: psql postgres://postgres:postgres@localhost:5432/postgres -f docker/dev-init/01-schema.sql
       - name: Migrate and seed as the app role, twice to prove both are repeatable
