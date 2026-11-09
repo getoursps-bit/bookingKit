@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import seedData from "../../db/seed/data.json";
+import petRules from "../../extensions/pets/seed.json";
 import text from "../../languages/he/content.json";
 import { PetDescription, profileFor, resolveService, speciesFor } from "@/server/booking/serviceRules";
 import type { Service, ServiceRule } from "@/server/repos/catalog";
@@ -17,7 +18,7 @@ const services: Service[] = seedData.services.map((service, index) => ({
   sortOrder: index,
 }));
 const idOf = (key: string) => seedData.services.findIndex((service) => service.key === key) + 1;
-const rules = seedData.service_rules.map((rule, index) => ({
+const rules = petRules.service_rules.map((rule, index) => ({
   id: index + 1,
   species: rule.species,
   ageGroup: rule.age_group,

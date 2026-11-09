@@ -2,7 +2,8 @@
   "reference": "he",
   "howTo": [
     "A language pack is the folder languages/<code>/ with pack.json, messages.json and content.json.",
-    "messages.json: every key under `strings`, nested by the dots in the key, with the same placeholders as the reference text. Plural strings use ICU syntax, as the reference does.",
+    "messages.json: every key under `strings` that has no `extension`, nested by the dots in the key, with the same placeholders as the reference text. Plural strings use ICU syntax, as the reference does.",
+    "A key with an `extension` belongs in that extension's own file, extensions/<extension>/languages/<code>.json, in the same nested shape.",
     "content.json: for each kind of row under `content`, the same item keys and fields; keep every field within `max` characters, and keep the placeholders of a message body exactly.",
     "%BRAND% stands for the business name and is filled in when the content is seeded.",
     "Run `pnpm lang:check <code>` until it reports nothing missing and nothing wrong."

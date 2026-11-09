@@ -81,6 +81,8 @@ export const clientSchema = z
      * is the language the owner writes in; each other one lives under /<code>.
      */
     languages: z.strictObject({ default: language, others: z.array(language) }),
+    /** The extensions that are on: folder names under extensions/. */
+    extensions: z.array(z.string().regex(/^[a-z][a-z0-9-]*$/, "an extension's folder name")),
     brand: z.strictObject({
       /** The business name per language: browser title, app name, emails, and the start value the owner can change. */
       name: z.record(language, z.string().min(1)),

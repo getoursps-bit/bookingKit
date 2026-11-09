@@ -32,6 +32,7 @@ COPY --from=build --chown=node:node /app/public ./public
 COPY --from=build --chown=node:node /app/worker/dist/main.js /app/worker/dist/migrate.js /app/worker/dist/seed.js \
   /app/worker/dist/import-dibs.js /app/worker/dist/staff-create.js ./worker/
 COPY --from=build --chown=node:node /app/db/migrations ./db/migrations
+COPY --from=build --chown=node:node /app/extensions ./extensions
 
 USER node
 EXPOSE 3000

@@ -3,3 +3,4 @@ src/app/brand.css
 src/i18n/languages.generated.ts
 src/i18n/packs.generated.ts
 languages/contract.json
+src/extensions.generated.ts

@@ -80,6 +80,8 @@ src/components/       site, booking, admin and shared UI
 languages/<code>/     one pack per language: its strings (messages.json) and what the code needs to know about it (pack.json)
 src/i18n/             the string lookup (on next-intl), language addresses and formats
 src/server/translation/  the owner's text in the other languages (content_translations)
+src/extension/        the extension points and the registry of the extensions that are on
+extensions/<id>/      one folder per extension: manifest, strings, migrations, starting content
 src/landing/          campaign landing pages (code)
 src/server/           domain logic: booking engine, identity, notify (outbox and route()),
                       repos, ai, photos, import, staff, time (Asia/Jerusalem)
@@ -95,6 +97,17 @@ The image runs the web app with `node server.js` and the worker with
 `node worker/main.js`. Health is `GET /healthz`. All configuration comes from
 environment variables (see `env.example`); a service without keys is switched
 off, not faked, when `PROVIDERS=real`.
+
+## Extensions
+
+A client's customisation is an extension: a folder under `extensions/` with
+a manifest (`extension.ts`), its own strings per language, its own
+migrations and its starting content. `client.json` lists the ones that are
+on, and `pnpm brand` writes the registry the code reads; an extension that
+is off is not in the build, and its code stays in the kit. The core offers
+fixed extension points (see `src/extension/types.ts`) and never carries an
+`if` for one client. `pets`, the grooming salon's customisation, is the
+first extension and is being taken out of the core point by point.
 
 ## Re-branding
 

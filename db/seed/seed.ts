@@ -9,6 +9,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 import { brand, brandName } from "../../src/brand";
+import { extensions } from "../../src/extension/registry";
 import { DEFAULT_LOCALE, type Locale, LOCALES } from "../../src/i18n/locales";
 import { CONTENT } from "../../src/i18n/packs.generated";
 import { searchPathOption } from "../../src/server/db-schema";
@@ -20,13 +21,6 @@ type Queryable = pg.Client | pg.PoolClient | pg.Pool;
 
 type SeedData = {
   services: { key: string; duration_min: number; price_from_agorot: number; bookable_online: boolean }[];
-  service_rules: {
-    species: string;
-    age_group: string | null;
-    weight_group: string | null;
-    request: string;
-    service: string;
-  }[];
   products: { key: string; price_agorot: number }[];
   opening_hours: { weekday: number; opens: string | null; closes: string | null; closed: boolean }[];
   message_templates: { key: string; channel: string; provider_template?: string; category?: string }[];
@@ -89,17 +83,6 @@ export async function seed(db: Queryable, structure: SeedData = data): Promise<v
     for (const locale of others) await translate(db, locale, "service", id, text[locale].service?.[service.key]);
   }
 
-  for (const rule of structure.service_rules) {
-    const serviceId = serviceIds.get(rule.service);
-    if (!serviceId) throw new Error(`Seed rule points to unknown service "${rule.service}"`);
-    await db.query(
-      `insert into service_rules (species, age_group, weight_group, request, service_id)
-       values ($1, $2, $3, $4, $5)
-       on conflict (species, age_group, weight_group, request) do nothing`,
-      [rule.species, rule.age_group, rule.weight_group, rule.request, serviceId],
-    );
-  }
-
   for (const [index, product] of structure.products.entries()) {
     const name = field("product", product.key, "name");
     await db.query(
@@ -146,6 +129,9 @@ export async function seed(db: Queryable, structure: SeedData = data): Promise<v
     );
     for (const locale of others) await translate(db, locale, "message_template", key, text[locale].message_template?.[key]);
   }
+
+  // Each extension that is on writes its own starting content.
+  for (const extension of extensions()) await extension.seed?.(db, { serviceIds });
 
   for (const [key, value] of Object.entries(SETTINGS_DEFAULTS)) {
     await db.query("insert into settings (key, value) values ($1, $2) on conflict (key) do nothing", [

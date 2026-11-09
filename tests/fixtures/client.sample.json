@@ -5,6 +5,9 @@
       "ar"
     ]
   },
+  "extensions": [
+    "pets"
+  ],
   "brand": {
     "name": {
       "he": "סטודיו לדוגמה",

@@ -291,3 +291,37 @@ Design: [`designs/step2_modules_languages.md`](designs/step2_modules_languages.m
 
 The translation module is complete for this step. Next: Part B, the core
 boundaries.
+
+### B1. The extension mechanism (2026-11-09)
+
+**Built**
+
+- `src/extension/types.ts`: the manifest type. Its points grow only when a
+  real extension needs one; today: `messages` (its strings per language),
+  `seed` (its starting content, after the core's), and its own
+  `migrations/` folder by convention. `requires` names the extensions it
+  needs on.
+- `client.json` lists `extensions`; `pnpm brand` writes
+  `src/extensions.generated.ts`, which imports only the enabled manifests,
+  so an extension that is off is not in the build. `src/extension/registry.ts`
+  checks `requires` and answers `extensions()` / `hasExtension()`.
+- Strings: an enabled extension's `languages/<code>.json` is merged into the
+  pack (`src/i18n/messages.ts`); the contract lists each extension's
+  strings under its name and `pnpm lang:check` covers them.
+- Migrations: `pnpm migrate` applies `db/migrations`, then every extension's
+  `migrations/*.sql` in the kit, recorded as `<id>/<file>`, on or off. The
+  image carries `extensions/`.
+- `extensions/pets/`: the first extension. So far it owns the default
+  service rules (`seed.json`, written by its `seed`) and empty string files;
+  the code that uses them is still in the core and moves next.
+
+**Verified**
+
+- 223 unit tests (the registry, each manifest's id and needs, extension
+  migrations recorded under the extension's name), 61 browser tests, the
+  40 page pictures unchanged; the bundled seed writes the 7 rules.
+
+**Next**
+
+- B2: pets out of the core, one point at a time, starting with lines
+  instead of pets in the hold, the draft and the private link.

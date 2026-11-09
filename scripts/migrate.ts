@@ -1,5 +1,8 @@
-// Applies db/migrations/*.sql in name order, one transaction per file, and
-// records each in schema_migrations. Run as a release step, never on app start:
+// Applies db/migrations/*.sql in name order, then each extension's
+// extensions/<id>/migrations/*.sql (recorded as "<id>/<file>"), one
+// transaction per file, recorded in schema_migrations. Every extension's
+// tables are made whether it is on or not, so there is one database shape.
+// Run as a release step, never on app start:
 //   pnpm migrate           apply pending files
 //   pnpm migrate --check   list pending files, exit 1 if any
 import { readdir, readFile } from "node:fs/promises";
@@ -9,6 +12,24 @@ import pg from "pg";
 import { searchPathOption } from "../src/server/db-schema";
 
 export const MIGRATIONS_DIR = fileURLToPath(new URL("../db/migrations/", import.meta.url));
+export const EXTENSIONS_DIR = fileURLToPath(new URL("../extensions/", import.meta.url));
+
+/** Every migration file: the core's by name, then each extension's as "<id>/<file>". */
+async function allMigrations(dir: string, extensionsDir: string): Promise<{ name: string; file: string }[]> {
+  const core = (await readdir(dir)).filter((file) => file.endsWith(".sql")).sort();
+  const files = core.map((name) => ({ name, file: path.join(dir, name) }));
+  const ids = (await readdir(extensionsDir, { withFileTypes: true }).catch(() => []))
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+  for (const id of ids) {
+    const own = (await readdir(path.join(extensionsDir, id, "migrations")).catch(() => []))
+      .filter((file) => file.endsWith(".sql"))
+      .sort();
+    files.push(...own.map((name) => ({ name: `${id}/${name}`, file: path.join(extensionsDir, id, "migrations", name) })));
+  }
+  return files;
+}
 
 type Queryable = pg.Client | pg.PoolClient;
 
@@ -21,19 +42,24 @@ async function ensureTable(db: Queryable): Promise<void> {
   await db.query("alter table schema_migrations enable row level security");
 }
 
-export async function pendingMigrations(db: Queryable, dir = MIGRATIONS_DIR): Promise<string[]> {
+export async function pendingMigrations(
+  db: Queryable,
+  dir = MIGRATIONS_DIR,
+  extensionsDir = EXTENSIONS_DIR,
+): Promise<string[]> {
   await ensureTable(db);
-  const files = (await readdir(dir)).filter((file) => file.endsWith(".sql")).sort();
+  const files = await allMigrations(dir, extensionsDir);
   const { rows } = await db.query<{ name: string }>("select name from schema_migrations");
   const applied = new Set(rows.map((row) => row.name));
-  return files.filter((file) => !applied.has(file));
+  return files.filter(({ name }) => !applied.has(name)).map(({ name }) => name);
 }
 
 /** Applies every pending migration and returns the names applied. */
-export async function migrate(db: Queryable, dir = MIGRATIONS_DIR): Promise<string[]> {
-  const pending = await pendingMigrations(db, dir);
+export async function migrate(db: Queryable, dir = MIGRATIONS_DIR, extensionsDir = EXTENSIONS_DIR): Promise<string[]> {
+  const files = new Map((await allMigrations(dir, extensionsDir)).map(({ name, file }) => [name, file]));
+  const pending = await pendingMigrations(db, dir, extensionsDir);
   for (const name of pending) {
-    const sql = await readFile(path.join(dir, name), "utf8");
+    const sql = await readFile(files.get(name)!, "utf8");
     await db.query("begin");
     try {
       await db.query(sql);

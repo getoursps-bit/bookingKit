@@ -1,4 +1,5 @@
 import { brand, brandName } from "../brand";
+import { extensions } from "../extension/registry";
 import type { Locale } from "./locales";
 import { MESSAGES as PACK_MESSAGES } from "./packs.generated";
 import type { Messages } from "./t";
@@ -18,10 +19,24 @@ function named(group: Group, name: string): Group {
   );
 }
 
-/** A language's strings with the client's own wording (client.json) laid over them. */
+/** `extra` laid over `base`, group by group. */
+function merge(base: Group, extra: Group): Group {
+  const out: Group = { ...base };
+  for (const [key, value] of Object.entries(extra)) {
+    const current = out[key];
+    out[key] = typeof value === "object" && typeof current === "object" ? merge(current, value) : value;
+  }
+  return out;
+}
+
+/** A language's strings, the enabled extensions' strings and the client's own wording (client.json), in that order. */
 function forClient(locale: Locale, base: Messages): Messages {
   const name = brandName(locale);
-  const strings = named(base, name);
+  let strings = named(base, name);
+  for (const extension of extensions()) {
+    const own = extension.messages?.[locale];
+    if (own) strings = merge(strings, named(own, name));
+  }
   for (const [key, text] of Object.entries(brand.messages[locale] ?? {})) {
     const parts = key.split(".");
     let group = strings;

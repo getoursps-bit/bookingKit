@@ -37,57 +37,6 @@
       "bookable_online": true
     }
   ],
-  "service_rules": [
-    {
-      "species": "dog",
-      "age_group": "young",
-      "weight_group": null,
-      "request": "groom",
-      "service": "puppy"
-    },
-    {
-      "species": "dog",
-      "age_group": "adult",
-      "weight_group": "small",
-      "request": "groom",
-      "service": "dog_small"
-    },
-    {
-      "species": "dog",
-      "age_group": "adult",
-      "weight_group": "large",
-      "request": "groom",
-      "service": "dog_large"
-    },
-    {
-      "species": "dog",
-      "age_group": "adult",
-      "weight_group": "unknown",
-      "request": "groom",
-      "service": "dog_large"
-    },
-    {
-      "species": "cat",
-      "age_group": null,
-      "weight_group": null,
-      "request": "groom",
-      "service": "cat"
-    },
-    {
-      "species": "dog",
-      "age_group": null,
-      "weight_group": null,
-      "request": "nails",
-      "service": "nails"
-    },
-    {
-      "species": "cat",
-      "age_group": null,
-      "weight_group": null,
-      "request": "nails",
-      "service": "nails"
-    }
-  ],
   "products": [
     {
       "key": "conditioner",

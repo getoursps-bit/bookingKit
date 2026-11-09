@@ -2,7 +2,18 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { packSchema } from "../src/brand.schema";
 import { TRANSLATABLE } from "../src/server/translation/content";
-import { contentOf, LANGUAGES_DIR, messagesOf, packCodes, placeholders, readJson, REFERENCE, seedKeys } from "./lang-contract";
+import {
+  contentOf,
+  extensionIds,
+  extensionMessagesOf,
+  LANGUAGES_DIR,
+  messagesOf,
+  packCodes,
+  placeholders,
+  readJson,
+  REFERENCE,
+  seedKeys,
+} from "./lang-contract";
 
 // Checks a language pack against the reference pack and the seed: wrong things
 // are errors (unknown keys, placeholders that differ, text over its limit),
@@ -34,6 +45,19 @@ export function checkPack(code: string, dir = LANGUAGES_DIR): Report {
         errors.push(`string ${key}: placeholders {${placeholders(own).join(", ")}} should be {${placeholders(text).join(", ")}}`);
     }
     for (const key of Object.keys(messages)) if (!(key in reference)) errors.push(`string ${key} is not in the reference pack`);
+  }
+
+  // Each extension's strings, against its own reference-language file.
+  for (const id of extensionIds()) {
+    const own = extensionMessagesOf(id, REFERENCE);
+    const theirs = extensionMessagesOf(id, code);
+    for (const [key, text] of Object.entries(own)) {
+      const value = theirs[key];
+      if (value === undefined || value.trim() === "") missing.push(`${id} string ${key}`);
+      else if (placeholders(value).join(",") !== placeholders(text).join(","))
+        errors.push(`${id} string ${key}: placeholders {${placeholders(value).join(", ")}} should be {${placeholders(text).join(", ")}}`);
+    }
+    for (const key of Object.keys(theirs)) if (!(key in own)) errors.push(`${id} string ${key} is not in the extension's reference file`);
   }
 
   const referenceContent = contentOf(REFERENCE) ?? {};

@@ -40,9 +40,26 @@ export function readJson<T>(file: string): T | null {
   }
 }
 
+export const EXTENSIONS_DIR = path.join(ROOT, "extensions");
+
+/** Every extension in the kit, on or off, that has strings of its own. */
+export function extensionIds(): string[] {
+  return readdirSync(EXTENSIONS_DIR, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+}
+
+/** The core pack's strings for a language, flat, or null when the pack has no messages.json. */
 export const messagesOf = (code: string, dir = LANGUAGES_DIR): Record<string, string> | null => {
   const file = readJson<Record<string, unknown>>(path.join(dir, code, "messages.json"));
   return file ? flatten(file as Record<string, string>) : null;
+};
+
+/** An extension's strings for a language, flat; {} when it has none in that language. */
+export const extensionMessagesOf = (id: string, code: string): Record<string, string> => {
+  const file = readJson<Record<string, unknown>>(path.join(EXTENSIONS_DIR, id, "languages", `${code}.json`));
+  return file ? flatten(file as Record<string, string>) : {};
 };
 export const contentOf = (code: string, dir = LANGUAGES_DIR): Content | null =>
   readJson<Content>(path.join(dir, code, "content.json"));
@@ -61,7 +78,7 @@ export type Contract = {
   reference: string;
   /** How to fill a pack, in plain words. */
   howTo: string[];
-  strings: Record<string, { placeholders: string[]; text: Record<string, string> }>;
+  strings: Record<string, { placeholders: string[]; text: Record<string, string>; extension?: string }>;
   content: Record<
     string,
     {
@@ -80,6 +97,14 @@ export function contract(): Contract {
   for (const [key, text] of Object.entries(reference)) {
     const texts = Object.fromEntries(codes.filter((code) => messages[code]![key] !== undefined).map((code) => [code, messages[code]![key]!]));
     strings[key] = { placeholders: placeholders(text), text: texts };
+  }
+  // Each extension's strings, marked with its name; the reference pack's language is the reference here too.
+  for (const id of extensionIds()) {
+    const own = Object.fromEntries(codes.map((code) => [code, extensionMessagesOf(id, code)]));
+    for (const [key, text] of Object.entries(own[REFERENCE]!)) {
+      const texts = Object.fromEntries(codes.filter((code) => own[code]![key] !== undefined).map((code) => [code, own[code]![key]!]));
+      strings[key] = { placeholders: placeholders(text), text: texts, extension: id };
+    }
   }
   const contentSpec: Contract["content"] = {};
   for (const [entity, keys] of Object.entries(seedKeys())) {
@@ -108,7 +133,8 @@ export function contract(): Contract {
     reference: REFERENCE,
     howTo: [
       "A language pack is the folder languages/<code>/ with pack.json, messages.json and content.json.",
-      "messages.json: every key under `strings`, nested by the dots in the key, with the same placeholders as the reference text. Plural strings use ICU syntax, as the reference does.",
+      "messages.json: every key under `strings` that has no `extension`, nested by the dots in the key, with the same placeholders as the reference text. Plural strings use ICU syntax, as the reference does.",
+      "A key with an `extension` belongs in that extension's own file, extensions/<extension>/languages/<code>.json, in the same nested shape.",
       "content.json: for each kind of row under `content`, the same item keys and fields; keep every field within `max` characters, and keep the placeholders of a message body exactly.",
       "%BRAND% stands for the business name and is filled in when the content is seeded.",
       "Run `pnpm lang:check <code>` until it reports nothing missing and nothing wrong.",
