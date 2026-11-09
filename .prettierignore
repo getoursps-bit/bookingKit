@@ -1,2 +1,4 @@
 # Written by `pnpm brand`; formatting it would make it look out of date
 src/app/brand.css
+src/i18n/languages.generated.ts
+src/i18n/packs.generated.ts

@@ -4,11 +4,12 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { useI18n } from "@/i18n/client";
+import { splitLocale } from "@/i18n/locales";
 import { InstallButton, useCanInstall } from "./InstallButton";
 
 const CLOSED_KEY = "bk-install-closed";
 /** Where a floating card would sit over the buttons a customer needs. */
-const NOT_HERE = /^(\/en)?\/(book|b)(\/|$)/;
+const NOT_HERE = /^\/(book|b)(\/|$)/;
 
 function closedThisVisit(): boolean {
   try {
@@ -46,7 +47,7 @@ export function InstallPrompt() {
     }
   }, []);
 
-  if (!canInstall || closed || closedBefore || NOT_HERE.test(pathname)) return null;
+  if (!canInstall || closed || closedBefore || NOT_HERE.test(splitLocale(pathname).path)) return null;
 
   const close = () => {
     rememberClosed();

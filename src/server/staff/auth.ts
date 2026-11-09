@@ -1,7 +1,7 @@
 import { randomInt, timingSafeEqual } from "node:crypto";
 import argon2 from "argon2";
 import { generateSecret, generateURI, verify as verifyTotp } from "otplib";
-import type { Locale } from "../../i18n/locales";
+import { DEFAULT_LOCALE, type Locale } from "../../i18n/locales";
 import { type Db, getPool, query } from "../db";
 import { newRawToken, secretHash } from "../identity/hash";
 import { deliver } from "../notify/deliver";
@@ -15,7 +15,7 @@ import { hit } from "../repos/rateLimits";
 
 export { SESSION_COOKIE, SESSION_DAYS } from "./cookie";
 import { SESSION_DAYS } from "./cookie";
-import { brand } from "@/brand";
+import { brandName } from "@/brand";
 export const PENDING_COOKIE = "bk_admin_2fa";
 /** The address an emailed login code was sent to, signed, while the code is live. */
 export const EMAIL_PENDING_COOKIE = "bk_admin_mail";
@@ -154,7 +154,7 @@ export async function checkEmailCode(email: string, code: string, db: Db = getPo
 
 export function newTotpSecret(email: string): { secret: string; uri: string } {
   const secret = generateSecret();
-  return { secret, uri: generateURI({ issuer: brand.name.en, label: email, secret }) };
+  return { secret, uri: generateURI({ issuer: brandName(DEFAULT_LOCALE), label: email, secret }) };
 }
 
 export async function createSession(

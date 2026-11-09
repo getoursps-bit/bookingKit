@@ -181,7 +181,8 @@
     "mac2": "Choose \"Add to Dock\" and confirm.",
     "other1": "Open the browser's menu (the three dots).",
     "other2": "Choose \"Install app\" or \"Add to Home screen\".",
-    "note": "Can't see the option? Open the site directly in Safari or Chrome, not from inside Instagram or Facebook."
+    "note": "Can't see the option? Open the site directly in Safari or Chrome, not from inside Instagram or Facebook.",
+    "description": "Book an appointment, services and prices, products and opening hours."
   },
   "offline": {
     "title": "No internet connection",
@@ -573,13 +574,6 @@
     "very_matted": "Heavily matted",
     "unclear": "Unclear"
   },
-  "lang": {
-    "other": "עברית",
-    "name": {
-      "he": "עברית",
-      "en": "English"
-    }
-  },
   "tag": {
     "dog": "Dog",
     "cat": "Cat",
@@ -641,5 +635,10 @@
     "service": "Service",
     "pets": "Pets",
     "empty": "No data for this period yet."
+  },
+  "duration": {
+    "hours": "{hours, plural, other {# h}}",
+    "minutes": "{minutes, plural, other {# min}}",
+    "both": "{hours} {minutes}"
   }
 }

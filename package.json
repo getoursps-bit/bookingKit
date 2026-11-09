@@ -15,7 +15,7 @@
     "worker": "tsx worker/main.ts",
     "migrate": "tsx scripts/migrate.ts",
     "seed": "tsx db/seed/seed.ts",
-    "brand": "tsx scripts/brand-css.ts",
+    "brand": "tsx scripts/apply-client.ts",
     "import:dibs": "tsx scripts/import-dibs.ts",
     "staff:create": "tsx scripts/staff-create.ts",
     "lint": "eslint .",

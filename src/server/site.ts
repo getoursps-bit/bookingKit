@@ -1,12 +1,13 @@
 import { cache } from "react";
 import { type BusinessProfile, getBusinessProfile, getOpeningHours, type OpeningHours } from "./repos/catalog";
 import { getSettings, type Settings } from "./repos/settings";
-import { brand } from "@/brand";
+import { brandName } from "@/brand";
+import { DEFAULT_LOCALE } from "@/i18n/locales";
 
 export type SiteData = { profile: BusinessProfile; hours: OpeningHours[]; settings: Settings };
 
 const EMPTY_PROFILE: BusinessProfile = {
-  name: brand.name.he,
+  name: brandName(DEFAULT_LOCALE),
   tagline: null,
   taglineEn: null,
   city: null,

@@ -3,28 +3,32 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { useI18n } from "@/i18n/client";
-import { localePath, splitLocale } from "@/i18n/locales";
+import { localePath, LOCALES, PACKS, splitLocale } from "@/i18n/locales";
 
-function SwitchLink({ className }: { className?: string }) {
-  const { locale, t } = useI18n();
+function SwitchLinks({ className }: { className?: string }) {
+  const { locale } = useI18n();
   const pathname = usePathname();
   const search = useSearchParams().toString();
-  const other = locale === "he" ? "en" : "he";
   const { path } = splitLocale(pathname);
-  const href = localePath(other, `${path}${search ? `?${search}` : ""}`);
   // A full page load: the language changes the page direction and every string.
-  return (
-    <a href={href} lang={other} hrefLang={other} className={className}>
-      {t("lang.other")}
+  return LOCALES.filter((other) => other !== locale).map((other) => (
+    <a
+      key={other}
+      href={localePath(other, `${path}${search ? `?${search}` : ""}`)}
+      lang={other}
+      hrefLang={other}
+      className={className}
+    >
+      {PACKS[other].name}
     </a>
-  );
+  ));
 }
 
-/** The same page in the other language. */
+/** The same page in each other language, each link written in its own language. Nothing for a one-language site. */
 export function LanguageSwitch({ className }: { className?: string }) {
   return (
     <Suspense fallback={null}>
-      <SwitchLink className={className} />
+      <SwitchLinks className={className} />
     </Suspense>
   );
 }

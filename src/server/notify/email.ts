@@ -1,17 +1,17 @@
-import type { Locale } from "../../i18n/locales";
+import { DEFAULT_LOCALE, type Locale, PACKS } from "../../i18n/locales";
 import { getConfig } from "../config";
 import type { EmailChannel, OutgoingMessage, SendResult } from "./types";
-import { brand } from "@/brand";
+import { brandName } from "@/brand";
 
 function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
 }
 
 /** An email body in the message's language and direction, with links made clickable. */
-export function emailHtml(text: string, locale: Locale = "he"): string {
+export function emailHtml(text: string, locale: Locale = DEFAULT_LOCALE): string {
   const linked = escapeHtml(text).replace(/https?:\/\/[^\s<⁩]+/g, (url) => `<a href="${url}">${url}</a>`);
-  const dir = locale === "he" ? "rtl" : "ltr";
-  const align = locale === "he" ? "right" : "left";
+  const dir = PACKS[locale].dir;
+  const align = dir === "rtl" ? "right" : "left";
   return `<!doctype html><html lang="${locale}" dir="${dir}"><body style="font-family:Arial,sans-serif;font-size:16px;line-height:1.6;direction:${dir};text-align:${align}">${linked.replace(/\n/g, "<br>")}</body></html>`;
 }
 
@@ -31,7 +31,7 @@ export function createEmail(): EmailChannel {
           body: JSON.stringify({
             from: config.EMAIL_FROM,
             to: [message.to],
-            subject: message.subject ?? brand.name[message.locale ?? "he"],
+            subject: message.subject ?? brandName(message.locale ?? DEFAULT_LOCALE),
             html: emailHtml(message.body, message.locale),
             text: message.body,
           }),

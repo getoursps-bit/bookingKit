@@ -130,14 +130,17 @@ One folder per language, `languages/<code>/`:
 
 | File | Level | Holds |
 |---|---|---|
-| `pack.json` | | The language's own name, its direction, the formatting locale (`he-IL`, `ar-IL`, `en-IL`) and the font it needs, if any |
+| `pack.json` | | The language's own name, its direction, and the locales for prices, link previews and day and month names |
 | `messages.json` | 1 | Every system string |
 | `content.json` | 2 | Translations of the starting content (services, products, templates), which `pnpm seed` writes into `content_translations` |
 | `legal/privacy.md`, `legal/accessibility.md` | 1 | The two legal pages, which are long text |
 
-Adding a language to a client: put its code in `client.json`. Adding a
-language to the kit: add a folder. No code change and no migration in either
-case.
+A font for one language is the client's choice, so it is in `client.json`
+(`theme.fonts.languages`), not in the pack.
+
+Adding a language to a client: put its code in `client.json` and run
+`pnpm brand`. Adding a language to the kit: add a folder. No hand-written
+code changes and no migration in either case.
 
 The kit ships Hebrew, English and Arabic. Arabic starts from Safa's file,
 which already has 441 of the kit's 533 strings.

@@ -1,4 +1,4 @@
-import he from "./he.json";
+import he from "../../languages/he/messages.json";
 import type { MessageKey } from "./t";
 
 type Group = { [key: string]: string | Group };

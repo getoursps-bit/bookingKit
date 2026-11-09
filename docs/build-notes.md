@@ -120,8 +120,50 @@ Design: [`designs/step2_modules_languages.md`](designs/step2_modules_languages.m
   compression). If that proves heavy, the provider can be given only the
   groups that browser components use.
 
+### A3. Language packs (2026-11-09)
+
+**Built**
+
+- Each language is a folder: `languages/he/`, `languages/en/`, with
+  `pack.json` (own name, direction, locales for prices, link previews and
+  date names) and `messages.json`.
+- `client.json` lists the languages: `{ "default": "he", "others": ["en"] }`.
+  The name and the client's wording are keyed by language code; a language
+  without a name of its own uses the default one.
+- `pnpm brand` (`scripts/apply-client.ts`, was `brand-css.ts`) also writes
+  `src/i18n/languages.generated.ts` (the list and each pack's details, safe
+  for the browser) and `src/i18n/packs.generated.ts` (strings and date names
+  of the client's languages only; server and worker).
+- No code names Hebrew or English for system behaviour any more: addresses
+  (`/<code>` for every language but the default), direction, the language
+  switch (one link per other language, by its own name; none for one
+  language), sitemap and link-preview alternates, email direction, price
+  formats, date names, app manifests.
+- Durations are plural strings in the packs (`duration.*`, ICU syntax) read
+  through the library, instead of Hebrew grammar written in code.
+- A font for one language is `theme.fonts.languages` in `client.json`
+  (was the fixed `latin` font for English).
+
+**Verified**
+
+- Every string (2,120 outputs) and every duration from 0 to 600 minutes in
+  both languages render exactly as before; prices too.
+- 207 unit tests (also with the sample client in place), 61 browser tests,
+  the 40 page pictures unchanged.
+
+**Not yet**
+
+- A client with one language, or without English, does not build yet: the
+  owner's content still has fixed Hebrew and English fields (`pick()`, the
+  `_en` columns, message templates, the catalogue forms), and the two legal
+  pages have a Hebrew and an English version written in code. That is the
+  next sub-step (the content translations table), and the type check now
+  points at each of those places.
+- The owner calendar takes its own wording from the calendar library for
+  Hebrew and English only; another language gets its dates but English
+  button labels until its wording is added.
+
 **Next**
 
-- A3: language packs as folders, `languages` in `client.json`, direction,
-  fonts and formats from the pack, prices and durations through the
-  library's formatter.
+- A4: `content_translations`, `translated()`, per-language fields in the
+  owner area, and the legal pages from the packs.

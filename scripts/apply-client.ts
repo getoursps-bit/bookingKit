@@ -1,0 +1,166 @@
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { type Client, clientSchema, FONTS, type Pack, packSchema } from "../src/brand.schema";
+
+// Writes the files that are worked out from client.json and the language
+// packs in languages/:
+//   src/app/brand.css                  font imports and the Tailwind theme values
+//   src/i18n/languages.generated.ts    the client's languages and what the code needs to know about each
+//   src/i18n/packs.generated.ts        their strings and date names (server and worker only)
+// Tailwind and the bundler read these when the site is built, so they are
+// generated ahead and committed; a unit test fails when they drift apart.
+//   pnpm brand           writes the files
+//   pnpm brand --check   only says whether they are up to date
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+export const CLIENT_FILE = path.join(ROOT, "client.json");
+const HEADER = "Generated from client.json by `pnpm brand`. Do not edit: change client.json and run it again.";
+
+function invalid(file: string, issues: { path: PropertyKey[]; message: string }[]): never {
+  const problems = issues.map((issue) => `  ${issue.path.join(".")}: ${issue.message}`);
+  throw new Error(`${path.relative(ROOT, file)} is not valid:\n${problems.join("\n")}`);
+}
+
+/** Reads and checks client.json (or another file of the same shape). */
+export function readClient(file = CLIENT_FILE): Client {
+  const parsed = clientSchema.safeParse(JSON.parse(readFileSync(file, "utf8")));
+  return parsed.success ? parsed.data : invalid(file, parsed.error.issues);
+}
+
+/** Reads and checks one language's pack.json. */
+export function readPack(code: string): Pack {
+  const file = path.join(ROOT, "languages", code, "pack.json");
+  if (!existsSync(file)) throw new Error(`There is no language pack "${code}": languages/${code}/pack.json is missing`);
+  const parsed = packSchema.safeParse(JSON.parse(readFileSync(file, "utf8")));
+  return parsed.success ? parsed.data : invalid(file, parsed.error.issues);
+}
+
+/** The client's languages, the default one first. */
+export function localesOf(client: Client): string[] {
+  return [client.languages.default, ...client.languages.others];
+}
+
+const stack = (...families: string[]) =>
+  [...new Set(families)].map((family) => `"${family}"`).join(", ") + ", system-ui, sans-serif";
+
+/** The stylesheet for one client: font packages first, then the theme values. */
+export function brandCss(client: Client): string {
+  const { fonts, colors, radius, shadows } = client.theme;
+  const sans = FONTS[fonts.sans];
+  const perLanguage = Object.entries(fonts.languages).filter(([code]) => localesOf(client).includes(code));
+  const packages = [...new Set([fonts.sans, fonts.display, ...perLanguage.map(([, font]) => font)])];
+  const tokens = [
+    `--font-sans: ${stack(sans)};`,
+    `--font-display: ${stack(FONTS[fonts.display], sans)};`,
+    "",
+    ...Object.entries(colors).map(([name, value]) => `--color-${name}: ${value};`),
+    "",
+    ...Object.entries(radius).map(([name, value]) => `--radius-${name}: ${value};`),
+    ...Object.entries(shadows).map(([name, value]) => `--shadow-${name}: ${value};`),
+  ];
+  return [
+    `/* ${HEADER} */`,
+    ...packages.map((font) => `@import "@fontsource-variable/${font}";`),
+    "",
+    "@theme {",
+    ...tokens.map((line) => (line ? `  ${line}` : "")),
+    "}",
+    ...(perLanguage.length
+      ? [
+          "",
+          "/* A language that reads better in a font of its own. */",
+          "@layer base {",
+          ...perLanguage.flatMap(([code, font]) => [
+            `  html[lang="${code}"] {`,
+            `    --font-sans: ${stack(FONTS[font], sans)};`,
+            "  }",
+          ]),
+          "}",
+        ]
+      : []),
+    "",
+  ].join("\n");
+}
+
+/** The client's languages for all code, browser included: no strings, only what each language is. */
+export function languagesTs(client: Client, packs: Record<string, Pack>): string {
+  const locales = localesOf(client);
+  return [
+    `// ${HEADER}`,
+    "",
+    "/** The site's languages. The default one comes first and has the plain addresses. */",
+    `export const LOCALES = ${JSON.stringify(locales)} as const;`,
+    "export type Locale = (typeof LOCALES)[number];",
+    `export const DEFAULT_LOCALE: Locale = ${JSON.stringify(client.languages.default)};`,
+    "",
+    "/** What the code needs to know about each language (languages/<code>/pack.json). */",
+    "export const PACKS: Record<Locale, { name: string; dir: \"rtl\" | \"ltr\"; formats: string; openGraph: string }> = {",
+    ...locales.map((code) => {
+      const { name, dir, formats, openGraph } = packs[code]!;
+      return `  ${code}: ${JSON.stringify({ name, dir, formats, openGraph })},`;
+    }),
+    "};",
+    "",
+  ].join("\n");
+}
+
+/** The client's languages' strings and date names. Server and worker only: it carries every language. */
+export function packsTs(client: Client, packs: Record<string, Pack>): string {
+  const locales = localesOf(client);
+  const dates = locales.map((code) => `${packs[code]!.dateFns} as ${code}Dates`).join(", ");
+  return [
+    `// ${HEADER}`,
+    `import { ${dates} } from "date-fns/locale";`,
+    ...locales.map((code) => `import ${code}Messages from "../../languages/${code}/messages.json";`),
+    'import type { Locale } from "./languages.generated";',
+    "",
+    `export const MESSAGES = { ${locales.map((code) => `${code}: ${code}Messages`).join(", ")} };`,
+    `export const DATE_LOCALES: Record<Locale, typeof ${locales[0]}Dates> = { ${locales.map((code) => `${code}: ${code}Dates`).join(", ")} };`,
+    "",
+  ].join("\n");
+}
+
+/** Every generated file and what it should hold for this client. */
+export function generated(client: Client): Record<string, string> {
+  const packs = Object.fromEntries(localesOf(client).map((code) => [code, readPack(code)]));
+  return {
+    "src/app/brand.css": brandCss(client),
+    "src/i18n/languages.generated.ts": languagesTs(client, packs),
+    "src/i18n/packs.generated.ts": packsTs(client, packs),
+  };
+}
+
+function main(): void {
+  const client = readClient();
+  const { fonts } = client.theme;
+  for (const font of new Set([fonts.sans, fonts.display, ...Object.values(fonts.languages)])) {
+    if (!existsSync(path.join(ROOT, "node_modules/@fontsource-variable", font, "package.json")))
+      throw new Error(`The font "${font}" is not installed: pnpm add @fontsource-variable/${font}`);
+  }
+  const check = process.argv.includes("--check");
+  let stale = 0;
+  for (const [file, content] of Object.entries(generated(client))) {
+    const target = path.join(ROOT, file);
+    const current = existsSync(target) ? readFileSync(target, "utf8") : "";
+    if (content === current) continue;
+    stale += 1;
+    if (check) console.log(`${file} is out of date`);
+    else {
+      writeFileSync(target, content);
+      console.log(`${file} written`);
+    }
+  }
+  if (stale === 0) console.log("Everything generated from client.json is up to date");
+  else if (check) console.log("Run `pnpm brand`");
+  process.exitCode = check && stale ? 1 : 0;
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+  try {
+    main();
+  } catch (error) {
+    console.error((error as Error).message);
+    process.exit(1);
+  }
+}

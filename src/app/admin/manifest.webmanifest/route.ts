@@ -1,19 +1,20 @@
 import { NextResponse } from "next/server";
-import { brand, theme } from "@/brand";
+import { brandName, theme } from "@/brand";
+import { DEFAULT_LOCALE, dirOf } from "@/i18n/locales";
 import { translator } from "@/i18n/translator";
 
 export const dynamic = "force-static";
 
 /** The admin's own installable app: scope /admin/, so it opens straight into the admin. */
 export function GET() {
-  const t = translator("he");
+  const t = translator(DEFAULT_LOCALE);
   return NextResponse.json(
     {
       id: "/admin/",
-      name: `${brand.name.he} – ${t("admin.short")}`,
+      name: `${brandName(DEFAULT_LOCALE)} – ${t("admin.short")}`,
       short_name: t("admin.short"),
-      lang: "he",
-      dir: "rtl",
+      lang: DEFAULT_LOCALE,
+      dir: dirOf(DEFAULT_LOCALE),
       start_url: "/admin/",
       scope: "/admin/",
       display: "standalone",

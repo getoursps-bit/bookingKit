@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { BusinessProfile, OpeningHours } from "./repos/catalog";
 import { pick } from "@/i18n/content";
-import { localePath } from "@/i18n/locales";
+import { localePath, LOCALES, PACKS } from "@/i18n/locales";
 import { getLocale } from "@/i18n/server";
 import { socialLink } from "./links";
 
@@ -66,13 +66,16 @@ export async function pageMetadata(
     description,
     alternates: {
       canonical: localePath(locale, page.path),
-      languages: { he: localePath("he", page.path), en: localePath("en", page.path), "x-default": page.path },
+      languages: {
+        ...Object.fromEntries(LOCALES.map((language) => [language, localePath(language, page.path)])),
+        "x-default": page.path,
+      },
     },
     openGraph: {
       title,
       description,
-      locale: locale === "en" ? "en_IL" : "he_IL",
-      alternateLocale: locale === "en" ? "he_IL" : "en_IL",
+      locale: PACKS[locale].openGraph,
+      alternateLocale: LOCALES.filter((language) => language !== locale).map((language) => PACKS[language].openGraph),
       type: "website",
       siteName: profile.name,
     },

@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { type Browser, expect, type Page, test } from "@playwright/test";
 import pg from "pg";
 import sharp from "sharp";
-import enFile from "../../src/i18n/en.json" with { type: "json" };
+import enFile from "../../languages/en/messages.json" with { type: "json" };
 import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { flatten } from "../../src/i18n/flatten";

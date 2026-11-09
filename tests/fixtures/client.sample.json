@@ -1,11 +1,12 @@
 {
+  "languages": { "default": "he", "others": ["en"] },
   "brand": {
     "name": { "he": "סטודיו לדוגמה", "en": "Example Studio" },
     "mark": "sparkle",
     "messages": { "he": {}, "en": {} }
   },
   "theme": {
-    "fonts": { "sans": "heebo", "display": "heebo", "latin": "heebo" },
+    "fonts": { "sans": "heebo", "display": "heebo", "languages": {} },
     "colors": {
       "ink": "#1f2a2e",
       "ink-soft": "#3d4b50",

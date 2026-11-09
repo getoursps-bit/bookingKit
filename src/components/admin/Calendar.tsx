@@ -25,6 +25,7 @@ import { type FormEvent, type ReactNode, useEffect, useMemo, useRef, useState } 
 import { Alert } from "@/components/ui/Alert";
 import { Icon } from "@/components/ui/Icon";
 import { useI18n } from "@/i18n/client";
+import { PACKS } from "@/i18n/locales";
 
 type Booking = {
   id: number;
@@ -52,6 +53,11 @@ const VIEWS: { type: View; key: "cal.day" | "cal.week" | "cal.month" }[] = [
 ];
 
 const TIME_ZONE = "Asia/Jerusalem";
+// The calendar library's own wording, where it ships one for the language; any
+// other language still gets its day and month names from the browser.
+const CALENDAR_LOCALES: Record<string, typeof heLocale> = { he: heLocale, en: enLocale };
+// English dates read day first here, as in the rest of the owner area.
+const DATE_FORMATS: Record<string, string> = { en: "en-GB" };
 
 function toLocalInput(date: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -151,7 +157,7 @@ export function Calendar({
   }, [newStart]);
 
   const dateTime = (iso: string, options: Intl.DateTimeFormatOptions) =>
-    new Date(iso).toLocaleString(locale === "en" ? "en-GB" : "he-IL", { timeZone: TIME_ZONE, ...options });
+    new Date(iso).toLocaleString(DATE_FORMATS[locale] ?? PACKS[locale].formats, { timeZone: TIME_ZONE, ...options });
 
   async function post(body: Record<string, string | number | boolean>): Promise<boolean> {
     const response = await fetch("/api/admin/bookings", {
@@ -535,7 +541,7 @@ export function Calendar({
             ref={calendar}
             plugins={[formaTheme, timeGridPlugin, dayGridPlugin, interactionPlugin]}
             key={locale}
-            locale={locale === "en" ? enLocale : heLocale}
+            locale={CALENDAR_LOCALES[locale] ?? locale}
             direction={dir}
             firstDay={0}
             initialView="timeGridDay"

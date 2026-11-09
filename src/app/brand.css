@@ -6,7 +6,6 @@
 @theme {
   --font-sans: "Rubik Variable", system-ui, sans-serif;
   --font-display: "Fredoka Variable", "Rubik Variable", system-ui, sans-serif;
-  --font-latin: "Nunito Variable", "Rubik Variable", system-ui, sans-serif;
 
   --color-ink: #3a1f2b;
   --color-ink-soft: #5a3b4a;
@@ -46,4 +45,11 @@
   --shadow-card: none;
   --shadow-float: 0 8px 24px color-mix(in srgb, var(--color-brand) 10%, transparent);
   --shadow-lift: none;
+}
+
+/* A language that reads better in a font of its own. */
+@layer base {
+  html[lang="en"] {
+    --font-sans: "Nunito Variable", "Rubik Variable", system-ui, sans-serif;
+  }
 }

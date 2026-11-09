@@ -34,11 +34,6 @@
     -webkit-tap-highlight-color: transparent;
     text-size-adjust: 100%;
   }
-  /* English pages read in Nunito; Hebrew letters would fall back to Rubik anyway. */
-  html[lang="en"] {
-    --font-sans: var(--font-latin);
-  }
-
   body {
     background: var(--color-canvas);
   }

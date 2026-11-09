@@ -1,7 +1,7 @@
 import { TZDate } from "@date-fns/tz";
 import { addDays, format } from "date-fns";
-import { enGB, he } from "date-fns/locale";
-import type { Locale } from "../i18n/locales";
+import { DEFAULT_LOCALE, type Locale } from "../i18n/locales";
+import { DATE_LOCALES } from "../i18n/packs.generated";
 
 /** The salon's time zone. Storage is UTC; everything shown or reasoned about locally uses this. */
 export const SALON_TZ = "Asia/Jerusalem";
@@ -48,10 +48,10 @@ export function localDayBounds(date: string): { start: Date; end: Date } {
 
 /** Formats an instant in Israel time with Hebrew names; dates read day first (dd/MM). */
 export function formatHe(instant: Date, pattern = "dd/MM/yyyy HH:mm"): string {
-  return formatLocal(instant, pattern, "he");
+  return formatLocal(instant, pattern, DEFAULT_LOCALE);
 }
 
 /** Formats an instant in Israel time with day and month names in the given language. */
 export function formatLocal(instant: Date, pattern: string, locale: Locale): string {
-  return format(utcToLocal(instant), pattern, { locale: locale === "en" ? enGB : he, weekStartsOn: 0 });
+  return format(utcToLocal(instant), pattern, { locale: DATE_LOCALES[locale], weekStartsOn: 0 });
 }

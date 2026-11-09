@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { isLocalizedPath, LOCALE_COOKIE, LOCALE_HEADER, splitLocale } from "./i18n/locales";
+import { DEFAULT_LOCALE, isLocalizedPath, LOCALE_COOKIE, LOCALE_HEADER, splitLocale } from "./i18n/locales";
 import { ATTRIBUTION_COOKIE, ATTRIBUTION_MAX_AGE_S, attributionFromUrl, encodeAttribution } from "./server/attribution";
 import { contentSecurityPolicy, CSRF_COOKIE, newCsrfToken } from "./server/security";
 import { SESSION_COOKIE, SESSION_DAYS } from "./server/staff/cookie";
@@ -40,7 +40,7 @@ export function proxy(request: NextRequest) {
   if (isPage) requestHeaders.set(LOCALE_HEADER, locale);
   else requestHeaders.delete(LOCALE_HEADER);
   const response =
-    isPage && locale === "en"
+    isPage && locale !== DEFAULT_LOCALE
       ? NextResponse.rewrite(new URL(path + request.nextUrl.search, request.url), { request: { headers: requestHeaders } })
       : NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("Content-Security-Policy", csp);

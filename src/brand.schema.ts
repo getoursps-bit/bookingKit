@@ -55,45 +55,74 @@ export const BRAND_MARKS = ["paw", "sparkle", "navigate", "chat"] as const;
 const hex = z.string().regex(/^#[0-9a-f]{6}$/, "a colour as #rrggbb in lower case");
 const font = z.enum(Object.keys(FONTS) as [FontId, ...FontId[]]);
 const length = z.string().regex(/^(\d*\.)?\d+(rem|px)$/, "a length in rem or px");
-const perLocale = <T extends z.ZodType>(value: T) => z.strictObject({ he: value, en: value });
+const language = z.string().regex(/^[a-z]{2}$/, "a two-letter language code, the name of a folder in languages/");
 
-export const clientSchema = z.strictObject({
-  brand: z.strictObject({
-    /** The business name: browser title, app name, emails, and the start value the owner can change. */
-    name: perLocale(z.string().min(1)),
-    /** The icon shown where there is no logo, and on the app icon. */
-    mark: z.enum(BRAND_MARKS),
-    /** Wording that belongs to this client: replaces the same keys of src/i18n/<locale>.json. */
-    messages: perLocale(z.record(z.string(), z.string())),
-  }),
-  theme: z.strictObject({
-    fonts: z.strictObject({
-      /** Body text in Hebrew. */
-      sans: font,
-      /** Headings. Must have Hebrew letters. */
-      display: font,
-      /** Body text in English. */
-      latin: font,
-    }),
-    colors: z.strictObject(
-      Object.fromEntries(Object.keys(THEME_COLORS).map((key) => [key, hex])) as Record<ThemeColor, typeof hex>,
-    ),
-    radius: z.strictObject({
-      /** Cards and photos. */
-      card: length,
-      /** Form fields, choices and time slots. */
-      control: length,
-      /** Messages and the day tiles of the booking calendar. */
-      tile: length,
-      /** The drawer that slides in over the owner's calendar. */
-      panel: length,
-      /** Buttons and chips. */
-      pill: length,
-    }),
-    shadows: z.strictObject({ card: z.string().min(1), float: z.string().min(1), lift: z.string().min(1) }),
-    /** The app icon: a two-colour gradient with the mark on it. */
-    appIcon: z.strictObject({ from: hex, to: hex, mark: hex }),
-  }),
+/** languages/<code>/pack.json: what the code needs to know about one language. */
+export const packSchema = z.strictObject({
+  /** The language's own name, as the language switch shows it. */
+  name: z.string().min(1),
+  dir: z.enum(["rtl", "ltr"]),
+  /** The locale for prices and numbers, for example "he-IL". */
+  formats: z.string().min(2),
+  /** The locale search engines and link previews are told, for example "he_IL". */
+  openGraph: z.string().min(2),
+  /** The name of this language in `date-fns/locale`, for day and month names. */
+  dateFns: z.string().min(2),
 });
+
+export type Pack = z.infer<typeof packSchema>;
+
+export const clientSchema = z
+  .strictObject({
+    /**
+     * The languages of the site. The default one has the plain addresses and
+     * is the language the owner writes in; each other one lives under /<code>.
+     */
+    languages: z.strictObject({ default: language, others: z.array(language) }),
+    brand: z.strictObject({
+      /** The business name per language: browser title, app name, emails, and the start value the owner can change. */
+      name: z.record(language, z.string().min(1)),
+      /** The icon shown where there is no logo, and on the app icon. */
+      mark: z.enum(BRAND_MARKS),
+      /** Wording that belongs to this client, per language: replaces the same keys of languages/<code>/messages.json. */
+      messages: z.record(language, z.record(z.string(), z.string())),
+    }),
+    theme: z.strictObject({
+      fonts: z.strictObject({
+        /** Body text. */
+        sans: font,
+        /** Headings. Must have the letters of every language of the site. */
+        display: font,
+        /** Body text in a language that reads better in another font, by language code. */
+        languages: z.record(language, font),
+      }),
+      colors: z.strictObject(
+        Object.fromEntries(Object.keys(THEME_COLORS).map((key) => [key, hex])) as Record<ThemeColor, typeof hex>,
+      ),
+      radius: z.strictObject({
+        /** Cards and photos. */
+        card: length,
+        /** Form fields, choices and time slots. */
+        control: length,
+        /** Messages and the day tiles of the booking calendar. */
+        tile: length,
+        /** The drawer that slides in over the owner's calendar. */
+        panel: length,
+        /** Buttons and chips. */
+        pill: length,
+      }),
+      shadows: z.strictObject({ card: z.string().min(1), float: z.string().min(1), lift: z.string().min(1) }),
+      /** The app icon: a two-colour gradient with the mark on it. */
+      appIcon: z.strictObject({ from: hex, to: hex, mark: hex }),
+    }),
+  })
+  .refine((client) => !client.languages.others.includes(client.languages.default), {
+    message: "the default language must not also be listed in others",
+    path: ["languages", "others"],
+  })
+  .refine((client) => client.languages.default in client.brand.name, {
+    message: "the name is needed in the default language",
+    path: ["brand", "name"],
+  });
 
 export type Client = z.infer<typeof clientSchema>;

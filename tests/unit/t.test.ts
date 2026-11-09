@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
-import enFile from "@/i18n/en.json";
+import { readdirSync, readFileSync } from "node:fs";
+import path from "node:path";
+import enFile from "../../languages/en/messages.json";
 import { formatDuration, formatPrice } from "@/i18n/format";
-import heFile from "@/i18n/he.json";
+import heFile from "../../languages/he/messages.json";
 import { flatten } from "@/i18n/flatten";
 import { pick } from "@/i18n/content";
 import { isLocalizedPath, localePath, splitLocale } from "@/i18n/locales";
@@ -11,7 +13,17 @@ import { translator } from "@/i18n/translator";
 const en = flatten(enFile);
 const he = flatten(heFile);
 
-const placeholders = (text: string) => [...text.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort();
+// Every value a string takes, plural ones included: "{when}", "{hours, plural, …}".
+const placeholders = (text: string) => [...text.matchAll(/\{(\w+)[,}]/g)].map((m) => m[1]).sort();
+
+const LANGUAGES = path.resolve(import.meta.dirname, "../../languages");
+/** Every language pack in the kit, whether or not this client uses it. */
+const packs = readdirSync(LANGUAGES, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => ({
+    code: entry.name,
+    strings: flatten(JSON.parse(readFileSync(path.join(LANGUAGES, entry.name, "messages.json"), "utf8")) as Record<string, string>),
+  }));
 
 describe("translator()", () => {
   it("fills placeholders and isolates left-to-right values", () => {
@@ -28,18 +40,16 @@ describe("translator()", () => {
   });
 });
 
-describe("the two dictionaries", () => {
-  it("have the same keys and the same placeholders in each string", () => {
-    expect(Object.keys(en).sort()).toEqual(Object.keys(he).sort());
-    for (const [key, text] of Object.entries(he)) {
-      expect(placeholders(en[key as keyof typeof en]), key).toEqual(placeholders(text));
-    }
-  });
+describe("the language packs", () => {
+  for (const { code, strings } of packs) {
+    it(`${code} has the same keys as Hebrew and the same placeholders in each string`, () => {
+      expect(Object.keys(strings).sort()).toEqual(Object.keys(he).sort());
+      for (const [key, text] of Object.entries(he)) expect(placeholders(strings[key] ?? ""), key).toEqual(placeholders(text));
+    });
+  }
 
-  it("has no Hebrew letters left in English strings, except the switch back to Hebrew", () => {
-    const allowed = new Set(["lang.other", "lang.name.he"]);
-    const hebrew = Object.entries(en).filter(([key, text]) => !allowed.has(key) && /[א-ת]/.test(text));
-    expect(hebrew).toEqual([]);
+  it("has no Hebrew letters left in English strings", () => {
+    expect(Object.entries(en).filter(([, text]) => /[א-ת]/.test(text))).toEqual([]);
   });
 });
 

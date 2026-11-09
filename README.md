@@ -59,7 +59,7 @@ pnpm staff:create owner@example.test
 | `pnpm lint` / `pnpm typecheck` | ESLint (fails on physical left/right CSS) and TypeScript |
 | `pnpm migrate` | Applies pending SQL migrations; `--check` only lists them |
 | `pnpm seed` | Inserts starting content without overwriting edits |
-| `pnpm brand` | Writes `src/app/brand.css` from `client.json`; `--check` only compares |
+| `pnpm brand` | Writes the stylesheet and the language list from `client.json` and the packs; `--check` only compares |
 | `pnpm staff:create <email>` | Creates or resets an owner account |
 | `pnpm import:dibs <file.csv> --dry-run` | Practice Dibs import: stages, checks and reports only |
 | `pnpm import:dibs <file.csv> --freeze-time=<ISO>` | Real import (no messages, no alerts) |
@@ -76,7 +76,8 @@ src/app/(site)/       public pages, booking (/book) and the private link (/b/<to
 src/app/admin/        owner area (installable as its own app)
 src/app/api/          form and JSON endpoints, webhooks, health
 src/components/       site, booking, admin and shared UI
-src/i18n/he.json      every interface string, read through t()
+languages/<code>/     one pack per language: its strings (messages.json) and what the code needs to know about it (pack.json)
+src/i18n/             the string lookup (on next-intl), language addresses and formats
 src/landing/          campaign landing pages (code)
 src/server/           domain logic: booking engine, identity, notify (outbox and route()),
                       repos, ai, photos, import, staff, time (Asia/Jerusalem)
@@ -95,14 +96,15 @@ off, not faked, when `PROVIDERS=real`.
 
 ## Re-branding
 
-Everything that makes the site one client's is in `client.json`: the name in
-each language, the brand mark, the client's own wording, fonts, colours,
-corner rounding, shadows and the app icon. `src/brand.schema.ts` says what
+Everything that makes the site one client's is in `client.json`: its
+languages, the name in each language, the brand mark, the client's own
+wording, fonts, colours, corner rounding, shadows and the app icon. `src/brand.schema.ts` says what
 each field is for.
 
 1. Edit `client.json`. `tests/fixtures/client.sample.json` is a second,
    complete example.
-2. `pnpm brand` writes `src/app/brand.css` from it. Commit both files.
+2. `pnpm brand` writes `src/app/brand.css` and `src/i18n/*.generated.ts`
+   from it. Commit them with `client.json`.
 3. `pnpm test` checks the file's shape, that the main text colours are
    readable on their backgrounds, and that the stylesheet is up to date.
 4. `pnpm test:e2e` runs the accessibility check on every page with the new
@@ -124,12 +126,36 @@ supplies the starting value, the browser title and the app name.
 
 ## Languages
 
-Hebrew is served at the plain addresses and English under `/en`. The switch
-in the header, footer and owner menu goes through `/lang/<he|en>?back=<path>`
-and is remembered in the `bk_locale` cookie (the owner area has no `/en` and
-follows the cookie). Every string lives in both `src/i18n/he.json` and
-`src/i18n/en.json`. The owner can fill an English version of each service,
-product, photo text, tagline and message; empty fields show the Hebrew.
+The site's languages are listed in `client.json`:
+
+```json
+"languages": { "default": "he", "others": ["en"] }
+```
+
+Each language is a pack, a folder under `languages/`:
+
+- `pack.json`: the language's own name, its direction, and the locales used
+  for prices, link previews and day and month names;
+- `messages.json`: every interface string. Hebrew is the reference: a unit
+  test fails when a pack misses a key or a placeholder.
+
+The strings are read through [next-intl](https://next-intl.dev); plurals are
+written in the strings in ICU syntax (see `duration` in a pack). A font for
+one language is set in `client.json` under `theme.fonts.languages`.
+
+The default language is served at the plain addresses and each other
+language under `/<code>`. The switch in the header, footer and owner menu
+shows each other language by its own name, goes through
+`/lang/<code>?back=<path>` and is remembered in the `bk_locale` cookie (the
+owner area has no prefix and follows the cookie). A one-language site shows
+no switch.
+
+To add a language to a client, add its code to `others` and run `pnpm brand`.
+To add a language to the kit, add its folder first.
+
+Still tied to Hebrew and English until the content step: the owner's own
+text (services, products, photo texts, tagline, message templates) has a
+Hebrew field and an English one; empty English fields show the Hebrew.
 Customers get messages in the language they booked in. English WhatsApp
 messages need the same templates approved in English in Meta first; until
 then, leave the WhatsApp English wording empty and those messages go out in Hebrew.

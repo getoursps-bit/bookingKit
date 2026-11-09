@@ -1,4 +1,4 @@
-import type he from "./he.json";
+import type he from "../../languages/he/messages.json";
 
 // The types and the two small helpers every caller shares. This file holds no
 // strings, so browser code can import it freely; the strings reach the browser
@@ -9,8 +9,10 @@ export type Paths<Group, Prefix extends string = ""> = {
   [Key in keyof Group & string]: Group[Key] extends string ? `${Prefix}${Key}` : Paths<Group[Key], `${Prefix}${Key}.`>;
 }[keyof Group & string];
 
+/** The shape every language's strings follow: the Hebrew pack is the reference. */
+export type Messages = typeof he;
 /** Every string's key, written with dots: "home.heroTitle". */
-export type MessageKey = Paths<typeof he>;
+export type MessageKey = Paths<Messages>;
 export type Translate = (key: MessageKey, vars?: Record<string, string | number>) => string;
 
 // Unicode first-strong isolate and pop-directional isolate. Wrapping a value in

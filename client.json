@@ -1,4 +1,5 @@
 {
+  "languages": { "default": "he", "others": ["en"] },
   "brand": {
     "name": { "he": "Fluffy Fur", "en": "Fluffy Fur" },
     "mark": "paw",
@@ -16,7 +17,7 @@
     }
   },
   "theme": {
-    "fonts": { "sans": "rubik", "display": "fredoka", "latin": "nunito" },
+    "fonts": { "sans": "rubik", "display": "fredoka", "languages": { "en": "nunito" } },
     "colors": {
       "ink": "#3a1f2b",
       "ink-soft": "#5a3b4a",

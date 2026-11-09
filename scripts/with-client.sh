@@ -15,17 +15,17 @@ cd "$(dirname "$0")/.."
 file="$1"
 shift
 
-if ! git diff --quiet -- client.json src/app/brand.css; then
-  echo "client.json or src/app/brand.css has changes that are not committed; commit or undo them first." >&2
+if ! git diff --quiet -- client.json src/app/brand.css src/i18n/languages.generated.ts src/i18n/packs.generated.ts; then
+  echo "client.json or a file generated from it has changes that are not committed; commit or undo them first." >&2
   exit 1
 fi
 
 restore() {
-  git checkout -q -- client.json src/app/brand.css
-  echo "Put back the committed client.json and brand.css."
+  git checkout -q -- client.json src/app/brand.css src/i18n/languages.generated.ts src/i18n/packs.generated.ts
+  echo "Put back the committed client.json and the files generated from it."
 }
 trap restore EXIT
 
 cp "$file" client.json
-./node_modules/.bin/tsx scripts/brand-css.ts
+./node_modules/.bin/tsx scripts/apply-client.ts
 "$@"

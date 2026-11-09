@@ -6,7 +6,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
-import { brand } from "../../src/brand";
+import { brandName } from "../../src/brand";
 import { SETTINGS_DEFAULTS } from "../../src/server/repos/settings";
 // Imported, not read from disk, so the bundled release script carries it.
 import data from "./data.he.json" with { type: "json" };
@@ -61,8 +61,8 @@ function named<T>(content: T, name: string): T {
 }
 
 export async function seed(db: Queryable, hebrew: SeedData = data, inEnglish: SeedEnglish = english): Promise<void> {
-  const content = named(hebrew, brand.name.he);
-  const en = named(inEnglish, brand.name.en);
+  const content = named(hebrew, brandName("he"));
+  const en = named(inEnglish, brandName("en"));
 
   const serviceIds = new Map<string, number>();
   for (const [index, service] of content.services.entries()) {

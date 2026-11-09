@@ -1,8 +1,10 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 import pg from "pg";
-import enFile from "../../src/i18n/en.json" with { type: "json" };
-import heFile from "../../src/i18n/he.json" with { type: "json" };
+import enFile from "../../languages/en/messages.json" with { type: "json" };
+import enPack from "../../languages/en/pack.json" with { type: "json" };
+import heFile from "../../languages/he/messages.json" with { type: "json" };
+import hePack from "../../languages/he/pack.json" with { type: "json" };
 import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { flatten } from "../../src/i18n/flatten";
@@ -247,7 +249,7 @@ test("the language switch moves between Hebrew and English and remembers the cho
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/services");
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
-  await page.locator("header").getByRole("link", { name: he["lang.other"], exact: true }).click();
+  await page.locator("header").getByRole("link", { name: enPack.name, exact: true }).click();
   await expect(page).toHaveURL(/\/en\/services$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
@@ -259,7 +261,7 @@ test("the language switch moves between Hebrew and English and remembers the cho
   await page.goto("/admin/login");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await page.goto("/en/hours");
-  await page.locator("header").getByRole("link", { name: en["lang.other"], exact: true }).click();
+  await page.locator("header").getByRole("link", { name: hePack.name, exact: true }).click();
   await expect(page).toHaveURL(/\/hours$/);
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
 });
