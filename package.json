@@ -1,5 +1,5 @@
 {
-  "name": "fluffyfur",
+  "name": "bookingkit",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -15,6 +15,7 @@
     "worker": "tsx worker/main.ts",
     "migrate": "tsx scripts/migrate.ts",
     "seed": "tsx db/seed/seed.ts",
+    "brand": "tsx scripts/brand-css.ts",
     "import:dibs": "tsx scripts/import-dibs.ts",
     "staff:create": "tsx scripts/staff-create.ts",
     "lint": "eslint .",

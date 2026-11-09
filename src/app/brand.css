@@ -1,0 +1,44 @@
+/* Generated from client.json by `pnpm brand`. Do not edit: change client.json and run it again. */
+@import "@fontsource-variable/rubik";
+@import "@fontsource-variable/fredoka";
+@import "@fontsource-variable/nunito";
+
+@theme {
+  --font-sans: "Rubik Variable", system-ui, sans-serif;
+  --font-display: "Fredoka Variable", "Rubik Variable", system-ui, sans-serif;
+  --font-latin: "Nunito Variable", "Rubik Variable", system-ui, sans-serif;
+
+  --color-ink: #3a1f2b;
+  --color-ink-soft: #5a3b4a;
+  --color-ink-muted: #7a5566;
+  --color-canvas: #fff8f5;
+  --color-paper: #fbe4ec;
+  --color-surface: #ffffff;
+  --color-placeholder: #f6cbd9;
+  --color-brand: #b23a6b;
+  --color-brand-strong: #8c2a52;
+  --color-brand-deep: #6e2444;
+  --color-brand-soft: #fbe4ec;
+  --color-brand-ink: #ffffff;
+  --color-tint-pink: #f6cbd9;
+  --color-tint-pink-ink: #6e2444;
+  --color-tint-yellow: #ffe7b8;
+  --color-tint-yellow-ink: #7a4a10;
+  --color-tint-mint: #dff3e7;
+  --color-tint-mint-ink: #1e6b45;
+  --color-tint-lilac: #e3ddf5;
+  --color-tint-lilac-ink: #44396e;
+  --color-peach: #f5ece9;
+  --color-peach-soft: #fbf5f2;
+  --color-peach-ink: #5a3b4a;
+  --color-line: #f3dce4;
+  --color-line-strong: #d9a7bc;
+  --color-night: #3a1f2b;
+  --color-night-ink: #f6cbd9;
+  --color-night-line: #9c6a82;
+
+  --radius-card: 1.75rem;
+  --shadow-card: none;
+  --shadow-float: 0 8px 24px rgb(178 58 107 / 0.1);
+  --shadow-lift: none;
+}

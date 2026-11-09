@@ -1,54 +1,20 @@
 @import "tailwindcss";
-@import "@fontsource-variable/rubik";
-@import "@fontsource-variable/fredoka";
-@import "@fontsource-variable/nunito";
+/* After Tailwind, so the theme values land in Tailwind's own layer. */
+@import "./brand.css";
 
 /*
- * Design tokens, from the "v3" look (docs/reference/templates/temp2): a warm
- * cream page, white cards, a plum ink and one raspberry accent kept for
- * actions and the current choice. Four pastel tints (pink, yellow, mint,
- * lilac) colour photos and product cards, each with its own dark ink; status
- * colours appear only where they carry meaning. Every text pair here passes
- * WCAG AA (4.5:1) on canvas, surface and paper; check any new pair before
- * using it. Placeholder is a background only.
+ * Design tokens. The palette, fonts, card rounding and shadows belong to the
+ * client: they come from client.json through brand.css, and
+ * src/brand.schema.ts says what each colour is for. The default is the "v3"
+ * look (docs/reference/templates/temp2): a warm cream page, white cards, a
+ * plum ink and one raspberry accent kept for actions and the current choice.
+ * Every text pair must pass WCAG AA (4.5:1) on canvas, surface and paper;
+ * check any new pair before using it.
  *
- * Fonts: Fredoka for headings (it has Hebrew), Rubik for Hebrew text and
- * Nunito for English text (Nunito has no Hebrew letters; see `html[lang]`).
+ * Status colours are the same for every client and appear only where they
+ * carry meaning.
  */
 @theme {
-  --font-sans: "Rubik Variable", system-ui, sans-serif;
-  --font-display: "Fredoka Variable", "Rubik Variable", system-ui, sans-serif;
-  --font-latin: "Nunito Variable", "Rubik Variable", system-ui, sans-serif;
-
-  --color-ink: #3a1f2b;
-  --color-ink-soft: #5a3b4a;
-  --color-ink-muted: #7a5566;
-  /* The page itself. Cards are surface (white) on it. */
-  --color-canvas: #fff8f5;
-  /* Alternate section bands, pills, chips and quiet backgrounds: the soft pink. */
-  --color-paper: #fbe4ec;
-  --color-surface: #ffffff;
-  --color-placeholder: #f6cbd9;
-  --color-brand: #b23a6b;
-  --color-brand-strong: #8c2a52;
-  --color-brand-deep: #6e2444;
-  --color-brand-soft: #fbe4ec;
-  --color-brand-ink: #ffffff;
-  /* Pastel tints for photos and product cards, each with a dark ink that passes AA on it. */
-  --color-tint-pink: #f6cbd9;
-  --color-tint-pink-ink: #6e2444;
-  --color-tint-yellow: #ffe7b8;
-  --color-tint-yellow-ink: #7a4a10;
-  --color-tint-mint: #dff3e7;
-  --color-tint-mint-ink: #1e6b45;
-  --color-tint-lilac: #e3ddf5;
-  --color-tint-lilac-ink: #44396e;
-  /* Small labels ("dog", "cat"): neutral, so they never compete with actions. */
-  --color-peach: #f5ece9;
-  --color-peach-soft: #fbf5f2;
-  --color-peach-ink: #5a3b4a;
-  --color-line: #f3dce4;
-  --color-line-strong: #d9a7bc;
   --color-focus: #1a56db;
   --color-success: #1e6b45;
   --color-success-ink: #1e6b45;
@@ -58,15 +24,6 @@
   --color-closed-soft: #f3ecee;
   --color-danger: #b42318;
   --color-danger-soft: #fdecea;
-  /* The footer: plum with the light pink as its ink. */
-  --color-night: #3a1f2b;
-  --color-night-ink: #f6cbd9;
-  --color-night-line: #9c6a82;
-
-  --radius-card: 1.75rem;
-  --shadow-card: none;
-  --shadow-float: 0 8px 24px rgb(178 58 107 / 0.1);
-  --shadow-lift: none;
 }
 
 @layer base {

@@ -1,0 +1,43 @@
+{
+  "brand": {
+    "name": { "he": "Fluffy Fur", "en": "Fluffy Fur" },
+    "mark": "paw",
+    "messages": { "he": {}, "en": {} }
+  },
+  "theme": {
+    "fonts": { "sans": "rubik", "display": "fredoka", "latin": "nunito" },
+    "colors": {
+      "ink": "#3a1f2b",
+      "ink-soft": "#5a3b4a",
+      "ink-muted": "#7a5566",
+      "canvas": "#fff8f5",
+      "paper": "#fbe4ec",
+      "surface": "#ffffff",
+      "placeholder": "#f6cbd9",
+      "brand": "#b23a6b",
+      "brand-strong": "#8c2a52",
+      "brand-deep": "#6e2444",
+      "brand-soft": "#fbe4ec",
+      "brand-ink": "#ffffff",
+      "tint-pink": "#f6cbd9",
+      "tint-pink-ink": "#6e2444",
+      "tint-yellow": "#ffe7b8",
+      "tint-yellow-ink": "#7a4a10",
+      "tint-mint": "#dff3e7",
+      "tint-mint-ink": "#1e6b45",
+      "tint-lilac": "#e3ddf5",
+      "tint-lilac-ink": "#44396e",
+      "peach": "#f5ece9",
+      "peach-soft": "#fbf5f2",
+      "peach-ink": "#5a3b4a",
+      "line": "#f3dce4",
+      "line-strong": "#d9a7bc",
+      "night": "#3a1f2b",
+      "night-ink": "#f6cbd9",
+      "night-line": "#9c6a82"
+    },
+    "radius": { "card": "1.75rem" },
+    "shadows": { "card": "none", "float": "0 8px 24px rgb(178 58 107 / 0.1)", "lift": "none" },
+    "appIcon": { "from": "#8d3a6c", "to": "#5e2147", "mark": "#fdeee2" }
+  }
+}
