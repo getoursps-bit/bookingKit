@@ -2,7 +2,18 @@
   "brand": {
     "name": { "he": "Fluffy Fur", "en": "Fluffy Fur" },
     "mark": "paw",
-    "messages": { "he": {}, "en": {} }
+    "messages": {
+      "he": {
+        "home.galleryTitle": "גלריית פלאף",
+        "home.productsNote": "לוקחים את הפלאף הביתה. נמכר בסלון.",
+        "home.heroTitleAccent": "ופלאפי במיוחד"
+      },
+      "en": {
+        "home.galleryTitle": "Fluff gallery",
+        "home.productsNote": "Take the fluff home. Sold at the salon.",
+        "home.heroTitleAccent": "& extra fluffy"
+      }
+    }
   },
   "theme": {
     "fonts": { "sans": "rubik", "display": "fredoka", "latin": "nunito" },

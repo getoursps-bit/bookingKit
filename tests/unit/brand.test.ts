@@ -2,6 +2,9 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { brandCss, CSS_FILE, readClient } from "../../scripts/brand-css";
 import type { ThemeColor } from "../../src/brand.schema";
+import en from "../../src/i18n/en.json";
+import he from "../../src/i18n/he.json";
+import { translator } from "../../src/i18n/t";
 
 const client = readClient();
 
@@ -35,9 +38,26 @@ const TEXT_PAIRS: [ThemeColor, ThemeColor[]][] = [
   ["night-ink", ["night"]],
 ];
 
+const placeholders = (text: string) => [...text.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort();
+
 describe("client.json", () => {
   it("matches the schema", () => {
     expect(client.brand.name.he).not.toBe("");
+  });
+
+  it("puts the client's name and wording into the interface strings", () => {
+    expect(translator("he")("site.name")).toBe(client.brand.name.he);
+    expect(translator("en")("admin.title")).toContain(client.brand.name.en);
+    for (const [key, text] of Object.entries(client.brand.messages.he)) expect(translator("he")(key as keyof typeof he)).toBe(text);
+  });
+
+  it("only rewords strings that exist, with the same placeholders", () => {
+    for (const [locale, base] of Object.entries({ he, en } as const)) {
+      for (const [key, text] of Object.entries(client.brand.messages[locale as "he" | "en"])) {
+        expect(base, `${locale} ${key}`).toHaveProperty([key]);
+        expect(placeholders(text), `${locale} ${key}`).toEqual(placeholders(base[key as keyof typeof base]));
+      }
+    }
   });
 
   it("is what src/app/brand.css was written from (run `pnpm brand`)", () => {
