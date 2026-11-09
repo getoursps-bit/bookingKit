@@ -18,7 +18,7 @@ export async function PetFieldset({ pet, index, count }: { pet: PetFields; index
   return (
     <fieldset className="flex flex-col gap-4 rounded-2xl bg-paper p-4">
       <legend className="mb-1 flex flex-col">
-        <span className="text-lg font-bold">{count > 1 ? t("service.petN", { n: index + 1 }) : t("details.petTitle")}</span>
+        <span className="text-lg font-bold">{count > 1 ? t("service.lineN", { n: index + 1 }) : t("details.petTitle")}</span>
         <span className="text-sm text-ink-muted">{pet.serviceName}</span>
       </legend>
       <div className="field">

@@ -252,7 +252,7 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
             <RankTable
               caption={t("stats.services")}
               nameHeader={t("stats.service")}
-              countHeader={t("stats.pets")}
+              countHeader={t("stats.count")}
               rows={stats.services}
             />
           )}

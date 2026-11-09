@@ -6,9 +6,8 @@ import pg from "pg";
 import sharp from "sharp";
 import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
-import { flatten } from "../../src/i18n/flatten";
 import { DEFAULT_LOCALE, LOCALES } from "../../src/i18n/languages.generated";
-import { MESSAGES } from "../../src/i18n/packs.generated";
+import { strings } from "./client";
 
 // The site's first language after the default one, if there is one.
 const OTHER = LOCALES.find((locale) => locale !== DEFAULT_LOCALE);
@@ -205,7 +204,7 @@ test("the stats screen shows the period's numbers in both languages and passes a
   await noSideScroll(page);
 
   if (OTHER) {
-    const t = flatten(MESSAGES[OTHER]);
+    const t = strings(OTHER);
     await page.goto(`/lang/${OTHER}?back=/admin/stats?days=90`);
     await expect(page.getByRole("heading", { level: 1, name: t["stats.title"] })).toBeVisible();
     await expect(page.getByRole("link", { name: new RegExp(t["stats.days"].replace("{n}", "90").replace(/\s+/g, "\\W*")) })).toHaveAttribute("aria-current", "page");
@@ -243,10 +242,10 @@ test("the owner uploads several gallery photos with no text, and text stays opti
     await file.setInputFiles([await photo("a.png", "#a86"), await photo("b.png", "#68a"), await photo("c.png", "#6a8")]);
     await upload.click();
     await expect(page.getByRole("status").filter({ hasText: "נשמר" })).toBeVisible();
-    await expect(page.getByAltText("תמונה מהגלריה של המספרה")).not.toHaveCount(0);
+    await expect(page.getByAltText(strings("he")["gallery.defaultAlt"]!)).not.toHaveCount(0);
     expect(await added()).toHaveLength(3);
     // The standard description in the default language, and in the other language when the site has one.
-    expect((await added())[0]).toEqual({ alt_he: "תמונה מהגלריה של המספרה", alt_en: OTHER ? flatten(MESSAGES[OTHER])["gallery.defaultAlt"] : null });
+    expect((await added())[0]).toEqual({ alt_he: strings("he")["gallery.defaultAlt"], alt_en: OTHER ? strings(OTHER)["gallery.defaultAlt"] : null });
     await noSideScroll(page);
 
     // With the box ticked the text is kept; one bad file is named and the good one stays.

@@ -20,6 +20,8 @@ export type ExtensionViews = {
   lineFields?(props: { index: number; count: number; serviceId: number; serviceName: string; typed: unknown }): ReactNode;
   /** On the customer's private link, under the booking. */
   manage?(props: { token: string; csrf: string; appointment: Appointment }): ReactNode;
+  /** The notice the private link shows after one of the extension's actions: the `done` value in the address, to the key of its string. */
+  manageNotices?: Record<string, string>;
   /** On the owner's customer record, after the contact details. */
   customer?(props: { customerId: number }): ReactNode;
   /** On the owner's content screen, after the services. */

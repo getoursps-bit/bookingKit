@@ -34,8 +34,6 @@ const DONE: Record<string, MessageKey> = {
   moved: "manage.moved",
   messagesOff: "manage.messagesOff",
   messagesOn: "manage.messagesOn",
-  photoAdded: "manage.photoAdded",
-  photoSaved: "manage.photoSaved",
 };
 
 /**
@@ -69,7 +67,10 @@ export default async function ManagePage({
   const { appointment } = view;
   const total = view.lines.reduce((sum, line) => sum + line.priceFromAgorot, 0);
   const error = errorText(t, search.error);
-  const done = search.done && DONE[search.done] ? t(DONE[search.done]!) : null;
+  // The notice after an action: one of the core's, or one an extension's view names.
+  const notices: Record<string, string> = Object.assign({}, ...extensionViews().map((views) => views.manageNotices ?? {}), DONE);
+  const doneKey = search.done && Object.hasOwn(notices, search.done) ? notices[search.done] : undefined;
+  const done = doneKey ? (t as (key: string) => string)(doneKey) : null;
   const tokenField = <input type="hidden" name="token" value={token} />;
   const callButton = profile.phoneE164 ? (
     <a href={`tel:${profile.phoneE164}`} className="btn btn-primary w-fit">
@@ -149,7 +150,7 @@ export default async function ManagePage({
               <dd className="font-semibold">{view.customerName}</dd>
             </div>
             <div className="sm:col-span-2">
-              <dt className="mb-2 text-sm text-ink-muted">{t("manage.pets")}</dt>
+              <dt className="mb-2 text-sm text-ink-muted">{t("manage.lines")}</dt>
               <dd>
                 <ul className="flex flex-col gap-2">
                   {view.lines.map((line, index) => (

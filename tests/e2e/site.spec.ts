@@ -1,18 +1,16 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 import pg from "pg";
-import heFile from "../../languages/he/messages.json" with { type: "json" };
 import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
-import { flatten } from "../../src/i18n/flatten";
 import { DEFAULT_LOCALE, LOCALES, PACKS } from "../../src/i18n/languages.generated";
-import { MESSAGES } from "../../src/i18n/packs.generated";
+import { PETS, strings } from "./client";
 
-const he = flatten(heFile);
+const he = strings("he");
 // The site's languages after the default one; the switch test uses the first.
 const OTHERS = LOCALES.filter((locale) => locale !== DEFAULT_LOCALE);
 const OTHER = OTHERS[0];
-const other = OTHER ? flatten(MESSAGES[OTHER]) : null;
+const other = OTHER ? strings(OTHER) : null;
 
 // Runs against the local (or CI) database, migrated and seeded. The chat
 // number is a fictional test number set for this run and removed afterwards.
@@ -27,7 +25,8 @@ const PAGES = [
   "/accessibility",
   "/privacy",
   "/book",
-  "/l/dog-grooming",
+  // The campaign page the pets extension brings.
+  ...(PETS ? ["/l/dog-grooming"] : []),
 ];
 
 const databaseUrl = process.env.DATABASE_URL ?? DEV_DATABASE_URL;
@@ -119,14 +118,15 @@ test("book links count the click and reach the booking page", async ({ request }
   const response = await request.get("/go/book?species=dog", { maxRedirects: 0 });
   expect(response.status()).toBe(303);
   expect(new URL(response.headers()["location"]!).pathname + new URL(response.headers()["location"]!).search).toBe(
-    "/book?species=dog",
+    // The filter is passed on only when an extension has one.
+    PETS ? "/book?species=dog" : "/book",
   );
 });
 
 test("book links go to the public address, not the host the server listens on", async ({ request, baseURL }) => {
   // The server listens on 0.0.0.0 (see playwright.config.ts), as in the image behind the proxy.
   const response = await request.get("/go/book?species=cat", { maxRedirects: 0 });
-  expect(response.headers()["location"]).toBe(`${baseURL}/book?species=cat`);
+  expect(response.headers()["location"]).toBe(`${baseURL}/book${PETS ? "?species=cat" : ""}`);
 });
 
 test("the home page carries valid LocalBusiness JSON-LD", async ({ page }) => {
@@ -140,7 +140,7 @@ test("the home page carries valid LocalBusiness JSON-LD", async ({ page }) => {
 });
 
 test("campaign tags from the first visit are kept in a signed cookie", async ({ page, context }) => {
-  await page.goto("/l/dog-grooming?utm_source=instagram&utm_campaign=test");
+  await page.goto(`${PETS ? "/l/dog-grooming" : "/"}?utm_source=instagram&utm_campaign=test`);
   const cookie = (await context.cookies()).find((entry) => entry.name === "bk_src");
   expect(cookie?.httpOnly).toBe(true);
   expect(cookie?.value).toContain(".");

@@ -243,7 +243,8 @@
         "he": "מספרה לכלבים ולחתולים",
         "ar": "صالون تجميل للكلاب والقطط",
         "en": "Grooming salon for dogs and cats"
-      }
+      },
+      "extension": "pets"
     },
     "home.heroText": {
       "placeholders": [],
@@ -251,7 +252,8 @@
         "he": "טיפוח עדין ומקצועי, בתור שקובעים מהנייד בפחות מדקה.",
         "ar": "عناية لطيفة ومهنية، بموعد تحجزونه من الهاتف في أقل من دقيقة.",
         "en": "Gentle, professional grooming, with an appointment you can book from your phone in under a minute."
-      }
+      },
+      "extension": "pets"
     },
     "home.openUntil": {
       "placeholders": [
@@ -361,7 +363,8 @@
         "he": "כלבים וחתולים",
         "ar": "كلاب وقطط",
         "en": "Dogs & cats"
-      }
+      },
+      "extension": "pets"
     },
     "home.firstFree": {
       "placeholders": [
@@ -433,7 +436,8 @@
         "he": "לוחצים על + וקובעים. המחירים התחלתיים, המחיר הסופי בסלון.",
         "ar": "اضغطوا على + واحجزوا. الأسعار أولية، والسعر النهائي في الصالون.",
         "en": "Tap + to book. Prices are \"from\"; the final price is set at the salon."
-      }
+      },
+      "extension": "pets"
     },
     "home.visitTitle": {
       "placeholders": [],
@@ -561,7 +565,8 @@
         "he": "הודעות למספר הזה לא נקראות. לשאלות כתבו למספר הוואטסאפ של המספרה או התקשרו.",
         "ar": "الرسائل إلى هذا الرقم لا تُقرأ. للاستفسار اكتبوا إلى رقم واتساب الصالون أو اتصلوا.",
         "en": "Messages to this number aren't read. For questions, message the salon's WhatsApp number or give us a call."
-      }
+      },
+      "extension": "pets"
     },
     "contact.map": {
       "placeholders": [],
@@ -621,13 +626,13 @@
     },
     "contact.summary": {
       "placeholders": [
-        "pets",
+        "services",
         "when"
       ],
       "text": {
-        "he": "{pets} · {when}",
-        "ar": "{pets} · {when}",
-        "en": "{pets} · {when}"
+        "he": "{services} · {when}",
+        "ar": "{services} · {when}",
+        "en": "{services} · {when}"
       }
     },
     "contact.website": {
@@ -668,7 +673,8 @@
         "he": "המחירים הם מחירי \"החל מ\". המחיר הסופי נקבע במספרה, לפי הגודל ומצב הפרווה.",
         "ar": "الأسعار هي أسعار \"ابتداءً من\". السعر النهائي يُحدَّد في الصالون حسب الحجم وحالة الفراء.",
         "en": "Prices are \"from\" prices. The final price is set at the salon, based on size and coat condition."
-      }
+      },
+      "extension": "pets"
     },
     "services.includes": {
       "placeholders": [],
@@ -726,7 +732,8 @@
         "he": "אפשר להזמין כל מוצר בוואטסאפ ולאסוף במספרה. אין תשלום באתר.",
         "ar": "يمكن طلب أي منتج عبر واتساب واستلامه في الصالون. لا دفع عبر الموقع.",
         "en": "Order any product on WhatsApp and pick it up at the salon. No payment on the website."
-      }
+      },
+      "extension": "pets"
     },
     "products.order": {
       "placeholders": [],
@@ -753,7 +760,8 @@
         "he": "להזמנה התקשרו למספרה",
         "ar": "للطلب اتصلوا بالصالون",
         "en": "To order, call the salon"
-      }
+      },
+      "extension": "pets"
     },
     "products.empty": {
       "placeholders": [],
@@ -795,7 +803,8 @@
         "he": "תמונה מהגלריה של המספרה",
         "ar": "صورة من معرض الصالون",
         "en": "A photo from the salon's gallery"
-      }
+      },
+      "extension": "pets"
     },
     "hours.title": {
       "placeholders": [],
@@ -838,7 +847,8 @@
         "he": "ימים ושעות שהמספרה סגורה בקרוב",
         "ar": "الأيام والساعات التي سيُغلق فيها الصالون قريبًا",
         "en": "Upcoming days and hours the salon is closed"
-      }
+      },
+      "extension": "pets"
     },
     "hours.noTimeOff": {
       "placeholders": [],
@@ -1112,7 +1122,8 @@
         "he": "שליחת הודעות בוואטסאפ מושבתת כרגע. הקוד יישלח במייל, או שאפשר להתקשר למספרה.",
         "ar": "إرسال رسائل واتساب متوقف حاليًا. سيُرسل الرمز بالبريد الإلكتروني، أو يمكنكم الاتصال بالصالون.",
         "en": "WhatsApp messages are down right now. We'll send the code by email, or you can call the salon."
-      }
+      },
+      "extension": "pets"
     },
     "book.cancelled": {
       "placeholders": [],
@@ -1292,120 +1303,6 @@
         "en": "Try again"
       }
     },
-    "pets.remove": {
-      "placeholders": [],
-      "text": {
-        "he": "הסרה",
-        "ar": "إزالة",
-        "en": "Remove"
-      }
-    },
-    "pets.name": {
-      "placeholders": [],
-      "text": {
-        "he": "שם החיה",
-        "ar": "اسم الحيوان",
-        "en": "Pet's name"
-      }
-    },
-    "pets.species": {
-      "placeholders": [],
-      "text": {
-        "he": "סוג",
-        "ar": "النوع",
-        "en": "Type"
-      }
-    },
-    "pets.dog": {
-      "placeholders": [],
-      "text": {
-        "he": "כלב",
-        "ar": "كلب",
-        "en": "Dog"
-      }
-    },
-    "pets.cat": {
-      "placeholders": [],
-      "text": {
-        "he": "חתול",
-        "ar": "قط",
-        "en": "Cat"
-      }
-    },
-    "pets.young": {
-      "placeholders": [],
-      "text": {
-        "he": "עד חצי שנה",
-        "ar": "حتى نصف سنة",
-        "en": "Up to 6 months"
-      }
-    },
-    "pets.adult": {
-      "placeholders": [],
-      "text": {
-        "he": "מעל חצי שנה",
-        "ar": "أكثر من نصف سنة",
-        "en": "Over 6 months"
-      }
-    },
-    "pets.small": {
-      "placeholders": [],
-      "text": {
-        "he": "עד 10 ק\"ג",
-        "ar": "حتى 10 كغم",
-        "en": "Up to 10 kg"
-      }
-    },
-    "pets.large": {
-      "placeholders": [],
-      "text": {
-        "he": "מעל 10 ק\"ג",
-        "ar": "أكثر من 10 كغم",
-        "en": "Over 10 kg"
-      }
-    },
-    "pets.unknownWeight": {
-      "placeholders": [],
-      "text": {
-        "he": "לא בטוחים",
-        "ar": "لسنا متأكدين",
-        "en": "Not sure"
-      }
-    },
-    "pets.groom": {
-      "placeholders": [],
-      "text": {
-        "he": "טיפוח מלא",
-        "ar": "عناية كاملة",
-        "en": "Full grooming"
-      }
-    },
-    "pets.nails": {
-      "placeholders": [],
-      "text": {
-        "he": "גזירת ציפורניים",
-        "ar": "قص الأظافر",
-        "en": "Nail trim"
-      }
-    },
-    "pets.breed": {
-      "placeholders": [],
-      "text": {
-        "he": "גזע",
-        "ar": "السلالة",
-        "en": "Breed"
-      }
-    },
-    "pets.max": {
-      "placeholders": [
-        "n"
-      ],
-      "text": {
-        "he": "אפשר לקבוע עד {n} חיות בתור אחד.",
-        "ar": "يمكن حجز حتى {n} حيوانات في موعد واحد.",
-        "en": "You can book up to {n} pets in one appointment."
-      }
-    },
     "service.title": {
       "placeholders": [],
       "text": {
@@ -1430,7 +1327,7 @@
         "en": "No service chosen yet."
       }
     },
-    "service.petN": {
+    "service.lineN": {
       "placeholders": [
         "n"
       ],
@@ -1438,7 +1335,8 @@
         "he": "חיה {n}",
         "ar": "الحيوان {n}",
         "en": "Pet {n}"
-      }
+      },
+      "extension": "pets"
     },
     "service.toTime": {
       "placeholders": [],
@@ -1462,7 +1360,8 @@
         "he": "מגיעים עם עוד חיה? בחרו לה שירות",
         "ar": "قادمون مع حيوان آخر؟ اختاروا له خدمة",
         "en": "Bringing another pet? Choose its service"
-      }
+      },
+      "extension": "pets"
     },
     "service.showAll": {
       "placeholders": [],
@@ -1480,21 +1379,33 @@
         "en": "Add"
       }
     },
+    "service.remove": {
+      "placeholders": [],
+      "text": {
+        "he": "הסרה",
+        "ar": "إزالة",
+        "en": "Remove"
+      }
+    },
+    "service.max": {
+      "placeholders": [
+        "n"
+      ],
+      "text": {
+        "he": "אפשר לקבוע עד {n} חיות בתור אחד.",
+        "ar": "يمكن حجز حتى {n} حيوانات في موعد واحد.",
+        "en": "You can book up to {n} pets in one appointment."
+      },
+      "extension": "pets"
+    },
     "details.title": {
       "placeholders": [],
       "text": {
         "he": "כמעט סיימנו: פרטי החיה ופרטי קשר",
         "ar": "أوشكنا على الانتهاء: تفاصيل الحيوان وبيانات الاتصال",
         "en": "Almost done: your pet and your details"
-      }
-    },
-    "details.petTitle": {
-      "placeholders": [],
-      "text": {
-        "he": "פרטי החיה",
-        "ar": "تفاصيل الحيوان",
-        "en": "About your pet"
-      }
+      },
+      "extension": "pets"
     },
     "details.contactTitle": {
       "placeholders": [],
@@ -1502,30 +1413,6 @@
         "he": "הפרטים שלכם",
         "ar": "بياناتكم",
         "en": "Your details"
-      }
-    },
-    "details.vet": {
-      "placeholders": [],
-      "text": {
-        "he": "שם הווטרינר או המרפאה",
-        "ar": "اسم الطبيب البيطري أو العيادة",
-        "en": "Vet or clinic name"
-      }
-    },
-    "details.vetHelp": {
-      "placeholders": [],
-      "text": {
-        "he": "מי שמטפל בחיה, למקרה שנצטרך ליצור קשר.",
-        "ar": "من يعالج الحيوان، في حال احتجنا إلى التواصل معه.",
-        "en": "Who treats your pet, in case we need to reach them."
-      }
-    },
-    "details.vaccines": {
-      "placeholders": [],
-      "text": {
-        "he": "יש לחיה תעודת חיסונים",
-        "ar": "لدى الحيوان شهادة تطعيم",
-        "en": "The pet has a vaccination certificate"
       }
     },
     "time.title": {
@@ -1648,7 +1535,8 @@
         "he": "השעה שבחרתם ({when}) לא מתאימה לתור עם החיות האלה. הנה השעות הפנויות.",
         "ar": "الوقت الذي اخترتموه ({when}) لا يناسب موعدًا مع هذه الحيوانات. إليكم الأوقات المتاحة.",
         "en": "The time you chose ({when}) doesn't fit a booking with these pets. Here are the free times."
-      }
+      },
+      "extension": "pets"
     },
     "time.none": {
       "placeholders": [],
@@ -1656,7 +1544,8 @@
         "he": "אין מועדים פנויים בחודש הקרוב. כדאי להתקשר למספרה.",
         "ar": "لا مواعيد متاحة في الشهر القادم. يُستحسن الاتصال بالصالون.",
         "en": "No available times in the coming month. Please call the salon."
-      }
+      },
+      "extension": "pets"
     },
     "time.service": {
       "placeholders": [],
@@ -1828,7 +1717,8 @@
         "he": "או להתקשר למספרה",
         "ar": "أو الاتصال بالصالون",
         "en": "or call the salon"
-      }
+      },
+      "extension": "pets"
     },
     "manage.confirmedEmail": {
       "placeholders": [
@@ -1898,13 +1788,14 @@
         "en": "When"
       }
     },
-    "manage.pets": {
+    "manage.lines": {
       "placeholders": [],
       "text": {
         "he": "חיות ושירותים",
         "ar": "الحيوانات والخدمات",
         "en": "Pets & services"
-      }
+      },
+      "extension": "pets"
     },
     "manage.name": {
       "placeholders": [],
@@ -2068,118 +1959,6 @@
         "en": "This is a personal link. Please don't share it."
       }
     },
-    "manage.photoAdded": {
-      "placeholders": [],
-      "text": {
-        "he": "התמונה התקבלה. ההצעות יופיעו כאן בקרוב.",
-        "ar": "استلمنا الصورة. ستظهر الاقتراحات هنا قريبًا.",
-        "en": "Photo received. Suggestions will show up here soon."
-      }
-    },
-    "manage.photoSaved": {
-      "placeholders": [],
-      "text": {
-        "he": "הפרטים נשמרו. תודה!",
-        "ar": "حُفظت التفاصيل. شكرًا!",
-        "en": "Details saved. Thank you!"
-      }
-    },
-    "manage.photos": {
-      "placeholders": [],
-      "text": {
-        "he": "תמונה של החיה (לא חובה)",
-        "ar": "صورة للحيوان (اختياري)",
-        "en": "A photo of your pet (optional)"
-      }
-    },
-    "manage.photosHelp": {
-      "placeholders": [],
-      "text": {
-        "he": "תמונה עוזרת למספרה להתכונן. נציע סוג פרווה ומצב שלה, ואפשר לתקן. התמונה נמחקת 90 יום אחרי התור.",
-        "ar": "الصورة تساعد الصالون على الاستعداد. سنقترح نوع الفراء وحالته، ويمكنكم التصحيح. تُحذف الصورة بعد 90 يومًا من الموعد.",
-        "en": "A photo helps the salon get ready. We'll suggest the coat type and condition, and you can correct them. The photo is deleted 90 days after the appointment."
-      }
-    },
-    "manage.photoPick": {
-      "placeholders": [],
-      "text": {
-        "he": "בחירת תמונה",
-        "ar": "اختيار صورة",
-        "en": "Choose a photo"
-      }
-    },
-    "manage.photoSend": {
-      "placeholders": [],
-      "text": {
-        "he": "שליחת התמונה",
-        "ar": "إرسال الصورة",
-        "en": "Send photo"
-      }
-    },
-    "manage.photoWaiting": {
-      "placeholders": [],
-      "text": {
-        "he": "התמונה התקבלה, ההצעות בדרך.",
-        "ar": "استلمنا الصورة، والاقتراحات في الطريق.",
-        "en": "Photo received, suggestions are on the way."
-      }
-    },
-    "manage.suggestion": {
-      "placeholders": [],
-      "text": {
-        "he": "מה ראינו בתמונה",
-        "ar": "ما رأيناه في الصورة",
-        "en": "What we saw in the photo"
-      }
-    },
-    "manage.breed": {
-      "placeholders": [],
-      "text": {
-        "he": "גזע",
-        "ar": "السلالة",
-        "en": "Breed"
-      }
-    },
-    "manage.coat": {
-      "placeholders": [],
-      "text": {
-        "he": "סוג פרווה",
-        "ar": "نوع الفراء",
-        "en": "Coat type"
-      }
-    },
-    "manage.condition": {
-      "placeholders": [],
-      "text": {
-        "he": "מצב הפרווה",
-        "ar": "حالة الفراء",
-        "en": "Coat condition"
-      }
-    },
-    "manage.suggestionNote": {
-      "placeholders": [],
-      "text": {
-        "he": "המחיר הסופי נקבע במספרה.",
-        "ar": "السعر النهائي يُحدَّد في الصالون.",
-        "en": "The final price is set at the salon."
-      }
-    },
-    "manage.accept": {
-      "placeholders": [],
-      "text": {
-        "he": "שמירה",
-        "ar": "حفظ",
-        "en": "Save"
-      }
-    },
-    "manage.savedCondition": {
-      "placeholders": [],
-      "text": {
-        "he": "מצב פרווה שמור",
-        "ar": "حالة فراء محفوظة",
-        "en": "Saved coat condition"
-      }
-    },
     "err.expired": {
       "placeholders": [],
       "text": {
@@ -2202,7 +1981,8 @@
         "he": "הגעתם למספר החיות המרבי לתור אחד.",
         "ar": "وصلتم إلى الحد الأقصى من الحيوانات لموعد واحد.",
         "en": "You've reached the maximum number of pets for one appointment."
-      }
+      },
+      "extension": "pets"
     },
     "err.noServices": {
       "placeholders": [],
@@ -2218,31 +1998,8 @@
         "he": "אי אפשר לקבוע את השירות הזה באתר. כדאי להתקשר למספרה.",
         "ar": "لا يمكن حجز هذه الخدمة عبر الموقع. يُستحسن الاتصال بالصالون.",
         "en": "That service can't be booked online. Please call the salon."
-      }
-    },
-    "err.petNameRequired": {
-      "placeholders": [],
-      "text": {
-        "he": "חסר שם לאחת החיות.",
-        "ar": "ينقص اسم لأحد الحيوانات.",
-        "en": "One of the pets is missing a name."
-      }
-    },
-    "err.speciesRequired": {
-      "placeholders": [],
-      "text": {
-        "he": "צריך לבחור כלב או חתול לכל חיה.",
-        "ar": "يجب اختيار كلب أو قط لكل حيوان.",
-        "en": "Choose dog or cat for each pet."
-      }
-    },
-    "err.vetRequired": {
-      "placeholders": [],
-      "text": {
-        "he": "חסר שם הווטרינר או המרפאה לאחת החיות.",
-        "ar": "ينقص اسم الطبيب البيطري أو العيادة لأحد الحيوانات.",
-        "en": "One of the pets is missing a vet or clinic name."
-      }
+      },
+      "extension": "pets"
     },
     "err.TooManyLines": {
       "placeholders": [],
@@ -2250,7 +2007,8 @@
         "he": "הגעתם למספר החיות המרבי לתור אחד.",
         "ar": "وصلتم إلى الحد الأقصى من الحيوانات لموعد واحد.",
         "en": "You've reached the maximum number of pets for one appointment."
-      }
+      },
+      "extension": "pets"
     },
     "err.NoRule": {
       "placeholders": [],
@@ -2258,7 +2016,8 @@
         "he": "לא מצאנו שירות מתאים לאחת החיות. כדאי להתקשר למספרה.",
         "ar": "لم نجد خدمة مناسبة لأحد الحيوانات. يُستحسن الاتصال بالصالون.",
         "en": "We couldn't find a matching service for one of the pets. Please call the salon."
-      }
+      },
+      "extension": "pets"
     },
     "err.NotBookableOnline": {
       "placeholders": [],
@@ -2266,7 +2025,8 @@
         "he": "את השירות לאחת החיות קובעים בטלפון בלבד.",
         "ar": "خدمة أحد الحيوانات تُحجز عبر الهاتف فقط.",
         "en": "The service for one of the pets can only be booked by phone."
-      }
+      },
+      "extension": "pets"
     },
     "err.chooseTime": {
       "placeholders": [],
@@ -2370,7 +2130,8 @@
         "he": "לא הצלחנו לשלוח קוד כרגע. אפשר להתקשר למספרה ונקבע יחד.",
         "ar": "لم نستطع إرسال رمز الآن. يمكنكم الاتصال بالصالون وسنحجز معًا.",
         "en": "We couldn't send a code right now. Call the salon and we'll book it together."
-      }
+      },
+      "extension": "pets"
     },
     "err.codeFailed": {
       "placeholders": [],
@@ -2378,7 +2139,8 @@
         "he": "שליחת הקוד נכשלה. אפשר לנסות במייל או להתקשר למספרה.",
         "ar": "فشل إرسال الرمز. يمكنكم المحاولة بالبريد الإلكتروني أو الاتصال بالصالون.",
         "en": "We couldn't send the code. You can try by email or call the salon."
-      }
+      },
+      "extension": "pets"
     },
     "err.NotFound": {
       "placeholders": [],
@@ -2394,7 +2156,8 @@
         "he": "כבר אי אפשר לשנות את התור באתר. נא להתקשר למספרה.",
         "ar": "لم يعد ممكنًا تغيير الموعد عبر الموقع. يرجى الاتصال بالصالون.",
         "en": "This appointment can no longer be changed online. Please call the salon."
-      }
+      },
+      "extension": "pets"
     },
     "err.photoInvalid": {
       "placeholders": [],
@@ -3242,32 +3005,6 @@
         "en": "Next"
       }
     },
-    "cal.vet": {
-      "placeholders": [
-        "name"
-      ],
-      "text": {
-        "he": "וטרינר: {name}",
-        "ar": "الطبيب البيطري: {name}",
-        "en": "Vet: {name}"
-      }
-    },
-    "cal.vaccinesYes": {
-      "placeholders": [],
-      "text": {
-        "he": "יש תעודת חיסונים",
-        "ar": "توجد شهادة تطعيم",
-        "en": "Has a vaccination certificate"
-      }
-    },
-    "cal.vaccinesNo": {
-      "placeholders": [],
-      "text": {
-        "he": "אין תעודת חיסונים",
-        "ar": "لا توجد شهادة تطعيم",
-        "en": "No vaccination certificate"
-      }
-    },
     "catalog.services": {
       "placeholders": [],
       "text": {
@@ -3330,14 +3067,6 @@
         "he": "סדר",
         "ar": "الترتيب",
         "en": "Order"
-      }
-    },
-    "catalog.rules": {
-      "placeholders": [],
-      "text": {
-        "he": "איזה שירות לכל חיה",
-        "ar": "أي خدمة لكل حيوان",
-        "en": "Which service for each pet"
       }
     },
     "catalog.products": {
@@ -3465,7 +3194,8 @@
         "he": "פרטי המספרה",
         "ar": "تفاصيل الصالون",
         "en": "Salon details"
-      }
+      },
+      "extension": "pets"
     },
     "catalog.tagline": {
       "placeholders": [],
@@ -3566,14 +3296,6 @@
         "en": "No customers found."
       }
     },
-    "customers.pets": {
-      "placeholders": [],
-      "text": {
-        "he": "חיות",
-        "ar": "الحيوانات",
-        "en": "Pets"
-      }
-    },
     "customers.bookings": {
       "placeholders": [],
       "text": {
@@ -3670,16 +3392,6 @@
         "en": "Customer"
       }
     },
-    "customers.vaccinesConfirmed": {
-      "placeholders": [
-        "date"
-      ],
-      "text": {
-        "he": "יש תעודת חיסונים (נכון ל-{date})",
-        "ar": "توجد شهادة تطعيم (حتى {date})",
-        "en": "Has a vaccination certificate (as of {date})"
-      }
-    },
     "inbox.events": {
       "placeholders": [],
       "text": {
@@ -3726,7 +3438,8 @@
         "he": "הודעות שלקוחות שלחו למספר האוטומטי. הן קיבלו תשובה קבועה עם מספר הצ'אט של המספרה.",
         "ar": "رسائل أرسلها الزبائن إلى الرقم الآلي. حصلوا على رد ثابت فيه رقم الدردشة مع الصالون.",
         "en": "Messages customers sent to the automated number. They got a standard reply with the salon's chat number."
-      }
+      },
+      "extension": "pets"
     },
     "settings.bookingTitle": {
       "placeholders": [],
@@ -3774,7 +3487,8 @@
         "he": "הפסקה בין חיות (דקות)",
         "ar": "استراحة بين الحيوانات (دقائق)",
         "en": "Break between pets (minutes)"
-      }
+      },
+      "extension": "pets"
     },
     "settings.booking.bufferMin": {
       "placeholders": [],
@@ -3806,7 +3520,8 @@
         "he": "מספר חיות מרבי בתור",
         "ar": "الحد الأقصى من الحيوانات في الموعد",
         "en": "Maximum pets per appointment"
-      }
+      },
+      "extension": "pets"
     },
     "settings.booking.cutoffHours": {
       "placeholders": [],
@@ -3870,7 +3585,8 @@
         "he": "מספר הצ'אט עם המספרה",
         "ar": "رقم الدردشة مع الصالون",
         "en": "Salon chat number"
-      }
+      },
+      "extension": "pets"
     },
     "settings.cap.messagesMonthly": {
       "placeholders": [],
@@ -3910,78 +3626,6 @@
         "he": "מספר ישראלי, למשל 050-0000000.",
         "ar": "رقم إسرائيلي، مثلًا 050-0000000.",
         "en": "An Israeli number, for example 050-0000000."
-      }
-    },
-    "coat.normal": {
-      "placeholders": [],
-      "text": {
-        "he": "תקין",
-        "ar": "سليم",
-        "en": "Normal"
-      }
-    },
-    "coat.tangled": {
-      "placeholders": [],
-      "text": {
-        "he": "מעט קשרים",
-        "ar": "عُقد قليلة",
-        "en": "A few tangles"
-      }
-    },
-    "coat.matted": {
-      "placeholders": [],
-      "text": {
-        "he": "קשרים",
-        "ar": "عُقد",
-        "en": "Matted"
-      }
-    },
-    "coat.very_matted": {
-      "placeholders": [],
-      "text": {
-        "he": "הרבה קשרים",
-        "ar": "عُقد كثيرة",
-        "en": "Heavily matted"
-      }
-    },
-    "coat.unclear": {
-      "placeholders": [],
-      "text": {
-        "he": "לא ברור",
-        "ar": "غير واضح",
-        "en": "Unclear"
-      }
-    },
-    "tag.dog": {
-      "placeholders": [],
-      "text": {
-        "he": "כלב",
-        "ar": "كلب",
-        "en": "Dog"
-      }
-    },
-    "tag.cat": {
-      "placeholders": [],
-      "text": {
-        "he": "חתול",
-        "ar": "قط",
-        "en": "Cat"
-      }
-    },
-    "tag.puppy": {
-      "placeholders": [],
-      "text": {
-        "he": "גור",
-        "ar": "جرو",
-        "en": "Puppy"
-      }
-    },
-    "tag.both": {
-      "placeholders": [],
-      "text": {
-        "he": "כלב / חתול",
-        "ar": "كلب / قط",
-        "en": "Dog / Cat"
       }
     },
     "footer.info": {
@@ -4113,7 +3757,8 @@
         "he": "{online} באתר · {owner} במספרה · {imported} מיובאים",
         "ar": "{online} عبر الموقع · {owner} في الصالون · {imported} مستوردة",
         "en": "{online} online · {owner} by the salon · {imported} imported"
-      }
+      },
+      "extension": "pets"
     },
     "stats.cancelled": {
       "placeholders": [],
@@ -4287,10 +3932,11 @@
     "stats.count": {
       "placeholders": [],
       "text": {
-        "he": "תורים",
-        "ar": "مواعيد",
-        "en": "Bookings"
-      }
+        "he": "חיות",
+        "ar": "الحيوانات",
+        "en": "Pets"
+      },
+      "extension": "pets"
     },
     "stats.sources": {
       "placeholders": [],
@@ -4338,7 +3984,8 @@
         "he": "מספר החיות לכל שירות, בביקורים שבתקופה.",
         "ar": "عدد الحيوانات لكل خدمة، في زيارات الفترة.",
         "en": "Pets per service, for visits in this period."
-      }
+      },
+      "extension": "pets"
     },
     "stats.service": {
       "placeholders": [],
@@ -4346,14 +3993,6 @@
         "he": "שירות",
         "ar": "الخدمة",
         "en": "Service"
-      }
-    },
-    "stats.pets": {
-      "placeholders": [],
-      "text": {
-        "he": "חיות",
-        "ar": "الحيوانات",
-        "en": "Pets"
       }
     },
     "stats.empty": {
@@ -4394,6 +4033,442 @@
         "ar": "{hours} و{minutes}",
         "en": "{hours} {minutes}"
       }
+    },
+    "pets.name": {
+      "placeholders": [],
+      "text": {
+        "he": "שם החיה",
+        "ar": "اسم الحيوان",
+        "en": "Pet's name"
+      },
+      "extension": "pets"
+    },
+    "pets.species": {
+      "placeholders": [],
+      "text": {
+        "he": "סוג",
+        "ar": "النوع",
+        "en": "Type"
+      },
+      "extension": "pets"
+    },
+    "pets.dog": {
+      "placeholders": [],
+      "text": {
+        "he": "כלב",
+        "ar": "كلب",
+        "en": "Dog"
+      },
+      "extension": "pets"
+    },
+    "pets.cat": {
+      "placeholders": [],
+      "text": {
+        "he": "חתול",
+        "ar": "قط",
+        "en": "Cat"
+      },
+      "extension": "pets"
+    },
+    "pets.young": {
+      "placeholders": [],
+      "text": {
+        "he": "עד חצי שנה",
+        "ar": "حتى نصف سنة",
+        "en": "Up to 6 months"
+      },
+      "extension": "pets"
+    },
+    "pets.adult": {
+      "placeholders": [],
+      "text": {
+        "he": "מעל חצי שנה",
+        "ar": "أكثر من نصف سنة",
+        "en": "Over 6 months"
+      },
+      "extension": "pets"
+    },
+    "pets.small": {
+      "placeholders": [],
+      "text": {
+        "he": "עד 10 ק\"ג",
+        "ar": "حتى 10 كغم",
+        "en": "Up to 10 kg"
+      },
+      "extension": "pets"
+    },
+    "pets.large": {
+      "placeholders": [],
+      "text": {
+        "he": "מעל 10 ק\"ג",
+        "ar": "أكثر من 10 كغم",
+        "en": "Over 10 kg"
+      },
+      "extension": "pets"
+    },
+    "pets.unknownWeight": {
+      "placeholders": [],
+      "text": {
+        "he": "לא בטוחים",
+        "ar": "لسنا متأكدين",
+        "en": "Not sure"
+      },
+      "extension": "pets"
+    },
+    "pets.groom": {
+      "placeholders": [],
+      "text": {
+        "he": "טיפוח מלא",
+        "ar": "عناية كاملة",
+        "en": "Full grooming"
+      },
+      "extension": "pets"
+    },
+    "pets.nails": {
+      "placeholders": [],
+      "text": {
+        "he": "גזירת ציפורניים",
+        "ar": "قص الأظافر",
+        "en": "Nail trim"
+      },
+      "extension": "pets"
+    },
+    "pets.breed": {
+      "placeholders": [],
+      "text": {
+        "he": "גזע",
+        "ar": "السلالة",
+        "en": "Breed"
+      },
+      "extension": "pets"
+    },
+    "details.petTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "פרטי החיה",
+        "ar": "تفاصيل الحيوان",
+        "en": "About your pet"
+      },
+      "extension": "pets"
+    },
+    "details.vet": {
+      "placeholders": [],
+      "text": {
+        "he": "שם הווטרינר או המרפאה",
+        "ar": "اسم الطبيب البيطري أو العيادة",
+        "en": "Vet or clinic name"
+      },
+      "extension": "pets"
+    },
+    "details.vetHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "מי שמטפל בחיה, למקרה שנצטרך ליצור קשר.",
+        "ar": "من يعالج الحيوان، في حال احتجنا إلى التواصل معه.",
+        "en": "Who treats your pet, in case we need to reach them."
+      },
+      "extension": "pets"
+    },
+    "details.vaccines": {
+      "placeholders": [],
+      "text": {
+        "he": "יש לחיה תעודת חיסונים",
+        "ar": "لدى الحيوان شهادة تطعيم",
+        "en": "The pet has a vaccination certificate"
+      },
+      "extension": "pets"
+    },
+    "manage.photos": {
+      "placeholders": [],
+      "text": {
+        "he": "תמונה של החיה (לא חובה)",
+        "ar": "صورة للحيوان (اختياري)",
+        "en": "A photo of your pet (optional)"
+      },
+      "extension": "pets"
+    },
+    "manage.photosHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "תמונה עוזרת למספרה להתכונן. נציע סוג פרווה ומצב שלה, ואפשר לתקן. התמונה נמחקת 90 יום אחרי התור.",
+        "ar": "الصورة تساعد الصالون على الاستعداد. سنقترح نوع الفراء وحالته، ويمكنكم التصحيح. تُحذف الصورة بعد 90 يومًا من الموعد.",
+        "en": "A photo helps the salon get ready. We'll suggest the coat type and condition, and you can correct them. The photo is deleted 90 days after the appointment."
+      },
+      "extension": "pets"
+    },
+    "manage.photoPick": {
+      "placeholders": [],
+      "text": {
+        "he": "בחירת תמונה",
+        "ar": "اختيار صورة",
+        "en": "Choose a photo"
+      },
+      "extension": "pets"
+    },
+    "manage.photoSend": {
+      "placeholders": [],
+      "text": {
+        "he": "שליחת התמונה",
+        "ar": "إرسال الصورة",
+        "en": "Send photo"
+      },
+      "extension": "pets"
+    },
+    "manage.photoWaiting": {
+      "placeholders": [],
+      "text": {
+        "he": "התמונה התקבלה, ההצעות בדרך.",
+        "ar": "استلمنا الصورة، والاقتراحات في الطريق.",
+        "en": "Photo received, suggestions are on the way."
+      },
+      "extension": "pets"
+    },
+    "manage.photoAdded": {
+      "placeholders": [],
+      "text": {
+        "he": "התמונה התקבלה. ההצעות יופיעו כאן בקרוב.",
+        "ar": "استلمنا الصورة. ستظهر الاقتراحات هنا قريبًا.",
+        "en": "Photo received. Suggestions will show up here soon."
+      },
+      "extension": "pets"
+    },
+    "manage.photoSaved": {
+      "placeholders": [],
+      "text": {
+        "he": "הפרטים נשמרו. תודה!",
+        "ar": "حُفظت التفاصيل. شكرًا!",
+        "en": "Details saved. Thank you!"
+      },
+      "extension": "pets"
+    },
+    "manage.suggestion": {
+      "placeholders": [],
+      "text": {
+        "he": "מה ראינו בתמונה",
+        "ar": "ما رأيناه في الصورة",
+        "en": "What we saw in the photo"
+      },
+      "extension": "pets"
+    },
+    "manage.accept": {
+      "placeholders": [],
+      "text": {
+        "he": "שמירה",
+        "ar": "حفظ",
+        "en": "Save"
+      },
+      "extension": "pets"
+    },
+    "manage.breed": {
+      "placeholders": [],
+      "text": {
+        "he": "גזע",
+        "ar": "السلالة",
+        "en": "Breed"
+      },
+      "extension": "pets"
+    },
+    "manage.coat": {
+      "placeholders": [],
+      "text": {
+        "he": "סוג פרווה",
+        "ar": "نوع الفراء",
+        "en": "Coat type"
+      },
+      "extension": "pets"
+    },
+    "manage.condition": {
+      "placeholders": [],
+      "text": {
+        "he": "מצב הפרווה",
+        "ar": "حالة الفراء",
+        "en": "Coat condition"
+      },
+      "extension": "pets"
+    },
+    "manage.suggestionNote": {
+      "placeholders": [],
+      "text": {
+        "he": "המחיר הסופי נקבע במספרה.",
+        "ar": "السعر النهائي يُحدَّد في الصالون.",
+        "en": "The final price is set at the salon."
+      },
+      "extension": "pets"
+    },
+    "manage.savedCondition": {
+      "placeholders": [],
+      "text": {
+        "he": "מצב פרווה שמור",
+        "ar": "حالة فراء محفوظة",
+        "en": "Saved coat condition"
+      },
+      "extension": "pets"
+    },
+    "err.petNameRequired": {
+      "placeholders": [],
+      "text": {
+        "he": "חסר שם לאחת החיות.",
+        "ar": "ينقص اسم لأحد الحيوانات.",
+        "en": "One of the pets is missing a name."
+      },
+      "extension": "pets"
+    },
+    "err.speciesRequired": {
+      "placeholders": [],
+      "text": {
+        "he": "צריך לבחור כלב או חתול לכל חיה.",
+        "ar": "يجب اختيار كلب أو قط لكل حيوان.",
+        "en": "Choose dog or cat for each pet."
+      },
+      "extension": "pets"
+    },
+    "err.vetRequired": {
+      "placeholders": [],
+      "text": {
+        "he": "חסר שם הווטרינר או המרפאה לאחת החיות.",
+        "ar": "ينقص اسم الطبيب البيطري أو العيادة لأحد الحيوانات.",
+        "en": "One of the pets is missing a vet or clinic name."
+      },
+      "extension": "pets"
+    },
+    "cal.vet": {
+      "placeholders": [
+        "name"
+      ],
+      "text": {
+        "he": "וטרינר: {name}",
+        "ar": "الطبيب البيطري: {name}",
+        "en": "Vet: {name}"
+      },
+      "extension": "pets"
+    },
+    "cal.vaccinesYes": {
+      "placeholders": [],
+      "text": {
+        "he": "יש תעודת חיסונים",
+        "ar": "توجد شهادة تطعيم",
+        "en": "Has a vaccination certificate"
+      },
+      "extension": "pets"
+    },
+    "cal.vaccinesNo": {
+      "placeholders": [],
+      "text": {
+        "he": "אין תעודת חיסונים",
+        "ar": "لا توجد شهادة تطعيم",
+        "en": "No vaccination certificate"
+      },
+      "extension": "pets"
+    },
+    "catalog.rules": {
+      "placeholders": [],
+      "text": {
+        "he": "איזה שירות לכל חיה",
+        "ar": "أي خدمة لكل حيوان",
+        "en": "Which service for each pet"
+      },
+      "extension": "pets"
+    },
+    "customers.pets": {
+      "placeholders": [],
+      "text": {
+        "he": "חיות",
+        "ar": "الحيوانات",
+        "en": "Pets"
+      },
+      "extension": "pets"
+    },
+    "customers.vaccinesConfirmed": {
+      "placeholders": [
+        "date"
+      ],
+      "text": {
+        "he": "יש תעודת חיסונים (נכון ל-{date})",
+        "ar": "توجد شهادة تطعيم (حتى {date})",
+        "en": "Has a vaccination certificate (as of {date})"
+      },
+      "extension": "pets"
+    },
+    "coat.normal": {
+      "placeholders": [],
+      "text": {
+        "he": "תקין",
+        "ar": "سليم",
+        "en": "Normal"
+      },
+      "extension": "pets"
+    },
+    "coat.tangled": {
+      "placeholders": [],
+      "text": {
+        "he": "מעט קשרים",
+        "ar": "عُقد قليلة",
+        "en": "A few tangles"
+      },
+      "extension": "pets"
+    },
+    "coat.matted": {
+      "placeholders": [],
+      "text": {
+        "he": "קשרים",
+        "ar": "عُقد",
+        "en": "Matted"
+      },
+      "extension": "pets"
+    },
+    "coat.very_matted": {
+      "placeholders": [],
+      "text": {
+        "he": "הרבה קשרים",
+        "ar": "عُقد كثيرة",
+        "en": "Heavily matted"
+      },
+      "extension": "pets"
+    },
+    "coat.unclear": {
+      "placeholders": [],
+      "text": {
+        "he": "לא ברור",
+        "ar": "غير واضح",
+        "en": "Unclear"
+      },
+      "extension": "pets"
+    },
+    "tag.dog": {
+      "placeholders": [],
+      "text": {
+        "he": "כלב",
+        "ar": "كلب",
+        "en": "Dog"
+      },
+      "extension": "pets"
+    },
+    "tag.cat": {
+      "placeholders": [],
+      "text": {
+        "he": "חתול",
+        "ar": "قط",
+        "en": "Cat"
+      },
+      "extension": "pets"
+    },
+    "tag.puppy": {
+      "placeholders": [],
+      "text": {
+        "he": "גור",
+        "ar": "جرو",
+        "en": "Puppy"
+      },
+      "extension": "pets"
+    },
+    "tag.both": {
+      "placeholders": [],
+      "text": {
+        "he": "כלב / חתול",
+        "ar": "كلب / قط",
+        "en": "Dog / Cat"
+      },
+      "extension": "pets"
     }
   },
   "content": {

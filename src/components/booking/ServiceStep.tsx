@@ -71,7 +71,7 @@ export async function ServiceStep({
                   <span className="min-w-0 flex-1">
                     {chosen.length > 1 ? (
                       <span className="block text-xs font-semibold text-brand-strong">
-                        {t("service.petN", { n: index + 1 })}
+                        {t("service.lineN", { n: index + 1 })}
                       </span>
                     ) : null}
                     <span className="block font-bold">{pick(locale, service, "name")}</span>
@@ -83,7 +83,7 @@ export async function ServiceStep({
                     <input type="hidden" name="index" value={index} />
                     <button type="submit" className="btn btn-secondary min-h-10 px-3 text-sm">
                       <Icon name="close" size={16} />
-                      {t("pets.remove")}
+                      {t("service.remove")}
                       <span className="visually-hidden"> {pick(locale, service, "name")}</span>
                     </button>
                   </form>
@@ -105,7 +105,7 @@ export async function ServiceStep({
       ) : null}
 
       {full ? (
-        <p className="text-ink-muted">{t("pets.max", { n: maxLines })}</p>
+        <p className="text-ink-muted">{t("service.max", { n: maxLines })}</p>
       ) : (
         <section aria-labelledby="services-choose" className="flex flex-col gap-3">
           <div className="flex flex-wrap items-baseline justify-between gap-2">

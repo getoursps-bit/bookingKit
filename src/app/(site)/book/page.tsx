@@ -218,7 +218,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
       return service ? pick(locale, service, "name") : "";
     });
     const summary = t("contact.summary", {
-      pets: names.join(", "),
+      services: names.join(", "),
       when: formatLocal(new Date(draft.start!), "EEEE dd/MM HH:mm", locale),
     });
     const lines = draft.serviceIds.map((serviceId, index) => ({

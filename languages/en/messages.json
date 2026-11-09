@@ -32,8 +32,8 @@
     "hoursTitle": "Opening hours",
     "allHours": "Hours & closed days",
     "galleryTitle": "Gallery",
-    "eyebrow": "Grooming salon for dogs and cats",
-    "heroText": "Gentle, professional grooming, with an appointment you can book from your phone in under a minute.",
+    "eyebrow": "Online booking",
+    "heroText": "Book your appointment from your phone in under a minute.",
     "openUntil": "Open today until {time}",
     "opensToday": "Opens today at {time}",
     "closedToday": "Closed today",
@@ -46,7 +46,7 @@
     "manageCta": "Lost the link? Contact us",
     "heroTitle": "Soft, clean",
     "heroTitleAccent": "& well cared for",
-    "sticker": "Dogs & cats",
+    "sticker": "Book online",
     "firstFree": "First available: {when}",
     "todayAt": "today {time}",
     "tomorrowAt": "tomorrow {time}",
@@ -54,7 +54,7 @@
     "freeTomorrow": "Free tomorrow",
     "freeOn": "Free {day}",
     "orWhatsApp": "or say hi on WhatsApp",
-    "servicesIntro": "Tap + to book. Prices are \"from\"; the final price is set at the salon.",
+    "servicesIntro": "Tap + to book. Prices are \"from\"; the final price is set on the day.",
     "visitTitle": "Come say hi",
     "tabServices": "Services",
     "tabProducts": "Products"
@@ -72,7 +72,7 @@
     "phone": "Mobile phone",
     "chatNumber": "WhatsApp for questions and product orders",
     "senderNumber": "The number that sends confirmations and reminders",
-    "senderNote": "Messages to this number aren't read. For questions, message the salon's WhatsApp number or give us a call.",
+    "senderNote": "Messages to this number aren't read. For questions, message our WhatsApp number or give us a call.",
     "map": "Open in maps",
     "missing": "Details coming soon.",
     "name": "Full name",
@@ -80,14 +80,14 @@
     "email": "Email (optional)",
     "emailHelp": "Only used if WhatsApp doesn't get through.",
     "submit": "Send verification code",
-    "summary": "{pets} · {when}",
+    "summary": "{services} · {when}",
     "website": "Website (leave blank)",
     "emailRequired": "Email",
     "emailRequiredHelp": "Your verification code and confirmation are sent to this address."
   },
   "services": {
     "title": "Services & prices",
-    "finalPrice": "Prices are \"from\" prices. The final price is set at the salon, based on size and coat condition.",
+    "finalPrice": "Prices are \"from\" prices. The final price is set on the day.",
     "includes": "Includes",
     "duration": "Duration",
     "price": "Price",
@@ -96,24 +96,24 @@
   },
   "products": {
     "title": "Products",
-    "intro": "Order any product on WhatsApp and pick it up at the salon. No payment on the website.",
+    "intro": "Order any product on WhatsApp and pick it up from us. No payment on the website.",
     "order": "Order on WhatsApp",
     "orderText": "Hi, I'd like to order: {name} ({price})",
-    "orderByPhone": "To order, call the salon",
+    "orderByPhone": "To order, call us",
     "empty": "Products coming soon."
   },
   "gallery": {
     "title": "Gallery",
     "empty": "Photos coming soon.",
     "open": "View full-size photo: {alt}",
-    "defaultAlt": "A photo from the salon's gallery"
+    "defaultAlt": "A photo from our gallery"
   },
   "hours": {
     "title": "Opening hours",
     "today": "Today",
     "closed": "Closed",
     "range": "{opens}–{closes}",
-    "timeOffTitle": "Upcoming days and hours the salon is closed",
+    "timeOffTitle": "Upcoming days and hours we are closed",
     "noTimeOff": "No closures planned for the coming month.",
     "openNow": "Open now",
     "closedNow": "Closed now",
@@ -153,7 +153,7 @@
     "back": "Back",
     "continue": "Continue",
     "restart": "Start over",
-    "whatsappOutage": "WhatsApp messages are down right now. We'll send the code by email, or you can call the salon.",
+    "whatsappOutage": "WhatsApp messages are down right now. We'll send the code by email, or you can call us.",
     "cancelled": "Your appointment was cancelled. We hope to see you again.",
     "pickedTime": "You chose {when}. Choose a service, then confirm the time on the next step."
   },
@@ -189,40 +189,22 @@
     "text": "Looks like your device is offline. You can try again once you're back online.",
     "retry": "Try again"
   },
-  "pets": {
-    "remove": "Remove",
-    "name": "Pet's name",
-    "species": "Type",
-    "dog": "Dog",
-    "cat": "Cat",
-    "young": "Up to 6 months",
-    "adult": "Over 6 months",
-    "small": "Up to 10 kg",
-    "large": "Over 10 kg",
-    "unknownWeight": "Not sure",
-    "groom": "Full grooming",
-    "nails": "Nail trim",
-    "breed": "Breed",
-    "max": "You can book up to {n} pets in one appointment."
-  },
   "service": {
     "title": "Which service would you like?",
     "chosen": "Your chosen services",
     "none": "No service chosen yet.",
-    "petN": "Pet {n}",
+    "lineN": "Service {n}",
     "toTime": "Continue to pick a time",
     "chooseTitle": "Choose a service",
-    "anotherTitle": "Bringing another pet? Choose its service",
+    "anotherTitle": "Adding another service? Choose it",
     "showAll": "All services",
-    "add": "Add"
+    "add": "Add",
+    "remove": "Remove",
+    "max": "You can book up to {n} services in one appointment."
   },
   "details": {
-    "title": "Almost done: your pet and your details",
-    "petTitle": "About your pet",
-    "contactTitle": "Your details",
-    "vet": "Vet or clinic name",
-    "vetHelp": "Who treats your pet, in case we need to reach them.",
-    "vaccines": "The pet has a vaccination certificate"
+    "title": "Almost done: your details",
+    "contactTitle": "Your details"
   },
   "time": {
     "title": "When works for you?",
@@ -238,8 +220,8 @@
     "first": "Next available time: {when}",
     "takeFirst": "Take this time",
     "picked": "The time you chose: {when}",
-    "pickedGone": "The time you chose ({when}) doesn't fit a booking with these pets. Here are the free times.",
-    "none": "No available times in the coming month. Please call the salon.",
+    "pickedGone": "The time you chose ({when}) doesn't fit this booking. Here are the free times.",
+    "none": "No available times in the coming month. Please call us.",
     "service": "Your service",
     "changeService": "Change"
   },
@@ -261,7 +243,7 @@
     "emailLabel": "Your email, to get the code there",
     "again": "Resend on WhatsApp",
     "wait": "You can request a new code in {seconds} seconds.",
-    "orCall": "or call the salon"
+    "orCall": "or call us"
   },
   "manage": {
     "confirmedEmail": "You're booked! The confirmation is on its way by email to {to}.",
@@ -272,7 +254,7 @@
     "messagesOff": "We've stopped sending messages about this appointment.",
     "messagesOn": "We'll keep sending messages about this appointment.",
     "when": "When",
-    "pets": "Pets & services",
+    "lines": "Services",
     "name": "Booked under",
     "priceFrom": "From ",
     "status": {
@@ -294,34 +276,17 @@
     "gone": "This link is no longer valid",
     "goneText": "The appointment is over, was cancelled, or the link is wrong. You can book a new appointment.",
     "bookAgain": "Book a new appointment",
-    "private": "This is a personal link. Please don't share it.",
-    "photoAdded": "Photo received. Suggestions will show up here soon.",
-    "photoSaved": "Details saved. Thank you!",
-    "photos": "A photo of your pet (optional)",
-    "photosHelp": "A photo helps the salon get ready. We'll suggest the coat type and condition, and you can correct them. The photo is deleted 90 days after the appointment.",
-    "photoPick": "Choose a photo",
-    "photoSend": "Send photo",
-    "photoWaiting": "Photo received, suggestions are on the way.",
-    "suggestion": "What we saw in the photo",
-    "breed": "Breed",
-    "coat": "Coat type",
-    "condition": "Coat condition",
-    "suggestionNote": "The final price is set at the salon.",
-    "accept": "Save",
-    "savedCondition": "Saved coat condition"
+    "private": "This is a personal link. Please don't share it."
   },
   "err": {
     "expired": "This page has expired. Please try again.",
     "tooFast": "Something went wrong while sending. Please try again.",
-    "tooManyLines": "You've reached the maximum number of pets for one appointment.",
+    "tooManyLines": "You've reached the maximum number of services for one appointment.",
     "noServices": "Choose at least one service.",
-    "chooseService": "That service can't be booked online. Please call the salon.",
-    "petNameRequired": "One of the pets is missing a name.",
-    "speciesRequired": "Choose dog or cat for each pet.",
-    "vetRequired": "One of the pets is missing a vet or clinic name.",
-    "TooManyLines": "You've reached the maximum number of pets for one appointment.",
-    "NoRule": "We couldn't find a matching service for one of the pets. Please call the salon.",
-    "NotBookableOnline": "The service for one of the pets can only be booked by phone.",
+    "chooseService": "That service can't be booked online. Please call us.",
+    "TooManyLines": "You've reached the maximum number of services for one appointment.",
+    "NoRule": "We couldn't book one of the services. Please call us.",
+    "NotBookableOnline": "One of the services can only be booked by phone.",
     "chooseTime": "Please choose a time.",
     "SlotTaken": "Someone just took this time. Please choose another time.",
     "SlotUnavailable": "This time is no longer available. Please choose another time.",
@@ -334,10 +299,10 @@
     "Expired": "This code has expired. You can request a new one.",
     "TooManyAttempts": "Too many attempts. You can request a new code.",
     "codeRateLimited": "Too many codes have been sent. Please try again in an hour or give us a call.",
-    "codeNoChannel": "We couldn't send a code right now. Call the salon and we'll book it together.",
-    "codeFailed": "We couldn't send the code. You can try by email or call the salon.",
+    "codeNoChannel": "We couldn't send a code right now. Call us and we'll book it together.",
+    "codeFailed": "We couldn't send the code. You can try by email or call us.",
     "NotFound": "Appointment not found.",
-    "PastCutoff": "This appointment can no longer be changed online. Please call the salon.",
+    "PastCutoff": "This appointment can no longer be changed online. Please call us.",
     "photoInvalid": "We couldn't read the photo. Try a different photo (JPG, PNG or WebP, up to 8MB).",
     "photoOff": "Photo uploads aren't available right now.",
     "emailRequired": "Please enter your email address so we can send the verification code."
@@ -462,10 +427,7 @@
       "no_show": "No-show"
     },
     "prev": "Previous",
-    "next": "Next",
-    "vet": "Vet: {name}",
-    "vaccinesYes": "Has a vaccination certificate",
-    "vaccinesNo": "No vaccination certificate"
+    "next": "Next"
   },
   "catalog": {
     "services": "Services & prices",
@@ -476,7 +438,6 @@
     "online": "Can be booked online",
     "active": "Active",
     "order": "Order",
-    "rules": "Which service for each pet",
     "products": "Products",
     "description": "Description",
     "gallery": "Gallery",
@@ -491,7 +452,7 @@
     "removePhoto": "Remove the photo",
     "alt": "Photo description (for screen readers)",
     "caption": "Caption",
-    "profile": "Salon details",
+    "profile": "Business details",
     "tagline": "Tagline",
     "city": "City",
     "address": "Address",
@@ -506,7 +467,6 @@
     "search": "Search by name or phone",
     "find": "Search",
     "none": "No customers found.",
-    "pets": "Pets",
     "bookings": "Appointments",
     "notes": "Internal notes",
     "consents": "Consents",
@@ -518,8 +478,7 @@
     "eraseConfirm": "Yes, delete",
     "erased": "Personal details deleted.",
     "merged": "Customers merged.",
-    "title": "Customer",
-    "vaccinesConfirmed": "Has a vaccination certificate (as of {date})"
+    "title": "Customer"
   },
   "inbox": {
     "events": "Updates",
@@ -527,7 +486,7 @@
     "failed": "Failed messages",
     "markAll": "Mark all as read",
     "markRead": "Mark as read",
-    "repliesHelp": "Messages customers sent to the automated number. They got a standard reply with the salon's chat number."
+    "repliesHelp": "Messages customers sent to the automated number. They got a standard reply with our chat number."
   },
   "settings": {
     "bookingTitle": "Booking rules",
@@ -536,11 +495,11 @@
     "caps": "Monthly limits",
     "booking": {
       "slotStepMin": "Interval between start times (minutes)",
-      "gapMin": "Break between pets (minutes)",
+      "gapMin": "Break between services in one appointment (minutes)",
       "bufferMin": "Cleanup time after an appointment (minutes)",
       "noticeMin": "Minimum advance notice (minutes)",
       "horizonDays": "How many days ahead customers can book",
-      "maxLines": "Maximum pets per appointment",
+      "maxLines": "Maximum services per appointment",
       "cutoffHours": "Up to how many hours before customers can change or cancel",
       "holdMin": "How many minutes a time is held while the code is entered"
     },
@@ -556,7 +515,7 @@
     },
     "whatsapp": {
       "senderNumber": "Automated messages number",
-      "chatNumber": "Salon chat number"
+      "chatNumber": "Business chat number"
     },
     "cap": {
       "messagesMonthly": "Messages per month",
@@ -565,19 +524,6 @@
     "saved": "Settings saved.",
     "aiOff": "No AI key is set up, so these switches are inactive.",
     "phoneHelp": "An Israeli number, for example 050-0000000."
-  },
-  "coat": {
-    "normal": "Normal",
-    "tangled": "A few tangles",
-    "matted": "Matted",
-    "very_matted": "Heavily matted",
-    "unclear": "Unclear"
-  },
-  "tag": {
-    "dog": "Dog",
-    "cat": "Cat",
-    "puppy": "Puppy",
-    "both": "Dog / Cat"
   },
   "footer": {
     "info": "Info",
@@ -604,7 +550,7 @@
     "days": "{n} days",
     "range": "{from} – {to}",
     "bookings": "Bookings made",
-    "bookingsSplit": "{online} online · {owner} by the salon · {imported} imported",
+    "bookingsSplit": "{online} online · {owner} by staff · {imported} imported",
     "cancelled": "Cancelled",
     "cancelledNote": "Of the bookings made in this period",
     "visits": "Visits held",
@@ -630,9 +576,8 @@
     "direct": "Direct, no campaign",
     "source": "Source",
     "services": "Most-booked services",
-    "servicesNote": "Pets per service, for visits in this period.",
+    "servicesNote": "How often each service was booked, for visits in this period.",
     "service": "Service",
-    "pets": "Pets",
     "empty": "No data for this period yet."
   },
   "duration": {

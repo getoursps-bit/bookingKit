@@ -155,6 +155,7 @@ export default defineViews({
   id: "pets",
   lineFields: (props) => <PetLine {...props} />,
   manage: (props) => <Photos {...props} />,
+  manageNotices: { photoAdded: "manage.photoAdded", photoSaved: "manage.photoSaved" },
   customer: (props) => <CustomerPets {...props} />,
   catalog: (props) => <Rules {...props} />,
   privacy,

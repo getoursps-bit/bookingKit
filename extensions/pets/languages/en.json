@@ -1,1 +1,133 @@
-{}
+{
+  "pets": {
+    "name": "Pet's name",
+    "species": "Type",
+    "dog": "Dog",
+    "cat": "Cat",
+    "young": "Up to 6 months",
+    "adult": "Over 6 months",
+    "small": "Up to 10 kg",
+    "large": "Over 10 kg",
+    "unknownWeight": "Not sure",
+    "groom": "Full grooming",
+    "nails": "Nail trim",
+    "breed": "Breed"
+  },
+  "details": {
+    "petTitle": "About your pet",
+    "vet": "Vet or clinic name",
+    "vetHelp": "Who treats your pet, in case we need to reach them.",
+    "vaccines": "The pet has a vaccination certificate",
+    "title": "Almost done: your pet and your details"
+  },
+  "manage": {
+    "photos": "A photo of your pet (optional)",
+    "photosHelp": "A photo helps the salon get ready. We'll suggest the coat type and condition, and you can correct them. The photo is deleted 90 days after the appointment.",
+    "photoPick": "Choose a photo",
+    "photoSend": "Send photo",
+    "photoWaiting": "Photo received, suggestions are on the way.",
+    "photoAdded": "Photo received. Suggestions will show up here soon.",
+    "photoSaved": "Details saved. Thank you!",
+    "suggestion": "What we saw in the photo",
+    "accept": "Save",
+    "breed": "Breed",
+    "coat": "Coat type",
+    "condition": "Coat condition",
+    "suggestionNote": "The final price is set at the salon.",
+    "savedCondition": "Saved coat condition",
+    "lines": "Pets & services"
+  },
+  "err": {
+    "petNameRequired": "One of the pets is missing a name.",
+    "speciesRequired": "Choose dog or cat for each pet.",
+    "vetRequired": "One of the pets is missing a vet or clinic name.",
+    "tooManyLines": "You've reached the maximum number of pets for one appointment.",
+    "TooManyLines": "You've reached the maximum number of pets for one appointment.",
+    "NoRule": "We couldn't find a matching service for one of the pets. Please call the salon.",
+    "NotBookableOnline": "The service for one of the pets can only be booked by phone.",
+    "chooseService": "That service can't be booked online. Please call the salon.",
+    "codeNoChannel": "We couldn't send a code right now. Call the salon and we'll book it together.",
+    "codeFailed": "We couldn't send the code. You can try by email or call the salon.",
+    "PastCutoff": "This appointment can no longer be changed online. Please call the salon."
+  },
+  "cal": {
+    "vet": "Vet: {name}",
+    "vaccinesYes": "Has a vaccination certificate",
+    "vaccinesNo": "No vaccination certificate"
+  },
+  "catalog": {
+    "rules": "Which service for each pet",
+    "profile": "Salon details"
+  },
+  "customers": {
+    "pets": "Pets",
+    "vaccinesConfirmed": "Has a vaccination certificate (as of {date})"
+  },
+  "coat": {
+    "normal": "Normal",
+    "tangled": "A few tangles",
+    "matted": "Matted",
+    "very_matted": "Heavily matted",
+    "unclear": "Unclear"
+  },
+  "tag": {
+    "dog": "Dog",
+    "cat": "Cat",
+    "puppy": "Puppy",
+    "both": "Dog / Cat"
+  },
+  "service": {
+    "max": "You can book up to {n} pets in one appointment.",
+    "lineN": "Pet {n}",
+    "anotherTitle": "Bringing another pet? Choose its service"
+  },
+  "time": {
+    "pickedGone": "The time you chose ({when}) doesn't fit a booking with these pets. Here are the free times.",
+    "none": "No available times in the coming month. Please call the salon."
+  },
+  "settings": {
+    "booking": {
+      "gapMin": "Break between pets (minutes)",
+      "maxLines": "Maximum pets per appointment"
+    },
+    "whatsapp": {
+      "chatNumber": "Salon chat number"
+    }
+  },
+  "stats": {
+    "servicesNote": "Pets per service, for visits in this period.",
+    "count": "Pets",
+    "bookingsSplit": "{online} online · {owner} by the salon · {imported} imported"
+  },
+  "home": {
+    "eyebrow": "Grooming salon for dogs and cats",
+    "heroText": "Gentle, professional grooming, with an appointment you can book from your phone in under a minute.",
+    "sticker": "Dogs & cats",
+    "servicesIntro": "Tap + to book. Prices are \"from\"; the final price is set at the salon."
+  },
+  "services": {
+    "finalPrice": "Prices are \"from\" prices. The final price is set at the salon, based on size and coat condition."
+  },
+  "contact": {
+    "senderNote": "Messages to this number aren't read. For questions, message the salon's WhatsApp number or give us a call."
+  },
+  "products": {
+    "intro": "Order any product on WhatsApp and pick it up at the salon. No payment on the website.",
+    "orderByPhone": "To order, call the salon"
+  },
+  "gallery": {
+    "defaultAlt": "A photo from the salon's gallery"
+  },
+  "hours": {
+    "timeOffTitle": "Upcoming days and hours the salon is closed"
+  },
+  "inbox": {
+    "repliesHelp": "Messages customers sent to the automated number. They got a standard reply with the salon's chat number."
+  },
+  "book": {
+    "whatsappOutage": "WhatsApp messages are down right now. We'll send the code by email, or you can call the salon."
+  },
+  "code": {
+    "orCall": "or call the salon"
+  }
+}

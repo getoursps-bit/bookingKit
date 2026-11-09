@@ -4,13 +4,13 @@ import pg from "pg";
 import sharp from "sharp";
 import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
-import { flatten } from "../../src/i18n/flatten";
 import { DEFAULT_LOCALE, LOCALES, PACKS } from "../../src/i18n/languages.generated";
-import { CONTENT, MESSAGES } from "../../src/i18n/packs.generated";
+import { CONTENT } from "../../src/i18n/packs.generated";
+import { PETS, strings } from "./client";
 
 // The site's first language after the default one, if there is one; these tests take it as the "other" language.
 const OTHER = LOCALES.find((locale) => locale !== DEFAULT_LOCALE);
-const other = OTHER ? flatten(MESSAGES[OTHER]) : null;
+const other = OTHER ? strings(OTHER) : null;
 /** The text before a placeholder, for matching a message that carries a value. */
 const before = (text: string, placeholder: string) => text.split(placeholder)[0]!.trim();
 
@@ -103,8 +103,12 @@ async function chooseService(page: Page, service: string) {
   await expect(page.getByText(service, { exact: true })).toBeVisible();
 }
 
-/** Fills one pet's details on the details step with the keyboard: name, vet, and the vaccination certificate box. */
+/**
+ * Fills one pet's details on the details step with the keyboard: name, vet, and the vaccination certificate box.
+ * A client without the pets extension asks nothing about a line.
+ */
 async function fillPet(page: Page, index: number, name: string) {
+  if (!PETS) return;
   await page.locator(`#pet-${index}-name`).focus();
   await page.keyboard.type(name);
   await page.locator(`#pet-${index}-vet`).focus();
@@ -288,6 +292,7 @@ test("the code can be sent by email instead after 30 seconds", async ({ browser 
 });
 
 test("a landing page link for cats lists the cat services first", async ({ browser }) => {
+  test.skip(!PETS, "the dog or cat filter belongs to the pets extension");
   const page = await newCustomerPage(browser, "10.9.0.42");
   await page.goto("/go/book?species=cat");
   await expect(page).toHaveURL(/\/book\?species=cat/);
@@ -314,11 +319,12 @@ test("a service chosen on the site goes straight to the time, and its details ar
   await expect(page).toHaveURL(/step=service/);
   // No list of chosen services and no "another pet" choice.
   await expect(page.getByRole("heading", { name: "השירותים שבחרתם" })).toHaveCount(0);
-  await expect(page.getByRole("heading", { name: /עוד חיה/ })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: strings(DEFAULT_LOCALE)["service.anotherTitle"]! })).toHaveCount(0);
   await expect(page.getByRole("button", { name: /^הוספה/ })).toHaveCount(0);
   await chooseService(page, SMALL_DOG);
   await pressButton(page, "לקחת את המועד הזה");
   await expect(page).toHaveURL(/step=contact/);
+  if (!PETS) return void (await page.context().close());
   await expect(page.locator("#pet-0-vet")).toHaveAttribute("required", "");
   // The vaccination certificate is a yes or no, not a condition for booking.
   await expect(page.locator("#pet-0-vaccines")).not.toHaveAttribute("required", "");
@@ -392,6 +398,7 @@ test("the booking page falls back to the phone when no code can be sent", async 
 });
 
 test("with photo analysis on, a pet photo can be added and the suggestion corrected", async ({ browser }) => {
+  test.skip(!PETS, "pet photos belong to the pets extension");
   const who = customer();
   const page = await newCustomerPage(browser, who.address);
   await reachCode(page, who);
@@ -458,9 +465,11 @@ test("a visitor in the site's other language books in it and gets the code and m
   await axe(page);
   await pressButton(page, t["time.takeFirst"]);
   await expect(page).toHaveURL(step("contact"));
-  await page.getByLabel(t["pets.name"]).fill("Rex");
-  await page.getByLabel(t["details.vet"]).fill("Test Clinic");
-  await page.getByLabel(t["details.vaccines"]).check();
+  if (PETS) {
+    await page.getByLabel(t["pets.name"]!).fill("Rex");
+    await page.getByLabel(t["details.vet"]!).fill("Test Clinic");
+    await page.getByLabel(t["details.vaccines"]!).check();
+  }
   await page.getByLabel(t["contact.name"]).fill("Test Customer");
   await page.getByLabel(t["contact.phone"]).fill(who.local);
   await page.waitForTimeout(3_200);
