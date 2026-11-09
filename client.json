@@ -32,12 +32,13 @@
       "peach-ink": "#5a3b4a",
       "line": "#f3dce4",
       "line-strong": "#d9a7bc",
+      "field-line": "#8a6a78",
       "night": "#3a1f2b",
       "night-ink": "#f6cbd9",
       "night-line": "#9c6a82"
     },
-    "radius": { "card": "1.75rem" },
-    "shadows": { "card": "none", "float": "0 8px 24px rgb(178 58 107 / 0.1)", "lift": "none" },
+    "radius": { "card": "1.75rem", "control": "0.875rem", "tile": "1rem", "panel": "1.5rem", "pill": "999px" },
+    "shadows": { "card": "none", "float": "0 8px 24px color-mix(in srgb, var(--color-brand) 10%, transparent)", "lift": "none" },
     "appIcon": { "from": "#8d3a6c", "to": "#5e2147", "mark": "#fdeee2" }
   }
 }

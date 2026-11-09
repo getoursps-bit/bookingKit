@@ -99,16 +99,16 @@ const TINTS = [
   { bg: "bg-tint-mint", ink: "text-tint-mint-ink" },
   { bg: "bg-tint-lilac", ink: "text-tint-lilac-ink" },
 ];
-const SHAPES = ["blob", "blob-2", "rounded-full", "blob-3", "rounded-[28px]", "rounded-full"];
+const SHAPES = ["blob", "blob-2", "rounded-full", "blob-3", "rounded-card", "rounded-full"];
 const tintAt = (index: number) => TINTS[index % TINTS.length] ?? PINK;
 const shapeAt = (index: number) => SHAPES[index % SHAPES.length] ?? "blob";
 
 /** The photo mosaic: an arch, two rounded squares, a tall rounded block and a circle; five photos at most. */
 const MOSAIC = [
   "row-span-2 rounded-[110px_110px_28px_28px] md:rounded-[220px_220px_32px_32px]",
-  "rounded-[28px]",
-  "rounded-[28px] md:rounded-full",
-  "rounded-[28px] md:row-span-2 md:rounded-[32px_32px_220px_220px]",
+  "rounded-card",
+  "rounded-card md:rounded-full",
+  "rounded-card md:row-span-2 md:rounded-[32px_32px_220px_220px]",
   "rounded-full md:col-span-2 md:rounded-[32px]",
 ];
 
@@ -202,7 +202,7 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 rounded-[28px] bg-surface p-4 shadow-[var(--shadow-float)] md:max-w-[520px] md:gap-3.5 md:rounded-[32px] md:p-5">
+          <div className="flex flex-col gap-3 rounded-card bg-surface p-4 shadow-[var(--shadow-float)] md:max-w-[520px] md:gap-3.5 md:rounded-[32px] md:p-5">
             <div className={`flex items-center gap-3 ${free ? "justify-between" : "justify-end"}`}>
               {free ? (
                 <h2 id="free-title" className="text-lg md:text-xl">
@@ -292,7 +292,7 @@ export default async function HomePage() {
               const tint = tintAt(index);
               return (
                 <li key={service.id}>
-                  <article className="flex h-full items-center gap-3.5 rounded-[28px] bg-surface p-3 md:gap-4 md:rounded-[32px] md:p-4">
+                  <article className="flex h-full items-center gap-3.5 rounded-card bg-surface p-3 md:gap-4 md:rounded-[32px] md:p-4">
                     <span
                       aria-hidden="true"
                       className={`grid size-19 shrink-0 place-items-center ${tint.bg} ${tint.ink} ${shapeAt(index)} md:size-26`}
@@ -394,7 +394,7 @@ export default async function HomePage() {
                 return (
                   <li key={product.id} className="w-40 shrink-0 md:w-auto">
                     <article
-                      className={`flex h-full flex-col gap-2 rounded-[28px] p-3 md:gap-2.5 md:rounded-[32px] md:p-4 ${tintAt(index).bg}`}
+                      className={`flex h-full flex-col gap-2 rounded-card p-3 md:gap-2.5 md:rounded-[32px] md:p-4 ${tintAt(index).bg}`}
                     >
                       <span className="grid h-[130px] place-items-center overflow-hidden rounded-[22px] bg-surface/60 md:h-[190px] md:rounded-[26px]">
                         {imageUrl ? (
@@ -465,7 +465,7 @@ export default async function HomePage() {
         <section aria-labelledby="manage-title" id="manage" className="scroll-mt-20">
           <Link
             href={lp("/contact")}
-            className="flex h-full items-center justify-between gap-3 rounded-[28px] bg-brand p-5 text-brand-ink no-underline hover:bg-brand-strong hover:text-brand-ink md:flex-col md:items-start md:gap-6 md:rounded-[36px] md:p-8"
+            className="flex h-full items-center justify-between gap-3 rounded-card bg-brand p-5 text-brand-ink no-underline hover:bg-brand-strong hover:text-brand-ink md:flex-col md:items-start md:gap-6 md:rounded-[36px] md:p-8"
           >
             <span className="flex flex-col gap-1 md:gap-2">
               <h2 id="manage-title" className="text-xl text-brand-ink md:text-[30px]">

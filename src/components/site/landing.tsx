@@ -119,9 +119,9 @@ export async function Hero({
       </div>
       {imageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={imageUrl} alt="" className="h-64 w-full rounded-[28px] bg-placeholder object-cover md:h-[420px]" />
+        <img src={imageUrl} alt="" className="h-64 w-full rounded-card bg-placeholder object-cover md:h-[420px]" />
       ) : (
-        <div aria-hidden="true" className="hidden h-[420px] place-items-center rounded-[28px] bg-paper text-line-strong md:grid">
+        <div aria-hidden="true" className="hidden h-[420px] place-items-center rounded-card bg-paper text-line-strong md:grid">
           <Icon name="paw" size={140} strokeWidth={1.2} />
         </div>
       )}

@@ -33,12 +33,17 @@
   --color-peach-ink: #5a3b4a;
   --color-line: #f3dce4;
   --color-line-strong: #d9a7bc;
+  --color-field-line: #8a6a78;
   --color-night: #3a1f2b;
   --color-night-ink: #f6cbd9;
   --color-night-line: #9c6a82;
 
   --radius-card: 1.75rem;
+  --radius-control: 0.875rem;
+  --radius-tile: 1rem;
+  --radius-panel: 1.5rem;
+  --radius-pill: 999px;
   --shadow-card: none;
-  --shadow-float: 0 8px 24px rgb(178 58 107 / 0.1);
+  --shadow-float: 0 8px 24px color-mix(in srgb, var(--color-brand) 10%, transparent);
   --shadow-lift: none;
 }

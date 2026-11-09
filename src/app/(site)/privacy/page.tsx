@@ -17,7 +17,7 @@ export default async function PrivacyPage() {
   const { t, locale } = await getI18n();
   const { profile } = await getSiteData();
   return (
-    <article className="mx-auto max-w-3xl space-y-4 rounded-[20px] border border-line p-6 leading-relaxed md:rounded-[28px] md:p-10">
+    <article className="mx-auto max-w-3xl space-y-4 rounded-[20px] border border-line p-6 leading-relaxed md:rounded-card md:p-10">
       <h1 className="text-3xl font-bold md:text-4xl">{t("nav.privacy")}</h1>
       {locale === "en" ? (
         <English name={profile.name} phone={profile.phoneE164} />

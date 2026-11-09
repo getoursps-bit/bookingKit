@@ -52,4 +52,9 @@ describe("client.json", () => {
       });
     }
   }
+
+  it("field edges stand out from the field (3:1)", () => {
+    const { colors } = client.theme;
+    expect(contrast(colors["field-line"], colors.surface)).toBeGreaterThanOrEqual(3);
+  });
 });

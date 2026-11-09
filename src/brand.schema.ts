@@ -29,8 +29,9 @@ export const THEME_COLORS = {
   peach: "Small neutral labels, so they never compete with actions.",
   "peach-soft": "A lighter neutral.",
   "peach-ink": "Text on the neutral labels.",
-  line: "Card and field edges.",
+  line: "Card edges and dividers.",
   "line-strong": "A stronger edge.",
+  "field-line": "The edge of a form field. Needs 3:1 against surface, so the field can be seen.",
   night: "The footer.",
   "night-ink": "Text on the footer.",
   "night-line": "Lines on the footer.",
@@ -80,6 +81,14 @@ export const clientSchema = z.strictObject({
     radius: z.strictObject({
       /** Cards and photos. */
       card: length,
+      /** Form fields, choices and time slots. */
+      control: length,
+      /** Messages and the day tiles of the booking calendar. */
+      tile: length,
+      /** The drawer that slides in over the owner's calendar. */
+      panel: length,
+      /** Buttons and chips. */
+      pill: length,
     }),
     shadows: z.strictObject({ card: z.string().min(1), float: z.string().min(1), lift: z.string().min(1) }),
     /** The app icon: a two-colour gradient with the mark on it. */
