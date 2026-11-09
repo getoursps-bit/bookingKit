@@ -10,6 +10,7 @@ import { contract } from "./lang-contract";
 //   src/i18n/languages.generated.ts    the client's languages and what the code needs to know about each
 //   src/i18n/packs.generated.ts        their strings, starting content and date names (server and worker only)
 //   src/extensions.generated.ts        the extensions that are on
+//   src/extension-views.generated.ts   what those extensions show in pages
 //   languages/contract.json            what a language pack must hold, for whoever fills one
 // Tailwind and the bundler read these when the site is built, so they are
 // generated ahead and committed; a unit test fails when they drift apart.
@@ -149,11 +150,27 @@ export function extensionsTs(client: Client): string {
   ].join("\n");
 }
 
+/** The views of the extensions that are on and have any (extensions/<id>/views.tsx). */
+export function extensionViewsTs(client: Client): string {
+  const withViews = client.extensions.filter((id) => existsSync(path.join(ROOT, "extensions", id, "views.tsx")));
+  const name = (id: string) => id.replace(/-([a-z0-9])/g, (_, letter: string) => letter.toUpperCase());
+  return [
+    `// ${HEADER}`,
+    ...withViews.map((id) => `import ${name(id)} from "../extensions/${id}/views";`),
+    'import type { ExtensionViews } from "./extension/views";',
+    "",
+    "/** What the extensions that are on show in the core's pages. Pages only: the worker never loads this. */",
+    `export const VIEWS: readonly ExtensionViews[] = [${withViews.map(name).join(", ")}];`,
+    "",
+  ].join("\n");
+}
+
 /** Every generated file and what it should hold for this client. */
 export function generated(client: Client): Record<string, string> {
   const packs = Object.fromEntries(localesOf(client).map((code) => [code, readPack(code)]));
   return {
     "src/extensions.generated.ts": extensionsTs(client),
+    "src/extension-views.generated.ts": extensionViewsTs(client),
     "src/app/brand.css": brandCss(client),
     "src/i18n/languages.generated.ts": languagesTs(client, packs),
     "src/i18n/packs.generated.ts": packsTs(client, packs),

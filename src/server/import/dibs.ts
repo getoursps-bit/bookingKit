@@ -282,7 +282,7 @@ export async function applyImport(runId: number, db: Db = getPool()): Promise<Im
       const customer = await findOrCreateByPhone(row.phone, names.get(row.phone) ?? "לקוח", "import", client);
       const [service] = await query<{ price: number }>("select price_from_agorot as price from services where id = $1", [row.serviceId], client);
       const end = new Date(row.start.getTime() + row.duration * 60_000);
-      const lines = [{ petId: null, serviceId: row.serviceId, durationMin: row.duration, priceFromAgorot: service?.price ?? 0 }];
+      const lines = [{ serviceId: row.serviceId, durationMin: row.duration, priceFromAgorot: service?.price ?? 0 }];
       if (row.start >= run.freezeTime) {
         const result = await appointments.createConfirmed(
           { customerId: customer.id, start: row.start, end, lines, createdBy: "import", dibsRef: row.ref, notes: row.notes, source: { dibs: true } },

@@ -1,11 +1,11 @@
-import { type PetTag } from "@/components/site/cards";
 import { Duration } from "@/components/site/values";
 import { Icon } from "@/components/ui/Icon";
 import { pick } from "@/i18n/content";
 import { formatPrice } from "@/i18n/format";
 import { getI18n } from "@/i18n/server";
 import type { Service } from "@/server/repos/catalog";
-import { MULTI_PET_BOOKING } from "@/server/booking/draft";
+import type { Tags } from "@/server/serviceTags";
+import { MULTI_LINE_BOOKING } from "@/server/booking/draft";
 import { FormSecrets } from "./parts";
 import { SubmitButton } from "./SubmitButton";
 
@@ -15,35 +15,32 @@ const ACTION = "/api/booking/draft";
  * Step 1: the services to choose from; a press goes on to the time step. The
  * one chosen earlier is marked. With multi-pet booking on, the chosen ones are
  * listed first, each with its length and "from" price, and the list below
- * adds a service for one more pet. `species` narrows the list for a dog or
- * cat landing page.
+ * adds one more service. `narrow` filters the list by an extension's
+ * service tags, for a landing page.
  */
 export async function ServiceStep({
   chosen,
   services,
   tags,
   csrf,
-  maxPets,
-  species,
+  maxLines,
+  narrow,
 }: {
   chosen: Service[];
   services: Service[];
-  tags: Map<number, PetTag>;
+  tags: Tags;
   csrf: string;
-  maxPets: number;
-  species?: "dog" | "cat";
+  maxLines: number;
+  /** A value of the extension's service filter, from the address ("dog"). */
+  narrow?: string;
 }) {
   const { t, locale, lp } = await getI18n();
-  const multi = MULTI_PET_BOOKING;
-  const full = multi && chosen.length >= maxPets;
+  const multi = MULTI_LINE_BOOKING;
+  const full = multi && chosen.length >= maxLines;
   // The first-time wording ("Choose") when each press replaces the choice.
   const adding = multi && chosen.length > 0;
-  const forSpecies = (service: Service) => {
-    const tag = tags.get(service.id);
-    if (!species || !tag || tag === "both") return true;
-    return species === "cat" ? tag === "cat" : tag !== "cat";
-  };
-  const shown = services.filter(forSpecies);
+  const shown = tags.narrow(services, narrow);
+  const narrowed = Boolean(narrow && tags.param?.values.includes(narrow));
   const facts = (service: Service) => (
     <span className="flex flex-wrap items-center gap-x-2 text-sm text-ink-muted">
       <span className="inline-flex items-center gap-1">
@@ -108,14 +105,14 @@ export async function ServiceStep({
       ) : null}
 
       {full ? (
-        <p className="text-ink-muted">{t("pets.max", { n: maxPets })}</p>
+        <p className="text-ink-muted">{t("pets.max", { n: maxLines })}</p>
       ) : (
         <section aria-labelledby="services-choose" className="flex flex-col gap-3">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h2 id="services-choose" className="text-lg font-bold">
               {adding ? t("service.anotherTitle") : t("service.chooseTitle")}
             </h2>
-            {species ? (
+            {narrowed ? (
               <a href={lp("/book?step=service")} className="text-sm font-semibold text-brand-strong">
                 {t("service.showAll")}
               </a>
@@ -125,7 +122,7 @@ export async function ServiceStep({
             {shown.map((service) => {
               const name = pick(locale, service, "name");
               const includes = pick(locale, service, "includes");
-              const tag = tags.get(service.id);
+              const tag = tags.label(service);
               const current = !multi && chosen.some((candidate) => candidate.id === service.id);
               return (
                 <li
@@ -135,7 +132,7 @@ export async function ServiceStep({
                 >
                   <span className="min-w-0 flex-1">
                     <span className="block font-bold">{name}</span>
-                    {tag ? <span className="block text-sm text-ink-muted">{t(`tag.${tag}`)}</span> : null}
+                    {tag ? <span className="block text-sm text-ink-muted">{tag}</span> : null}
                     {includes ? <span className="block text-sm text-ink-muted">{includes}</span> : null}
                     {facts(service)}
                   </span>

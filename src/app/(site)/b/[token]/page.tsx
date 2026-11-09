@@ -1,7 +1,9 @@
+import { Fragment } from "react";
 import { cookies } from "next/headers";
+import { brand } from "@/brand";
+import { extensionViews } from "@/extension/views";
 import { Alert, errorText } from "@/components/booking/parts";
 import { SubmitButton } from "@/components/booking/SubmitButton";
-import { PetPhotos } from "@/components/booking/PetPhotos";
 import { TimePicker } from "@/components/booking/TimePicker";
 import { BookButton } from "@/components/site/landing";
 import { PageHeader } from "@/components/site/PageHeader";
@@ -65,7 +67,7 @@ export default async function ManagePage({
   const csrf = (await cookies()).get(CSRF_COOKIE)?.value ?? "";
   const settings = await getSettings();
   const { appointment } = view;
-  const total = view.pets.reduce((sum, pet) => sum + pet.priceFromAgorot, 0);
+  const total = view.lines.reduce((sum, line) => sum + line.priceFromAgorot, 0);
   const error = errorText(t, search.error);
   const done = search.done && DONE[search.done] ? t(DONE[search.done]!) : null;
   const tokenField = <input type="hidden" name="token" value={token} />;
@@ -150,21 +152,21 @@ export default async function ManagePage({
               <dt className="mb-2 text-sm text-ink-muted">{t("manage.pets")}</dt>
               <dd>
                 <ul className="flex flex-col gap-2">
-                  {view.pets.map((pet, index) => (
+                  {view.lines.map((line, index) => (
                     <li key={index} className="flex items-center gap-3 rounded-2xl bg-paper p-3">
-                      <Icon name="paw" className="text-brand" />
+                      <Icon name={brand.mark} className="text-brand" />
                       <span className="flex-1">
-                        {pet.name ? <span className="font-bold">{pet.name} · </span> : null}
-                        {pet.serviceName}
+                        {line.label ? <span className="font-bold">{line.label} · </span> : null}
+                        {line.serviceName}
                       </span>
                       <span className="text-sm text-ink-muted">
                         {t("manage.priceFrom")}
-                        <Price agorot={pet.priceFromAgorot} />
+                        <Price agorot={line.priceFromAgorot} />
                       </span>
                     </li>
                   ))}
                 </ul>
-                {view.pets.length > 1 ? (
+                {view.lines.length > 1 ? (
                   <p className="mt-2 text-end text-sm font-semibold">
                     <Price agorot={total} />
                   </p>
@@ -208,7 +210,10 @@ export default async function ManagePage({
 
       {picker}
 
-      {view.photosOn ? <PetPhotos token={token} csrf={csrf} pets={view.pets} /> : null}
+      {/* What the extensions add under the booking, such as a pet's photo. */}
+      {extensionViews().map((views) =>
+        views.manage ? <Fragment key={views.id}>{views.manage({ token, csrf, appointment })}</Fragment> : null,
+      )}
 
       {appointment.status === "confirmed" ? (
         <section aria-labelledby="messages-title" className="card mt-8 p-5">

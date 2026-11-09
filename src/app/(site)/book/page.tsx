@@ -5,23 +5,22 @@ import { ContactStep } from "@/components/booking/ContactStep";
 import { Alert, errorText, Progress, type Step } from "@/components/booking/parts";
 import { ServiceStep } from "@/components/booking/ServiceStep";
 import { TimePicker } from "@/components/booking/TimePicker";
-import { petTags } from "@/components/site/cards";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Phone } from "@/components/site/values";
 import { Icon } from "@/components/ui/Icon";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
 import { isolate } from "@/i18n/t";
-import { decodeDraft, DRAFT_COOKIE, DraftPet } from "@/server/booking/draft";
+import { decodeDraft, DRAFT_COOKIE } from "@/server/booking/draft";
 import { getWeek } from "@/server/booking/service";
-import { speciesFor } from "@/server/booking/serviceRules";
 import { getConfig } from "@/server/config";
 import { getFeatures } from "@/server/features";
 import { displayPhone, phoneLink } from "@/server/links";
-import { listServiceRules, listServices } from "@/server/repos/catalog";
+import { listServices } from "@/server/repos/catalog";
 import { getSettings } from "@/server/repos/settings";
 import { CSRF_COOKIE, formTimestamp } from "@/server/security";
 import { pageMetadata } from "@/server/seo";
+import { serviceTags } from "@/server/serviceTags";
 import { getSiteData } from "@/server/site";
 import { formatLocal, localDateOf } from "@/server/time";
 
@@ -39,7 +38,10 @@ function secondsSince(ms: number | null): number | null {
   return ms === null ? null : Math.floor((Date.now() - ms) / 1000);
 }
 
-type Search = { step?: string; date?: string; error?: string; cancelled?: string; sent?: string; species?: string };
+type Search = { step?: string; date?: string; error?: string; cancelled?: string; sent?: string } & Record<
+  string,
+  string | undefined
+>;
 
 /**
  * The four booking steps as server-rendered pages. Progress lives in a signed
@@ -85,7 +87,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
   if (step !== (search.step ?? "service") && search.step) redirect(lp(`/book?step=${step}`));
 
   // The chosen services, in order; one no longer offered drops out.
-  const [services, rules] = await Promise.all([listServices({ activeOnly: true }), listServiceRules()]);
+  const [services, tags] = await Promise.all([listServices({ activeOnly: true }), serviceTags(locale)]);
   const chosen = draft.serviceIds.flatMap((id) => services.filter((service) => service.id === id));
 
   const error = errorText(t, search.error);
@@ -131,10 +133,10 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
         <ServiceStep
           chosen={chosen}
           services={services}
-          tags={petTags(rules)}
+          tags={tags}
           csrf={csrf}
-          maxPets={settings["booking.maxPets"]}
-          species={search.species === "cat" || search.species === "dog" ? search.species : undefined}
+          maxLines={settings["booking.maxLines"]}
+          narrow={tags.param ? search[tags.param.name] : undefined}
         />
       </>
     );
@@ -219,10 +221,10 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
       pets: names.join(", "),
       when: formatLocal(new Date(draft.start!), "EEEE dd/MM HH:mm", locale),
     });
-    const pets = draft.serviceIds.map((id, index) => ({
+    const lines = draft.serviceIds.map((serviceId, index) => ({
+      serviceId,
       serviceName: names[index]!,
-      speciesOptions: speciesFor(id, rules),
-      typed: draft.pets[index] ?? DraftPet.parse({}),
+      typed: draft.details[index] ?? {},
     }));
     return (
       <>
@@ -232,7 +234,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
           csrf={csrf}
           renderedAt={formTimestamp(secret)}
           summary={summary}
-          pets={pets}
+          lines={lines}
           errorField={errorField}
           emailRequired={!features.whatsappMessages}
         />

@@ -19,7 +19,7 @@ const SETTINGS_SCHEMA = {
   "booking.bufferMin": minutes(120).default(10),
   "booking.noticeMin": minutes(7 * 24 * 60).default(120),
   "booking.horizonDays": z.number().int().min(1).max(365).default(30),
-  "booking.maxPets": z.number().int().min(1).max(10).default(3),
+  "booking.maxLines": z.number().int().min(1).max(10).default(3),
   "booking.cutoffHours": z.number().int().min(0).max(168).default(12),
   "booking.holdMin": z.number().int().min(1).max(60).default(10),
   "ai.photo": z.boolean().default(false),

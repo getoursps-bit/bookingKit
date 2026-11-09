@@ -17,9 +17,12 @@ export type Appointment = {
   notes: string | null;
 };
 
-/** One pet's line on a booking, copied from the service at booking time. */
+/**
+ * One line of a booking: a service, with its length and price copied at
+ * booking time. The table is named appointment_pets and has a pet_id column
+ * for the pets extension, which fills it itself; the core never reads it.
+ */
 export type AppointmentLine = {
-  petId: number | null;
   serviceId: number;
   durationMin: number;
   priceFromAgorot: number;
@@ -81,7 +84,7 @@ export async function getAppointment(id: number, db?: Db): Promise<Appointment |
 
 export async function listLines(appointmentId: number, db?: Db): Promise<AppointmentLine[]> {
   return query<AppointmentLine>(
-    `select pet_id::int as "petId", service_id::int as "serviceId", duration_min as "durationMin",
+    `select service_id::int as "serviceId", duration_min as "durationMin",
        price_from_agorot as "priceFromAgorot"
      from appointment_pets where appointment_id = $1 order by position`,
     [appointmentId],
@@ -124,9 +127,9 @@ async function insert(
       );
       for (const [index, line] of input.lines.entries()) {
         await query(
-          `insert into appointment_pets (appointment_id, position, pet_id, service_id, duration_min, price_from_agorot)
-           values ($1, $2, $3, $4, $5, $6)`,
-          [row!.id, index + 1, line.petId, line.serviceId, line.durationMin, line.priceFromAgorot],
+          `insert into appointment_pets (appointment_id, position, service_id, duration_min, price_from_agorot)
+           values ($1, $2, $3, $4, $5)`,
+          [row!.id, index + 1, line.serviceId, line.durationMin, line.priceFromAgorot],
           client,
         );
       }

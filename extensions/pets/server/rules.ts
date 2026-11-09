@@ -1,5 +1,51 @@
 import { z } from "zod";
-import type { Service, ServiceRule } from "../repos/catalog";
+import { type Db, query, withTransaction } from "@/server/db";
+import { writeAudit } from "@/server/repos/audit";
+import type { Service } from "@/server/repos/catalog";
+
+// Which service each kind and size of pet gets: the owner's rules, and the
+// pure functions that read them.
+
+export type Species = "dog" | "cat";
+export type AgeGroup = "young" | "adult";
+export type WeightGroup = "small" | "large" | "unknown";
+export type PetRequest = "groom" | "nails";
+
+export type ServiceRule = {
+  id: number;
+  species: Species;
+  ageGroup: AgeGroup | null;
+  weightGroup: WeightGroup | null;
+  request: PetRequest;
+  serviceId: number;
+};
+
+type Writer = { staffId: number | null; db?: Db };
+
+export async function listServiceRules(db?: Db): Promise<ServiceRule[]> {
+  return query<ServiceRule>(
+    `select id::int, species, age_group as "ageGroup", weight_group as "weightGroup", request,
+       service_id::int as "serviceId"
+     from service_rules order by id`,
+    [],
+    db,
+  );
+}
+
+export async function setServiceRule(rule: Omit<ServiceRule, "id">, { staffId, db }: Writer): Promise<void> {
+  await withTransaction(async (client) => {
+    await query(
+      `insert into service_rules (species, age_group, weight_group, request, service_id)
+       values ($1, $2, $3, $4, $5)
+       on conflict (species, age_group, weight_group, request) do update set service_id = excluded.service_id`,
+      [rule.species, rule.ageGroup, rule.weightGroup, rule.request, rule.serviceId],
+      client,
+    );
+    await writeAudit(client, { staffId, actor: "staff", entity: "service_rules", action: "set", after: rule });
+  }, db);
+}
+
+
 
 /**
  * What the customer tells us about one pet. Each pet asks for one thing:

@@ -1,17 +1,17 @@
 import { SubmitButton } from "@/components/booking/SubmitButton";
 import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
-import type { MessageKey } from "@/i18n/t";
 import { COAT_CONDITIONS } from "@/server/ai/types";
-import type { BookingView } from "@/server/booking/flow";
+import type { PetPhotoLine } from "../server/photos";
+import { say } from "../server/strings";
 
 /**
  * Optional pet photos on the private link. Each pet gets one; once analysed,
  * the suggestion is shown to accept or correct. Photos are never required and
  * nothing here changes the booking.
  */
-export async function PetPhotos({ token, csrf, pets }: { token: string; csrf: string; pets: BookingView["pets"] }) {
-  const { t } = await getI18n();
+export async function PetPhotos({ token, csrf, pets }: { token: string; csrf: string; pets: PetPhotoLine[] }) {
+  const t = say((await getI18n()).t);
   const named = pets.filter((pet): pet is typeof pet & { petId: number } => pet.petId !== null);
   if (named.length === 0) return null;
   return (
@@ -45,7 +45,7 @@ export async function PetPhotos({ token, csrf, pets }: { token: string; csrf: st
                   <select name="condition" defaultValue={pet.suggestion.condition} className="input">
                     {COAT_CONDITIONS.map((condition) => (
                       <option key={condition} value={condition}>
-                        {t(`coat.${condition}` as MessageKey)}
+                        {t(`coat.${condition}`)}
                       </option>
                     ))}
                   </select>
@@ -61,7 +61,7 @@ export async function PetPhotos({ token, csrf, pets }: { token: string; csrf: st
             </form>
           ) : pet.coatCondition ? (
             <p className="text-sm">
-              {[pet.breed, `${t("manage.savedCondition")}: ${t(`coat.${pet.coatCondition}` as MessageKey)}`]
+              {[pet.breed, `${t("manage.savedCondition")}: ${t(`coat.${pet.coatCondition}`)}`]
                 .filter(Boolean)
                 .join(" · ")}
             </p>

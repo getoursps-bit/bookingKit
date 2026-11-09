@@ -1,3 +1,5 @@
+import { Fragment, type ReactNode } from "react";
+import { extensionViews } from "@/extension/views";
 import { Phone } from "@/components/site/values";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
@@ -19,18 +21,29 @@ export default async function PrivacyPage() {
   const { t, locale } = await getI18n();
   const { profile } = await getSiteData();
   // Written for Hebrew and English so far; any other language reads the default one.
-  const Text = BODIES[locale] ?? BODIES[DEFAULT_LOCALE] ?? Hebrew;
+  const written = BODIES[locale] ? locale : BODIES[DEFAULT_LOCALE] ? DEFAULT_LOCALE : "he";
+  const Text = BODIES[written] ?? Hebrew;
+  // What each extension adds to the notice's lists, in the language the notice is written in.
+  const extra = (part: Part) => {
+    const added = extensionViews().flatMap((views) => {
+      const items = views.privacy?.({ part, language: written });
+      return items ? [<Fragment key={views.id}>{items}</Fragment>] : [];
+    });
+    return added.length > 0 ? added : null;
+  };
   return (
     <article className="mx-auto max-w-3xl space-y-4 rounded-[20px] border border-line p-6 leading-relaxed md:rounded-card md:p-10">
       <h1 className="text-3xl font-bold md:text-4xl">{t("nav.privacy")}</h1>
-      <Text name={pick(locale, profile, "name")} phone={profile.phoneE164} />
+      <Text name={pick(locale, profile, "name")} phone={profile.phoneE164} extra={extra} />
     </article>
   );
 }
 
-type Body = { name: string; phone: string | null };
+type Part = "collected" | "shared" | "kept";
+/** `extra` gives what the extensions add to one of the lists, or null when they add nothing. */
+type Body = { name: string; phone: string | null; extra: (part: Part) => ReactNode };
 
-function Hebrew({ name, phone }: Body) {
+function Hebrew({ name, phone, extra }: Body) {
   return (
     <>
       <p>
@@ -41,8 +54,7 @@ function Hebrew({ name, phone }: Body) {
       <h2 className="pt-2 text-xl font-bold md:text-2xl">איזה מידע נאסף</h2>
       <ul className="list-disc space-y-1 ps-6">
         <li>שם ומספר טלפון. כתובת דוא&quot;ל, אם בחרתם למסור אותה.</li>
-        <li>פרטי חיית המחמד: שם, סוג, גזע, גיל ומשקל משוער, והערות שכתבתם.</li>
-        <li>תמונה של חיית המחמד, אם בחרתם להעלות אחת.</li>
+        {extra("collected")}
         <li>פרטי התורים: מועד, שירותים, ביטולים ושינויים.</li>
         <li>מאיזה קמפיין הגעתם לאתר (למשל קישור מאינסטגרם), אם הגעתם דרך קישור כזה.</li>
       </ul>
@@ -60,17 +72,14 @@ function Hebrew({ name, phone }: Body) {
           לישראל.
         </li>
         <li>הודעות דוא&quot;ל, אם נדרשו, נשלחות דרך ספק דוא&quot;ל שעשוי לעבד את הכתובת מחוץ לישראל.</li>
-        <li>
-          אם המספרה הפעילה ניתוח תמונות בבינה מלאכותית, התמונה ופרטי החיה (בלי שם ובלי טלפון) נשלחים לספק הבינה
-          המלאכותית לצורך הכנת הטיפול בלבד. המספרה רשאית לכבות את השירות בכל עת.
-        </li>
+        {extra("shared")}
         <li>שאר המידע נשמר בשרת של המספרה.</li>
       </ul>
 
       <h2 className="pt-2 text-xl font-bold md:text-2xl">כמה זמן המידע נשמר</h2>
       <ul className="list-disc space-y-1 ps-6">
         <li>קודי אימות נמחקים אחרי יום אחד.</li>
-        <li>פרטי לקוח, חיות ותורים נשמרים כל עוד אתם לקוחות המספרה, או עד שתבקשו למחוק אותם.</li>
+        {extra("kept") ?? <li>פרטי לקוח ותורים נשמרים כל עוד אתם לקוחות המספרה, או עד שתבקשו למחוק אותם.</li>}
       </ul>
 
       <h2 className="pt-2 text-xl font-bold md:text-2xl">עיון, תיקון ומחיקה</h2>
@@ -95,7 +104,7 @@ function Hebrew({ name, phone }: Body) {
   );
 }
 
-function English({ name, phone }: Body) {
+function English({ name, phone, extra }: Body) {
   return (
     <>
       <p>
@@ -106,8 +115,7 @@ function English({ name, phone }: Body) {
       <h2 className="pt-2 text-xl font-bold md:text-2xl">What we collect</h2>
       <ul className="list-disc space-y-1 ps-6">
         <li>Your name and phone number. Your email address, if you choose to give it.</li>
-        <li>Your pet&apos;s details: name, species, breed, age, rough weight, and any notes you write.</li>
-        <li>A photo of your pet, if you choose to upload one.</li>
+        {extra("collected")}
         <li>Your appointments: times, services, cancellations and changes.</li>
         <li>Which campaign brought you to the site (for example an Instagram link), if you came through one.</li>
       </ul>
@@ -125,17 +133,14 @@ function English({ name, phone }: Body) {
           text, including on servers outside Israel.
         </li>
         <li>Emails, when needed, are sent through an email provider that may handle your address outside Israel.</li>
-        <li>
-          If the salon has turned on AI photo analysis, the photo and your pet&apos;s details (without your name or
-          phone) are sent to the AI provider only to prepare the grooming. The salon can turn this off at any time.
-        </li>
+        {extra("shared")}
         <li>Everything else is kept on the salon&apos;s server.</li>
       </ul>
 
       <h2 className="pt-2 text-xl font-bold md:text-2xl">How long it is kept</h2>
       <ul className="list-disc space-y-1 ps-6">
         <li>Verification codes are deleted after one day.</li>
-        <li>Customer, pet and appointment details are kept while you are a customer, or until you ask us to delete them.</li>
+        {extra("kept") ?? <li>Customer and appointment details are kept while you are a customer, or until you ask us to delete them.</li>}
       </ul>
 
       <h2 className="pt-2 text-xl font-bold md:text-2xl">Seeing, correcting and deleting</h2>

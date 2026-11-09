@@ -7,28 +7,19 @@ import { signValue, verifySignedValue } from "../security";
 export const DRAFT_COOKIE = "bk_book";
 
 /**
- * Booking several pets at once, each with its own service. Off for now (owner,
- * 2026-10-30): choosing a service goes straight to the time step, one pet per
- * booking. The rest of the flow still handles several pets, so turning this on
- * brings back the "bringing another pet?" list.
+ * Booking several services at once, one line each. Off for now: choosing a
+ * service goes straight to the time step, one line per booking. The rest of
+ * the flow still handles several lines, so turning this on brings back the
+ * "add another" list.
  */
-export const MULTI_PET_BOOKING = false;
+export const MULTI_LINE_BOOKING = false;
 export const DRAFT_MAX_AGE_S = 2 * 60 * 60;
 
-/** What was typed for one pet on the details step, kept so an error does not empty the form. */
-export const DraftPet = z.object({
-  species: z.enum(["dog", "cat"]).nullable().default(null),
-  name: z.string().max(40).default(""),
-  breed: z.string().max(60).default(""),
-  vetName: z.string().max(80).default(""),
-  vaccinesConfirmed: z.boolean().default(false),
-});
-export type DraftPet = z.output<typeof DraftPet>;
-
 const Draft = z.object({
-  /** The chosen service for each pet, in order. */
+  /** The chosen service of each line, in order. */
   serviceIds: z.array(z.number().int().positive()).max(10).default([]),
-  pets: z.array(DraftPet).max(10).default([]),
+  /** What each extension was told about each line on the details step, by extension id; kept so an error does not empty the form. */
+  details: z.array(z.record(z.string(), z.unknown())).max(10).default([]),
   /** The chosen start, as an ISO instant. */
   start: z.string().nullable().default(null),
   /** A start picked before the services (the home page's first free time), offered on the time step. */

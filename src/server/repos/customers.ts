@@ -1,5 +1,5 @@
+import { extensions } from "@/extension/registry";
 import { type Db, query, withTransaction } from "../db";
-import type { AgeGroup, Species, WeightGroup } from "./catalog";
 import type { Locale } from "@/i18n/locales";
 
 export type Customer = {
@@ -12,27 +12,8 @@ export type Customer = {
   erasedAt: Date | null;
 };
 
-export type Pet = {
-  id: number;
-  customerId: number;
-  name: string;
-  species: Species;
-  breed: string | null;
-  ageGroup: AgeGroup;
-  weightGroup: WeightGroup | null;
-  coatNotes: string | null;
-  temperamentNote: string | null;
-  /** The vet or clinic the customer named when booking. */
-  vetName: string | null;
-  /** When the customer last said the pet has a vaccination certificate; null for no. */
-  vaccinesConfirmedAt: Date | null;
-};
-
 const CUSTOMER_COLUMNS = `id::int, display_name as "displayName", phone_e164 as "phoneE164", notes,
   no_show_count as "noShowCount", source, erased_at as "erasedAt"`;
-const PET_COLUMNS = `id::int, customer_id::int as "customerId", name, species, breed, age_group as "ageGroup",
-  weight_group as "weightGroup", coat_notes as "coatNotes", temperament_note as "temperamentNote",
-  vet_name as "vetName", vaccines_confirmed_at as "vaccinesConfirmedAt"`;
 
 export async function getCustomer(id: number, db?: Db): Promise<Customer | null> {
   const [row] = await query<Customer>(`select ${CUSTOMER_COLUMNS} from customers where id = $1`, [id], db);
@@ -148,49 +129,13 @@ export async function markVerified(kind: "phone" | "email", value: string, db?: 
   );
 }
 
-export async function listPets(customerId: number, db?: Db): Promise<Pet[]> {
-  return query<Pet>(`select ${PET_COLUMNS} from pets where customer_id = $1 order by id`, [customerId], db);
-}
-
-/** Creates a pet, or updates one that belongs to the same customer. */
-export async function upsertPet(pet: Omit<Pet, "id"> & { id?: number }, db?: Db): Promise<Pet> {
-  const params = [
-    pet.customerId,
-    pet.name,
-    pet.species,
-    pet.breed,
-    pet.ageGroup,
-    pet.weightGroup,
-    pet.coatNotes,
-    pet.temperamentNote,
-    pet.vetName,
-    pet.vaccinesConfirmedAt,
-  ];
-  const [saved] = pet.id
-    ? await query<Pet>(
-        `update pets set name = $2, species = $3, breed = $4, age_group = $5, weight_group = $6, coat_notes = $7,
-           temperament_note = $8, vet_name = $9, vaccines_confirmed_at = $10
-         where id = $11 and customer_id = $1 returning ${PET_COLUMNS}`,
-        [...params, pet.id],
-        db,
-      )
-    : await query<Pet>(
-        `insert into pets (customer_id, name, species, breed, age_group, weight_group, coat_notes, temperament_note,
-           vet_name, vaccines_confirmed_at)
-         values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning ${PET_COLUMNS}`,
-        params,
-        db,
-      );
-  if (!saved) throw new Error(`Pet ${pet.id} not found for this customer`);
-  return saved;
-}
-
 /** Moves everything from `dropId` onto `keepId`, then deletes `dropId`. */
 export async function merge(keepId: number, dropId: number, db?: Db): Promise<void> {
   if (keepId === dropId) return;
   await withTransaction(async (client) => {
     const tables = [
-      "pets",
+      // What the extensions hold about a customer moves with them.
+      ...extensions().flatMap((extension) => extension.customerData?.tables ?? []),
       "appointments",
       "consents",
       "trusted_devices",
@@ -232,12 +177,14 @@ export async function exportAll(id: number, db?: Db) {
     [id],
     db,
   );
-  const pets = await listPets(id, db);
+  // Each extension adds what it holds, under its own keys.
+  const extra: Record<string, unknown> = {};
+  for (const extension of extensions()) Object.assign(extra, await extension.customerData?.export?.(id, db));
   const appointments = await query(
     `select a.id::int, a.starts_at, a.ends_at, a.status, a.notes, a.created_at,
-         coalesce(json_agg(json_build_object('service_id', p.service_id, 'pet_id', p.pet_id,
+         coalesce(json_agg(json_build_object('service_id', p.service_id,
            'duration_min', p.duration_min, 'price_from_agorot', p.price_from_agorot)
-           order by p.position) filter (where p.position is not null), '[]') as pets
+           order by p.position) filter (where p.position is not null), '[]') as lines
        from appointments a left join appointment_pets p on p.appointment_id = a.id
        where a.customer_id = $1 group by a.id order by a.starts_at`,
     [id],
@@ -248,7 +195,7 @@ export async function exportAll(id: number, db?: Db) {
     [id],
     db,
   );
-  return { customer, contacts, pets, appointments, consents };
+  return { customer, contacts, ...extra, appointments, consents };
 }
 
 /**
@@ -264,7 +211,8 @@ export async function erase(id: number, db?: Db): Promise<void> {
       [id],
       client,
     );
-    for (const table of ["customer_contacts", "pets", "trusted_devices", "push_subscriptions", "consents"]) {
+    const extra = extensions().flatMap((extension) => extension.customerData?.tables ?? []);
+    for (const table of ["customer_contacts", ...extra, "trusted_devices", "push_subscriptions", "consents"]) {
       await query(`delete from ${table} where customer_id = $1`, [id], client);
     }
     await query("update appointments set notes = null, source = '{}'::jsonb where customer_id = $1", [id], client);

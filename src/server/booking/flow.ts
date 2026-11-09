@@ -2,7 +2,6 @@
 // phone (by code, or by a trusted device), confirm. Also what the private-link
 // page reads and the consent switch it offers.
 import type { Locale } from "../../i18n/locales";
-import { getAi } from "../ai";
 import { getFeatures } from "../features";
 import { z } from "zod";
 import { type Db, getPool, query, withTransaction } from "../db";
@@ -16,6 +15,7 @@ import { route } from "../notify/routing";
 import { monthlyCount } from "../repos/outbox";
 import { getSettings } from "../repos/settings";
 import { type BookingError, type Confirmed, confirmBooking, type Context, requestHold } from "./service";
+import { describeLines } from "../lines";
 import { translatedSql } from "../translation/content";
 
 type HoldInput = Parameters<typeof requestHold>[0];
@@ -153,33 +153,17 @@ export async function verifyAndConfirm(
   return { ok: true, confirmed: confirmed.booking, device };
 }
 
-/** Pets saved on the customer a trusted device belongs to, for the first step. */
-export async function savedPetsFor(deviceToken: string | undefined, db: Db = getPool()) {
-  const customerId = await resolveTrustedDevice(deviceToken, db);
-  if (customerId === null) return null;
-  const customer = await customers.getCustomer(customerId, db);
-  if (!customer || customer.erasedAt) return null;
-  return { customer, pets: await customers.listPets(customerId, db) };
-}
-
 export type BookingView = {
   appointment: Appointment;
   customerName: string;
-  pets: {
-    petId: number | null;
-    name: string | null;
+  lines: {
+    /** A name an extension gives the line, such as a pet's name. */
+    label: string | null;
     /** The service name in the page's language. */
     serviceName: string;
     durationMin: number;
     priceFromAgorot: number;
-    hasPhoto: boolean;
-    /** The photo analysis, until the customer accepts or corrects it. */
-    suggestion: { breed: string | null; coat: string | null; condition: string } | null;
-    breed: string | null;
-    coatCondition: string | null;
   }[];
-  /** Photos can be added: storage and photo analysis are both on. */
-  photosOn: boolean;
   /** Before the cutoff the customer may move or cancel online; after it, only call. */
   canChange: boolean;
   messagesOn: boolean;
@@ -208,20 +192,18 @@ export async function bookingView(token: string, ctx: Context = {}): Promise<Boo
   if (!appointment) return null;
   const settings = await getSettings(db);
   const customer = await customers.getCustomer(appointment.customerId, db);
-  const pets = await query<BookingView["pets"][number]>(
-    `select ap.pet_id::int as "petId", p.name,
+  const rows = await query<BookingView["lines"][number] & { position: number }>(
+    `select ap.position, null as label,
        ${translatedSql("service", "name", "s.id", "s.name_he", ctx.locale)} as "serviceName", ap.duration_min as "durationMin",
-       ap.price_from_agorot as "priceFromAgorot", p.breed, p.coat_condition as "coatCondition",
-       exists (select 1 from pet_photos ph where ph.pet_id = ap.pet_id and ph.appointment_id = ap.appointment_id) as "hasPhoto",
-       (select j.result from ai_jobs j where j.kind = 'photo' and j.status = 'done'
-          and j.appointment_id = ap.appointment_id and j.pet_id = ap.pet_id) as suggestion
+       ap.price_from_agorot as "priceFromAgorot"
      from appointment_pets ap
      join services s on s.id = ap.service_id
-     left join pets p on p.id = ap.pet_id
      where ap.appointment_id = $1 order by ap.position`,
     [appointment.id],
     db,
   );
+  const described = await describeLines([appointment.id], ctx.locale, db);
+  const lines = rows.map(({ position, ...line }) => ({ ...line, label: described(appointment.id, position).label }));
   const [consent] = await query<{ on: boolean }>(
     `select coalesce((select revoked_at is null from consents
        where customer_id = $1 and purpose = 'appointment_messages'
@@ -233,10 +215,8 @@ export async function bookingView(token: string, ctx: Context = {}): Promise<Boo
   return {
     appointment,
     customerName: customer?.displayName ?? "",
-    pets,
+    lines,
     canChange: appointment.status === "confirmed" && now.getTime() < cutoff,
-    photosOn:
-      appointment.status === "confirmed" && appointment.end > now && settings["ai.photo"] && getFeatures().photoUploads && getAi() !== null,
     messagesOn: consent?.on ?? true,
     messagesTo: await messagesTarget(appointment.customerId, db),
   };

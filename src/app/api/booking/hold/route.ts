@@ -1,9 +1,8 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
+import { bookingLinePoints } from "@/extension/registry";
 import { readAttribution, ATTRIBUTION_COOKIE } from "@/server/attribution";
-import { type DraftPet } from "@/server/booking/draft";
 import { startBooking } from "@/server/booking/flow";
-import { speciesFor } from "@/server/booking/serviceRules";
 import {
   clientAddress,
   csrfOk,
@@ -19,7 +18,6 @@ import { getConfig } from "@/server/config";
 import { getFeatures } from "@/server/features";
 import { TRUSTED_DEVICE_COOKIE } from "@/server/identity/tokens";
 import { normalizePhone } from "@/server/links";
-import { listServiceRules } from "@/server/repos/catalog";
 import { log } from "@/server/log";
 import { maskEmail, maskPhone } from "@/server/repos/customers";
 
@@ -34,31 +32,6 @@ const Contact = z.object({
     .transform((value) => value || null)
     .pipe(z.email().max(200).nullable()),
 });
-
-/** The details typed for each chosen service's pet: `pets.<i>.name`, `.species`, `.breed`, `.vet`, `.vaccines`. */
-function typedPets(form: Record<string, string | undefined>, count: number): DraftPet[] {
-  return Array.from({ length: count }, (_, i) => {
-    const field = (name: string) => (form[`pets.${i}.${name}`] ?? "").trim();
-    const species = field("species");
-    return {
-      species: species === "dog" || species === "cat" ? species : null,
-      name: field("name").slice(0, 40),
-      breed: field("breed").slice(0, 60),
-      vetName: field("vet").slice(0, 80),
-      vaccinesConfirmed: field("vaccines") === "yes",
-    };
-  });
-}
-
-/** The first missing pet detail, as an error key, or null when every pet is complete. */
-function missingPetDetail(pets: DraftPet[]): string | null {
-  for (const pet of pets) {
-    if (!pet.name) return "petNameRequired";
-    if (!pet.species) return "speciesRequired";
-    if (!pet.vetName) return "vetRequired";
-  }
-  return null;
-}
 
 /**
  * Step 3: takes the slot for ten minutes and sends the code, or confirms at
@@ -76,21 +49,31 @@ export async function POST(request: NextRequest) {
     return next(request, stepPath("service", { error: "noServices" }), {}, 400);
   }
   const { start, idempotencyKey } = saved;
-  // A service for one species decides it; "nails only" asks.
-  const rules = await listServiceRules();
-  const pets = typedPets(form, saved.serviceIds.length).map((pet, i) => {
-    const allowed = speciesFor(saved.serviceIds[i]!, rules);
-    return allowed.length === 1 ? { ...pet, species: allowed[0]! } : pet;
-  });
+  // What each extension asks about the lines: read from the form, completed from the services, then checked.
+  const points = bookingLinePoints();
+  const details: Record<string, unknown>[] = saved.serviceIds.map(() => ({}));
+  for (const { id, point } of points) {
+    const typed = saved.serviceIds.map((serviceId, index) => ({
+      position: index + 1,
+      serviceId,
+      details: point.read(form, index),
+    }));
+    const prepared = (await point.prepare?.(typed)) ?? typed.map((line) => line.details);
+    for (const [index, value] of prepared.entries()) details[index]![id] = value;
+  }
   // What was typed stays in the draft, so an error does not empty the form.
-  const draft = { ...saved, pets };
+  const draft = { ...saved, details };
   const fail = (error: string) => {
     const response = next(request, stepPath("contact", { error }), {}, 400);
     setDraft(request, response, draft);
     return response;
   };
-  const missing = missingPetDetail(pets);
-  if (missing) return fail(missing);
+  for (const { id, point } of points) {
+    for (const line of details) {
+      const missing = point.missing(line[id]);
+      if (missing) return fail(missing);
+    }
+  }
   const contact = Contact.safeParse({ name: form.name ?? "", phone: form.phone ?? "", email: form.email ?? "" });
   if (!contact.success) return fail(`${String(contact.error.issues[0]?.path[0] ?? "name")}Invalid`);
   // Without WhatsApp the code can only go by email.
@@ -99,14 +82,7 @@ export async function POST(request: NextRequest) {
   const result = await startBooking(
     {
       start: new Date(start),
-      pets: pets.map((pet, i) => ({
-        serviceId: draft.serviceIds[i]!,
-        species: pet.species!,
-        name: pet.name,
-        breed: pet.breed || null,
-        vetName: pet.vetName,
-        vaccinesConfirmed: pet.vaccinesConfirmed,
-      })),
+      lines: draft.serviceIds.map((serviceId, index) => ({ serviceId, details: details[index]! })),
       name: contact.data.name,
       phone: contact.data.phone,
       email: contact.data.email,

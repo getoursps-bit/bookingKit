@@ -3,13 +3,14 @@ import { formatPrice } from "@/i18n/format";
 import { pick } from "@/i18n/content";
 import { localePath } from "@/i18n/locales";
 import { translator } from "@/i18n/translator";
-import { MULTI_PET_BOOKING } from "@/server/booking/draft";
+import { MULTI_LINE_BOOKING } from "@/server/booking/draft";
 import { getDraft, requestLocale, setDraft } from "@/server/booking/http";
 import { getConfig } from "@/server/config";
 import { whatsappLink } from "@/server/links";
 import { listProducts, listServices } from "@/server/repos/catalog";
 import { getSettings } from "@/server/repos/settings";
 import { countClick } from "@/server/tracking";
+import { firstWith } from "@/extension/registry";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +18,10 @@ type Props = { params: Promise<{ target: string; rest?: string[] }> };
 
 // Counted redirects, so "Book" and "Order on WhatsApp" clicks are measured
 // without any script on the page:
-//   /go/book[?species=dog|cat]  → /book (or /en/book, in the visitor's language)
-//   /go/book?service=<id>       → the time step with that service chosen (with multi-pet booking on:
-//                                 the first step, with it added for one more pet)
+//   /go/book[?<filter>=<value>] → /book (or /en/book, in the visitor's language), keeping an extension's
+//                                 service filter such as species=dog
+//   /go/book?service=<id>       → the time step with that service chosen (with several lines on:
+//                                 the first step, with it added as one more line)
 //   /go/book?at=<ISO instant>   → the same, with that start saved in the booking draft for the
 //                                 time step (straight to it when services are already chosen)
 //   /go/order/<productId>       → wa.me chat with the product named
@@ -41,21 +43,23 @@ export async function GET(request: NextRequest, { params }: Props): Promise<Resp
   if (target === "book") {
     await countClick("book");
     const to = new URL(localePath(locale, "/book"), base);
-    const species = request.nextUrl.searchParams.get("species");
-    if (species === "dog" || species === "cat") to.searchParams.set("species", species);
+    // A filter of the service list that an extension offers ("species=dog") carries over.
+    const filter = firstWith("serviceTags")?.param;
+    const value = filter ? request.nextUrl.searchParams.get(filter.name) : null;
+    if (filter && value && filter.values.includes(value)) to.searchParams.set(filter.name, value);
     const at = wantedStart(request.nextUrl.searchParams.get("at"));
     const serviceId = Number(request.nextUrl.searchParams.get("service"));
     let draft = getDraft(request);
     let chosen = false;
-    if (Number.isInteger(serviceId) && serviceId > 0 && (!MULTI_PET_BOOKING || !draft.serviceIds.includes(serviceId))) {
+    if (Number.isInteger(serviceId) && serviceId > 0 && (!MULTI_LINE_BOOKING || !draft.serviceIds.includes(serviceId))) {
       const [settings, services] = await Promise.all([getSettings(), listServices({ activeOnly: true })]);
       const bookable = services.some((service) => service.id === serviceId && service.bookableOnline);
-      if (bookable && !MULTI_PET_BOOKING) {
-        // One pet per booking: the link's service is the booking's, and the time comes next.
-        draft = { ...draft, serviceIds: [serviceId], pets: [], start: null, holdId: null };
+      if (bookable && !MULTI_LINE_BOOKING) {
+        // One line per booking: the link's service is the booking's, and the time comes next.
+        draft = { ...draft, serviceIds: [serviceId], details: [], start: null, holdId: null };
         chosen = true;
-      } else if (bookable && draft.serviceIds.length < settings["booking.maxPets"]) {
-        // A service link adds the service for one more pet; the first step shows it as chosen.
+      } else if (bookable && draft.serviceIds.length < settings["booking.maxLines"]) {
+        // A service link adds the service as one more line; the first step shows it as chosen.
         draft = { ...draft, serviceIds: [...draft.serviceIds, serviceId], start: null, holdId: null };
       }
     } else if (!at) {

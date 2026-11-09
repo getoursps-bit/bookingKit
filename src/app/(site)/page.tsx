@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { firstWith } from "@/extension/registry";
 import { brand } from "@/brand";
 import { CloudEdge } from "@/components/site/CloudEdge";
 import { InstallButton } from "@/components/site/InstallButton";
@@ -12,11 +13,10 @@ import type { Locale } from "@/i18n/locales";
 import { getI18n } from "@/i18n/server";
 import { isolate, type Translate } from "@/i18n/t";
 import { getWeek } from "@/server/booking/service";
-import { resolveService } from "@/server/booking/serviceRules";
 import { addLocalDays, weekdayOf } from "@/server/booking/slots";
 import { getConfig } from "@/server/config";
 import { whatsappLink } from "@/server/links";
-import { listGallery, listProducts, listServiceRules, listServices, type OpeningHours } from "@/server/repos/catalog";
+import { listGallery, listProducts, listServices, type OpeningHours } from "@/server/repos/catalog";
 import { jsonLdString, localBusinessJsonLd, pageMetadata } from "@/server/seo";
 import { getSiteData, isNoindex } from "@/server/site";
 import { getStorage } from "@/server/storage";
@@ -33,9 +33,6 @@ export async function generateMetadata() {
   return pageMetadata(profile, { path: "/" }, isNoindex(settings));
 }
 
-/** The free times are worked out for a small adult dog, the most common booking. */
-const PREVIEW_PET = { species: "dog", ageGroup: "adult", weightGroup: "small", request: "groom" } as const;
-
 /** The closest free time and the four after it. */
 const SLOTS_SHOWN = 5;
 
@@ -44,10 +41,12 @@ type FreeTimes = { date: string; slots: Date[] };
 /** Today's free start times, or the first day that has any. Null when nothing is free or the lookup fails. */
 async function freeTimes(today: string): Promise<FreeTimes | null> {
   try {
-    const [rules, services] = await Promise.all([listServiceRules(), listServices({ activeOnly: true })]);
-    const preview = resolveService(PREVIEW_PET, rules, services);
-    if (!preview.ok) return null;
-    const serviceIds = [preview.service.id];
+    // The free times are worked out for one service: the one an extension names, else the first that books online.
+    const services = await listServices({ activeOnly: true });
+    const named = firstWith("previewService");
+    const preview = named ? await named(services) : (services.find((service) => service.bookableOnline) ?? null);
+    if (!preview) return null;
+    const serviceIds = [preview.id];
     const result = await getWeek({ date: today, serviceIds });
     if (!result.ok) return null;
     if (result.week.slots.length > 0) return { date: today, slots: result.week.slots.slice(0, SLOTS_SHOWN) };

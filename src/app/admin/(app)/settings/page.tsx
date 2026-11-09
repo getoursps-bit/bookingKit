@@ -21,7 +21,7 @@ const GROUPS: { id: string; title: MessageKey; keys: SettingKey[] }[] = [
       "booking.bufferMin",
       "booking.noticeMin",
       "booking.horizonDays",
-      "booking.maxPets",
+      "booking.maxLines",
       "booking.cutoffHours",
       "booking.holdMin",
     ],

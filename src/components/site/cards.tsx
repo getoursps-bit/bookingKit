@@ -3,26 +3,8 @@ import { Icon } from "@/components/ui/Icon";
 import { pick } from "@/i18n/content";
 import { formatPrice } from "@/i18n/format";
 import { getI18n } from "@/i18n/server";
-import type { Product, Service, ServiceRule } from "@/server/repos/catalog";
+import type { Product, Service } from "@/server/repos/catalog";
 import { Duration, Price } from "./values";
-
-export type PetTag = "dog" | "cat" | "puppy" | "both";
-
-/** Who each service is for, from the pet-to-service rules: dog, cat, puppy, or both. */
-export function petTags(rules: ServiceRule[]): Map<number, PetTag> {
-  const seen = new Map<number, { dog: boolean; cat: boolean; youngOnly: boolean }>();
-  for (const rule of rules) {
-    const entry = seen.get(rule.serviceId) ?? { dog: false, cat: false, youngOnly: true };
-    entry[rule.species] = true;
-    if (rule.ageGroup !== "young") entry.youngOnly = false;
-    seen.set(rule.serviceId, entry);
-  }
-  const tags = new Map<number, PetTag>();
-  for (const [id, entry] of seen) {
-    tags.set(id, entry.dog && entry.cat ? "both" : entry.youngOnly && entry.dog ? "puppy" : entry.cat ? "cat" : "dog");
-  }
-  return tags;
-}
 
 /** A service: name and who it is for, what it includes, "from" price, length and "Choose". */
 export async function ServiceCard({
@@ -31,7 +13,8 @@ export async function ServiceCard({
   headingLevel = 2,
 }: {
   service: Service;
-  tag?: PetTag;
+  /** A short label an extension gives the service, already in the page's language. */
+  tag?: string;
   headingLevel?: 2 | 3;
 }) {
   const { t, locale } = await getI18n();
@@ -44,7 +27,7 @@ export async function ServiceCard({
         <Heading className="text-[17px] leading-snug font-semibold md:text-xl">{name}</Heading>
         {tag ? (
           <span className="shrink-0 rounded-full bg-paper px-2.5 py-1 text-[13px] font-medium whitespace-nowrap text-ink-soft">
-            {t(`tag.${tag}`)}
+            {tag}
           </span>
         ) : null}
       </div>
@@ -91,7 +74,7 @@ export async function ServiceCard({
 }
 
 /** One service as a quiet row: name and who it is for, then "from" price and length. The whole row books it. */
-export async function ServiceRow({ service, tag }: { service: Service; tag?: PetTag }) {
+export async function ServiceRow({ service, tag }: { service: Service; tag?: string }) {
   const { t, locale } = await getI18n();
   const name = pick(locale, service, "name");
   const content = (
@@ -99,7 +82,7 @@ export async function ServiceRow({ service, tag }: { service: Service; tag?: Pet
       <span className="flex flex-col gap-1">
         <span className="text-[17px] font-semibold md:text-lg">{name}</span>
         <span className="text-sm text-ink-muted">
-          {tag ? <>{t(`tag.${tag}`)} · </> : null}
+          {tag ? <>{tag} · </> : null}
           <Duration minutes={service.durationMin} />
         </span>
       </span>

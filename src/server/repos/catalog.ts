@@ -5,11 +5,6 @@ import { writeAudit } from "./audit";
 
 // Postgres returns bigint ids as strings; repositories hand out numbers.
 
-export type Species = "dog" | "cat";
-export type AgeGroup = "young" | "adult";
-export type WeightGroup = "small" | "large" | "unknown";
-export type PetRequest = "groom" | "nails";
-
 export type Service = {
   id: number;
   /** In the site's default language; `translations` holds the others. */
@@ -21,15 +16,6 @@ export type Service = {
   bookableOnline: boolean;
   active: boolean;
   sortOrder: number;
-};
-
-export type ServiceRule = {
-  id: number;
-  species: Species;
-  ageGroup: AgeGroup | null;
-  weightGroup: WeightGroup | null;
-  request: PetRequest;
-  serviceId: number;
 };
 
 export type Product = {
@@ -125,29 +111,6 @@ export async function upsertService(service: Omit<Service, "id"> & { id?: number
       after: saved,
     });
     return saved;
-  }, db);
-}
-
-export async function listServiceRules(db?: Db): Promise<ServiceRule[]> {
-  return query<ServiceRule>(
-    `select id::int, species, age_group as "ageGroup", weight_group as "weightGroup", request,
-       service_id::int as "serviceId"
-     from service_rules order by id`,
-    [],
-    db,
-  );
-}
-
-export async function setServiceRule(rule: Omit<ServiceRule, "id">, { staffId, db }: Writer): Promise<void> {
-  await withTransaction(async (client) => {
-    await query(
-      `insert into service_rules (species, age_group, weight_group, request, service_id)
-       values ($1, $2, $3, $4, $5)
-       on conflict (species, age_group, weight_group, request) do update set service_id = excluded.service_id`,
-      [rule.species, rule.ageGroup, rule.weightGroup, rule.request, rule.serviceId],
-      client,
-    );
-    await writeAudit(client, { staffId, actor: "staff", entity: "service_rules", action: "set", after: rule });
   }, db);
 }
 

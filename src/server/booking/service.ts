@@ -3,6 +3,7 @@
 // repositories with the pure functions in slots.ts, and keeps every change and
 // the messages it causes in one transaction.
 import { z } from "zod";
+import { bookingLinePoints } from "../../extension/registry";
 import type { Locale } from "../../i18n/locales";
 import { type Db, getPool, query, withTransaction } from "../db";
 import { newRawToken } from "../identity/hash";
@@ -16,7 +17,6 @@ import { enqueue, skipQueued } from "../repos/outbox";
 import { hit } from "../repos/rateLimits";
 import { getSettings, type Settings } from "../repos/settings";
 import { localDateOf, localDayBounds } from "../time";
-import { profileFor, speciesFor } from "./serviceRules";
 import {
   addLocalDays,
   type DayInput,
@@ -41,20 +41,8 @@ export type Context = {
 const LocalDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 const PhoneE164 = z.string().regex(/^\+[1-9]\d{7,14}$/);
 const ServiceId = z.number().int().positive();
-/** One pet in a customer booking: the service chosen for it, and what the customer tells us about it. */
-const PetInput = z
-  .object({
-    serviceId: ServiceId,
-    species: z.enum(["dog", "cat"]),
-    name: z.string().trim().min(1).max(40),
-    breed: z.string().trim().max(60).nullable().default(null),
-    /** The vet or clinic that treats the pet. */
-    vetName: z.string().trim().min(1).max(80),
-    /** Whether the pet has a vaccination certificate, yes or no. */
-    vaccinesConfirmed: z.boolean(),
-  })
-  .strict();
-export type PetInput = z.output<typeof PetInput>;
+/** One line of a customer booking: the chosen service, and what each extension asked about it, by extension id. */
+const LineInput = z.object({ serviceId: ServiceId, details: z.record(z.string(), z.unknown()).default({}) });
 
 const RATE = {
   holdsPerPhonePerHour: 5,
@@ -63,7 +51,7 @@ const RATE = {
 };
 
 export type BookingError =
-  | "TooManyPets"
+  | "TooManyLines"
   | "NoRule"
   | "NotBookableOnline"
   | "SlotUnavailable"
@@ -89,14 +77,14 @@ function slotRules(settings: Settings): SlotRules {
 
 type Line = appointments.AppointmentLine & { serviceNameHe: string };
 
-/** Turns the chosen services (one per pet) into booking lines, or the first reason one cannot be booked online. */
+/** Turns the chosen services into booking lines, or the first reason one cannot be booked online. */
 async function resolveLines(
   serviceIds: number[],
   settings: Settings,
   db: Db,
 ): Promise<{ ok: true; lines: Line[] } | Fail> {
-  if (serviceIds.length === 0 || serviceIds.length > settings["booking.maxPets"]) {
-    return { ok: false, reason: "TooManyPets" };
+  if (serviceIds.length === 0 || serviceIds.length > settings["booking.maxLines"]) {
+    return { ok: false, reason: "TooManyLines" };
   }
   const services = await catalog.listServices({ activeOnly: true }, db);
   const lines: Line[] = [];
@@ -105,7 +93,6 @@ async function resolveLines(
     if (!service) return { ok: false, reason: "NoRule" };
     if (!service.bookableOnline) return { ok: false, reason: "NotBookableOnline" };
     lines.push({
-      petId: null,
       serviceId: service.id,
       serviceNameHe: service.name,
       durationMin: service.durationMin,
@@ -156,7 +143,7 @@ function sameInstant(a: Date, b: Date): boolean {
 
 const WeekInput = z.object({
   date: LocalDate,
-  /** One chosen service per pet. */
+  /** The chosen services, one per line. */
   serviceIds: z.array(ServiceId).min(1),
 });
 
@@ -240,7 +227,7 @@ async function buildWeek(
 
 const HoldInput = z.object({
   start: z.coerce.date(),
-  pets: z.array(PetInput).min(1),
+  lines: z.array(LineInput).min(1),
   name: z.string().trim().min(1).max(80),
   phone: PhoneE164,
   email: z.email().max(200).nullable().default(null),
@@ -279,16 +266,18 @@ export async function requestHold(
 
   const settings = await getSettings(db);
   const resolved = await resolveLines(
-    data.pets.map((pet) => pet.serviceId),
+    data.lines.map((line) => line.serviceId),
     settings,
     db,
   );
   if (!resolved.ok) return resolved;
-  // A service for one species only decides the pet's species.
-  const serviceRules = await catalog.listServiceRules(db);
-  for (const pet of data.pets) {
-    const allowed = speciesFor(pet.serviceId, serviceRules);
-    if (allowed.length > 0 && !allowed.includes(pet.species)) return { ok: false, reason: "NoRule" };
+  // Each extension that asked for details on the lines may still refuse them.
+  for (const { id, point } of bookingLinePoints()) {
+    const reason = await point.check?.(
+      data.lines.map((line, index) => ({ position: index + 1, serviceId: line.serviceId, details: line.details[id] })),
+      db,
+    );
+    if (reason) return { ok: false, reason };
   }
   const rules = slotRules(settings);
   const lengthMin = visitLength(resolved.lines, rules);
@@ -307,8 +296,8 @@ export async function requestHold(
       await customers.setEmail(customer.id, data.email, { verify: false, takeOver: false }, db);
     }
   }
-  // Pets are saved on the customer only once the phone is verified, so an
-  // unverified form cannot add pets to someone else's record.
+  // The lines' details are saved on the customer only once the phone is verified, so an
+  // unverified form cannot add anything to someone else's record.
   const result = await appointments.createHold(
     {
       customerId: customer.id,
@@ -316,7 +305,7 @@ export async function requestHold(
       end: new Date(data.start.getTime() + lengthMin * 60_000),
       lines: resolved.lines,
       createdBy: "customer",
-      source: { ...data.source, petDrafts: data.pets },
+      source: { ...data.source, lineDrafts: data.lines.map((line) => line.details) },
       idempotencyKey: data.idempotencyKey,
     },
     settings["booking.holdMin"],
@@ -372,8 +361,8 @@ export type Confirmed = { appointment: appointments.Appointment; manageToken: st
 
 /**
  * Confirms a hold after the code (or a trusted device) proved the phone. In one
- * transaction: confirms, saves the pets, issues the private link, and queues the
- * confirmation, the reminder, the owner alert and the AI jobs.
+ * transaction: confirms, lets the extensions save the lines' details, issues the
+ * private link, and queues the confirmation, the reminder and the owner alert.
  */
 export async function confirmBooking(
   holdId: number,
@@ -387,38 +376,17 @@ export async function confirmBooking(
       return { ok: false, reason: existing ? "HoldExpired" : "NotFound" } as const;
     }
 
-    const drafts = z.array(PetInput).catch([]).parse(appointment.source.petDrafts);
+    const drafts = z.array(z.record(z.string(), z.unknown())).catch([]).parse(appointment.source.lineDrafts);
     const source = { ...appointment.source };
-    delete source.petDrafts;
-    const rules = await catalog.listServiceRules(client);
-    const known = await customers.listPets(appointment.customerId, client);
-    for (const [index, draft] of drafts.entries()) {
-      // A pet booked before (same name and species) is updated, not added again.
-      const same = known.find(
-        (pet) => pet.species === draft.species && pet.name.trim().toLowerCase() === draft.name.toLowerCase(),
-      );
-      const profile = profileFor(draft.serviceId, draft.species, rules);
-      const pet = await customers.upsertPet(
-        {
-          id: same?.id,
-          customerId: appointment.customerId,
-          name: draft.name,
-          species: draft.species,
-          breed: draft.breed ?? same?.breed ?? null,
-          // What the service says, else what we knew, else an adult of unknown weight.
-          ageGroup: profile.ageGroup ?? same?.ageGroup ?? "adult",
-          weightGroup: draft.species === "dog" ? (profile.weightGroup ?? same?.weightGroup ?? "unknown") : null,
-          coatNotes: same?.coatNotes ?? null,
-          temperamentNote: same?.temperamentNote ?? null,
-          vetName: draft.vetName,
-          vaccinesConfirmedAt: draft.vaccinesConfirmed ? now : null,
-        },
+    delete source.lineDrafts;
+    // Each extension saves what it asked about the lines.
+    const lines = await appointments.listLines(appointment.id, client);
+    for (const { id, point } of bookingLinePoints()) {
+      await point.confirm(
         client,
-      );
-      await query(
-        "update appointment_pets set pet_id = $1 where appointment_id = $2 and position = $3",
-        [pet.id, appointment.id, index + 1],
-        client,
+        appointment,
+        lines.map((line, index) => ({ position: index + 1, serviceId: line.serviceId, details: drafts[index]?.[id] })),
+        now,
       );
     }
     await query("update appointments set source = $2 where id = $1", [appointment.id, JSON.stringify(source)], client);
@@ -507,7 +475,7 @@ const OwnerBookingInput = z.object({
   /** Owner picks services directly, including ones not bookable online. */
   lines: z
     .array(
-      z.object({ serviceId: z.number().int().positive(), petId: z.number().int().positive().nullable().default(null) }),
+      z.object({ serviceId: z.number().int().positive() }),
     )
     .min(1),
   notes: z.string().max(1000).nullable().default(null),
@@ -535,7 +503,6 @@ export async function ownerCreateBooking(
       const service = services.find((candidate) => candidate.id === line.serviceId);
       if (!service) return { ok: false, reason: "NoRule" } as const;
       lines.push({
-        petId: line.petId,
         serviceId: service.id,
         durationMin: service.durationMin,
         priceFromAgorot: service.priceFromAgorot,

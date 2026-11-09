@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
         {
           start,
           customer: { name: form.name.trim(), phone },
-          lines: serviceIds.map((serviceId) => ({ serviceId, petId: null })),
+          lines: serviceIds.map((serviceId) => ({ serviceId })),
           notes: form.notes?.trim() || null,
           notifyCustomer: form.notify === "true" || form.notify === "on",
         },
