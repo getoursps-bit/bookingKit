@@ -59,28 +59,30 @@ later as a languages setting and modules.
 
 ## `client.json` shape
 
+As built. The schema, with a note on every field, is `src/brand.schema.ts`.
+
 ```json
 {
   "brand": {
     "name": { "he": "Fluffy Fur", "en": "Fluffy Fur" },
-    "shortName": "Fluffy Fur",
-    "description": { "he": "…", "en": "…" },
-    "adminTitle": { "he": "…", "en": "…" },
     "mark": "paw",
-    "messages": { "he": { "home.heroTitleAccent": "…" }, "en": { … } }
+    "messages": { "he": { "home.heroTitleAccent": "…" }, "en": { "…": "…" } }
   },
   "theme": {
-    "colors": { "brand": "#b23a6b", "ink": "#3a1f2b", "canvas": "#fff8f5", … },
     "fonts": { "sans": "rubik", "display": "fredoka", "latin": "nunito" },
-    "radius": { "card": "1.75rem", "control": ".875rem", "pill": "999px", "panel": "1.5rem" },
-    "shadowFloat": "0 8px 24px rgb(178 58 107 / 0.1)",
+    "colors": { "brand": "#b23a6b", "ink": "#3a1f2b", "canvas": "#fff8f5", "…": "…" },
+    "radius": { "card": "1.75rem", "control": "0.875rem", "tile": "1rem", "panel": "1.5rem", "pill": "999px" },
+    "shadows": { "card": "none", "float": "…", "lift": "none" },
     "appIcon": { "from": "#8d3a6c", "to": "#5e2147", "mark": "#fdeee2" }
   }
 }
 ```
 
-`mark` is limited to closed-shape icons (`paw`, `sparkle`, `home`, …) because
-the app icon fills the shape.
+- `messages` replaces any key of `src/i18n/<language>.json` for this client.
+  The language files say `{brand}` where the name goes, so the short name,
+  the owner area's title and the app names need no fields of their own.
+- `mark` is limited to closed-shape icons (`paw`, `sparkle`, `navigate`,
+  `chat`) because the app icon fills the shape.
 
 ## Steps
 

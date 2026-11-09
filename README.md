@@ -59,6 +59,7 @@ pnpm staff:create owner@example.test
 | `pnpm lint` / `pnpm typecheck` | ESLint (fails on physical left/right CSS) and TypeScript |
 | `pnpm migrate` | Applies pending SQL migrations; `--check` only lists them |
 | `pnpm seed` | Inserts starting content without overwriting edits |
+| `pnpm brand` | Writes `src/app/brand.css` from `client.json`; `--check` only compares |
 | `pnpm staff:create <email>` | Creates or resets an owner account |
 | `pnpm import:dibs <file.csv> --dry-run` | Practice Dibs import: stages, checks and reports only |
 | `pnpm import:dibs <file.csv> --freeze-time=<ISO>` | Real import (no messages, no alerts) |
@@ -91,6 +92,25 @@ The image runs the web app with `node server.js` and the worker with
 `node worker/main.js`. Health is `GET /healthz`. All configuration comes from
 environment variables (see `env.example`); a service without keys is switched
 off, not faked, when `PROVIDERS=real`.
+
+## Re-branding
+
+Everything that makes the site one client's is in `client.json`: the name in
+each language, the brand mark, the client's own wording, fonts, colours,
+corner rounding, shadows and the app icon. `src/brand.schema.ts` says what
+each field is for.
+
+1. Edit `client.json`. `tests/fixtures/client.sample.json` is a second,
+   complete example.
+2. `pnpm brand` writes `src/app/brand.css` from it. Commit both files.
+3. `pnpm test` checks the file's shape, that the main text colours are
+   readable on their backgrounds, and that the stylesheet is up to date.
+4. `pnpm test:e2e` runs the accessibility check on every page with the new
+   colours.
+
+A brand is fixed when the image is built. The name the owner types in the
+owner area still wins in the header, footer and search results; `client.json`
+supplies the starting value, the browser title and the app name.
 
 ## Adding a landing page
 

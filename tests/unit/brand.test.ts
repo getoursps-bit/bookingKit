@@ -1,4 +1,5 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { brandCss, CSS_FILE, readClient } from "../../scripts/brand-css";
 import type { ThemeColor } from "../../src/brand.schema";
@@ -6,7 +7,10 @@ import en from "../../src/i18n/en.json";
 import he from "../../src/i18n/he.json";
 import { translator } from "../../src/i18n/t";
 
+const ROOT = path.resolve(import.meta.dirname, "../..");
 const client = readClient();
+// A second client with another name, palette, fonts and mark: proves the file can be swapped.
+const sample = readClient(path.join(ROOT, "tests/fixtures/client.sample.json"));
 
 /** Relative luminance of a #rrggbb colour (WCAG 2). */
 function luminance(hex: string): number {
@@ -63,18 +67,47 @@ describe("client.json", () => {
   it("is what src/app/brand.css was written from (run `pnpm brand`)", () => {
     expect(readFileSync(CSS_FILE, "utf8")).toBe(brandCss(client));
   });
+});
 
-  for (const [text, backgrounds] of TEXT_PAIRS) {
-    for (const background of backgrounds) {
-      it(`${text} on ${background} is readable (4.5:1)`, () => {
-        const { colors } = client.theme;
-        expect(contrast(colors[text], colors[background])).toBeGreaterThanOrEqual(4.5);
-      });
+for (const [file, { theme }] of Object.entries({ "client.json": client, "client.sample.json": sample })) {
+  describe(`the palette of ${file}`, () => {
+    for (const [text, backgrounds] of TEXT_PAIRS) {
+      for (const background of backgrounds) {
+        it(`${text} on ${background} is readable (4.5:1)`, () => {
+          expect(contrast(theme.colors[text], theme.colors[background])).toBeGreaterThanOrEqual(4.5);
+        });
+      }
     }
-  }
 
-  it("field edges stand out from the field (3:1)", () => {
-    const { colors } = client.theme;
-    expect(contrast(colors["field-line"], colors.surface)).toBeGreaterThanOrEqual(3);
+    it("field edges stand out from the field (3:1)", () => {
+      expect(contrast(theme.colors["field-line"], theme.colors.surface)).toBeGreaterThanOrEqual(3);
+    });
+  });
+}
+
+/** Every file under a folder, skipping build output. */
+function filesIn(folder: string): string[] {
+  return readdirSync(folder).flatMap((name) => {
+    const file = path.join(folder, name);
+    if (name === "dist" || name === "node_modules") return [];
+    return statSync(file).isDirectory() ? filesIn(file) : [file];
+  });
+}
+
+describe("the rest of the code", () => {
+  // The name and the accent colour stand for everything that belongs to one
+  // client. brand.css is written from client.json, so it is the one exception.
+  it("does not repeat the client's name or accent colour", () => {
+    const words = [client.brand.name.he, client.brand.name.en, client.theme.colors.brand];
+    const generated = path.join(ROOT, "src/app/brand.css");
+    const found = ["src", "public", "worker", "scripts", "db"]
+      .flatMap((folder) => filesIn(path.join(ROOT, folder)))
+      .filter((file) => file !== generated)
+      .filter((file) => {
+        const text = readFileSync(file, "utf8").toLowerCase();
+        return words.some((word) => text.includes(word.toLowerCase()));
+      })
+      .map((file) => path.relative(ROOT, file));
+    expect(found).toEqual([]);
   });
 });
