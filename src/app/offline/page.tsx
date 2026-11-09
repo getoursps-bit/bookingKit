@@ -1,3 +1,4 @@
+import { brand } from "@/brand";
 import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
 
@@ -14,7 +15,7 @@ export default async function OfflinePage() {
     <main id="main" className="grid flex-1 place-items-center p-6">
       <div className="card flex max-w-sm flex-col items-center gap-4 p-8 text-center">
         <span className="grid size-16 place-items-center rounded-full bg-brand-soft text-brand">
-          <Icon name="paw" size={32} />
+          <Icon name={brand.mark} size={32} />
         </span>
         <h1 className="text-2xl font-extrabold">{t("offline.title")}</h1>
         <p className="text-ink-muted">{t("offline.text")}</p>

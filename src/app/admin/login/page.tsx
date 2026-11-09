@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { brand } from "@/brand";
 import { Alert } from "@/components/booking/parts";
 import { SubmitButton } from "@/components/booking/SubmitButton";
 import { Icon } from "@/components/ui/Icon";
@@ -69,7 +70,7 @@ export default async function LoginPage({
     >
       <div className="flex items-center gap-3">
         <span className="grid size-12 place-items-center rounded-2xl bg-brand text-brand-ink">
-          <Icon name="paw" size={24} />
+          <Icon name={brand.mark} size={24} />
         </span>
         <h1 className="text-2xl font-extrabold">{title}</h1>
       </div>

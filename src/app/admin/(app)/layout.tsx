@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { brand } from "@/brand";
 import { AdminFrame } from "@/components/admin/AdminFrame";
 import { AdminNav } from "@/components/admin/AdminNav";
 import { AdminServiceWorker } from "@/components/admin/AdminPush";
@@ -18,7 +19,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             <div className="flex items-center justify-between gap-2">
               <p className="flex items-center gap-2 text-lg font-extrabold">
                 <span className="grid size-9 place-items-center rounded-full bg-brand text-brand-ink">
-                  <Icon name="paw" size={18} />
+                  <Icon name={brand.mark} size={18} />
                 </span>
                 {t("admin.short")}
               </p>

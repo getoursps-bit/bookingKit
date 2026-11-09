@@ -1,11 +1,10 @@
 import { ImageResponse } from "next/og";
+import { brand, theme } from "@/brand";
+import { ICON_PATHS } from "@/components/ui/Icon";
 
-// App icons drawn at build time from the paw mark, so there are no image
+// App icons drawn at build time from the brand mark, so there are no image
 // files to keep in sync. "maskable-512" keeps the mark inside the safe zone
 // that Android crops to a circle or squircle.
-const PAW =
-  "M12 13c-3 0-5.5 2.6-5.5 5 0 1.4 1.1 2.5 2.5 2.5 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.4 0 2.5-1.1 2.5-2.5 0-2.4-2.5-5-5.5-5ZM6 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm12 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM9.5 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm5 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z";
-
 const VARIANTS: Record<string, { size: number; mark: number; rounded: boolean }> = {
   "96": { size: 96, mark: 0.62, rounded: true },
   "180": { size: 180, mark: 0.6, rounded: false },
@@ -33,12 +32,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ var
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(135deg, #8d3a6c 0%, #5e2147 100%)",
+        background: `linear-gradient(135deg, ${theme.appIcon.from} 0%, ${theme.appIcon.to} 100%)`,
         borderRadius: spec.rounded ? spec.size * 0.22 : 0,
       }}
     >
-      <svg width={mark} height={mark} viewBox="0 0 24 24" fill="#fdeee2">
-        <path d={PAW} />
+      <svg width={mark} height={mark} viewBox="0 0 24 24" fill={theme.appIcon.mark}>
+        <path d={ICON_PATHS[brand.mark]} />
       </svg>
     </div>,
     { width: spec.size, height: spec.size },

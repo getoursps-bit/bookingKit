@@ -3,7 +3,7 @@ import type { SVGProps } from "react";
 // Small stroke icons drawn in-house (no icon font, nothing from another
 // origin). Decorative by default: pass `title` to give one a name.
 
-const PATHS = {
+export const ICON_PATHS = {
   home: "M3 10.5 12 3l9 7.5M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5",
   scissors: "M6 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM8.1 7.9 20 20M8.1 16.1 20 4",
   bag: "M6 7h12l1 14H5L6 7Zm3 4V6a3 3 0 0 1 6 0v5",
@@ -36,7 +36,7 @@ const PATHS = {
   logout: "M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 8l-4 4 4 4M6 12h10",
 } as const;
 
-export type IconName = keyof typeof PATHS;
+export type IconName = keyof typeof ICON_PATHS;
 
 export function Icon({
   name,
@@ -60,7 +60,7 @@ export function Icon({
       {...props}
     >
       {title ? <title>{title}</title> : null}
-      <path d={PATHS[name]} />
+      <path d={ICON_PATHS[name]} />
     </svg>
   );
 }

@@ -1,24 +1,25 @@
 import type { MetadataRoute } from "next";
+import { brand, theme } from "@/brand";
+import { translator } from "@/i18n/t";
 
 export const dynamic = "force-static";
 
-const THEME = "#b23a6b";
-const BACKGROUND = "#fff8f5";
 
 /** Lets visitors install the site as an app on phones and desktops. */
 export default function manifest(): MetadataRoute.Manifest {
+  const t = translator("he");
   return {
     id: "/",
-    name: "Fluffy Fur – מספרה לכלבים ולחתולים",
-    short_name: "Fluffy Fur",
+    name: `${brand.name.he} – ${t("home.eyebrow")}`,
+    short_name: brand.name.he,
     description: "קביעת תור, שירותים ומחירים, מוצרים ושעות פתיחה.",
     lang: "he",
     dir: "rtl",
     start_url: "/?source=app",
     scope: "/",
     display: "standalone",
-    theme_color: THEME,
-    background_color: BACKGROUND,
+    theme_color: theme.colors.brand,
+    background_color: theme.colors.canvas,
     categories: ["lifestyle", "shopping"],
     icons: [
       { src: "/app-icon/192", sizes: "192x192", type: "image/png", purpose: "any" },

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { brand } from "@/brand";
 import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
 import type { BusinessProfile } from "@/server/repos/catalog";
@@ -6,7 +7,7 @@ import { LanguageSwitch } from "./LanguageSwitch";
 import { MobileMenu } from "./MobileMenu";
 import { NavLinks } from "./NavLinks";
 
-/** The logo, or a paw, in a soft pink blob. */
+/** The logo, or the brand mark, in a soft blob. */
 export function Logo({ url, size }: { url: string | null; size: "sm" | "lg" }) {
   const box = size === "sm" ? "size-11 md:size-13" : "size-22 border-4 border-surface";
   return url ? (
@@ -14,7 +15,7 @@ export function Logo({ url, size }: { url: string | null; size: "sm" | "lg" }) {
     <img src={url} alt="" className={`${box} blob shrink-0 bg-paper object-cover`} />
   ) : (
     <span aria-hidden="true" className={`${box} blob grid shrink-0 place-items-center bg-paper text-brand`}>
-      <Icon name="paw" size={size === "sm" ? 24 : 36} strokeWidth={2} />
+      <Icon name={brand.mark} size={size === "sm" ? 24 : 36} strokeWidth={2} />
     </span>
   );
 }

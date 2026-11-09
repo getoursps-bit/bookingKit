@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { brand } from "@/brand";
 import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
 import type { Service } from "@/server/repos/catalog";
@@ -122,7 +123,7 @@ export async function Hero({
         <img src={imageUrl} alt="" className="h-64 w-full rounded-card bg-placeholder object-cover md:h-[420px]" />
       ) : (
         <div aria-hidden="true" className="hidden h-[420px] place-items-center rounded-card bg-paper text-line-strong md:grid">
-          <Icon name="paw" size={140} strokeWidth={1.2} />
+          <Icon name={brand.mark} size={140} strokeWidth={1.2} />
         </div>
       )}
     </section>

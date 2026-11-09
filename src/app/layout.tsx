@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { theme } from "@/brand";
 import { SkipLink } from "@/components/ui/SkipLink";
 import { LocaleProvider } from "@/i18n/client";
 import { getI18n } from "@/i18n/server";
@@ -22,7 +23,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   // Lets the bottom bar sit under the iPhone home indicator, padded by safe-area insets.
   viewportFit: "cover",
-  themeColor: "#b23a6b",
+  themeColor: theme.colors.brand,
 };
 
 /** Shell shared by the public site and the admin: page language and direction. Each group adds its own header. */

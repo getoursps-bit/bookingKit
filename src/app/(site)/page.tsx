@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { brand } from "@/brand";
 import { CloudEdge } from "@/components/site/CloudEdge";
 import { InstallButton } from "@/components/site/InstallButton";
 import { contactButtons } from "@/components/site/ContactButtons";
@@ -169,7 +170,7 @@ export default async function HomePage() {
               <img src={coverUrl} alt="" fetchPriority="high" className="size-full object-cover" />
             ) : (
               <div aria-hidden="true" className="grid size-full place-items-center text-brand/30">
-                <Icon name="paw" size={140} strokeWidth={1.4} />
+                <Icon name={brand.mark} size={140} strokeWidth={1.4} />
               </div>
             )}
           </div>
@@ -183,7 +184,7 @@ export default async function HomePage() {
             aria-hidden="true"
             className="absolute top-[120px] -start-1.5 grid size-16 -rotate-10 place-items-center rounded-full bg-tint-yellow text-tint-yellow-ink md:top-auto md:bottom-[120px] md:start-0 md:size-[140px] md:rotate-0 md:border-6 md:border-canvas"
           >
-            <Icon name="paw" size={30} strokeWidth={2} className="md:size-14" />
+            <Icon name={brand.mark} size={30} strokeWidth={2} className="md:size-14" />
           </span>
         </div>
 
@@ -402,7 +403,7 @@ export default async function HomePage() {
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={imageUrl} alt="" loading="lazy" className="size-full object-cover" />
                         ) : (
-                          <Icon name="paw" size={36} className="text-ink-muted" />
+                          <Icon name={brand.mark} size={36} className="text-ink-muted" />
                         )}
                       </span>
                       <h3 className="text-base leading-tight md:text-lg">

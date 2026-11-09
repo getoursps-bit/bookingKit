@@ -15,6 +15,7 @@ import { hit } from "../repos/rateLimits";
 
 export { SESSION_COOKIE, SESSION_DAYS } from "./cookie";
 import { SESSION_DAYS } from "./cookie";
+import { brand } from "@/brand";
 export const PENDING_COOKIE = "ff_admin_2fa";
 /** The address an emailed login code was sent to, signed, while the code is live. */
 export const EMAIL_PENDING_COOKIE = "ff_admin_mail";
@@ -153,7 +154,7 @@ export async function checkEmailCode(email: string, code: string, db: Db = getPo
 
 export function newTotpSecret(email: string): { secret: string; uri: string } {
   const secret = generateSecret();
-  return { secret, uri: generateURI({ issuer: "Fluffy Fur", label: email, secret }) };
+  return { secret, uri: generateURI({ issuer: brand.name.en, label: email, secret }) };
 }
 
 export async function createSession(

@@ -1,3 +1,4 @@
+import { brand } from "@/brand";
 import { Icon } from "@/components/ui/Icon";
 import { pick } from "@/i18n/content";
 import { formatPrice } from "@/i18n/format";
@@ -165,7 +166,7 @@ export async function ProductCard({
             compact ? "aspect-square" : "h-40"
           }`}
         >
-          <Icon name="paw" size={40} />
+          <Icon name={brand.mark} size={40} />
         </div>
       )}
       <Heading className="mt-1 text-[15px] leading-snug font-medium md:text-base">

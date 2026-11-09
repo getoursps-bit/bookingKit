@@ -1,6 +1,7 @@
 import type { Locale } from "../../i18n/locales";
 import { getConfig } from "../config";
 import type { EmailChannel, OutgoingMessage, SendResult } from "./types";
+import { brand } from "@/brand";
 
 function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
@@ -30,7 +31,7 @@ export function createEmail(): EmailChannel {
           body: JSON.stringify({
             from: config.EMAIL_FROM,
             to: [message.to],
-            subject: message.subject ?? "Fluffy Fur",
+            subject: message.subject ?? brand.name[message.locale ?? "he"],
             html: emailHtml(message.body, message.locale),
             text: message.body,
           }),
