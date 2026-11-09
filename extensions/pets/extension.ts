@@ -6,6 +6,7 @@ import he from "./languages/he.json" with { type: "json" };
 import rules from "./seed.json" with { type: "json" };
 import { describeLines, petLines, petServiceTags, previewService } from "./server/lines";
 import { listPets } from "./server/pets";
+import { deleteExpiredPhotos } from "./server/photos";
 import { type AgeGroup, type PetRequest, setServiceRule, type Species, type WeightGroup } from "./server/rules";
 
 // Pets: the customisation of a grooming salon. A booking is for one or more
@@ -44,6 +45,8 @@ export default defineExtension({
     export: async (customerId, db) => ({ pets: await listPets(customerId, db) }),
   },
   catalogActions: { rule: saveRule },
+  /** Pet photos are deleted 90 days after their visit. */
+  cleanup: async (db, now) => ({ photos: await deleteExpiredPhotos(now, db) }),
   /** Which service each kind and size of pet gets by default. */
   async seed(db, { serviceIds }) {
     for (const rule of rules.service_rules) {

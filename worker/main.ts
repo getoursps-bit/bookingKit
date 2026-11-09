@@ -16,7 +16,7 @@ const { dispatch } = await import("../src/server/notify/dispatch");
 const { claimDaily } = await import("./jobs/schedule");
 const { checkMessageCap, checkReceipts, queueDailyCheck } = await import("./jobs/ownerAlerts");
 const { queueSummaries, runAiJobs } = await import("../src/server/ai/jobs");
-const { deleteExpiredPhotos } = await import("../src/server/photos");
+const { extensions } = await import("../src/extension/registry");
 
 // Bad configuration stops the worker at once, so the container restarts and shows it,
 // instead of logging the same error every few seconds.
@@ -61,8 +61,10 @@ const DAILY: { name: string; hour: number; run: (now: Date) => Promise<unknown> 
       const limits = await pruneRateLimits(db);
       await db.query("delete from trusted_devices where expires_at < now()");
       await db.query("delete from manage_tokens where expires_at < now() - interval '30 days'");
-      const photos = await deleteExpiredPhotos(new Date(), db);
-      log.info({ codes, limits, photos }, "daily clean-up");
+      // Each extension that is on cleans up what it keeps (pet photos, say).
+      const extra: Record<string, number> = {};
+      for (const extension of extensions()) Object.assign(extra, await extension.cleanup?.(db, new Date()));
+      log.info({ codes, limits, ...extra }, "daily clean-up");
     },
   },
   { name: "owner_check", hour: 8, run: (now) => queueDailyCheck(now, getPool()) },

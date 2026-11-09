@@ -373,9 +373,14 @@ boundaries.
   created by the core migrations, and the lines table is still named
   `appointment_pets`. They move to `extensions/pets/migrations` (new
   installs) with a rename of the lines table.
-- AI: photo analysis and the pre-visit note (`src/server/photos.ts`,
-  `src/server/ai/*`, `/api/booking/photo`, the `ai.photo` setting) are
-  written for pets and are reachable only through the pets extension.
+- AI: the provider interface and the job runner (`src/server/ai/*`, the
+  `ai_jobs.pet_id` column, the `ai.photo` setting) analyse a pet's photo and
+  write the pre-visit note from pet facts. Saving a pet photo, its form
+  (`/api/ext/pets/photo`) and its daily clean-up are in the extension
+  already, through two more points: `actions` in the views (a form an
+  extension's view posts) and `cleanup` in the manifest (the worker's daily
+  clean-up). Whether the pre-visit note is a core feature fed by extensions
+  or part of pets is a design decision still open.
 - The export's booking lines no longer carry `pet_id`.
 - Starting content (`db/seed/data.json`, the packs' `content.json`) and the
   privacy and accessibility pages still describe a grooming salon; they are

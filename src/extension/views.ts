@@ -1,3 +1,4 @@
+import type { NextRequest } from "next/server";
 import type { ReactNode } from "react";
 import { VIEWS } from "@/extension-views.generated";
 import type { Appointment } from "@/server/repos/appointments";
@@ -32,6 +33,8 @@ export type ExtensionViews = {
    * `language` is the language the notice is written in. Null for nothing.
    */
   privacy?(props: { part: "collected" | "shared" | "kept"; language: string }): ReactNode | null;
+  /** Forms its views post, by name: served at /api/ext/<id>/<name>. The handler checks its own form. */
+  actions?: Record<string, (request: NextRequest) => Promise<Response>>;
   /** Campaign pages, by slug. */
   landingPages?: Record<string, ExtensionLandingPage>;
 };

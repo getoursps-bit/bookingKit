@@ -1,13 +1,11 @@
 import type { NextRequest } from "next/server";
 import { clientAddress, next } from "@/server/booking/http";
 import { hit } from "@/server/repos/rateLimits";
-import { acceptSuggestion, savePetPhoto } from "@/server/photos";
 import { CSRF_COOKIE, csrfMatches } from "@/server/security";
+import { acceptSuggestion, savePetPhoto } from "../server/photos";
 
-export const dynamic = "force-dynamic";
-
-/** The private link's pet photo: upload one (multipart), or accept the suggestion from it. */
-export async function POST(request: NextRequest) {
+/** The private link's pet photo: upload one (multipart), or accept the suggestion from it. Posted to /api/ext/pets/photo. */
+export async function photoAction(request: NextRequest) {
   const form = await request.formData().catch(() => null);
   const field = (name: string) => {
     const value = form?.get(name);

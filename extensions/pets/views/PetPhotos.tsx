@@ -29,7 +29,7 @@ export async function PetPhotos({ token, csrf, pets }: { token: string; csrf: st
             {pet.name}
           </p>
           {pet.suggestion ? (
-            <form method="post" action="/api/booking/photo" encType="multipart/form-data" className="flex flex-col gap-3">
+            <form method="post" action="/api/ext/pets/photo" encType="multipart/form-data" className="flex flex-col gap-3">
               <input type="hidden" name="csrf" value={csrf} />
               <input type="hidden" name="token" value={token} />
               <input type="hidden" name="petId" value={pet.petId} />
@@ -68,7 +68,7 @@ export async function PetPhotos({ token, csrf, pets }: { token: string; csrf: st
           ) : pet.hasPhoto ? (
             <p className="text-sm text-ink-muted">{t("manage.photoWaiting")}</p>
           ) : (
-            <form method="post" action="/api/booking/photo" encType="multipart/form-data" className="flex flex-col gap-3">
+            <form method="post" action="/api/ext/pets/photo" encType="multipart/form-data" className="flex flex-col gap-3">
               <input type="hidden" name="csrf" value={csrf} />
               <input type="hidden" name="token" value={token} />
               <input type="hidden" name="petId" value={pet.petId} />

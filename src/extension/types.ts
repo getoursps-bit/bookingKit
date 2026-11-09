@@ -90,6 +90,8 @@ export type Extension = {
     /** Added to the customer's data export, under its own keys. */
     export?(customerId: number, db?: Db): Promise<Record<string, unknown>>;
   };
+  /** Its part of the worker's daily clean-up, such as deleting old photos. Returns what it removed, for the log. */
+  cleanup?(db: Db, now: Date): Promise<Record<string, number>>;
   /** Form actions of the owner's content screen that belong to the extension, by the form's `action`. */
   catalogActions?: Record<string, (form: Form, ctx: { staffId: number }) => Promise<ActionResult>>;
 };

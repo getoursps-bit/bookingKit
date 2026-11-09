@@ -14,6 +14,7 @@ import { say } from "./server/strings";
 import * as dogGrooming from "./views/dog-grooming";
 import { PetFieldset } from "./views/PetFieldset";
 import { PetPhotos } from "./views/PetPhotos";
+import { photoAction } from "./views/photo-action";
 
 // What pets show in the core's pages: the pet fields on the details step, the
 // photos on the private link, the pets on the owner's customer record, the
@@ -158,6 +159,7 @@ export default defineViews({
   manageNotices: { photoAdded: "manage.photoAdded", photoSaved: "manage.photoSaved" },
   customer: (props) => <CustomerPets {...props} />,
   catalog: (props) => <Rules {...props} />,
+  actions: { photo: photoAction },
   privacy,
   landingPages: { "dog-grooming": dogGrooming },
 });
