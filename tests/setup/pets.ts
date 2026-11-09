@@ -10,11 +10,12 @@ export function seededServiceId(key: string): number {
   return index + 1;
 }
 
-/** A small adult dog as the details step sends it. Made-up names only. */
-export const testDog = {
-  serviceId: seededServiceId("dog_small"),
-  species: "dog",
-  name: "בדיקה",
-  vetName: "מרפאת בדיקה",
-  vaccinesConfirmed: true,
-} as const;
+const dog = { species: "dog", name: "בדיקה", vetName: "מרפאת בדיקה", vaccinesConfirmed: true } as const;
+
+/** One booking line for a small adult dog, as the details step sends it. Made-up names only. */
+export function dogWith(overrides: Record<string, unknown> = {}) {
+  return { serviceId: seededServiceId("dog_small"), details: { pets: { ...dog, ...overrides } } };
+}
+
+/** The usual line of a test booking. A client without the pets extension ignores the pet details. */
+export const testDog = dogWith();

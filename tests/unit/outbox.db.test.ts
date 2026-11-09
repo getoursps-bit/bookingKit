@@ -23,7 +23,7 @@ async function book(pool: pg.Pool, n: number, opts: { email?: string; time?: str
   const started = await startBooking(
     {
       start: localDateTimeToUtc(openDay(), opts.time ?? "10:00"),
-      pets: [testDog],
+      lines: [testDog],
       name: `לקוח ${n}`,
       phone: phone(n),
       email: opts.email ?? null,

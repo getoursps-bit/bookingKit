@@ -1,6 +1,7 @@
 import { type Db, getPool, query } from "../db";
 import type { AppointmentStatus } from "../repos/appointments";
 import { DEFAULT_LOCALE, type Locale } from "@/i18n/locales";
+import { describeLines } from "../lines";
 import { translatedSql } from "../translation/content";
 
 /** The service name in the owner's language: its translation when filled, the default language otherwise. */
@@ -20,32 +21,25 @@ export type AdminBooking = {
   phone: string | null;
   notes: string | null;
   createdBy: string;
-  lines: {
-    petName: string | null;
-    serviceName: string;
-    /** The vet or clinic named when booking online. */
-    vetName: string | null;
-    /** The customer said the pet has a vaccination certificate. */
-    vaccinesConfirmed: boolean;
-  }[];
+  /** Each booked service. An extension may name the line (a pet's name) and add notes for the owner. */
+  lines: { label: string | null; serviceName: string; notes: string[] }[];
   /** The AI pre-visit note, when one was written. */
   summary: string | null;
 };
 
-/** Bookings that touch [start, end), with their customer and pets, for the calendar and the day view. */
+/** Bookings that touch [start, end), with their customer and lines, for the calendar and the day view. */
 export async function bookingsBetween(
   start: Date,
   end: Date,
   opts: { statuses?: AppointmentStatus[]; locale?: Locale } = {},
   db: Db = getPool(),
 ): Promise<AdminBooking[]> {
-  return query<AdminBooking>(
+  const rows = await query<Omit<AdminBooking, "lines"> & { lines: { position: number; serviceName: string }[] }>(
     `select a.id::int, a.starts_at as start, a.ends_at as "end", a.status, a.customer_id::int as "customerId",
        c.display_name as "customerName", c.phone_e164 as phone, a.notes, a.created_by as "createdBy",
-       coalesce((select json_agg(json_build_object('petName', p.name, 'serviceName', ${serviceName(opts.locale)},
-                   'vetName', p.vet_name, 'vaccinesConfirmed', p.vaccines_confirmed_at is not null) order by ap.position)
+       coalesce((select json_agg(json_build_object('position', ap.position, 'serviceName', ${serviceName(opts.locale)})
+                   order by ap.position)
                  from appointment_pets ap join services s on s.id = ap.service_id
-                 left join pets p on p.id = ap.pet_id
                  where ap.appointment_id = a.id), '[]') as lines,
        (select j.result->>'textHe' from ai_jobs j where j.kind = 'summary' and j.status = 'done'
           and j.appointment_id = a.id order by j.id desc limit 1) as summary
@@ -55,6 +49,15 @@ export async function bookingsBetween(
     [start, end, opts.statuses ?? ["confirmed", "completed", "no_show"]],
     db,
   );
+  const describe = await describeLines(
+    rows.map((row) => row.id),
+    opts.locale,
+    db,
+  );
+  return rows.map((row) => ({
+    ...row,
+    lines: row.lines.map((line) => ({ serviceName: line.serviceName, ...describe(row.id, line.position) })),
+  }));
 }
 
 export type Device = { id: number; label: string | null; lastReceiptAt: Date | null; createdAt: Date };

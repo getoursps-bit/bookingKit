@@ -2196,7 +2196,7 @@
         "en": "Something went wrong while sending. Please try again."
       }
     },
-    "err.tooManyPets": {
+    "err.tooManyLines": {
       "placeholders": [],
       "text": {
         "he": "הגעתם למספר החיות המרבי לתור אחד.",
@@ -2244,7 +2244,7 @@
         "en": "One of the pets is missing a vet or clinic name."
       }
     },
-    "err.TooManyPets": {
+    "err.TooManyLines": {
       "placeholders": [],
       "text": {
         "he": "הגעתם למספר החיות המרבי לתור אחד.",
@@ -3800,7 +3800,7 @@
         "en": "How many days ahead customers can book"
       }
     },
-    "settings.booking.maxPets": {
+    "settings.booking.maxLines": {
       "placeholders": [],
       "text": {
         "he": "מספר חיות מרבי בתור",

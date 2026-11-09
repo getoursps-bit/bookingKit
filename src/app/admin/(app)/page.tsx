@@ -52,7 +52,7 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
                     <span className="flex-1">
                       <span className="block font-semibold">{booking.customerName}</span>
                       <span className="block text-sm text-ink-muted">
-                        {booking.lines.map((line) => [line.petName, line.serviceName].filter(Boolean).join(" – ")).join(", ")}
+                        {booking.lines.map((line) => [line.label, line.serviceName].filter(Boolean).join(" – ")).join(", ")}
                       </span>
                       {booking.summary ? (
                         <span className="mt-1 flex gap-1.5 text-sm">

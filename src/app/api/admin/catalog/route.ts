@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { extensions } from "@/extension/registry";
 import { updateTemplate } from "@/server/notify/templates";
 import type { Channel } from "@/server/notify/types";
 import {
@@ -6,14 +7,9 @@ import {
   listProducts,
   listServices,
   removeGalleryImage,
-  setServiceRule,
   updateBusinessProfile,
   upsertProduct,
   upsertService,
-  type AgeGroup,
-  type PetRequest,
-  type Species,
-  type WeightGroup,
 } from "@/server/repos/catalog";
 import { getFeatures } from "@/server/features";
 import { normalizePhone } from "@/server/links";
@@ -59,7 +55,7 @@ async function dropOldPhoto(old: string | null, kept: string | null) {
       .catch(() => undefined);
 }
 
-/** Services, rules, products, gallery captions, the salon profile and message wording. */
+/** Services, products, gallery captions, the salon profile and message wording. */
 export async function POST(request: NextRequest) {
   const req = await adminRequest(request);
   if (!req.ok) return req.response;
@@ -92,25 +88,6 @@ export async function POST(request: NextRequest) {
         writer,
       );
       return back("services", { ok: "saved" });
-    }
-    case "rule": {
-      const species = form.species as Species;
-      const request_ = form.request as PetRequest;
-      const ageGroup = (form.ageGroup || null) as AgeGroup | null;
-      const weightGroup = (form.weightGroup || null) as WeightGroup | null;
-      const serviceId = Number(form.serviceId);
-      const services = await listServices();
-      if (
-        !["dog", "cat"].includes(species) ||
-        !["groom", "nails"].includes(request_) ||
-        (ageGroup !== null && !["young", "adult"].includes(ageGroup)) ||
-        (weightGroup !== null && !["small", "large", "unknown"].includes(weightGroup)) ||
-        !services.some((service) => service.id === serviceId)
-      ) {
-        return back("rules", { error: "invalid" });
-      }
-      await setServiceRule({ species, request: request_, ageGroup, weightGroup, serviceId }, writer);
-      return back("rules", { ok: "saved" });
     }
     case "product": {
       const id = form.id ? Number(form.id) : undefined;
@@ -194,7 +171,14 @@ export async function POST(request: NextRequest) {
         result === "ok" ? { ok: "saved" } : { error: result === "placeholders" ? "placeholders" : "invalid" },
       );
     }
-    default:
-      return back("services", { error: "invalid" });
+    default: {
+      // A form that belongs to an extension, such as a pet-to-service rule.
+      const action = extensions()
+        .map((extension) => extension.catalogActions)
+        .find((actions) => actions && Object.hasOwn(actions, form.action ?? ""))?.[form.action ?? ""];
+      if (!action) return back("services", { error: "invalid" });
+      const { section, ...notice } = await action(form, writer);
+      return back(section, notice);
+    }
   }
 }

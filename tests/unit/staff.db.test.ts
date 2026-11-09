@@ -138,7 +138,7 @@ describe.skipIf(!hasDb)("owner booking actions", () => {
     const hold = await requestHold(
       {
         start: localDateTimeToUtc(openDay(), time),
-        pets: [testDog],
+        lines: [testDog],
         name: `לקוח ${n}`,
         phone: `+97255502${String(n).padStart(4, "0")}`,
         idempotencyKey: randomUUID(),

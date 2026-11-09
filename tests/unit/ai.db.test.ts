@@ -4,10 +4,11 @@ import sharp from "sharp";
 import { describe, expect, it } from "vitest";
 import { openDay } from "../setup/days";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
+import { petPhotoLines } from "@ext/pets/server/photos";
+import { hasExtension } from "@/extension/registry";
 import { createFakeAi } from "@/server/ai/fake";
 import { queueSummaries, runAiJobs } from "@/server/ai/jobs";
 import { PhotoResult } from "@/server/ai/types";
-import { bookingView } from "@/server/booking/flow";
 import { confirmBooking, requestHold } from "@/server/booking/service";
 import { addLocalDays } from "@/server/booking/slots";
 import { acceptSuggestion, deleteExpiredPhotos, savePetPhoto } from "@/server/photos";
@@ -28,7 +29,7 @@ async function booked(pool: pg.Pool, n: number, ahead = 3, time = "10:00") {
   const hold = await requestHold(
     {
       start: localDateTimeToUtc(openDay(ahead), time),
-      pets: [testDog],
+      lines: [testDog],
       name: `לקוח ${n}`,
       phone: `+97255503${String(n).padStart(4, "0")}`,
       idempotencyKey: randomUUID(),
@@ -150,7 +151,7 @@ describe.skipIf(!hasDb)("AI jobs", () => {
   });
 });
 
-describe.skipIf(!hasDb)("pet photos", () => {
+describe.skipIf(!hasDb || !hasExtension("pets"))("pet photos", () => {
   it("re-encodes without metadata, suggests, saves the accepted values, and expires", async () => {
     await withMigratedSchema(async (pool) => {
       await setting(pool, "ai.photo", true);
@@ -179,13 +180,12 @@ describe.skipIf(!hasDb)("pet photos", () => {
       expect((await pool.query("select purpose from consents where purpose = 'photo_analysis'")).rowCount).toBe(1);
 
       await runAiJobs({ db: pool, ai: createFakeAi() });
-      const view = await bookingView(booking.token, { db: pool });
-      expect(view?.pets[0]?.suggestion).toMatchObject({ breed: "פודל מעורב", condition: "tangled" });
+      expect((await petPhotoLines(booking.id, pool))[0]?.suggestion).toMatchObject({ breed: "פודל מעורב", condition: "tangled" });
 
       expect(await acceptSuggestion({ token: booking.token, petId, breed: "פודל", condition: "matted" }, pool)).toBe(true);
       const [pet] = (await pool.query("select breed, coat_type, coat_condition from pets where id = $1", [petId])).rows;
       expect(pet).toEqual({ breed: "פודל", coat_type: "תלתלי", coat_condition: "matted" });
-      expect((await bookingView(booking.token, { db: pool }))?.pets[0]?.suggestion).toBeNull();
+      expect((await petPhotoLines(booking.id, pool))[0]?.suggestion).toBeNull();
 
       const later = new Date(Date.now() + 100 * 86_400_000);
       expect(await deleteExpiredPhotos(later, pool)).toBe(1);

@@ -48,10 +48,12 @@ function forClient(locale: Locale, base: Messages): Messages {
 
 // Every pack must carry every key of the Hebrew one; the type check fails if one misses a key.
 const packs: Record<Locale, Messages> = PACK_MESSAGES;
-const MESSAGES = Object.fromEntries(
-  Object.entries(packs).map(([locale, base]) => [locale, forClient(locale as Locale, base)]),
-) as Record<Locale, Messages>;
+// Built on first use, not on import: an extension's own code reads strings too,
+// so the registry and this file would otherwise wait on each other.
+const ready = new Map<Locale, Messages>();
 
 export function messagesFor(locale: Locale): Messages {
-  return MESSAGES[locale];
+  let strings = ready.get(locale);
+  if (!strings) ready.set(locale, (strings = forClient(locale, packs[locale])));
+  return strings;
 }

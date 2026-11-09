@@ -1,6 +1,7 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { GalleryUploadForm } from "@/components/admin/GalleryUploadForm";
 import { ActionForm, AdminNotice, Panel } from "@/components/admin/parts";
+import { extensionViews } from "@/extension/views";
 import { pick, type Translations } from "@/i18n/content";
 import { DEFAULT_LOCALE, type Locale, OTHER_LOCALES, PACKS } from "@/i18n/locales";
 import { getI18n } from "@/i18n/server";
@@ -12,7 +13,6 @@ import {
   getBusinessProfile,
   listGallery,
   listProducts,
-  listServiceRules,
   listServices,
   type Product,
   type Service,
@@ -215,15 +215,7 @@ function Item({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-const SPECIES = { dog: "pets.dog", cat: "pets.cat" } as const satisfies Record<string, MessageKey>;
-const AGE = { young: "pets.young", adult: "pets.adult" } as const satisfies Record<string, MessageKey>;
-const WEIGHT = { small: "pets.small", large: "pets.large", unknown: "pets.unknownWeight" } as const satisfies Record<
-  string,
-  MessageKey
->;
-const REQUEST = { groom: "pets.groom", nails: "pets.nails" } as const satisfies Record<string, MessageKey>;
-
-/** Everything the public site shows: services and prices, rules, products, gallery, profile, message wording. */
+/** Everything the public site shows: services and prices, products, gallery, profile, message wording. */
 export default async function CatalogPage({ searchParams }: { searchParams: Promise<{ ok?: string; error?: string }> }) {
   const search = await searchParams;
   const { csrf } = await requireStaffPage();
@@ -232,9 +224,8 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
   const inactive = ` (${translator(locale)("catalog.inactive")})`;
   const channelName = (channel: "whatsapp" | "email" | "push") =>
     channel === "whatsapp" ? t("contact.whatsapp") : translator(locale)(`channel.${channel}`);
-  const [services, rules, products, gallery, profile, templates] = await Promise.all([
+  const [services, products, gallery, profile, templates] = await Promise.all([
     listServices(),
-    listServiceRules(),
     listProducts(),
     listGallery(),
     getBusinessProfile(),
@@ -261,43 +252,8 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
         </div>
       </Panel>
 
-      <Panel id="rules" title={t("catalog.rules")}>
-        <ul className="flex flex-col gap-2">
-          {rules.map((rule) => (
-            <li key={rule.id}>
-              <ActionForm
-                action="/api/admin/catalog"
-                csrf={csrf}
-                name="rule"
-                hidden={{ species: rule.species, request: rule.request, ageGroup: rule.ageGroup ?? "", weightGroup: rule.weightGroup ?? "" }}
-                className="flex flex-wrap items-center gap-2 rounded-2xl bg-paper p-3"
-              >
-                <span className="flex-1 font-semibold">
-                  {[
-                    SPECIES[rule.species],
-                    rule.ageGroup ? AGE[rule.ageGroup] : null,
-                    rule.weightGroup ? WEIGHT[rule.weightGroup] : null,
-                    REQUEST[rule.request],
-                  ]
-                    .filter((key) => key !== null)
-                    .map((key) => t(key))
-                    .join(" · ")}
-                </span>
-                <select name="serviceId" defaultValue={rule.serviceId} className="input w-auto" aria-label={t("catalog.services")}>
-                  {services.map((service) => (
-                    <option key={service.id} value={service.id}>
-                      {pick(locale, service, "name")}
-                    </option>
-                  ))}
-                </select>
-                <button type="submit" className="btn btn-secondary">
-                  {t("admin.save")}
-                </button>
-              </ActionForm>
-            </li>
-          ))}
-        </ul>
-      </Panel>
+      {/* What the extensions add to the content, such as which service each kind of pet gets. */}
+      {extensionViews().map((views) => (views.catalog ? <Fragment key={views.id}>{views.catalog({ csrf })}</Fragment> : null))}
 
       <Panel id="products" title={t("catalog.products")}>
         <div className="flex flex-col gap-2">

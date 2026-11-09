@@ -5,13 +5,16 @@ import { seed } from "../../db/seed/seed";
 import { migrate, pendingMigrations } from "../../scripts/migrate";
 import { openDay } from "../setup/days";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
+import { hasExtension } from "@/extension/registry";
 import * as booking from "@/server/booking/service";
 import * as appointments from "@/server/repos/appointments";
 import { localDateTimeToUtc } from "@/server/time";
-import { testDog } from "../setup/pets";
+import { dogWith, testDog } from "../setup/pets";
 
 // Needs the compose Postgres locally or the CI service; skipped otherwise.
 const hasDb = await testDbAvailable();
+/** Tests of what the pets extension adds to a booking run only for a client that has it on. */
+const pets = hasExtension("pets");
 
 /** The first open day (not Wednesday or Friday) at least `ahead` days away. */
 // Test numbers from the fictional 0555 range, never real customers.
@@ -20,7 +23,7 @@ const phone = (n: number) => `+97255500${String(n).padStart(4, "0")}`;
 function holdInput(start: Date, n: number, overrides: Record<string, unknown> = {}) {
   return {
     start,
-    pets: [testDog],
+    lines: [testDog],
     name: `לקוח ${n}`,
     phone: phone(n),
     idempotencyKey: randomUUID(),
@@ -146,18 +149,18 @@ describe.skipIf(!hasDb)("booking against Postgres", () => {
     });
   });
 
-  it("refuses a pet of the wrong species for its service", async () => {
+  it.skipIf(!pets)("refuses a pet of the wrong species for its service", async () => {
     await withMigratedSchema(async (db) => {
       expect(
-        await booking.requestHold(holdInput(noon, 1, { pets: [{ ...testDog, species: "cat" }] }), { db }),
+        await booking.requestHold(holdInput(noon, 1, { lines: [dogWith({ species: "cat" })] }), { db }),
       ).toEqual({ ok: false, reason: "NoRule" });
       expect(await count(db, "select * from appointments")).toBe(0);
     });
   });
 
-  it("books a pet without a vaccination certificate and keeps the answer", async () => {
+  it.skipIf(!pets)("books a pet without a vaccination certificate and keeps the answer", async () => {
     await withMigratedSchema(async (db) => {
-      const hold = await booking.requestHold(holdInput(noon, 1, { pets: [{ ...testDog, vaccinesConfirmed: false }] }), {
+      const hold = await booking.requestHold(holdInput(noon, 1, { lines: [dogWith({ vaccinesConfirmed: false })] }), {
         db,
       });
       if (!hold.ok) throw new Error(hold.reason);
@@ -167,14 +170,14 @@ describe.skipIf(!hasDb)("booking against Postgres", () => {
     });
   });
 
-  it("updates a pet booked before instead of adding it again", async () => {
+  it.skipIf(!pets)("updates a pet booked before instead of adding it again", async () => {
     await withMigratedSchema(async (db) => {
       for (const [n, time, vetName] of [
         [1, "10:00", "מרפאה ראשונה"],
         [2, "13:00", "מרפאה שנייה"],
       ] as const) {
         const hold = await booking.requestHold(
-          { ...holdInput(localDateTimeToUtc(date, time), n, { pets: [{ ...testDog, vetName }] }), phone: phone(1) },
+          { ...holdInput(localDateTimeToUtc(date, time), n, { lines: [dogWith({ vetName })] }), phone: phone(1) },
           { db },
         );
         if (!hold.ok) throw new Error(hold.reason);

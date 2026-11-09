@@ -396,7 +396,7 @@
   gap: 0.25rem;
   font-weight: 600;
 }
-.cal-event-pets {
+.cal-event-lines {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

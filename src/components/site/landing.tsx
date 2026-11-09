@@ -3,23 +3,26 @@ import { brand } from "@/brand";
 import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
 import type { Service } from "@/server/repos/catalog";
-import { type PetTag, ServiceCard } from "./cards";
+import { ServiceCard } from "./cards";
 import { GalleryGrid, type GalleryItem } from "./GalleryGrid";
 
 // Sections composed into the home page and the campaign landing pages (src/landing/).
 
-/** Link to the booking flow, counted as a "Book" click. `species` pre-chooses dog or cat. */
-export function bookHref(species?: "dog" | "cat"): string {
-  return species ? `/go/book?species=${species}` : "/go/book";
+/** Narrows the service list the booking flow opens with: the address parameter of an extension's service filter and its value. */
+export type BookFilter = Record<string, string>;
+
+/** Link to the booking flow, counted as a "Book" click. */
+export function bookHref(filter?: BookFilter): string {
+  return filter ? `/go/book?${new URLSearchParams(filter)}` : "/go/book";
 }
 
 export async function BookButton({
-  species,
+  filter,
   children,
   size = "md",
   className = "",
 }: {
-  species?: "dog" | "cat";
+  filter?: BookFilter;
   children?: ReactNode;
   size?: "md" | "lg";
   className?: string;
@@ -27,7 +30,7 @@ export async function BookButton({
   const { t } = await getI18n();
   return (
     <a
-      href={bookHref(species)}
+      href={bookHref(filter)}
       rel="nofollow"
       className={`btn btn-primary ${size === "lg" ? "min-h-14 rounded-2xl px-8 text-lg md:rounded-full" : ""} ${className}`}
     >
@@ -94,14 +97,14 @@ export async function Hero({
   eyebrow,
   title,
   text,
-  species,
+  filter,
   imageUrl,
   children,
 }: {
   eyebrow?: string;
   title: string;
   text?: string | null;
-  species?: "dog" | "cat";
+  filter?: BookFilter;
   imageUrl?: string | null;
   children?: ReactNode;
 }) {
@@ -114,7 +117,7 @@ export async function Hero({
         <h1 className="text-[34px] leading-[1.1] font-semibold md:text-[56px]">{title}</h1>
         {text ? <p className="text-lg leading-normal text-ink-soft md:text-[22px]">{text}</p> : null}
         <div className="flex flex-wrap gap-3 pt-2">
-          <BookButton species={species} size="lg" />
+          <BookButton filter={filter} size="lg" />
         </div>
         {children}
       </div>
@@ -152,18 +155,19 @@ export function Section({
 export function ServiceHighlight({
   title,
   services,
-  tags,
+  label,
 }: {
   title: string;
   services: Service[];
-  tags?: Map<number, PetTag>;
+  /** The short label on each card, from an extension's service tags. */
+  label?: (service: Service) => string | undefined;
 }) {
   if (services.length === 0) return null;
   return (
     <Section id="highlight" title={title}>
       <div className="grid gap-3.5 md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] md:gap-5">
         {services.map((service) => (
-          <ServiceCard key={service.id} service={service} tag={tags?.get(service.id)} headingLevel={3} />
+          <ServiceCard key={service.id} service={service} tag={label?.(service)} headingLevel={3} />
         ))}
       </div>
     </Section>
@@ -207,7 +211,7 @@ export function DarkCard({
   );
 }
 
-export async function BookCta({ title, text, species }: { title: string; text: string; species?: "dog" | "cat" }) {
+export async function BookCta({ title, text, filter }: { title: string; text: string; filter?: BookFilter }) {
   const { t } = await getI18n();
   return (
     <div className="mt-10 md:mt-16">
@@ -216,7 +220,7 @@ export async function BookCta({ title, text, species }: { title: string; text: s
         title={title}
         text={text}
         action={
-          <a href={bookHref(species)} rel="nofollow" className="btn btn-primary w-fit px-6 text-[15px] md:text-[17px]">
+          <a href={bookHref(filter)} rel="nofollow" className="btn btn-primary w-fit px-6 text-[15px] md:text-[17px]">
             {t("home.bookNow")}
           </a>
         }

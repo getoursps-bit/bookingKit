@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   const form = await readForm(request);
   if (!csrfOk(request, form)) return next(request, stepPath("code", { error: "expired" }), {}, 403);
   const draft = getDraft(request);
-  if (!draft.holdId) return next(request, stepPath("pets", { error: "HoldExpired" }), {}, 400);
+  if (!draft.holdId) return next(request, stepPath("contact", { error: "HoldExpired" }), {}, 400);
   const channel = form.channel === "email" ? "email" : "whatsapp";
   let email = draft.email;
   if (channel === "email" && form.email !== undefined) {

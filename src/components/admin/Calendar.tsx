@@ -23,6 +23,7 @@ import "@fullcalendar/react/skeleton.css";
 import "@fullcalendar/react/themes/forma/theme.css";
 import "@fullcalendar/react/themes/forma/palettes/red.css";
 import { type FormEvent, type ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { brand } from "@/brand";
 import { Alert } from "@/components/ui/Alert";
 import { Icon } from "@/components/ui/Icon";
 import { useI18n } from "@/i18n/client";
@@ -36,7 +37,7 @@ type Booking = {
   customerName: string;
   phone: string | null;
   notes: string | null;
-  lines: { petName: string | null; serviceName: string; vetName: string | null; vaccinesConfirmed: boolean }[];
+  lines: { label: string | null; serviceName: string; notes: string[] }[];
   summary: string | null;
 };
 
@@ -86,8 +87,8 @@ function cellKey(date: Date): string {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 
-function petsOf(booking: Booking): string {
-  return booking.lines.map((line) => [line.petName, line.serviceName].filter(Boolean).join(" · ")).join(", ");
+function linesOf(booking: Booking): string {
+  return booking.lines.map((line) => [line.label, line.serviceName].filter(Boolean).join(" · ")).join(", ");
 }
 
 /**
@@ -201,7 +202,7 @@ export function Calendar({
     }
     return loaded.map((booking) => ({
       id: String(booking.id),
-      title: `${booking.customerName} · ${petsOf(booking)}`,
+      title: `${booking.customerName} · ${linesOf(booking)}`,
       start: booking.start,
       end: booking.end,
       className: `cal-event cal-event-${booking.status}`,
@@ -341,7 +342,7 @@ export function Calendar({
           {booking.status === "completed" ? <Icon name="check" size={14} /> : null}
           {booking.customerName}
         </span>
-        {info.isShort ? null : <span className="cal-event-pets">{petsOf(booking)}</span>}
+        {info.isShort ? null : <span className="cal-event-lines">{linesOf(booking)}</span>}
       </div>
     );
   }
@@ -371,15 +372,10 @@ export function Calendar({
       <ul className="flex flex-col gap-1 border-t border-line pt-3">
         {selected.lines.map((line, index) => (
           <li key={index} className="flex gap-2">
-            <Icon name="paw" size={18} className="mt-0.5 shrink-0 text-ink-muted" />
+            <Icon name={brand.mark} size={18} className="mt-0.5 shrink-0 text-ink-muted" />
             <span className="flex flex-col">
-              <span>{[line.petName, line.serviceName].filter(Boolean).join(" – ")}</span>
-              {line.vetName ? (
-                <span className="text-sm text-ink-muted">
-                  {t("cal.vet", { name: line.vetName })} ·{" "}
-                  {line.vaccinesConfirmed ? t("cal.vaccinesYes") : t("cal.vaccinesNo")}
-                </span>
-              ) : null}
+              <span>{[line.label, line.serviceName].filter(Boolean).join(" – ")}</span>
+              {line.notes.length > 0 ? <span className="text-sm text-ink-muted">{line.notes.join(" · ")}</span> : null}
             </span>
           </li>
         ))}

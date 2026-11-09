@@ -1,14 +1,15 @@
 import Link from "next/link";
+import { Fragment } from "react";
 import { notFound } from "next/navigation";
 import { ActionForm, AdminNotice, Panel } from "@/components/admin/parts";
+import { extensionViews } from "@/extension/views";
 import { Phone, Time } from "@/components/site/values";
 import { getI18n } from "@/i18n/server";
-import { isolate, type MessageKey } from "@/i18n/t";
+import type { MessageKey } from "@/i18n/t";
 import { translator } from "@/i18n/translator";
 import { customerBookings, customerConsents } from "@/server/admin/data";
-import { getCustomer, listPets } from "@/server/repos/customers";
+import { getCustomer } from "@/server/repos/customers";
 import { requireStaffPage } from "@/server/staff/session";
-import { formatLocal } from "@/server/time";
 
 export async function generateMetadata() {
   const { locale } = await getI18n();
@@ -16,10 +17,9 @@ export async function generateMetadata() {
 }
 
 const STATUSES = new Set(["confirmed", "completed", "no_show", "cancelled"]);
-const SPECIES: Record<string, MessageKey> = { dog: "pets.dog", cat: "pets.cat" };
 const PURPOSES = new Set(["appointment_messages", "photo_analysis", "gallery_photo"]);
 
-/** One customer: contact, pets, bookings, internal notes, consents, merge, export and erase. */
+/** One customer: contact, what the extensions hold, bookings, internal notes, consents, merge, export and erase. */
 export default async function CustomerPage({
   params,
   searchParams,
@@ -34,7 +34,7 @@ export default async function CustomerPage({
   const id = /^\d+$/.test(raw) ? Number(raw) : NaN;
   const customer = Number.isNaN(id) ? null : await getCustomer(id);
   if (!customer || customer.erasedAt) notFound();
-  const [pets, bookings, consents] = await Promise.all([listPets(id), customerBookings(id, locale), customerConsents(id)]);
+  const [bookings, consents] = await Promise.all([customerBookings(id, locale), customerConsents(id)]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -50,29 +50,10 @@ export default async function CustomerPage({
       </div>
       <AdminNotice {...notice} />
       <div className="grid gap-4 lg:grid-cols-2">
-        <Panel id="pets" title={t("customers.pets")}>
-          {pets.length === 0 ? (
-            <p className="text-ink-muted">{t("admin.none")}</p>
-          ) : (
-            <ul className="flex flex-col gap-2">
-              {pets.map((pet) => (
-                <li key={pet.id} className="rounded-2xl bg-paper p-3">
-                  <span className="font-semibold">{pet.name}</span> · {SPECIES[pet.species] ? t(SPECIES[pet.species]!) : pet.species}
-                  {pet.breed ? ` · ${pet.breed}` : ""}
-                  {pet.vetName ? (
-                    <p className="text-sm text-ink-muted">
-                      {t("cal.vet", { name: pet.vetName })} ·{" "}
-                      {pet.vaccinesConfirmedAt
-                        ? t("customers.vaccinesConfirmed", { date: isolate(formatLocal(pet.vaccinesConfirmedAt, "dd/MM/yyyy", locale)) })
-                        : t("cal.vaccinesNo")}
-                    </p>
-                  ) : null}
-                  {pet.temperamentNote ? <p className="text-sm text-ink-muted">{pet.temperamentNote}</p> : null}
-                </li>
-              ))}
-            </ul>
-          )}
-        </Panel>
+        {/* What the extensions hold about the customer, such as their pets. */}
+        {extensionViews().map((views) =>
+          views.customer ? <Fragment key={views.id}>{views.customer({ customerId: id })}</Fragment> : null,
+        )}
 
         <Panel id="notes" title={t("customers.notes")}>
           <ActionForm action="/api/admin/customers" csrf={csrf} name="notes" hidden={{ id }} className="flex flex-col gap-3">

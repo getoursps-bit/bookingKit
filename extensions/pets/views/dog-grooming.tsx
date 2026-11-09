@@ -1,10 +1,10 @@
-import { petTags } from "@/components/site/cards";
 import { BookCta, Faq, GalleryStrip, Hero, ServiceHighlight } from "@/components/site/landing";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
-import { listGallery, listServiceRules, listServices } from "@/server/repos/catalog";
+import { listGallery, listServices } from "@/server/repos/catalog";
+import { serviceTags } from "@/server/serviceTags";
 import { getStorage } from "@/server/storage";
-import type { LandingMeta } from ".";
+import type { LandingMeta } from "@/landing";
 
 // Example campaign page for Instagram dog-grooming posts: /l/dog-grooming.
 
@@ -60,25 +60,24 @@ const COPY = {
   },
 } as const;
 
+/** The booking flow opens with the dog services. */
+const DOGS = { species: "dog" };
+
 export default async function DogGroomingLanding() {
   const { locale } = await getI18n();
   // Written in Hebrew and English; any other language reads the default one.
   const copy = (COPY as Record<string, (typeof COPY)[keyof typeof COPY] | undefined>)[locale] ?? COPY.he;
-  const [services, rules, gallery] = await Promise.all([
+  const [services, tags, gallery] = await Promise.all([
     listServices({ activeOnly: true }),
-    listServiceRules(),
+    serviceTags(locale),
     listGallery(),
   ]);
   const storage = getStorage();
-  const tags = petTags(rules);
-  const dogServices = services.filter((service) => {
-    const tag = tags.get(service.id);
-    return tag === "dog" || tag === "puppy" || tag === "both";
-  });
+  const dogServices = tags.narrow(services, "dog");
   return (
     <>
-      <Hero title={copy.title} text={copy.text} species="dog" />
-      <ServiceHighlight title={copy.services} services={dogServices} tags={tags} />
+      <Hero title={copy.title} text={copy.text} filter={DOGS} />
+      <ServiceHighlight title={copy.services} services={dogServices} label={tags.label} />
       <GalleryStrip
         title={copy.gallery}
         items={gallery.map((image) => ({
@@ -89,7 +88,7 @@ export default async function DogGroomingLanding() {
         }))}
       />
       <Faq items={[...copy.faq]} />
-      <BookCta title={copy.ctaTitle} text={copy.ctaText} species="dog" />
+      <BookCta title={copy.ctaTitle} text={copy.ctaText} filter={DOGS} />
     </>
   );
 }

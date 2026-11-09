@@ -22,7 +22,7 @@ const phone = (n: number) => `+97255501${String(n).padStart(4, "0")}`;
 function holdInput(n: number, time = "10:00", over: Record<string, unknown> = {}) {
   return {
     start: localDateTimeToUtc(openDay(), time),
-    pets: [testDog],
+    lines: [testDog],
     name: `לקוח ${n}`,
     phone: phone(n),
     idempotencyKey: randomUUID(),

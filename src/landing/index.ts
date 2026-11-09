@@ -1,13 +1,14 @@
-import type { ReactElement } from "react";
-import * as dogGrooming from "./dog-grooming";
+import { type ExtensionLandingPage, extensionLandingPages } from "@/extension/views";
 
-// Campaign landing pages, written as code by the developer. To add one, create
-// src/landing/<slug>.tsx exporting `meta` (one per language) and a default component, and list it here.
+// Campaign landing pages under /l/<slug>, written as code by the developer.
+// A client's own pages come from its extensions (`landingPages` in the
+// extension's views.tsx). A page every client should have goes in
+// src/landing/<slug>.tsx, exporting `meta` and a default component, and is
+// listed here.
 
 export type LandingMeta = { title: string; description: string };
-/** `meta` has the default language at least; another language without its own text reads it. */
-export type LandingPage = { meta: Record<string, LandingMeta>; default: () => Promise<ReactElement> | ReactElement };
+export type LandingPage = ExtensionLandingPage;
 
 export const LANDING_PAGES: Record<string, LandingPage> = {
-  "dog-grooming": dogGrooming,
+  ...extensionLandingPages(),
 };
