@@ -1,16 +1,18 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 import pg from "pg";
-import enFile from "../../languages/en/messages.json" with { type: "json" };
-import enPack from "../../languages/en/pack.json" with { type: "json" };
 import heFile from "../../languages/he/messages.json" with { type: "json" };
-import hePack from "../../languages/he/pack.json" with { type: "json" };
 import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { flatten } from "../../src/i18n/flatten";
+import { DEFAULT_LOCALE, LOCALES, PACKS } from "../../src/i18n/languages.generated";
+import { MESSAGES } from "../../src/i18n/packs.generated";
 
-const en = flatten(enFile);
 const he = flatten(heFile);
+// The site's languages after the default one; the switch test uses the first.
+const OTHERS = LOCALES.filter((locale) => locale !== DEFAULT_LOCALE);
+const OTHER = OTHERS[0];
+const other = OTHER ? flatten(MESSAGES[OTHER]) : null;
 
 // Runs against the local (or CI) database, migrated and seeded. The chat
 // number is a fictional test number set for this run and removed afterwards.
@@ -60,7 +62,7 @@ test.afterAll(async () => {
   await setSetting("whatsapp.chatNumber", previousChat);
 });
 
-for (const path of [...PAGES, ...PAGES.map((page) => (page === "/" ? "/en" : `/en${page}`))]) {
+for (const path of [...PAGES, ...OTHERS.flatMap((lang) => PAGES.map((page) => (page === "/" ? `/${lang}` : `/${lang}${page}`)))]) {
   test(`${path} passes an axe check`, async ({ page }) => {
     await page.goto(path);
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
@@ -151,8 +153,8 @@ test("unknown landing pages are not found", async ({ request }) => {
 test("the site can be installed as an app", async ({ request, page }) => {
   const manifest = await (await request.get("/manifest.webmanifest")).json();
   expect(manifest.display).toBe("standalone");
-  expect(manifest.dir).toBe("rtl");
-  expect(manifest.lang).toBe("he");
+  expect(manifest.dir).toBe(PACKS[DEFAULT_LOCALE].dir);
+  expect(manifest.lang).toBe(DEFAULT_LOCALE);
   for (const icon of manifest.icons as { src: string }[]) {
     const response = await request.get(icon.src);
     expect(response.status(), icon.src).toBe(200);
@@ -245,23 +247,27 @@ test("phones get the bottom app bar, wide screens the header links", async ({ pa
   await expect(main.locator('a[aria-current="page"]')).toBeVisible();
 });
 
-test("the language switch moves between Hebrew and English and remembers the choice", async ({ page }) => {
+test("the language switch moves between the default language and another and remembers the choice", async ({ page }) => {
+  test.skip(!OTHER || !other, "a one-language site");
+  const lang = OTHER!;
+  const t = other!;
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/services");
-  await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
-  await page.locator("header").getByRole("link", { name: enPack.name, exact: true }).click();
-  await expect(page).toHaveURL(/\/en\/services$/);
-  await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(en["services.title"]);
-  // Links on English pages stay in English.
-  await page.getByRole("navigation", { name: en["nav.main"], exact: true }).getByRole("link", { name: en["nav.hours"] }).click();
-  await expect(page).toHaveURL(/\/en\/hours$/);
+  await expect(page.locator("html")).toHaveAttribute("dir", PACKS[DEFAULT_LOCALE].dir);
+  await page.locator("header").getByRole("link", { name: PACKS[lang].name, exact: true }).click();
+  await expect(page).toHaveURL(new RegExp(`/${lang}/services$`));
+  await expect(page.locator("html")).toHaveAttribute("lang", lang);
+  await expect(page.locator("html")).toHaveAttribute("dir", PACKS[lang].dir);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(t["services.title"]);
+  // Links on the other language's pages stay in it.
+  await page.getByRole("navigation", { name: t["nav.main"], exact: true }).getByRole("link", { name: t["nav.hours"] }).click();
+  await expect(page).toHaveURL(new RegExp(`/${lang}/hours$`));
   // The owner area follows the remembered language.
   await page.goto("/admin/login");
-  await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  await page.goto("/en/hours");
-  await page.locator("header").getByRole("link", { name: hePack.name, exact: true }).click();
+  await expect(page.locator("html")).toHaveAttribute("lang", lang);
+  await page.goto(`/${lang}/hours`);
+  await page.locator("header").getByRole("link", { name: PACKS[DEFAULT_LOCALE].name, exact: true }).click();
   await expect(page).toHaveURL(/\/hours$/);
-  await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+  await expect(page.locator("html")).toHaveAttribute("dir", PACKS[DEFAULT_LOCALE].dir);
 });
+

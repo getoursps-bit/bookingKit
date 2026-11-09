@@ -137,7 +137,8 @@ The site's languages are listed in `client.json`:
 Each language is a pack, a folder under `languages/`:
 
 - `pack.json`: the language's own name, its direction, and the locales used
-  for prices, link previews and day and month names;
+  for prices, link previews and day and month names. The kit ships Hebrew
+  (the reference), English and Arabic;
 - `messages.json`: every interface string. Hebrew is the reference: a unit
   test fails when a pack misses a key or a placeholder;
 - `content.json`: the starting content in that language (service and

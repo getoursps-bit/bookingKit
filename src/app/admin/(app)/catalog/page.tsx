@@ -378,6 +378,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
           <Field label={t("catalog.name")}>
             <input name="name" required maxLength={80} defaultValue={profile?.name ?? ""} className="input" />
           </Field>
+          <Translated t={t} label="catalog.name" field="name" translations={profile?.translations} max={80} />
           <Field label={t("cal.phone")}>
             <input
               name="phone"

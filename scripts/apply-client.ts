@@ -118,8 +118,8 @@ export function packsTs(client: Client, packs: Record<string, Pack>): string {
   return [
     `// ${HEADER}`,
     `import { ${dates} } from "date-fns/locale";`,
-    ...locales.map((code) => `import ${code}Content from "../../languages/${code}/content.json";`),
-    ...locales.map((code) => `import ${code}Messages from "../../languages/${code}/messages.json";`),
+    ...locales.map((code) => `import ${code}Content from "../../languages/${code}/content.json" with { type: "json" };`),
+    ...locales.map((code) => `import ${code}Messages from "../../languages/${code}/messages.json" with { type: "json" };`),
     'import type { Locale } from "./languages.generated";',
     "",
     `export const MESSAGES = { ${locales.map((code) => `${code}: ${code}Messages`).join(", ")} };`,

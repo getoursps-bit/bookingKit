@@ -8,7 +8,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
-import { brandName } from "../../src/brand";
+import { brand, brandName } from "../../src/brand";
 import { DEFAULT_LOCALE, type Locale, LOCALES } from "../../src/i18n/locales";
 import { CONTENT } from "../../src/i18n/packs.generated";
 import { searchPathOption } from "../../src/server/db-schema";
@@ -124,6 +124,10 @@ export async function seed(db: Queryable, structure: SeedData = data): Promise<v
   await db.query("insert into business_profile (id, name) values (1, $1) on conflict (id) do nothing", [
     brandName(DEFAULT_LOCALE),
   ]);
+  for (const locale of others) {
+    if (brand.name[locale] && brand.name[locale] !== brandName(DEFAULT_LOCALE))
+      await translate(db, locale, "profile", 1, { name: brand.name[locale] });
+  }
 
   for (const template of structure.message_templates) {
     const key = `${template.key}:${template.channel}`;

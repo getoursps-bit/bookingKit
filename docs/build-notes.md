@@ -246,7 +246,48 @@ Design: [`designs/step2_modules_languages.md`](designs/step2_modules_languages.m
 - 219 unit tests, 61 browser tests, the 40 page pictures unchanged; the
   bundled `worker/dist/seed.js` runs.
 
-**Next**
+### A6. The Arabic pack (2026-11-09)
 
-- A6: the Arabic pack, filled from the contract, and the sample client
-  switched to Arabic first.
+**Built**
+
+- `languages/ar/`: `pack.json` (العربية, right to left, prices in
+  `ar-IL` with Latin digits, `ar` date names), `messages.json` (all 533
+  strings, written from the contract in neutral plural address; Arabic
+  plural forms for durations) and `content.json` (the 6 services, 8
+  products and 18 message texts). `pnpm lang:check ar` reports it complete.
+  The text was drafted by the AI building the kit, not by a native reader;
+  the checker proves structure, not meaning.
+- The Alexandria variable font (Arabic and Latin) is installed and listed in
+  `FONTS`; the owner calendar has the library's Arabic wording.
+- The business name is translatable like the other profile text: shown per
+  language in the header, footer, page titles and legal pages, one field per
+  other language in the owner area, and seeded from `client.json`'s names.
+- The sample client is now Hebrew first with Arabic
+  (`tests/fixtures/client.sample.json`), with Heebo for Hebrew and Alexandria
+  for Arabic.
+- The tests no longer assume English: the browser tests take "the site's
+  first other language" from the generated language list (its pages pass
+  axe, a visitor books in it and gets the code and confirmation in it, the
+  switch moves to and from it, the owner's stats read in it); the unit tests
+  that are about the English pack skip themselves on a client without
+  English. The page-picture test covers every other language's public pages.
+
+**Verified**
+
+- Default client: 221 unit tests, 61 browser tests, the 40 page pictures
+  unchanged.
+- Sample client (he + ar): types, 215 unit tests (6 English-only ones
+  skipped), 61 browser tests, Arabic pictures taken and looked at (direction,
+  font, plural durations, prices with Latin digits all right).
+
+**Left for later**
+
+- A client whose default language is not Hebrew (Arabic first) builds, but
+  the browser tests still assert Hebrew interface text, so they do not run
+  for such a client yet.
+- The two legal pages and the dog-grooming landing page read the default
+  language in Arabic; their text is still code.
+- WhatsApp messages in Arabic need the templates approved in Arabic in Meta.
+
+The translation module is complete for this step. Next: Part B, the core
+boundaries.

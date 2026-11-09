@@ -2,12 +2,17 @@ import AxeBuilder from "@axe-core/playwright";
 import { type Browser, expect, type Page, test } from "@playwright/test";
 import pg from "pg";
 import sharp from "sharp";
-import enFile from "../../languages/en/messages.json" with { type: "json" };
 import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { flatten } from "../../src/i18n/flatten";
+import { DEFAULT_LOCALE, LOCALES, PACKS } from "../../src/i18n/languages.generated";
+import { CONTENT, MESSAGES } from "../../src/i18n/packs.generated";
 
-const en = flatten(enFile);
+// The site's first language after the default one, if there is one; these tests take it as the "other" language.
+const OTHER = LOCALES.find((locale) => locale !== DEFAULT_LOCALE);
+const other = OTHER ? flatten(MESSAGES[OTHER]) : null;
+/** The text before a placeholder, for matching a message that carries a value. */
+const before = (text: string, placeholder: string) => text.split(placeholder)[0]!.trim();
 
 // The booking flow end to end, on a phone-size screen with fake providers and
 // the seeded database. Every customer here uses a random number from the
@@ -427,52 +432,55 @@ test("with photo analysis on, a pet photo can be added and the suggestion correc
   await page.context().close();
 });
 
-test("an English visitor books in English and gets the code and messages in English", async ({ browser }) => {
+test("a visitor in the site's other language books in it and gets the code and messages in it", async ({ browser }) => {
+  test.skip(!OTHER || !other, "a one-language site");
+  const lang = OTHER!;
+  const t = other!;
   const who = customer();
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
-    locale: "en-GB",
+    locale: lang,
     extraHTTPHeaders: { "x-forwarded-for": who.address },
   });
   const page = await context.newPage();
 
-  await page.goto("/en/book");
-  await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+  await page.goto(`/${lang}/book`);
+  await expect(page.locator("html")).toHaveAttribute("lang", lang);
+  await expect(page.locator("html")).toHaveAttribute("dir", PACKS[lang].dir);
   await axe(page);
-  const service = "Dog - small breed, up to 10 kg";
-  await serviceButton(page, service, en["home.choose"]).click();
+  const service = CONTENT[lang].service.dog_small.name;
+  await serviceButton(page, service, t["home.choose"]).click();
 
-  // Every step stays under /en, form posts included.
-  await expect(page).toHaveURL(/\/en\/book\?.*step=time/);
+  // Every step stays under the language's prefix, form posts included.
+  const step = (name: string) => new RegExp(`/${lang}/book\\?.*step=${name}`);
+  await expect(page).toHaveURL(step("time"));
   await expect(page.getByText(service, { exact: true })).toBeVisible();
   await axe(page);
-  await pressButton(page, en["time.takeFirst"]);
-  await expect(page).toHaveURL(/\/en\/book\?.*step=contact/);
-  await page.getByLabel(en["pets.name"]).fill("Rex");
-  await page.getByLabel(en["details.vet"]).fill("Test Clinic");
-  await page.getByLabel(en["details.vaccines"]).check();
-  await page.getByLabel(en["contact.name"]).fill("Test Customer");
-  await page.getByLabel(en["contact.phone"]).fill(who.local);
+  await pressButton(page, t["time.takeFirst"]);
+  await expect(page).toHaveURL(step("contact"));
+  await page.getByLabel(t["pets.name"]).fill("Rex");
+  await page.getByLabel(t["details.vet"]).fill("Test Clinic");
+  await page.getByLabel(t["details.vaccines"]).check();
+  await page.getByLabel(t["contact.name"]).fill("Test Customer");
+  await page.getByLabel(t["contact.phone"]).fill(who.local);
   await page.waitForTimeout(3_200);
-  await pressButton(page, en["contact.submit"]);
+  await pressButton(page, t["contact.submit"]);
 
-  await expect(page).toHaveURL(/\/en\/book\?.*step=code/);
-  await expect(page.getByText(/on WhatsApp to the number ending/)).toContainText(who.e164.slice(-4));
+  await expect(page).toHaveURL(step("code"));
+  await expect(page.getByText(before(t["code.sentWhatsappTo"], "{to}"))).toContainText(who.e164.slice(-4));
   const { body } = await latestMessage(who.e164, "code");
-  expect(body).toContain("verification code");
-  await page.getByLabel(en["code.label"]).fill(/(\d{6})/.exec(body)![1]!);
-  await page.getByLabel(en["code.label"]).press("Enter");
+  // The code message is in the language's own wording: the words after the code.
+  expect(body).toContain(CONTENT[lang].message_template["code:whatsapp"].body.split("{code}")[1]!.replace(/^[.\s]+/, ""));
+  await page.getByLabel(t["code.label"]).fill(/(\d{6})/.exec(body)![1]!);
+  await page.getByLabel(t["code.label"]).press("Enter");
 
-  await expect(page).toHaveURL(/\/en\/b\/[\w-]+\?new=1/);
-  await expect(page.getByText(/You're booked! The confirmation is on its way on WhatsApp/)).toContainText(
-    who.e164.slice(-4),
-  );
+  await expect(page).toHaveURL(new RegExp(`/${lang}/b/[\\w-]+\\?new=1`));
+  await expect(page.getByText(before(t["manage.confirmedWhatsapp"], "{to}"))).toContainText(who.e164.slice(-4));
   await axe(page);
 
-  // The customer's language is saved, so the worker sends the confirmation and reminder in English.
+  // The customer's language is saved, so the worker sends the confirmation and reminder in it.
   const [saved] = await sql<{ locale: string }>("select locale from customers where phone_e164 = $1", [who.e164]);
-  expect(saved?.locale).toBe("en");
+  expect(saved?.locale).toBe(lang);
   await context.close();
 });
 

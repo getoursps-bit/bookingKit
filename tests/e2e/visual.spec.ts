@@ -1,4 +1,5 @@
 import { expect, type Page, test } from "@playwright/test";
+import { DEFAULT_LOCALE, LOCALES } from "../../src/i18n/languages.generated";
 
 // A picture of each page, to prove that a change to the brand plumbing leaves
 // the default look untouched. Not part of the normal run: pictures differ by
@@ -21,6 +22,9 @@ const PAGES = [
   "/admin/login",
 ];
 
+// The site's languages after the default one get the public pages too.
+const OTHERS = LOCALES.filter((locale) => locale !== DEFAULT_LOCALE);
+
 const WIDTHS = { phone: null, wide: { width: 1440, height: 900 } } as const;
 
 /** The parts that change with the clock: free times and today's row in the hours. */
@@ -32,7 +36,7 @@ const live = (page: Page) => [
 ];
 
 for (const [label, viewport] of Object.entries(WIDTHS)) {
-  for (const path of [...PAGES, ...PAGES.slice(0, 9).map((page) => (page === "/" ? "/en" : `/en${page}`))]) {
+  for (const path of [...PAGES, ...OTHERS.flatMap((lang) => PAGES.slice(0, 9).map((page) => (page === "/" ? `/${lang}` : `/${lang}${page}`)))]) {
     test(`${label} ${path}`, async ({ page }) => {
       if (viewport) await page.setViewportSize(viewport);
       await page.goto(path);

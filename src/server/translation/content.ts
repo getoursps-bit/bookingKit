@@ -13,7 +13,7 @@ export const TRANSLATABLE = {
   service: { name: 80, includes: 500 },
   product: { name: 80, description: 300 },
   gallery_image: { alt: 200, caption: 200 },
-  profile: { tagline: 160 },
+  profile: { name: 80, tagline: 160 },
   message_template: { body: 1000, subject: 160 },
 } as const satisfies Record<string, Record<string, number>>;
 

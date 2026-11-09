@@ -14,6 +14,7 @@ import FullCalendar, {
 } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/react/daygrid";
 import interactionPlugin from "@fullcalendar/react/interaction";
+import arLocale from "@fullcalendar/react/locales/ar";
 import enLocale from "@fullcalendar/react/locales/en-gb";
 import heLocale from "@fullcalendar/react/locales/he";
 import formaTheme from "@fullcalendar/react/themes/forma";
@@ -55,7 +56,7 @@ const VIEWS: { type: View; key: "cal.day" | "cal.week" | "cal.month" }[] = [
 const TIME_ZONE = "Asia/Jerusalem";
 // The calendar library's own wording, where it ships one for the language; any
 // other language still gets its day and month names from the browser.
-const CALENDAR_LOCALES: Record<string, typeof heLocale> = { he: heLocale, en: enLocale };
+const CALENDAR_LOCALES: Record<string, typeof heLocale> = { he: heLocale, en: enLocale, ar: arLocale };
 // English dates read day first here, as in the rest of the owner area.
 const DATE_FORMATS: Record<string, string> = { en: "en-GB" };
 

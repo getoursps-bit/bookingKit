@@ -14,6 +14,7 @@
       ],
       "text": {
         "he": "{brand}",
+        "ar": "{brand}",
         "en": "{brand}"
       }
     },
@@ -23,6 +24,7 @@
       ],
       "text": {
         "he": "לשאלות אפשר להתקשר: {phone}",
+        "ar": "للاستفسار يمكنكم الاتصال: {phone}",
         "en": "Questions? Give us a call: {phone}"
       }
     },
@@ -30,6 +32,7 @@
       "placeholders": [],
       "text": {
         "he": "(נפתח בחלון חדש)",
+        "ar": "(يُفتح في نافذة جديدة)",
         "en": "(opens in a new window)"
       }
     },
@@ -37,6 +40,7 @@
       "placeholders": [],
       "text": {
         "he": "דילוג לתוכן הראשי",
+        "ar": "الانتقال إلى المحتوى الرئيسي",
         "en": "Skip to main content"
       }
     },
@@ -44,6 +48,7 @@
       "placeholders": [],
       "text": {
         "he": "ניווט ראשי",
+        "ar": "التنقل الرئيسي",
         "en": "Main navigation"
       }
     },
@@ -51,6 +56,7 @@
       "placeholders": [],
       "text": {
         "he": "קישורים נוספים",
+        "ar": "روابط إضافية",
         "en": "More links"
       }
     },
@@ -58,6 +64,7 @@
       "placeholders": [],
       "text": {
         "he": "ראשי",
+        "ar": "الرئيسية",
         "en": "Home"
       }
     },
@@ -65,6 +72,7 @@
       "placeholders": [],
       "text": {
         "he": "שירותים ומחירים",
+        "ar": "الخدمات والأسعار",
         "en": "Services & prices"
       }
     },
@@ -72,6 +80,7 @@
       "placeholders": [],
       "text": {
         "he": "מוצרים",
+        "ar": "المنتجات",
         "en": "Products"
       }
     },
@@ -79,6 +88,7 @@
       "placeholders": [],
       "text": {
         "he": "גלריה",
+        "ar": "المعرض",
         "en": "Gallery"
       }
     },
@@ -86,6 +96,7 @@
       "placeholders": [],
       "text": {
         "he": "שעות פתיחה",
+        "ar": "ساعات العمل",
         "en": "Opening hours"
       }
     },
@@ -93,6 +104,7 @@
       "placeholders": [],
       "text": {
         "he": "יצירת קשר",
+        "ar": "اتصلوا بنا",
         "en": "Contact"
       }
     },
@@ -100,6 +112,7 @@
       "placeholders": [],
       "text": {
         "he": "קביעת תור",
+        "ar": "حجز موعد",
         "en": "Book an appointment"
       }
     },
@@ -107,6 +120,7 @@
       "placeholders": [],
       "text": {
         "he": "הצהרת נגישות",
+        "ar": "بيان إمكانية الوصول",
         "en": "Accessibility statement"
       }
     },
@@ -114,6 +128,7 @@
       "placeholders": [],
       "text": {
         "he": "מדיניות פרטיות",
+        "ar": "سياسة الخصوصية",
         "en": "Privacy policy"
       }
     },
@@ -121,6 +136,7 @@
       "placeholders": [],
       "text": {
         "he": "ניווט מהיר",
+        "ar": "تنقل سريع",
         "en": "Quick navigation"
       }
     },
@@ -128,6 +144,7 @@
       "placeholders": [],
       "text": {
         "he": "שירותים",
+        "ar": "الخدمات",
         "en": "Services"
       }
     },
@@ -135,6 +152,7 @@
       "placeholders": [],
       "text": {
         "he": "קשר",
+        "ar": "اتصال",
         "en": "Contact"
       }
     },
@@ -142,6 +160,7 @@
       "placeholders": [],
       "text": {
         "he": "תפריט",
+        "ar": "القائمة",
         "en": "Menu"
       }
     },
@@ -149,6 +168,7 @@
       "placeholders": [],
       "text": {
         "he": "סגירת התפריט",
+        "ar": "إغلاق القائمة",
         "en": "Close menu"
       }
     },
@@ -156,6 +176,7 @@
       "placeholders": [],
       "text": {
         "he": "התור שלי",
+        "ar": "موعدي",
         "en": "My appointment"
       }
     },
@@ -163,6 +184,7 @@
       "placeholders": [],
       "text": {
         "he": "נגישות",
+        "ar": "إمكانية الوصول",
         "en": "Accessibility"
       }
     },
@@ -170,6 +192,7 @@
       "placeholders": [],
       "text": {
         "he": "לקביעת תור",
+        "ar": "لحجز موعد",
         "en": "Book now"
       }
     },
@@ -177,6 +200,7 @@
       "placeholders": [],
       "text": {
         "he": "בוחרים פינוק",
+        "ar": "اختاروا التدليل",
         "en": "Pick a pamper"
       }
     },
@@ -184,6 +208,7 @@
       "placeholders": [],
       "text": {
         "he": "לכל השירותים והמחירים",
+        "ar": "كل الخدمات والأسعار",
         "en": "All services & prices"
       }
     },
@@ -191,6 +216,7 @@
       "placeholders": [],
       "text": {
         "he": "שעות פתיחה",
+        "ar": "ساعات العمل",
         "en": "Opening hours"
       }
     },
@@ -198,6 +224,7 @@
       "placeholders": [],
       "text": {
         "he": "לשעות ולימים סגורים",
+        "ar": "الساعات وأيام الإغلاق",
         "en": "Hours & closed days"
       }
     },
@@ -205,6 +232,7 @@
       "placeholders": [],
       "text": {
         "he": "גלריה",
+        "ar": "المعرض",
         "en": "Gallery"
       }
     },
@@ -212,6 +240,7 @@
       "placeholders": [],
       "text": {
         "he": "מספרה לכלבים ולחתולים",
+        "ar": "صالون تجميل للكلاب والقطط",
         "en": "Grooming salon for dogs and cats"
       }
     },
@@ -219,6 +248,7 @@
       "placeholders": [],
       "text": {
         "he": "טיפוח עדין ומקצועי, בתור שקובעים מהנייד בפחות מדקה.",
+        "ar": "عناية لطيفة ومهنية، بموعد تحجزونه من الهاتف في أقل من دقيقة.",
         "en": "Gentle, professional grooming, with an appointment you can book from your phone in under a minute."
       }
     },
@@ -228,6 +258,7 @@
       ],
       "text": {
         "he": "פתוח היום עד {time}",
+        "ar": "مفتوح اليوم حتى {time}",
         "en": "Open today until {time}"
       }
     },
@@ -237,6 +268,7 @@
       ],
       "text": {
         "he": "נפתח היום ב-{time}",
+        "ar": "يفتح اليوم في {time}",
         "en": "Opens today at {time}"
       }
     },
@@ -244,6 +276,7 @@
       "placeholders": [],
       "text": {
         "he": "סגור היום",
+        "ar": "مغلق اليوم",
         "en": "Closed today"
       }
     },
@@ -251,6 +284,7 @@
       "placeholders": [],
       "text": {
         "he": "בחירה",
+        "ar": "اختيار",
         "en": "Choose"
       }
     },
@@ -260,6 +294,7 @@
       ],
       "text": {
         "he": "לכל {n} התמונות",
+        "ar": "كل الصور ({n})",
         "en": "See all {n} photos"
       }
     },
@@ -267,6 +302,7 @@
       "placeholders": [],
       "text": {
         "he": "מדף הספא",
+        "ar": "رف السبا",
         "en": "The spa shelf"
       }
     },
@@ -274,6 +310,7 @@
       "placeholders": [],
       "text": {
         "he": "נמכר אצלנו במקום.",
+        "ar": "يُباع عندنا في المكان.",
         "en": "Sold on site."
       }
     },
@@ -281,6 +318,7 @@
       "placeholders": [],
       "text": {
         "he": "כבר קבעתם תור?",
+        "ar": "حجزتم موعدًا من قبل؟",
         "en": "Already booked?"
       }
     },
@@ -288,6 +326,7 @@
       "placeholders": [],
       "text": {
         "he": "לראות, להזיז או לבטל את התור בקישור ששלחנו לכם בהודעה.",
+        "ar": "لعرض الموعد أو نقله أو إلغائه عبر الرابط الذي أرسلناه لكم في رسالة.",
         "en": "View, move or cancel your visit with the link we sent you by message."
       }
     },
@@ -295,6 +334,7 @@
       "placeholders": [],
       "text": {
         "he": "איבדתם את הקישור? צרו קשר",
+        "ar": "فقدتم الرابط؟ اتصلوا بنا",
         "en": "Lost the link? Contact us"
       }
     },
@@ -302,6 +342,7 @@
       "placeholders": [],
       "text": {
         "he": "רך, נקי",
+        "ar": "ناعم، نظيف",
         "en": "Soft, clean"
       }
     },
@@ -309,6 +350,7 @@
       "placeholders": [],
       "text": {
         "he": "ומטופח במיוחד",
+        "ar": "ومُعتنى به خصوصًا",
         "en": "& well cared for"
       }
     },
@@ -316,6 +358,7 @@
       "placeholders": [],
       "text": {
         "he": "כלבים וחתולים",
+        "ar": "كلاب وقطط",
         "en": "Dogs & cats"
       }
     },
@@ -325,6 +368,7 @@
       ],
       "text": {
         "he": "התור הפנוי הקרוב: {when}",
+        "ar": "أقرب موعد متاح: {when}",
         "en": "First available: {when}"
       }
     },
@@ -334,6 +378,7 @@
       ],
       "text": {
         "he": "היום {time}",
+        "ar": "اليوم {time}",
         "en": "today {time}"
       }
     },
@@ -343,6 +388,7 @@
       ],
       "text": {
         "he": "מחר {time}",
+        "ar": "غدًا {time}",
         "en": "tomorrow {time}"
       }
     },
@@ -350,6 +396,7 @@
       "placeholders": [],
       "text": {
         "he": "פנוי היום",
+        "ar": "متاح اليوم",
         "en": "Free today"
       }
     },
@@ -357,6 +404,7 @@
       "placeholders": [],
       "text": {
         "he": "פנוי מחר",
+        "ar": "متاح غدًا",
         "en": "Free tomorrow"
       }
     },
@@ -366,6 +414,7 @@
       ],
       "text": {
         "he": "פנוי {day}",
+        "ar": "متاح {day}",
         "en": "Free {day}"
       }
     },
@@ -373,6 +422,7 @@
       "placeholders": [],
       "text": {
         "he": "או כותבים לנו בוואטסאפ",
+        "ar": "أو راسلونا على واتساب",
         "en": "or say hi on WhatsApp"
       }
     },
@@ -380,6 +430,7 @@
       "placeholders": [],
       "text": {
         "he": "לוחצים על + וקובעים. המחירים התחלתיים, המחיר הסופי בסלון.",
+        "ar": "اضغطوا على + واحجزوا. الأسعار أولية، والسعر النهائي في الصالون.",
         "en": "Tap + to book. Prices are \"from\"; the final price is set at the salon."
       }
     },
@@ -387,6 +438,7 @@
       "placeholders": [],
       "text": {
         "he": "בואו לבקר",
+        "ar": "تعالوا لزيارتنا",
         "en": "Come say hi"
       }
     },
@@ -394,6 +446,7 @@
       "placeholders": [],
       "text": {
         "he": "שירותים",
+        "ar": "الخدمات",
         "en": "Services"
       }
     },
@@ -401,6 +454,7 @@
       "placeholders": [],
       "text": {
         "he": "מוצרים",
+        "ar": "المنتجات",
         "en": "Products"
       }
     },
@@ -408,6 +462,7 @@
       "placeholders": [],
       "text": {
         "he": "דרכים ליצור קשר",
+        "ar": "طرق التواصل معنا",
         "en": "Ways to reach us"
       }
     },
@@ -415,6 +470,7 @@
       "placeholders": [],
       "text": {
         "he": "התקשרו",
+        "ar": "اتصلوا",
         "en": "Call"
       }
     },
@@ -422,6 +478,7 @@
       "placeholders": [],
       "text": {
         "he": "וואטסאפ",
+        "ar": "واتساب",
         "en": "WhatsApp"
       }
     },
@@ -429,6 +486,7 @@
       "placeholders": [],
       "text": {
         "he": "ניווט ב-Waze",
+        "ar": "التنقل مع Waze",
         "en": "Navigate with Waze"
       }
     },
@@ -436,6 +494,7 @@
       "placeholders": [],
       "text": {
         "he": "אינסטגרם",
+        "ar": "إنستغرام",
         "en": "Instagram"
       }
     },
@@ -443,6 +502,7 @@
       "placeholders": [],
       "text": {
         "he": "פייסבוק",
+        "ar": "فيسبوك",
         "en": "Facebook"
       }
     },
@@ -450,6 +510,7 @@
       "placeholders": [],
       "text": {
         "he": "טיקטוק",
+        "ar": "تيك توك",
         "en": "TikTok"
       }
     },
@@ -457,6 +518,7 @@
       "placeholders": [],
       "text": {
         "he": "איך נחזור אליכם?",
+        "ar": "كيف نعاود الاتصال بكم؟",
         "en": "How can we reach you?"
       }
     },
@@ -464,6 +526,7 @@
       "placeholders": [],
       "text": {
         "he": "כתובת",
+        "ar": "العنوان",
         "en": "Address"
       }
     },
@@ -471,6 +534,7 @@
       "placeholders": [],
       "text": {
         "he": "טלפון נייד",
+        "ar": "رقم الجوال",
         "en": "Mobile phone"
       }
     },
@@ -478,6 +542,7 @@
       "placeholders": [],
       "text": {
         "he": "וואטסאפ לשאלות ולהזמנת מוצרים",
+        "ar": "واتساب للاستفسارات وطلب المنتجات",
         "en": "WhatsApp for questions and product orders"
       }
     },
@@ -485,6 +550,7 @@
       "placeholders": [],
       "text": {
         "he": "המספר שממנו נשלחים אישורים ותזכורות",
+        "ar": "الرقم الذي تُرسل منه التأكيدات والتذكيرات",
         "en": "The number that sends confirmations and reminders"
       }
     },
@@ -492,6 +558,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעות למספר הזה לא נקראות. לשאלות כתבו למספר הוואטסאפ של המספרה או התקשרו.",
+        "ar": "الرسائل إلى هذا الرقم لا تُقرأ. للاستفسار اكتبوا إلى رقم واتساب الصالون أو اتصلوا.",
         "en": "Messages to this number aren't read. For questions, message the salon's WhatsApp number or give us a call."
       }
     },
@@ -499,6 +566,7 @@
       "placeholders": [],
       "text": {
         "he": "פתיחה במפה",
+        "ar": "فتح في الخريطة",
         "en": "Open in maps"
       }
     },
@@ -506,6 +574,7 @@
       "placeholders": [],
       "text": {
         "he": "הפרטים יעודכנו בקרוב.",
+        "ar": "التفاصيل ستُحدَّث قريبًا.",
         "en": "Details coming soon."
       }
     },
@@ -513,6 +582,7 @@
       "placeholders": [],
       "text": {
         "he": "שם מלא",
+        "ar": "الاسم الكامل",
         "en": "Full name"
       }
     },
@@ -520,6 +590,7 @@
       "placeholders": [],
       "text": {
         "he": "קוד האימות והאישור יישלחו בוואטסאפ למספר הזה.",
+        "ar": "سنرسل رمز التحقق والتأكيد إلى هذا الرقم على واتساب.",
         "en": "We'll send the verification code and confirmation to this number on WhatsApp."
       }
     },
@@ -527,6 +598,7 @@
       "placeholders": [],
       "text": {
         "he": "מייל (לא חובה)",
+        "ar": "البريد الإلكتروني (اختياري)",
         "en": "Email (optional)"
       }
     },
@@ -534,6 +606,7 @@
       "placeholders": [],
       "text": {
         "he": "רק אם וואטסאפ לא יגיע.",
+        "ar": "فقط إذا لم تصل رسالة واتساب.",
         "en": "Only used if WhatsApp doesn't get through."
       }
     },
@@ -541,6 +614,7 @@
       "placeholders": [],
       "text": {
         "he": "שליחת קוד אימות",
+        "ar": "إرسال رمز التحقق",
         "en": "Send verification code"
       }
     },
@@ -551,6 +625,7 @@
       ],
       "text": {
         "he": "{pets} · {when}",
+        "ar": "{pets} · {when}",
         "en": "{pets} · {when}"
       }
     },
@@ -558,6 +633,7 @@
       "placeholders": [],
       "text": {
         "he": "אתר (השאירו ריק)",
+        "ar": "الموقع (اتركوه فارغًا)",
         "en": "Website (leave blank)"
       }
     },
@@ -565,6 +641,7 @@
       "placeholders": [],
       "text": {
         "he": "מייל",
+        "ar": "البريد الإلكتروني",
         "en": "Email"
       }
     },
@@ -572,6 +649,7 @@
       "placeholders": [],
       "text": {
         "he": "קוד האימות והאישור יישלחו לכתובת הזו.",
+        "ar": "سيُرسل رمز التحقق والتأكيد إلى هذا العنوان.",
         "en": "Your verification code and confirmation are sent to this address."
       }
     },
@@ -579,6 +657,7 @@
       "placeholders": [],
       "text": {
         "he": "שירותים ומחירים",
+        "ar": "الخدمات والأسعار",
         "en": "Services & prices"
       }
     },
@@ -586,6 +665,7 @@
       "placeholders": [],
       "text": {
         "he": "המחירים הם מחירי \"החל מ\". המחיר הסופי נקבע במספרה, לפי הגודל ומצב הפרווה.",
+        "ar": "الأسعار هي أسعار \"ابتداءً من\". السعر النهائي يُحدَّد في الصالون حسب الحجم وحالة الفراء.",
         "en": "Prices are \"from\" prices. The final price is set at the salon, based on size and coat condition."
       }
     },
@@ -593,6 +673,7 @@
       "placeholders": [],
       "text": {
         "he": "כולל",
+        "ar": "يشمل",
         "en": "Includes"
       }
     },
@@ -600,6 +681,7 @@
       "placeholders": [],
       "text": {
         "he": "משך",
+        "ar": "المدة",
         "en": "Duration"
       }
     },
@@ -607,6 +689,7 @@
       "placeholders": [],
       "text": {
         "he": "מחיר",
+        "ar": "السعر",
         "en": "Price"
       }
     },
@@ -616,6 +699,7 @@
       ],
       "text": {
         "he": "החל מ-{price}",
+        "ar": "ابتداءً من {price}",
         "en": "From {price}"
       }
     },
@@ -623,6 +707,7 @@
       "placeholders": [],
       "text": {
         "he": "את השירות הזה קובעים בטלפון בלבד",
+        "ar": "هذه الخدمة تُحجز عبر الهاتف فقط",
         "en": "This service can only be booked by phone"
       }
     },
@@ -630,6 +715,7 @@
       "placeholders": [],
       "text": {
         "he": "מוצרים",
+        "ar": "المنتجات",
         "en": "Products"
       }
     },
@@ -637,6 +723,7 @@
       "placeholders": [],
       "text": {
         "he": "אפשר להזמין כל מוצר בוואטסאפ ולאסוף במספרה. אין תשלום באתר.",
+        "ar": "يمكن طلب أي منتج عبر واتساب واستلامه في الصالون. لا دفع عبر الموقع.",
         "en": "Order any product on WhatsApp and pick it up at the salon. No payment on the website."
       }
     },
@@ -644,6 +731,7 @@
       "placeholders": [],
       "text": {
         "he": "הזמנה בוואטסאפ",
+        "ar": "طلب عبر واتساب",
         "en": "Order on WhatsApp"
       }
     },
@@ -654,6 +742,7 @@
       ],
       "text": {
         "he": "שלום, אשמח להזמין: {name} ({price})",
+        "ar": "مرحبًا، أود طلب: {name} ({price})",
         "en": "Hi, I'd like to order: {name} ({price})"
       }
     },
@@ -661,6 +750,7 @@
       "placeholders": [],
       "text": {
         "he": "להזמנה התקשרו למספרה",
+        "ar": "للطلب اتصلوا بالصالون",
         "en": "To order, call the salon"
       }
     },
@@ -668,6 +758,7 @@
       "placeholders": [],
       "text": {
         "he": "המוצרים יעלו בקרוב.",
+        "ar": "المنتجات ستُضاف قريبًا.",
         "en": "Products coming soon."
       }
     },
@@ -675,6 +766,7 @@
       "placeholders": [],
       "text": {
         "he": "גלריה",
+        "ar": "المعرض",
         "en": "Gallery"
       }
     },
@@ -682,6 +774,7 @@
       "placeholders": [],
       "text": {
         "he": "התמונות יעלו בקרוב.",
+        "ar": "الصور ستُضاف قريبًا.",
         "en": "Photos coming soon."
       }
     },
@@ -691,6 +784,7 @@
       ],
       "text": {
         "he": "הצגת התמונה בגודל מלא: {alt}",
+        "ar": "عرض الصورة بالحجم الكامل: {alt}",
         "en": "View full-size photo: {alt}"
       }
     },
@@ -698,6 +792,7 @@
       "placeholders": [],
       "text": {
         "he": "תמונה מהגלריה של המספרה",
+        "ar": "صورة من معرض الصالون",
         "en": "A photo from the salon's gallery"
       }
     },
@@ -705,6 +800,7 @@
       "placeholders": [],
       "text": {
         "he": "שעות פתיחה",
+        "ar": "ساعات العمل",
         "en": "Opening hours"
       }
     },
@@ -712,6 +808,7 @@
       "placeholders": [],
       "text": {
         "he": "היום",
+        "ar": "اليوم",
         "en": "Today"
       }
     },
@@ -719,6 +816,7 @@
       "placeholders": [],
       "text": {
         "he": "סגור",
+        "ar": "مغلق",
         "en": "Closed"
       }
     },
@@ -729,6 +827,7 @@
       ],
       "text": {
         "he": "{opens}–{closes}",
+        "ar": "{opens}–{closes}",
         "en": "{opens}–{closes}"
       }
     },
@@ -736,6 +835,7 @@
       "placeholders": [],
       "text": {
         "he": "ימים ושעות שהמספרה סגורה בקרוב",
+        "ar": "الأيام والساعات التي سيُغلق فيها الصالون قريبًا",
         "en": "Upcoming days and hours the salon is closed"
       }
     },
@@ -743,6 +843,7 @@
       "placeholders": [],
       "text": {
         "he": "אין סגירות מתוכננות בחודש הקרוב.",
+        "ar": "لا إغلاقات مخططة في الشهر القادم.",
         "en": "No closures planned for the coming month."
       }
     },
@@ -750,6 +851,7 @@
       "placeholders": [],
       "text": {
         "he": "פתוח עכשיו",
+        "ar": "مفتوح الآن",
         "en": "Open now"
       }
     },
@@ -757,6 +859,7 @@
       "placeholders": [],
       "text": {
         "he": "סגור עכשיו",
+        "ar": "مغلق الآن",
         "en": "Closed now"
       }
     },
@@ -764,6 +867,7 @@
       "placeholders": [],
       "text": {
         "he": "שעות פתיחה שבועיות",
+        "ar": "ساعات العمل الأسبوعية",
         "en": "Weekly opening hours"
       }
     },
@@ -771,6 +875,7 @@
       "placeholders": [],
       "text": {
         "he": "פתיחה",
+        "ar": "الفتح",
         "en": "Opens"
       }
     },
@@ -778,6 +883,7 @@
       "placeholders": [],
       "text": {
         "he": "סגירה",
+        "ar": "الإغلاق",
         "en": "Closes"
       }
     },
@@ -785,6 +891,7 @@
       "placeholders": [],
       "text": {
         "he": "סגור",
+        "ar": "مغلق",
         "en": "Closed"
       }
     },
@@ -792,6 +899,7 @@
       "placeholders": [],
       "text": {
         "he": "חופשות וימים סגורים",
+        "ar": "إجازات وأيام إغلاق",
         "en": "Time off and closed days"
       }
     },
@@ -799,6 +907,7 @@
       "placeholders": [],
       "text": {
         "he": "מ-",
+        "ar": "من",
         "en": "From"
       }
     },
@@ -806,6 +915,7 @@
       "placeholders": [],
       "text": {
         "he": "עד",
+        "ar": "حتى",
         "en": "To"
       }
     },
@@ -813,6 +923,7 @@
       "placeholders": [],
       "text": {
         "he": "סיבה (לא חובה)",
+        "ar": "السبب (اختياري)",
         "en": "Reason (optional)"
       }
     },
@@ -820,6 +931,7 @@
       "placeholders": [],
       "text": {
         "he": "בזמן הזה יש תורים קבועים:",
+        "ar": "في هذا الوقت توجد مواعيد محجوزة:",
         "en": "There are appointments booked during this time:"
       }
     },
@@ -827,6 +939,7 @@
       "placeholders": [],
       "text": {
         "he": "ביטול התורים האלה והודעה ללקוחות",
+        "ar": "إلغاء هذه المواعيد وإبلاغ الزبائن",
         "en": "Cancel these appointments and notify the customers"
       }
     },
@@ -834,6 +947,7 @@
       "placeholders": [],
       "text": {
         "he": "כל היום",
+        "ar": "طوال اليوم",
         "en": "All day"
       }
     },
@@ -841,6 +955,7 @@
       "placeholders": [],
       "text": {
         "he": "ראשון",
+        "ar": "الأحد",
         "en": "Sunday"
       }
     },
@@ -848,6 +963,7 @@
       "placeholders": [],
       "text": {
         "he": "שני",
+        "ar": "الاثنين",
         "en": "Monday"
       }
     },
@@ -855,6 +971,7 @@
       "placeholders": [],
       "text": {
         "he": "שלישי",
+        "ar": "الثلاثاء",
         "en": "Tuesday"
       }
     },
@@ -862,6 +979,7 @@
       "placeholders": [],
       "text": {
         "he": "רביעי",
+        "ar": "الأربعاء",
         "en": "Wednesday"
       }
     },
@@ -869,6 +987,7 @@
       "placeholders": [],
       "text": {
         "he": "חמישי",
+        "ar": "الخميس",
         "en": "Thursday"
       }
     },
@@ -876,6 +995,7 @@
       "placeholders": [],
       "text": {
         "he": "שישי",
+        "ar": "الجمعة",
         "en": "Friday"
       }
     },
@@ -883,6 +1003,7 @@
       "placeholders": [],
       "text": {
         "he": "שבת",
+        "ar": "السبت",
         "en": "Saturday"
       }
     },
@@ -890,6 +1011,7 @@
       "placeholders": [],
       "text": {
         "he": "קביעת תור",
+        "ar": "حجز موعد",
         "en": "Book an appointment"
       }
     },
@@ -897,6 +1019,7 @@
       "placeholders": [],
       "text": {
         "he": "כרגע קובעים תורים בטלפון בלבד. נשמח לשמוע מכם.",
+        "ar": "حاليًا تُحجز المواعيد عبر الهاتف فقط. يسعدنا سماعكم.",
         "en": "For now, appointments are booked by phone only. We'd love to hear from you."
       }
     },
@@ -904,6 +1027,7 @@
       "placeholders": [],
       "text": {
         "he": "ארבעה צעדים קצרים: שירות, מועד, פרטים וקוד אימות.",
+        "ar": "أربع خطوات قصيرة: الخدمة، الموعد، التفاصيل ورمز التحقق.",
         "en": "Four quick steps: service, time, details and verification code."
       }
     },
@@ -911,6 +1035,7 @@
       "placeholders": [],
       "text": {
         "he": "שלבי ההזמנה",
+        "ar": "خطوات الحجز",
         "en": "Booking steps"
       }
     },
@@ -920,6 +1045,7 @@
       ],
       "text": {
         "he": "שלב {n} מתוך 4",
+        "ar": "الخطوة {n} من 4",
         "en": "Step {n} of 4"
       }
     },
@@ -927,6 +1053,7 @@
       "placeholders": [],
       "text": {
         "he": "שירות",
+        "ar": "الخدمة",
         "en": "Service"
       }
     },
@@ -934,6 +1061,7 @@
       "placeholders": [],
       "text": {
         "he": "מועד",
+        "ar": "الموعد",
         "en": "Time"
       }
     },
@@ -941,6 +1069,7 @@
       "placeholders": [],
       "text": {
         "he": "פרטים",
+        "ar": "التفاصيل",
         "en": "Details"
       }
     },
@@ -948,6 +1077,7 @@
       "placeholders": [],
       "text": {
         "he": "אימות",
+        "ar": "التحقق",
         "en": "Verify"
       }
     },
@@ -955,6 +1085,7 @@
       "placeholders": [],
       "text": {
         "he": "חזרה",
+        "ar": "رجوع",
         "en": "Back"
       }
     },
@@ -962,6 +1093,7 @@
       "placeholders": [],
       "text": {
         "he": "המשך",
+        "ar": "متابعة",
         "en": "Continue"
       }
     },
@@ -969,6 +1101,7 @@
       "placeholders": [],
       "text": {
         "he": "התחלה מחדש",
+        "ar": "البدء من جديد",
         "en": "Start over"
       }
     },
@@ -976,6 +1109,7 @@
       "placeholders": [],
       "text": {
         "he": "שליחת הודעות בוואטסאפ מושבתת כרגע. הקוד יישלח במייל, או שאפשר להתקשר למספרה.",
+        "ar": "إرسال رسائل واتساب متوقف حاليًا. سيُرسل الرمز بالبريد الإلكتروني، أو يمكنكم الاتصال بالصالون.",
         "en": "WhatsApp messages are down right now. We'll send the code by email, or you can call the salon."
       }
     },
@@ -983,6 +1117,7 @@
       "placeholders": [],
       "text": {
         "he": "התור בוטל. נשמח לראות אתכם שוב.",
+        "ar": "أُلغي الموعد. يسعدنا رؤيتكم مجددًا.",
         "en": "Your appointment was cancelled. We hope to see you again."
       }
     },
@@ -992,6 +1127,7 @@
       ],
       "text": {
         "he": "בחרתם את {when}. בוחרים שירות, ובשלב הבא מאשרים את השעה.",
+        "ar": "اخترتم {when}. اختاروا خدمة، وفي الخطوة التالية أكّدوا الوقت.",
         "en": "You chose {when}. Choose a service, then confirm the time on the next step."
       }
     },
@@ -999,6 +1135,7 @@
       "placeholders": [],
       "text": {
         "he": "שאלות נפוצות",
+        "ar": "أسئلة شائعة",
         "en": "Frequently asked questions"
       }
     },
@@ -1006,6 +1143,7 @@
       "placeholders": [],
       "text": {
         "he": "הדף לא נמצא",
+        "ar": "الصفحة غير موجودة",
         "en": "Page not found"
       }
     },
@@ -1013,6 +1151,7 @@
       "placeholders": [],
       "text": {
         "he": "חזרה לדף הראשי",
+        "ar": "العودة إلى الصفحة الرئيسية",
         "en": "Back to the home page"
       }
     },
@@ -1020,6 +1159,7 @@
       "placeholders": [],
       "text": {
         "he": "שדה חובה",
+        "ar": "حقل إلزامي",
         "en": "Required"
       }
     },
@@ -1027,6 +1167,7 @@
       "placeholders": [],
       "text": {
         "he": "יש לתקן את השדות המסומנים",
+        "ar": "يرجى تصحيح الحقول المحددة",
         "en": "Please fix the marked fields"
       }
     },
@@ -1034,6 +1175,7 @@
       "placeholders": [],
       "text": {
         "he": "סגירה",
+        "ar": "إغلاق",
         "en": "Close"
       }
     },
@@ -1041,6 +1183,7 @@
       "placeholders": [],
       "text": {
         "he": "התקנה כאפליקציה",
+        "ar": "تثبيت كتطبيق",
         "en": "Install as an app"
       }
     },
@@ -1048,6 +1191,7 @@
       "placeholders": [],
       "text": {
         "he": "התקנת האפליקציה",
+        "ar": "تثبيت التطبيق",
         "en": "Install the app"
       }
     },
@@ -1055,6 +1199,7 @@
       "placeholders": [],
       "text": {
         "he": "לוחצים על כפתור השיתוף של הדפדפן (ריבוע עם חץ למעלה).",
+        "ar": "اضغطوا على زر المشاركة في المتصفح (مربع مع سهم إلى الأعلى).",
         "en": "Tap the browser's Share button (a square with an arrow pointing up)."
       }
     },
@@ -1062,6 +1207,7 @@
       "placeholders": [],
       "text": {
         "he": "בוחרים \"הוספה למסך הבית\". אם לא רואים, גוללים למטה ברשימה.",
+        "ar": "اختاروا \"إضافة إلى الشاشة الرئيسية\". إن لم يظهر، مرّروا إلى أسفل القائمة.",
         "en": "Choose \"Add to Home Screen\". If you don't see it, scroll down the list."
       }
     },
@@ -1069,6 +1215,7 @@
       "placeholders": [],
       "text": {
         "he": "לוחצים \"הוספה\". האפליקציה תופיע במסך הבית.",
+        "ar": "اضغطوا \"إضافة\". سيظهر التطبيق في الشاشة الرئيسية.",
         "en": "Tap \"Add\". The app appears on your Home Screen."
       }
     },
@@ -1076,6 +1223,7 @@
       "placeholders": [],
       "text": {
         "he": "בשורת התפריטים למעלה פותחים את \"קובץ\" (File).",
+        "ar": "في شريط القوائم في الأعلى افتحوا \"ملف\" (File).",
         "en": "In the menu bar at the top, open \"File\"."
       }
     },
@@ -1083,6 +1231,7 @@
       "placeholders": [],
       "text": {
         "he": "בוחרים \"הוספה ל-Dock\" (Add to Dock) ומאשרים.",
+        "ar": "اختاروا \"إضافة إلى Dock\" (Add to Dock) وأكّدوا.",
         "en": "Choose \"Add to Dock\" and confirm."
       }
     },
@@ -1090,6 +1239,7 @@
       "placeholders": [],
       "text": {
         "he": "פותחים את התפריט של הדפדפן (שלוש הנקודות).",
+        "ar": "افتحوا قائمة المتصفح (النقاط الثلاث).",
         "en": "Open the browser's menu (the three dots)."
       }
     },
@@ -1097,6 +1247,7 @@
       "placeholders": [],
       "text": {
         "he": "בוחרים \"התקנת האפליקציה\" או \"הוספה למסך הבית\".",
+        "ar": "اختاروا \"تثبيت التطبيق\" أو \"إضافة إلى الشاشة الرئيسية\".",
         "en": "Choose \"Install app\" or \"Add to Home screen\"."
       }
     },
@@ -1104,6 +1255,7 @@
       "placeholders": [],
       "text": {
         "he": "לא רואים את האפשרות? פותחים את האתר ישירות ב-Safari או ב-Chrome, ולא מתוך אינסטגרם או פייסבוק.",
+        "ar": "لا ترون الخيار؟ افتحوا الموقع مباشرة في Safari أو Chrome، وليس من داخل إنستغرام أو فيسبوك.",
         "en": "Can't see the option? Open the site directly in Safari or Chrome, not from inside Instagram or Facebook."
       }
     },
@@ -1111,6 +1263,7 @@
       "placeholders": [],
       "text": {
         "he": "קביעת תור, שירותים ומחירים, מוצרים ושעות פתיחה.",
+        "ar": "حجز موعد، الخدمات والأسعار، المنتجات وساعات العمل.",
         "en": "Book an appointment, services and prices, products and opening hours."
       }
     },
@@ -1118,6 +1271,7 @@
       "placeholders": [],
       "text": {
         "he": "אין חיבור לאינטרנט",
+        "ar": "لا يوجد اتصال بالإنترنت",
         "en": "No internet connection"
       }
     },
@@ -1125,6 +1279,7 @@
       "placeholders": [],
       "text": {
         "he": "נראה שהמכשיר לא מחובר. אפשר לנסות שוב כשהחיבור יחזור.",
+        "ar": "يبدو أن الجهاز غير متصل. يمكنكم المحاولة مجددًا عند عودة الاتصال.",
         "en": "Looks like your device is offline. You can try again once you're back online."
       }
     },
@@ -1132,6 +1287,7 @@
       "placeholders": [],
       "text": {
         "he": "לנסות שוב",
+        "ar": "المحاولة مجددًا",
         "en": "Try again"
       }
     },
@@ -1139,6 +1295,7 @@
       "placeholders": [],
       "text": {
         "he": "הסרה",
+        "ar": "إزالة",
         "en": "Remove"
       }
     },
@@ -1146,6 +1303,7 @@
       "placeholders": [],
       "text": {
         "he": "שם החיה",
+        "ar": "اسم الحيوان",
         "en": "Pet's name"
       }
     },
@@ -1153,6 +1311,7 @@
       "placeholders": [],
       "text": {
         "he": "סוג",
+        "ar": "النوع",
         "en": "Type"
       }
     },
@@ -1160,6 +1319,7 @@
       "placeholders": [],
       "text": {
         "he": "כלב",
+        "ar": "كلب",
         "en": "Dog"
       }
     },
@@ -1167,6 +1327,7 @@
       "placeholders": [],
       "text": {
         "he": "חתול",
+        "ar": "قط",
         "en": "Cat"
       }
     },
@@ -1174,6 +1335,7 @@
       "placeholders": [],
       "text": {
         "he": "עד חצי שנה",
+        "ar": "حتى نصف سنة",
         "en": "Up to 6 months"
       }
     },
@@ -1181,6 +1343,7 @@
       "placeholders": [],
       "text": {
         "he": "מעל חצי שנה",
+        "ar": "أكثر من نصف سنة",
         "en": "Over 6 months"
       }
     },
@@ -1188,6 +1351,7 @@
       "placeholders": [],
       "text": {
         "he": "עד 10 ק\"ג",
+        "ar": "حتى 10 كغم",
         "en": "Up to 10 kg"
       }
     },
@@ -1195,6 +1359,7 @@
       "placeholders": [],
       "text": {
         "he": "מעל 10 ק\"ג",
+        "ar": "أكثر من 10 كغم",
         "en": "Over 10 kg"
       }
     },
@@ -1202,6 +1367,7 @@
       "placeholders": [],
       "text": {
         "he": "לא בטוחים",
+        "ar": "لسنا متأكدين",
         "en": "Not sure"
       }
     },
@@ -1209,6 +1375,7 @@
       "placeholders": [],
       "text": {
         "he": "טיפוח מלא",
+        "ar": "عناية كاملة",
         "en": "Full grooming"
       }
     },
@@ -1216,6 +1383,7 @@
       "placeholders": [],
       "text": {
         "he": "גזירת ציפורניים",
+        "ar": "قص الأظافر",
         "en": "Nail trim"
       }
     },
@@ -1223,6 +1391,7 @@
       "placeholders": [],
       "text": {
         "he": "גזע",
+        "ar": "السلالة",
         "en": "Breed"
       }
     },
@@ -1232,6 +1401,7 @@
       ],
       "text": {
         "he": "אפשר לקבוע עד {n} חיות בתור אחד.",
+        "ar": "يمكن حجز حتى {n} حيوانات في موعد واحد.",
         "en": "You can book up to {n} pets in one appointment."
       }
     },
@@ -1239,6 +1409,7 @@
       "placeholders": [],
       "text": {
         "he": "איזה שירות לקבוע?",
+        "ar": "أي خدمة تودّون حجزها؟",
         "en": "Which service would you like?"
       }
     },
@@ -1246,6 +1417,7 @@
       "placeholders": [],
       "text": {
         "he": "השירותים שבחרתם",
+        "ar": "الخدمات التي اخترتموها",
         "en": "Your chosen services"
       }
     },
@@ -1253,6 +1425,7 @@
       "placeholders": [],
       "text": {
         "he": "עוד לא נבחר שירות.",
+        "ar": "لم تُختر خدمة بعد.",
         "en": "No service chosen yet."
       }
     },
@@ -1262,6 +1435,7 @@
       ],
       "text": {
         "he": "חיה {n}",
+        "ar": "الحيوان {n}",
         "en": "Pet {n}"
       }
     },
@@ -1269,6 +1443,7 @@
       "placeholders": [],
       "text": {
         "he": "המשך לבחירת מועד",
+        "ar": "المتابعة لاختيار الموعد",
         "en": "Continue to pick a time"
       }
     },
@@ -1276,6 +1451,7 @@
       "placeholders": [],
       "text": {
         "he": "בחירת שירות",
+        "ar": "اختيار خدمة",
         "en": "Choose a service"
       }
     },
@@ -1283,6 +1459,7 @@
       "placeholders": [],
       "text": {
         "he": "מגיעים עם עוד חיה? בחרו לה שירות",
+        "ar": "قادمون مع حيوان آخر؟ اختاروا له خدمة",
         "en": "Bringing another pet? Choose its service"
       }
     },
@@ -1290,6 +1467,7 @@
       "placeholders": [],
       "text": {
         "he": "כל השירותים",
+        "ar": "كل الخدمات",
         "en": "All services"
       }
     },
@@ -1297,6 +1475,7 @@
       "placeholders": [],
       "text": {
         "he": "הוספה",
+        "ar": "إضافة",
         "en": "Add"
       }
     },
@@ -1304,6 +1483,7 @@
       "placeholders": [],
       "text": {
         "he": "כמעט סיימנו: פרטי החיה ופרטי קשר",
+        "ar": "أوشكنا على الانتهاء: تفاصيل الحيوان وبيانات الاتصال",
         "en": "Almost done: your pet and your details"
       }
     },
@@ -1311,6 +1491,7 @@
       "placeholders": [],
       "text": {
         "he": "פרטי החיה",
+        "ar": "تفاصيل الحيوان",
         "en": "About your pet"
       }
     },
@@ -1318,6 +1499,7 @@
       "placeholders": [],
       "text": {
         "he": "הפרטים שלכם",
+        "ar": "بياناتكم",
         "en": "Your details"
       }
     },
@@ -1325,6 +1507,7 @@
       "placeholders": [],
       "text": {
         "he": "שם הווטרינר או המרפאה",
+        "ar": "اسم الطبيب البيطري أو العيادة",
         "en": "Vet or clinic name"
       }
     },
@@ -1332,6 +1515,7 @@
       "placeholders": [],
       "text": {
         "he": "מי שמטפל בחיה, למקרה שנצטרך ליצור קשר.",
+        "ar": "من يعالج الحيوان، في حال احتجنا إلى التواصل معه.",
         "en": "Who treats your pet, in case we need to reach them."
       }
     },
@@ -1339,6 +1523,7 @@
       "placeholders": [],
       "text": {
         "he": "יש לחיה תעודת חיסונים",
+        "ar": "لدى الحيوان شهادة تطعيم",
         "en": "The pet has a vaccination certificate"
       }
     },
@@ -1346,6 +1531,7 @@
       "placeholders": [],
       "text": {
         "he": "מתי נוח לכם?",
+        "ar": "متى يناسبكم؟",
         "en": "When works for you?"
       }
     },
@@ -1355,6 +1541,7 @@
       ],
       "text": {
         "he": "משך התור: {minutes} דקות",
+        "ar": "مدة الموعد: {minutes} دقيقة",
         "en": "Appointment length: {minutes} minutes"
       }
     },
@@ -1362,6 +1549,7 @@
       "placeholders": [],
       "text": {
         "he": "ימים בשבוע",
+        "ar": "أيام الأسبوع",
         "en": "Days of the week"
       }
     },
@@ -1369,6 +1557,7 @@
       "placeholders": [],
       "text": {
         "he": "שבוע קודם",
+        "ar": "الأسبوع السابق",
         "en": "Previous week"
       }
     },
@@ -1376,6 +1565,7 @@
       "placeholders": [],
       "text": {
         "he": "שבוע הבא",
+        "ar": "الأسبوع التالي",
         "en": "Next week"
       }
     },
@@ -1383,6 +1573,7 @@
       "placeholders": [],
       "text": {
         "he": "יש מקום",
+        "ar": "يوجد مكان",
         "en": "Available"
       }
     },
@@ -1390,6 +1581,7 @@
       "placeholders": [],
       "text": {
         "he": "מלא",
+        "ar": "ممتلئ",
         "en": "Full"
       }
     },
@@ -1397,6 +1589,7 @@
       "placeholders": [],
       "text": {
         "he": "סגור",
+        "ar": "مغلق",
         "en": "Closed"
       }
     },
@@ -1406,6 +1599,7 @@
       ],
       "text": {
         "he": "שעות פנויות ב-{day}",
+        "ar": "الأوقات المتاحة يوم {day}",
         "en": "Available times on {day}"
       }
     },
@@ -1413,6 +1607,7 @@
       "placeholders": [],
       "text": {
         "he": "אין שעות פנויות ביום הזה. אפשר לבחור יום אחר.",
+        "ar": "لا أوقات متاحة في هذا اليوم. يمكنكم اختيار يوم آخر.",
         "en": "No available times on this day. Please pick another day."
       }
     },
@@ -1422,6 +1617,7 @@
       ],
       "text": {
         "he": "המועד הפנוי הקרוב: {when}",
+        "ar": "أقرب موعد متاح: {when}",
         "en": "Next available time: {when}"
       }
     },
@@ -1429,6 +1625,7 @@
       "placeholders": [],
       "text": {
         "he": "לקחת את המועד הזה",
+        "ar": "أخذ هذا الموعد",
         "en": "Take this time"
       }
     },
@@ -1438,6 +1635,7 @@
       ],
       "text": {
         "he": "השעה שבחרתם: {when}",
+        "ar": "الوقت الذي اخترتموه: {when}",
         "en": "The time you chose: {when}"
       }
     },
@@ -1447,6 +1645,7 @@
       ],
       "text": {
         "he": "השעה שבחרתם ({when}) לא מתאימה לתור עם החיות האלה. הנה השעות הפנויות.",
+        "ar": "الوقت الذي اخترتموه ({when}) لا يناسب موعدًا مع هذه الحيوانات. إليكم الأوقات المتاحة.",
         "en": "The time you chose ({when}) doesn't fit a booking with these pets. Here are the free times."
       }
     },
@@ -1454,6 +1653,7 @@
       "placeholders": [],
       "text": {
         "he": "אין מועדים פנויים בחודש הקרוב. כדאי להתקשר למספרה.",
+        "ar": "لا مواعيد متاحة في الشهر القادم. يُستحسن الاتصال بالصالون.",
         "en": "No available times in the coming month. Please call the salon."
       }
     },
@@ -1461,6 +1661,7 @@
       "placeholders": [],
       "text": {
         "he": "השירות שבחרתם",
+        "ar": "الخدمة التي اخترتموها",
         "en": "Your service"
       }
     },
@@ -1468,6 +1669,7 @@
       "placeholders": [],
       "text": {
         "he": "שינוי",
+        "ar": "تغيير",
         "en": "Change"
       }
     },
@@ -1475,6 +1677,7 @@
       "placeholders": [],
       "text": {
         "he": "הזנת קוד האימות",
+        "ar": "إدخال رمز التحقق",
         "en": "Enter your verification code"
       }
     },
@@ -1482,6 +1685,7 @@
       "placeholders": [],
       "text": {
         "he": "שלחנו קוד בן 6 ספרות בוואטסאפ.",
+        "ar": "أرسلنا رمزًا من 6 أرقام على واتساب.",
         "en": "We sent a 6-digit code on WhatsApp."
       }
     },
@@ -1489,6 +1693,7 @@
       "placeholders": [],
       "text": {
         "he": "שלחנו קוד בן 6 ספרות למייל.",
+        "ar": "أرسلنا رمزًا من 6 أرقام إلى البريد الإلكتروني.",
         "en": "We sent a 6-digit code to your email."
       }
     },
@@ -1496,6 +1701,7 @@
       "placeholders": [],
       "text": {
         "he": "קוד אימות",
+        "ar": "رمز التحقق",
         "en": "Verification code"
       }
     },
@@ -1503,6 +1709,7 @@
       "placeholders": [],
       "text": {
         "he": "6 ספרות. הקוד בתוקף ל-10 דקות.",
+        "ar": "6 أرقام. الرمز صالح لمدة 10 دقائق.",
         "en": "6 digits. The code is valid for 10 minutes."
       }
     },
@@ -1510,6 +1717,7 @@
       "placeholders": [],
       "text": {
         "he": "אישור התור",
+        "ar": "تأكيد الموعد",
         "en": "Confirm appointment"
       }
     },
@@ -1519,6 +1727,7 @@
       ],
       "text": {
         "he": "המועד שמור עבורכם עד {time}.",
+        "ar": "الموعد محجوز لكم حتى {time}.",
         "en": "We're holding this time for you until {time}."
       }
     },
@@ -1528,6 +1737,7 @@
       ],
       "text": {
         "he": "שלחנו קוד בן 6 ספרות אל {to}.",
+        "ar": "أرسلنا رمزًا من 6 أرقام إلى {to}.",
         "en": "We sent a 6-digit code to {to}."
       }
     },
@@ -1537,6 +1747,7 @@
       ],
       "text": {
         "he": "שלחנו קוד בן 6 ספרות בוואטסאפ למספר שמסתיים ב-{to}.",
+        "ar": "أرسلنا رمزًا من 6 أرقام على واتساب إلى الرقم المنتهي بـ{to}.",
         "en": "We sent a 6-digit code on WhatsApp to the number ending {to}."
       }
     },
@@ -1546,6 +1757,7 @@
       ],
       "text": {
         "he": "למספר הטלפון הזה כבר רשום המייל {email}, ולכן הקוד נשלח אליו.",
+        "ar": "لهذا الرقم بريد إلكتروني مسجّل مسبقًا {email}، لذلك أُرسل الرمز إليه.",
         "en": "This phone number already has the email {email}, so the code went there."
       }
     },
@@ -1555,6 +1767,7 @@
       ],
       "text": {
         "he": "אחרי האימות, להחליף אותו במייל החדש {email}",
+        "ar": "بعد التحقق، استبداله بالبريد الجديد {email}",
         "en": "After the code, replace it with the new email {email}"
       }
     },
@@ -1562,6 +1775,7 @@
       "placeholders": [],
       "text": {
         "he": "אין גישה למייל? שלחו את הקוד לטלפון",
+        "ar": "لا تستطيعون فتح البريد؟ أرسلوا الرمز إلى الهاتف",
         "en": "Can't open that email? Send the code to my phone"
       }
     },
@@ -1569,6 +1783,7 @@
       "placeholders": [],
       "text": {
         "he": "הקוד לא הגיע?",
+        "ar": "لم يصل الرمز؟",
         "en": "Didn't get the code?"
       }
     },
@@ -1576,6 +1791,7 @@
       "placeholders": [],
       "text": {
         "he": "שליחה במייל",
+        "ar": "إرسال بالبريد الإلكتروني",
         "en": "Send by email"
       }
     },
@@ -1583,6 +1799,7 @@
       "placeholders": [],
       "text": {
         "he": "המייל שלכם, לקבלת הקוד",
+        "ar": "بريدكم الإلكتروني، لاستلام الرمز",
         "en": "Your email, to get the code there"
       }
     },
@@ -1590,6 +1807,7 @@
       "placeholders": [],
       "text": {
         "he": "שליחה חוזרת בוואטסאפ",
+        "ar": "إعادة الإرسال على واتساب",
         "en": "Resend on WhatsApp"
       }
     },
@@ -1599,6 +1817,7 @@
       ],
       "text": {
         "he": "אפשר לבקש שליחה חוזרת בעוד {seconds} שניות.",
+        "ar": "يمكن طلب إعادة الإرسال بعد {seconds} ثانية.",
         "en": "You can request a new code in {seconds} seconds."
       }
     },
@@ -1606,6 +1825,7 @@
       "placeholders": [],
       "text": {
         "he": "או להתקשר למספרה",
+        "ar": "أو الاتصال بالصالون",
         "en": "or call the salon"
       }
     },
@@ -1615,6 +1835,7 @@
       ],
       "text": {
         "he": "התור נקבע! האישור נשלח במייל אל {to}.",
+        "ar": "تم حجز الموعد! أُرسل التأكيد بالبريد الإلكتروني إلى {to}.",
         "en": "You're booked! The confirmation is on its way by email to {to}."
       }
     },
@@ -1624,6 +1845,7 @@
       ],
       "text": {
         "he": "התור נקבע! האישור נשלח בוואטסאפ למספר שמסתיים ב-{to}.",
+        "ar": "تم حجز الموعد! أُرسل التأكيد على واتساب إلى الرقم المنتهي بـ{to}.",
         "en": "You're booked! The confirmation is on its way on WhatsApp to the number ending {to}."
       }
     },
@@ -1631,6 +1853,7 @@
       "placeholders": [],
       "text": {
         "he": "התור שלכם",
+        "ar": "موعدكم",
         "en": "Your appointment"
       }
     },
@@ -1638,6 +1861,7 @@
       "placeholders": [],
       "text": {
         "he": "התור נקבע! שלחנו אישור בהודעה.",
+        "ar": "تم حجز الموعد! أرسلنا تأكيدًا في رسالة.",
         "en": "You're booked! We sent you a confirmation message."
       }
     },
@@ -1645,6 +1869,7 @@
       "placeholders": [],
       "text": {
         "he": "התור הועבר למועד החדש.",
+        "ar": "نُقل الموعد إلى الوقت الجديد.",
         "en": "Your appointment has been moved to the new time."
       }
     },
@@ -1652,6 +1877,7 @@
       "placeholders": [],
       "text": {
         "he": "הפסקנו לשלוח הודעות על התור.",
+        "ar": "توقفنا عن إرسال رسائل حول الموعد.",
         "en": "We've stopped sending messages about this appointment."
       }
     },
@@ -1659,6 +1885,7 @@
       "placeholders": [],
       "text": {
         "he": "נמשיך לשלוח הודעות על התור.",
+        "ar": "سنواصل إرسال رسائل حول الموعد.",
         "en": "We'll keep sending messages about this appointment."
       }
     },
@@ -1666,6 +1893,7 @@
       "placeholders": [],
       "text": {
         "he": "מועד",
+        "ar": "الموعد",
         "en": "When"
       }
     },
@@ -1673,6 +1901,7 @@
       "placeholders": [],
       "text": {
         "he": "חיות ושירותים",
+        "ar": "الحيوانات والخدمات",
         "en": "Pets & services"
       }
     },
@@ -1680,6 +1909,7 @@
       "placeholders": [],
       "text": {
         "he": "על שם",
+        "ar": "باسم",
         "en": "Booked under"
       }
     },
@@ -1687,6 +1917,7 @@
       "placeholders": [],
       "text": {
         "he": "החל מ-",
+        "ar": "ابتداءً من ",
         "en": "From "
       }
     },
@@ -1694,6 +1925,7 @@
       "placeholders": [],
       "text": {
         "he": "מאושר",
+        "ar": "مؤكد",
         "en": "Confirmed"
       }
     },
@@ -1701,6 +1933,7 @@
       "placeholders": [],
       "text": {
         "he": "בוטל",
+        "ar": "أُلغي",
         "en": "Cancelled"
       }
     },
@@ -1708,6 +1941,7 @@
       "placeholders": [],
       "text": {
         "he": "הסתיים",
+        "ar": "انتهى",
         "en": "Completed"
       }
     },
@@ -1715,6 +1949,7 @@
       "placeholders": [],
       "text": {
         "he": "לא הגיעו",
+        "ar": "لم يحضروا",
         "en": "No-show"
       }
     },
@@ -1722,6 +1957,7 @@
       "placeholders": [],
       "text": {
         "he": "העברת התור",
+        "ar": "نقل الموعد",
         "en": "Move appointment"
       }
     },
@@ -1729,6 +1965,7 @@
       "placeholders": [],
       "text": {
         "he": "בחירת מועד חדש",
+        "ar": "اختيار موعد جديد",
         "en": "Choose a new time"
       }
     },
@@ -1736,6 +1973,7 @@
       "placeholders": [],
       "text": {
         "he": "העברה לשעה הזו",
+        "ar": "النقل إلى هذا الوقت",
         "en": "Move to this time"
       }
     },
@@ -1743,6 +1981,7 @@
       "placeholders": [],
       "text": {
         "he": "ביטול התור",
+        "ar": "إلغاء الموعد",
         "en": "Cancel appointment"
       }
     },
@@ -1750,6 +1989,7 @@
       "placeholders": [],
       "text": {
         "he": "כן, לבטל את התור",
+        "ar": "نعم، إلغاء الموعد",
         "en": "Yes, cancel the appointment"
       }
     },
@@ -1757,6 +1997,7 @@
       "placeholders": [],
       "text": {
         "he": "לבטל את התור? אי אפשר לבטל את הביטול.",
+        "ar": "إلغاء الموعد؟ لا يمكن التراجع عن الإلغاء.",
         "en": "Cancel this appointment? This can't be undone."
       }
     },
@@ -1766,6 +2007,7 @@
       ],
       "text": {
         "he": "שינוי או ביטול באתר אפשריים עד {hours} שעות לפני התור. מעכשיו רק בטלפון.",
+        "ar": "يمكن التغيير أو الإلغاء عبر الموقع حتى {hours} ساعة قبل الموعد. من الآن عبر الهاتف فقط.",
         "en": "You can change or cancel online up to {hours} hours before the appointment. From now on, by phone only."
       }
     },
@@ -1773,6 +2015,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעות על התור",
+        "ar": "رسائل حول الموعد",
         "en": "Appointment messages"
       }
     },
@@ -1780,6 +2023,7 @@
       "placeholders": [],
       "text": {
         "he": "הפסקת הודעות על התור",
+        "ar": "إيقاف الرسائل حول الموعد",
         "en": "Stop appointment messages"
       }
     },
@@ -1787,6 +2031,7 @@
       "placeholders": [],
       "text": {
         "he": "חידוש הודעות על התור",
+        "ar": "استئناف الرسائل حول الموعد",
         "en": "Resume appointment messages"
       }
     },
@@ -1794,6 +2039,7 @@
       "placeholders": [],
       "text": {
         "he": "הקישור לא בתוקף",
+        "ar": "الرابط لم يعد صالحًا",
         "en": "This link is no longer valid"
       }
     },
@@ -1801,6 +2047,7 @@
       "placeholders": [],
       "text": {
         "he": "התור הסתיים, בוטל או שהקישור שגוי. אפשר לקבוע תור חדש.",
+        "ar": "الموعد انتهى أو أُلغي أو الرابط خاطئ. يمكنكم حجز موعد جديد.",
         "en": "The appointment is over, was cancelled, or the link is wrong. You can book a new appointment."
       }
     },
@@ -1808,6 +2055,7 @@
       "placeholders": [],
       "text": {
         "he": "קביעת תור חדש",
+        "ar": "حجز موعد جديد",
         "en": "Book a new appointment"
       }
     },
@@ -1815,6 +2063,7 @@
       "placeholders": [],
       "text": {
         "he": "זה קישור אישי. לא כדאי לשתף אותו.",
+        "ar": "هذا رابط شخصي. يُفضّل عدم مشاركته.",
         "en": "This is a personal link. Please don't share it."
       }
     },
@@ -1822,6 +2071,7 @@
       "placeholders": [],
       "text": {
         "he": "התמונה התקבלה. ההצעות יופיעו כאן בקרוב.",
+        "ar": "استلمنا الصورة. ستظهر الاقتراحات هنا قريبًا.",
         "en": "Photo received. Suggestions will show up here soon."
       }
     },
@@ -1829,6 +2079,7 @@
       "placeholders": [],
       "text": {
         "he": "הפרטים נשמרו. תודה!",
+        "ar": "حُفظت التفاصيل. شكرًا!",
         "en": "Details saved. Thank you!"
       }
     },
@@ -1836,6 +2087,7 @@
       "placeholders": [],
       "text": {
         "he": "תמונה של החיה (לא חובה)",
+        "ar": "صورة للحيوان (اختياري)",
         "en": "A photo of your pet (optional)"
       }
     },
@@ -1843,6 +2095,7 @@
       "placeholders": [],
       "text": {
         "he": "תמונה עוזרת למספרה להתכונן. נציע סוג פרווה ומצב שלה, ואפשר לתקן. התמונה נמחקת 90 יום אחרי התור.",
+        "ar": "الصورة تساعد الصالون على الاستعداد. سنقترح نوع الفراء وحالته، ويمكنكم التصحيح. تُحذف الصورة بعد 90 يومًا من الموعد.",
         "en": "A photo helps the salon get ready. We'll suggest the coat type and condition, and you can correct them. The photo is deleted 90 days after the appointment."
       }
     },
@@ -1850,6 +2103,7 @@
       "placeholders": [],
       "text": {
         "he": "בחירת תמונה",
+        "ar": "اختيار صورة",
         "en": "Choose a photo"
       }
     },
@@ -1857,6 +2111,7 @@
       "placeholders": [],
       "text": {
         "he": "שליחת התמונה",
+        "ar": "إرسال الصورة",
         "en": "Send photo"
       }
     },
@@ -1864,6 +2119,7 @@
       "placeholders": [],
       "text": {
         "he": "התמונה התקבלה, ההצעות בדרך.",
+        "ar": "استلمنا الصورة، والاقتراحات في الطريق.",
         "en": "Photo received, suggestions are on the way."
       }
     },
@@ -1871,6 +2127,7 @@
       "placeholders": [],
       "text": {
         "he": "מה ראינו בתמונה",
+        "ar": "ما رأيناه في الصورة",
         "en": "What we saw in the photo"
       }
     },
@@ -1878,6 +2135,7 @@
       "placeholders": [],
       "text": {
         "he": "גזע",
+        "ar": "السلالة",
         "en": "Breed"
       }
     },
@@ -1885,6 +2143,7 @@
       "placeholders": [],
       "text": {
         "he": "סוג פרווה",
+        "ar": "نوع الفراء",
         "en": "Coat type"
       }
     },
@@ -1892,6 +2151,7 @@
       "placeholders": [],
       "text": {
         "he": "מצב הפרווה",
+        "ar": "حالة الفراء",
         "en": "Coat condition"
       }
     },
@@ -1899,6 +2159,7 @@
       "placeholders": [],
       "text": {
         "he": "המחיר הסופי נקבע במספרה.",
+        "ar": "السعر النهائي يُحدَّد في الصالون.",
         "en": "The final price is set at the salon."
       }
     },
@@ -1906,6 +2167,7 @@
       "placeholders": [],
       "text": {
         "he": "שמירה",
+        "ar": "حفظ",
         "en": "Save"
       }
     },
@@ -1913,6 +2175,7 @@
       "placeholders": [],
       "text": {
         "he": "מצב פרווה שמור",
+        "ar": "حالة فراء محفوظة",
         "en": "Saved coat condition"
       }
     },
@@ -1920,6 +2183,7 @@
       "placeholders": [],
       "text": {
         "he": "הדף פג תוקף. אפשר לנסות שוב.",
+        "ar": "انتهت صلاحية الصفحة. يمكنكم المحاولة مجددًا.",
         "en": "This page has expired. Please try again."
       }
     },
@@ -1927,6 +2191,7 @@
       "placeholders": [],
       "text": {
         "he": "משהו השתבש בשליחה. נא לנסות שוב.",
+        "ar": "حدث خطأ أثناء الإرسال. يرجى المحاولة مجددًا.",
         "en": "Something went wrong while sending. Please try again."
       }
     },
@@ -1934,6 +2199,7 @@
       "placeholders": [],
       "text": {
         "he": "הגעתם למספר החיות המרבי לתור אחד.",
+        "ar": "وصلتم إلى الحد الأقصى من الحيوانات لموعد واحد.",
         "en": "You've reached the maximum number of pets for one appointment."
       }
     },
@@ -1941,6 +2207,7 @@
       "placeholders": [],
       "text": {
         "he": "צריך לבחור שירות אחד לפחות.",
+        "ar": "يجب اختيار خدمة واحدة على الأقل.",
         "en": "Choose at least one service."
       }
     },
@@ -1948,6 +2215,7 @@
       "placeholders": [],
       "text": {
         "he": "אי אפשר לקבוע את השירות הזה באתר. כדאי להתקשר למספרה.",
+        "ar": "لا يمكن حجز هذه الخدمة عبر الموقع. يُستحسن الاتصال بالصالون.",
         "en": "That service can't be booked online. Please call the salon."
       }
     },
@@ -1955,6 +2223,7 @@
       "placeholders": [],
       "text": {
         "he": "חסר שם לאחת החיות.",
+        "ar": "ينقص اسم لأحد الحيوانات.",
         "en": "One of the pets is missing a name."
       }
     },
@@ -1962,6 +2231,7 @@
       "placeholders": [],
       "text": {
         "he": "צריך לבחור כלב או חתול לכל חיה.",
+        "ar": "يجب اختيار كلب أو قط لكل حيوان.",
         "en": "Choose dog or cat for each pet."
       }
     },
@@ -1969,6 +2239,7 @@
       "placeholders": [],
       "text": {
         "he": "חסר שם הווטרינר או המרפאה לאחת החיות.",
+        "ar": "ينقص اسم الطبيب البيطري أو العيادة لأحد الحيوانات.",
         "en": "One of the pets is missing a vet or clinic name."
       }
     },
@@ -1976,6 +2247,7 @@
       "placeholders": [],
       "text": {
         "he": "הגעתם למספר החיות המרבי לתור אחד.",
+        "ar": "وصلتم إلى الحد الأقصى من الحيوانات لموعد واحد.",
         "en": "You've reached the maximum number of pets for one appointment."
       }
     },
@@ -1983,6 +2255,7 @@
       "placeholders": [],
       "text": {
         "he": "לא מצאנו שירות מתאים לאחת החיות. כדאי להתקשר למספרה.",
+        "ar": "لم نجد خدمة مناسبة لأحد الحيوانات. يُستحسن الاتصال بالصالون.",
         "en": "We couldn't find a matching service for one of the pets. Please call the salon."
       }
     },
@@ -1990,6 +2263,7 @@
       "placeholders": [],
       "text": {
         "he": "את השירות לאחת החיות קובעים בטלפון בלבד.",
+        "ar": "خدمة أحد الحيوانات تُحجز عبر الهاتف فقط.",
         "en": "The service for one of the pets can only be booked by phone."
       }
     },
@@ -1997,6 +2271,7 @@
       "placeholders": [],
       "text": {
         "he": "צריך לבחור שעה.",
+        "ar": "يجب اختيار وقت.",
         "en": "Please choose a time."
       }
     },
@@ -2004,6 +2279,7 @@
       "placeholders": [],
       "text": {
         "he": "מישהו הספיק לקחת את השעה הזו. נא לבחור שעה אחרת.",
+        "ar": "سبقكم أحد إلى هذا الوقت. يرجى اختيار وقت آخر.",
         "en": "Someone just took this time. Please choose another time."
       }
     },
@@ -2011,6 +2287,7 @@
       "placeholders": [],
       "text": {
         "he": "השעה הזו כבר לא פנויה. נא לבחור שעה אחרת.",
+        "ar": "هذا الوقت لم يعد متاحًا. يرجى اختيار وقت آخر.",
         "en": "This time is no longer available. Please choose another time."
       }
     },
@@ -2018,6 +2295,7 @@
       "placeholders": [],
       "text": {
         "he": "היו יותר מדי ניסיונות. נא לנסות שוב מאוחר יותר או להתקשר.",
+        "ar": "كانت هناك محاولات كثيرة. يرجى المحاولة لاحقًا أو الاتصال.",
         "en": "Too many attempts. Please try again later or give us a call."
       }
     },
@@ -2025,6 +2303,7 @@
       "placeholders": [],
       "text": {
         "he": "זמן השמירה על המועד עבר. נא לבחור שעה שוב.",
+        "ar": "انتهت مدة حجز الوقت. يرجى اختيار وقت مجددًا.",
         "en": "The hold on this time has expired. Please choose a time again."
       }
     },
@@ -2032,6 +2311,7 @@
       "placeholders": [],
       "text": {
         "he": "נא למלא שם.",
+        "ar": "يرجى إدخال اسم.",
         "en": "Please enter a name."
       }
     },
@@ -2039,6 +2319,7 @@
       "placeholders": [],
       "text": {
         "he": "מספר הטלפון לא תקין.",
+        "ar": "رقم الهاتف غير صحيح.",
         "en": "This phone number isn't valid."
       }
     },
@@ -2046,6 +2327,7 @@
       "placeholders": [],
       "text": {
         "he": "כתובת המייל לא תקינה.",
+        "ar": "عنوان البريد الإلكتروني غير صحيح.",
         "en": "This email address isn't valid."
       }
     },
@@ -2053,6 +2335,7 @@
       "placeholders": [],
       "text": {
         "he": "הקוד לא נכון. נא לבדוק ולנסות שוב.",
+        "ar": "الرمز غير صحيح. يرجى التحقق والمحاولة مجددًا.",
         "en": "That code isn't right. Please check it and try again."
       }
     },
@@ -2060,6 +2343,7 @@
       "placeholders": [],
       "text": {
         "he": "תוקף הקוד פג. אפשר לבקש קוד חדש.",
+        "ar": "انتهت صلاحية الرمز. يمكنكم طلب رمز جديد.",
         "en": "This code has expired. You can request a new one."
       }
     },
@@ -2067,6 +2351,7 @@
       "placeholders": [],
       "text": {
         "he": "היו יותר מדי ניסיונות. אפשר לבקש קוד חדש.",
+        "ar": "كانت هناك محاولات كثيرة. يمكنكم طلب رمز جديد.",
         "en": "Too many attempts. You can request a new code."
       }
     },
@@ -2074,6 +2359,7 @@
       "placeholders": [],
       "text": {
         "he": "נשלחו יותר מדי קודים. נא לנסות שוב בעוד שעה או להתקשר.",
+        "ar": "أُرسلت رموز كثيرة. يرجى المحاولة بعد ساعة أو الاتصال.",
         "en": "Too many codes have been sent. Please try again in an hour or give us a call."
       }
     },
@@ -2081,6 +2367,7 @@
       "placeholders": [],
       "text": {
         "he": "לא הצלחנו לשלוח קוד כרגע. אפשר להתקשר למספרה ונקבע יחד.",
+        "ar": "لم نستطع إرسال رمز الآن. يمكنكم الاتصال بالصالون وسنحجز معًا.",
         "en": "We couldn't send a code right now. Call the salon and we'll book it together."
       }
     },
@@ -2088,6 +2375,7 @@
       "placeholders": [],
       "text": {
         "he": "שליחת הקוד נכשלה. אפשר לנסות במייל או להתקשר למספרה.",
+        "ar": "فشل إرسال الرمز. يمكنكم المحاولة بالبريد الإلكتروني أو الاتصال بالصالون.",
         "en": "We couldn't send the code. You can try by email or call the salon."
       }
     },
@@ -2095,6 +2383,7 @@
       "placeholders": [],
       "text": {
         "he": "התור לא נמצא.",
+        "ar": "الموعد غير موجود.",
         "en": "Appointment not found."
       }
     },
@@ -2102,6 +2391,7 @@
       "placeholders": [],
       "text": {
         "he": "כבר אי אפשר לשנות את התור באתר. נא להתקשר למספרה.",
+        "ar": "لم يعد ممكنًا تغيير الموعد عبر الموقع. يرجى الاتصال بالصالون.",
         "en": "This appointment can no longer be changed online. Please call the salon."
       }
     },
@@ -2109,6 +2399,7 @@
       "placeholders": [],
       "text": {
         "he": "לא הצלחנו לקרוא את התמונה. אפשר לנסות תמונה אחרת (JPG, PNG או WebP, עד 8MB).",
+        "ar": "لم نستطع قراءة الصورة. جرّبوا صورة أخرى (JPG أو PNG أو WebP، حتى 8MB).",
         "en": "We couldn't read the photo. Try a different photo (JPG, PNG or WebP, up to 8MB)."
       }
     },
@@ -2116,6 +2407,7 @@
       "placeholders": [],
       "text": {
         "he": "העלאת תמונות לא זמינה כרגע.",
+        "ar": "رفع الصور غير متاح حاليًا.",
         "en": "Photo uploads aren't available right now."
       }
     },
@@ -2123,6 +2415,7 @@
       "placeholders": [],
       "text": {
         "he": "נא למלא כתובת מייל, כדי שנוכל לשלוח את קוד האימות.",
+        "ar": "يرجى إدخال عنوان بريد إلكتروني لنتمكن من إرسال رمز التحقق.",
         "en": "Please enter your email address so we can send the verification code."
       }
     },
@@ -2132,6 +2425,7 @@
       ],
       "text": {
         "he": "ניהול {brand}",
+        "ar": "إدارة {brand}",
         "en": "{brand} admin"
       }
     },
@@ -2139,6 +2433,7 @@
       "placeholders": [],
       "text": {
         "he": "ניהול",
+        "ar": "الإدارة",
         "en": "Admin"
       }
     },
@@ -2146,6 +2441,7 @@
       "placeholders": [],
       "text": {
         "he": "תפריט ניהול",
+        "ar": "قائمة الإدارة",
         "en": "Admin menu"
       }
     },
@@ -2153,6 +2449,7 @@
       "placeholders": [],
       "text": {
         "he": "היום",
+        "ar": "اليوم",
         "en": "Today"
       }
     },
@@ -2160,6 +2457,7 @@
       "placeholders": [],
       "text": {
         "he": "יומן",
+        "ar": "التقويم",
         "en": "Calendar"
       }
     },
@@ -2167,6 +2465,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעות",
+        "ar": "الرسائل",
         "en": "Messages"
       }
     },
@@ -2174,6 +2473,7 @@
       "placeholders": [],
       "text": {
         "he": "לקוחות",
+        "ar": "الزبائن",
         "en": "Customers"
       }
     },
@@ -2181,6 +2481,7 @@
       "placeholders": [],
       "text": {
         "he": "תוכן",
+        "ar": "المحتوى",
         "en": "Content"
       }
     },
@@ -2188,6 +2489,7 @@
       "placeholders": [],
       "text": {
         "he": "שעות",
+        "ar": "الساعات",
         "en": "Hours"
       }
     },
@@ -2195,6 +2497,7 @@
       "placeholders": [],
       "text": {
         "he": "הגדרות",
+        "ar": "الإعدادات",
         "en": "Settings"
       }
     },
@@ -2202,6 +2505,7 @@
       "placeholders": [],
       "text": {
         "he": "נתונים",
+        "ar": "البيانات",
         "en": "Stats"
       }
     },
@@ -2209,6 +2513,7 @@
       "placeholders": [],
       "text": {
         "he": "יציאה",
+        "ar": "خروج",
         "en": "Log out"
       }
     },
@@ -2216,6 +2521,7 @@
       "placeholders": [],
       "text": {
         "he": "שמירה",
+        "ar": "حفظ",
         "en": "Save"
       }
     },
@@ -2223,6 +2529,7 @@
       "placeholders": [],
       "text": {
         "he": "נשמר.",
+        "ar": "تم الحفظ.",
         "en": "Saved."
       }
     },
@@ -2230,6 +2537,7 @@
       "placeholders": [],
       "text": {
         "he": "מחיקה",
+        "ar": "حذف",
         "en": "Delete"
       }
     },
@@ -2237,6 +2545,7 @@
       "placeholders": [],
       "text": {
         "he": "הוספה",
+        "ar": "إضافة",
         "en": "Add"
       }
     },
@@ -2244,6 +2553,7 @@
       "placeholders": [],
       "text": {
         "he": "ביטול",
+        "ar": "إلغاء",
         "en": "Cancel"
       }
     },
@@ -2251,6 +2561,7 @@
       "placeholders": [],
       "text": {
         "he": "אין כרגע.",
+        "ar": "لا شيء حاليًا.",
         "en": "Nothing right now."
       }
     },
@@ -2258,6 +2569,7 @@
       "placeholders": [],
       "text": {
         "he": "הדף פג תוקף. נא לנסות שוב.",
+        "ar": "انتهت صلاحية الصفحة. يرجى المحاولة مجددًا.",
         "en": "This page has expired. Please try again."
       }
     },
@@ -2265,6 +2577,7 @@
       "placeholders": [],
       "text": {
         "he": "חלק מהשדות לא תקינים.",
+        "ar": "بعض الحقول غير صحيحة.",
         "en": "Some fields aren't valid."
       }
     },
@@ -2272,6 +2585,7 @@
       "placeholders": [],
       "text": {
         "he": "השעה הזו תפוסה.",
+        "ar": "هذا الوقت محجوز.",
         "en": "This time is already taken."
       }
     },
@@ -2279,6 +2593,7 @@
       "placeholders": [],
       "text": {
         "he": "לא נמצא.",
+        "ar": "غير موجود.",
         "en": "Not found."
       }
     },
@@ -2286,6 +2601,7 @@
       "placeholders": [],
       "text": {
         "he": "השירות לא נמצא.",
+        "ar": "الخدمة غير موجودة.",
         "en": "Service not found."
       }
     },
@@ -2293,6 +2609,7 @@
       "placeholders": [],
       "text": {
         "he": "העלאת תמונות לא מוגדרת עדיין.",
+        "ar": "رفع الصور غير مهيأ بعد.",
         "en": "Photo uploads aren't set up yet."
       }
     },
@@ -2300,6 +2617,7 @@
       "placeholders": [],
       "text": {
         "he": "לא הצלחנו לשמור את התמונה. אפשר להעלות JPG,‏ PNG או WebP עד 8MB.",
+        "ar": "لم نستطع حفظ الصورة. يمكن رفع JPG أو PNG أو WebP حتى 8MB.",
         "en": "The photo could not be saved. Use a JPG, PNG or WebP of up to 8 MB."
       }
     },
@@ -2307,6 +2625,7 @@
       "placeholders": [],
       "text": {
         "he": "הנוסח חייב לכלול את אותן מילים בסוגריים מסולסלים כמו קודם.",
+        "ar": "يجب أن يتضمن النص نفس الكلمات بين الأقواس المعقوفة كما كان.",
         "en": "The wording must include the same words in curly braces as before."
       }
     },
@@ -2314,6 +2633,7 @@
       "placeholders": [],
       "text": {
         "he": "כניסה לניהול",
+        "ar": "الدخول إلى الإدارة",
         "en": "Admin login"
       }
     },
@@ -2321,6 +2641,7 @@
       "placeholders": [],
       "text": {
         "he": "אימייל",
+        "ar": "البريد الإلكتروني",
         "en": "Email"
       }
     },
@@ -2328,6 +2649,7 @@
       "placeholders": [],
       "text": {
         "he": "סיסמה",
+        "ar": "كلمة المرور",
         "en": "Password"
       }
     },
@@ -2335,6 +2657,7 @@
       "placeholders": [],
       "text": {
         "he": "המשך",
+        "ar": "متابعة",
         "en": "Continue"
       }
     },
@@ -2342,6 +2665,7 @@
       "placeholders": [],
       "text": {
         "he": "קוד מאפליקציית האימות",
+        "ar": "الرمز من تطبيق المصادقة",
         "en": "Code from your authenticator app"
       }
     },
@@ -2349,6 +2673,7 @@
       "placeholders": [],
       "text": {
         "he": "קוד בן 6 ספרות",
+        "ar": "رمز من 6 أرقام",
         "en": "6-digit code"
       }
     },
@@ -2356,6 +2681,7 @@
       "placeholders": [],
       "text": {
         "he": "כניסה",
+        "ar": "دخول",
         "en": "Log in"
       }
     },
@@ -2363,6 +2689,7 @@
       "placeholders": [],
       "text": {
         "he": "האימייל או הסיסמה שגויים.",
+        "ar": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
         "en": "The email or password is incorrect."
       }
     },
@@ -2370,6 +2697,7 @@
       "placeholders": [],
       "text": {
         "he": "היו יותר מדי ניסיונות. אפשר לנסות שוב בעוד רבע שעה.",
+        "ar": "كانت هناك محاولات كثيرة. يمكنكم المحاولة مجددًا بعد ربع ساعة.",
         "en": "Too many attempts. You can try again in 15 minutes."
       }
     },
@@ -2377,6 +2705,7 @@
       "placeholders": [],
       "text": {
         "he": "הקוד שגוי או שכבר נעשה בו שימוש.",
+        "ar": "الرمز خاطئ أو استُخدم من قبل.",
         "en": "The code is wrong or has already been used."
       }
     },
@@ -2384,6 +2713,7 @@
       "placeholders": [],
       "text": {
         "he": "פג הזמן. נא להתחיל שוב.",
+        "ar": "انتهى الوقت. يرجى البدء من جديد.",
         "en": "Time's up. Please start again."
       }
     },
@@ -2391,6 +2721,7 @@
       "placeholders": [],
       "text": {
         "he": "לא הצלחנו לשלוח את האימייל. נא לנסות שוב או להיכנס עם הסיסמה.",
+        "ar": "لم نستطع إرسال البريد الإلكتروني. يرجى المحاولة مجددًا أو الدخول بكلمة المرور.",
         "en": "The email could not be sent. Try again, or log in with your password."
       }
     },
@@ -2398,6 +2729,7 @@
       "placeholders": [],
       "text": {
         "he": "כניסה עם קוד באימייל",
+        "ar": "الدخول برمز عبر البريد الإلكتروني",
         "en": "Log in with a code by email"
       }
     },
@@ -2405,6 +2737,7 @@
       "placeholders": [],
       "text": {
         "he": "כניסה עם סיסמה ואפליקציית אימות",
+        "ar": "الدخول بكلمة المرور وتطبيق المصادقة",
         "en": "Log in with password and authenticator app"
       }
     },
@@ -2412,6 +2745,7 @@
       "placeholders": [],
       "text": {
         "he": "כניסה עם קוד באימייל",
+        "ar": "الدخول برمز عبر البريد الإلكتروني",
         "en": "Log in with a code by email"
       }
     },
@@ -2419,6 +2753,7 @@
       "placeholders": [],
       "text": {
         "he": "נשלח קוד בן 6 ספרות לאימייל של חשבון הניהול.",
+        "ar": "سنرسل رمزًا من 6 أرقام إلى بريد حساب الإدارة.",
         "en": "We'll send a 6-digit code to the admin account's email."
       }
     },
@@ -2426,6 +2761,7 @@
       "placeholders": [],
       "text": {
         "he": "שליחת קוד",
+        "ar": "إرسال رمز",
         "en": "Send code"
       }
     },
@@ -2433,6 +2769,7 @@
       "placeholders": [],
       "text": {
         "he": "הקוד מהאימייל",
+        "ar": "الرمز من البريد الإلكتروني",
         "en": "The code from your email"
       }
     },
@@ -2442,6 +2779,7 @@
       ],
       "text": {
         "he": "אם הכתובת שייכת לחשבון ניהול, נשלח אליה קוד. הוא בתוקף ל-{minutes} דקות.",
+        "ar": "إذا كان العنوان يخص حساب إدارة، فسيُرسل إليه رمز. وهو صالح لمدة {minutes} دقيقة.",
         "en": "If this address belongs to an admin account, a code is on its way. It is valid for {minutes} minutes."
       }
     },
@@ -2449,6 +2787,7 @@
       "placeholders": [],
       "text": {
         "he": "שליחת קוד חדש",
+        "ar": "إرسال رمز جديد",
         "en": "Send a new code"
       }
     },
@@ -2456,6 +2795,7 @@
       "placeholders": [],
       "text": {
         "he": "יצאתם מהמערכת.",
+        "ar": "خرجتم من النظام.",
         "en": "You've logged out."
       }
     },
@@ -2463,6 +2803,7 @@
       "placeholders": [],
       "text": {
         "he": "התורים הקרובים",
+        "ar": "المواعيد القادمة",
         "en": "Upcoming appointments"
       }
     },
@@ -2470,6 +2811,7 @@
       "placeholders": [],
       "text": {
         "he": "אין תורים קרובים.",
+        "ar": "لا مواعيد قادمة.",
         "en": "No upcoming appointments."
       }
     },
@@ -2477,6 +2819,7 @@
       "placeholders": [],
       "text": {
         "he": "עדכונים חדשים",
+        "ar": "تحديثات جديدة",
         "en": "New updates"
       }
     },
@@ -2484,6 +2827,7 @@
       "placeholders": [],
       "text": {
         "he": "סימון כנקרא",
+        "ar": "تعليم كمقروء",
         "en": "Mark as read"
       }
     },
@@ -2491,6 +2835,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעות שלא נשלחו (כדאי להתקשר)",
+        "ar": "رسائل لم تُرسل (يُستحسن الاتصال)",
         "en": "Messages that weren't sent (consider calling)"
       }
     },
@@ -2498,6 +2843,7 @@
       "placeholders": [],
       "text": {
         "he": "התראות במכשירים",
+        "ar": "الإشعارات على الأجهزة",
         "en": "Device notifications"
       }
     },
@@ -2505,6 +2851,7 @@
       "placeholders": [],
       "text": {
         "he": "התראות דחיפה עוד לא מוגדרות בשרת.",
+        "ar": "إشعارات الدفع غير مهيأة على الخادم بعد.",
         "en": "Push notifications aren't set up on the server yet."
       }
     },
@@ -2512,6 +2859,7 @@
       "placeholders": [],
       "text": {
         "he": "הפעלת התראות במכשיר הזה",
+        "ar": "تفعيل الإشعارات على هذا الجهاز",
         "en": "Turn on notifications on this device"
       }
     },
@@ -2519,6 +2867,7 @@
       "placeholders": [],
       "text": {
         "he": "ההתראות הופעלו במכשיר הזה.",
+        "ar": "فُعّلت الإشعارات على هذا الجهاز.",
         "en": "Notifications are on for this device."
       }
     },
@@ -2526,6 +2875,7 @@
       "placeholders": [],
       "text": {
         "he": "הדפדפן חוסם התראות. אפשר לאשר אותן בהגדרות הדפדפן.",
+        "ar": "المتصفح يحجب الإشعارات. يمكن السماح بها في إعدادات المتصفح.",
         "en": "Your browser is blocking notifications. You can allow them in your browser settings."
       }
     },
@@ -2533,6 +2883,7 @@
       "placeholders": [],
       "text": {
         "he": "הדפדפן הזה לא תומך בהתראות. באייפון יש להוסיף קודם את אזור הניהול למסך הבית.",
+        "ar": "هذا المتصفح لا يدعم الإشعارات. على الآيفون أضيفوا منطقة الإدارة إلى الشاشة الرئيسية أولًا.",
         "en": "This browser doesn't support notifications. On iPhone, add the admin area to your Home Screen first."
       }
     },
@@ -2540,6 +2891,7 @@
       "placeholders": [],
       "text": {
         "he": "שליחת התראת בדיקה",
+        "ar": "إرسال إشعار تجريبي",
         "en": "Send a test notification"
       }
     },
@@ -2547,6 +2899,7 @@
       "placeholders": [],
       "text": {
         "he": "התראת הבדיקה בדרך.",
+        "ar": "الإشعار التجريبي في الطريق.",
         "en": "Test notification is on its way."
       }
     },
@@ -2554,6 +2907,7 @@
       "placeholders": [],
       "text": {
         "he": "אישור אחרון: ",
+        "ar": "آخر استلام: ",
         "en": "Last received: "
       }
     },
@@ -2561,6 +2915,7 @@
       "placeholders": [],
       "text": {
         "he": "עוד לא התקבל אישור",
+        "ar": "لم يُستلم شيء بعد",
         "en": "Nothing received yet"
       }
     },
@@ -2568,6 +2923,7 @@
       "placeholders": [],
       "text": {
         "he": "הסרת המכשיר",
+        "ar": "إزالة الجهاز",
         "en": "Remove device"
       }
     },
@@ -2575,6 +2931,7 @@
       "placeholders": [],
       "text": {
         "he": "תור חדש",
+        "ar": "موعد جديد",
         "en": "New appointment"
       }
     },
@@ -2582,6 +2939,7 @@
       "placeholders": [],
       "text": {
         "he": "תור הועבר",
+        "ar": "نُقل موعد",
         "en": "Appointment moved"
       }
     },
@@ -2589,6 +2947,7 @@
       "placeholders": [],
       "text": {
         "he": "תור בוטל",
+        "ar": "أُلغي موعد",
         "en": "Appointment cancelled"
       }
     },
@@ -2596,6 +2955,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעה ללקוח לא נשלחה",
+        "ar": "رسالة إلى زبون لم تُرسل",
         "en": "Customer message not sent"
       }
     },
@@ -2603,6 +2963,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעה חדשה ממספר ההודעות",
+        "ar": "رسالة جديدة إلى رقم الرسائل",
         "en": "New message to the messaging number"
       }
     },
@@ -2610,6 +2971,7 @@
       "placeholders": [],
       "text": {
         "he": "הגעתם לתקרת ה-AI החודשית",
+        "ar": "وصلتم إلى الحد الشهري للذكاء الاصطناعي",
         "en": "You've reached the monthly AI limit"
       }
     },
@@ -2617,6 +2979,7 @@
       "placeholders": [],
       "text": {
         "he": "ההתראות הפסיקו להגיע",
+        "ar": "توقفت الإشعارات عن الوصول",
         "en": "Notifications have stopped arriving"
       }
     },
@@ -2624,6 +2987,7 @@
       "placeholders": [],
       "text": {
         "he": "מכסת ההודעות החודשית מתמלאת",
+        "ar": "حصة الرسائل الشهرية تقترب من الامتلاء",
         "en": "The monthly message limit is filling up"
       }
     },
@@ -2631,6 +2995,7 @@
       "placeholders": [],
       "text": {
         "he": "יומן",
+        "ar": "التقويم",
         "en": "Calendar"
       }
     },
@@ -2638,6 +3003,7 @@
       "placeholders": [],
       "text": {
         "he": "תור חדש",
+        "ar": "موعد جديد",
         "en": "New appointment"
       }
     },
@@ -2645,6 +3011,7 @@
       "placeholders": [],
       "text": {
         "he": "שם הלקוח",
+        "ar": "اسم الزبون",
         "en": "Customer name"
       }
     },
@@ -2652,6 +3019,7 @@
       "placeholders": [],
       "text": {
         "he": "טלפון",
+        "ar": "الهاتف",
         "en": "Phone"
       }
     },
@@ -2659,6 +3027,7 @@
       "placeholders": [],
       "text": {
         "he": "שירותים",
+        "ar": "الخدمات",
         "en": "Services"
       }
     },
@@ -2666,6 +3035,7 @@
       "placeholders": [],
       "text": {
         "he": "התחלה",
+        "ar": "البداية",
         "en": "Start"
       }
     },
@@ -2673,6 +3043,7 @@
       "placeholders": [],
       "text": {
         "he": "הערות",
+        "ar": "ملاحظات",
         "en": "Notes"
       }
     },
@@ -2680,6 +3051,7 @@
       "placeholders": [],
       "text": {
         "he": "לשלוח ללקוח אישור",
+        "ar": "إرسال تأكيد إلى الزبون",
         "en": "Send the customer a confirmation"
       }
     },
@@ -2687,6 +3059,7 @@
       "placeholders": [],
       "text": {
         "he": "קביעת התור",
+        "ar": "حجز الموعد",
         "en": "Book appointment"
       }
     },
@@ -2694,6 +3067,7 @@
       "placeholders": [],
       "text": {
         "he": "פרטי התור",
+        "ar": "تفاصيل الموعد",
         "en": "Appointment details"
       }
     },
@@ -2701,6 +3075,7 @@
       "placeholders": [],
       "text": {
         "he": "הגיעו – הסתיים",
+        "ar": "حضروا – انتهى",
         "en": "Arrived – done"
       }
     },
@@ -2708,6 +3083,7 @@
       "placeholders": [],
       "text": {
         "he": "לא הגיעו",
+        "ar": "لم يحضروا",
         "en": "No-show"
       }
     },
@@ -2715,6 +3091,7 @@
       "placeholders": [],
       "text": {
         "he": "הארכה ב-15 דקות",
+        "ar": "تمديد 15 دقيقة",
         "en": "Extend by 15 minutes"
       }
     },
@@ -2722,6 +3099,7 @@
       "placeholders": [],
       "text": {
         "he": "ביטול והודעה ללקוח",
+        "ar": "إلغاء وإبلاغ الزبون",
         "en": "Cancel and notify customer"
       }
     },
@@ -2729,6 +3107,7 @@
       "placeholders": [],
       "text": {
         "he": "סגירה",
+        "ar": "إغلاق",
         "en": "Close"
       }
     },
@@ -2736,6 +3115,7 @@
       "placeholders": [],
       "text": {
         "he": "התור הועבר והלקוח קיבל הודעה.",
+        "ar": "نُقل الموعد وأُبلغ الزبون.",
         "en": "The appointment was moved and the customer was notified."
       }
     },
@@ -2743,6 +3123,7 @@
       "placeholders": [],
       "text": {
         "he": "לא ניתן להעביר לשם: השעה תפוסה.",
+        "ar": "لا يمكن النقل إلى هناك: الوقت محجوز.",
         "en": "Can't move it there: that time is taken."
       }
     },
@@ -2750,6 +3131,7 @@
       "placeholders": [],
       "text": {
         "he": "לא ניתן לקבוע שם: השעה מחוץ לשעות הפתיחה.",
+        "ar": "لا يمكن الحجز هناك: الوقت خارج ساعات العمل.",
         "en": "Can't book there: that's outside opening hours."
       }
     },
@@ -2757,6 +3139,7 @@
       "placeholders": [],
       "text": {
         "he": "לא ניתן לקבוע שם: זה זמן חופש ביומן.",
+        "ar": "لا يمكن الحجز هناك: هذا وقت إجازة في التقويم.",
         "en": "Can't book there: that's blocked as time off."
       }
     },
@@ -2764,6 +3147,7 @@
       "placeholders": [],
       "text": {
         "he": "היום",
+        "ar": "اليوم",
         "en": "Today"
       }
     },
@@ -2771,6 +3155,7 @@
       "placeholders": [],
       "text": {
         "he": "יום",
+        "ar": "يوم",
         "en": "Day"
       }
     },
@@ -2778,6 +3163,7 @@
       "placeholders": [],
       "text": {
         "he": "שבוע",
+        "ar": "أسبوع",
         "en": "Week"
       }
     },
@@ -2785,6 +3171,7 @@
       "placeholders": [],
       "text": {
         "he": "תצוגה",
+        "ar": "العرض",
         "en": "View"
       }
     },
@@ -2792,6 +3179,7 @@
       "placeholders": [],
       "text": {
         "he": "חודש",
+        "ar": "شهر",
         "en": "Month"
       }
     },
@@ -2799,6 +3187,7 @@
       "placeholders": [],
       "text": {
         "he": "סגור",
+        "ar": "مغلق",
         "en": "Closed"
       }
     },
@@ -2808,6 +3197,7 @@
       ],
       "text": {
         "he": "{n} תורים",
+        "ar": "{n} مواعيد",
         "en": "{n} appointments"
       }
     },
@@ -2815,6 +3205,7 @@
       "placeholders": [],
       "text": {
         "he": "מאושר",
+        "ar": "مؤكد",
         "en": "Confirmed"
       }
     },
@@ -2822,6 +3213,7 @@
       "placeholders": [],
       "text": {
         "he": "הגיע",
+        "ar": "حضر",
         "en": "Arrived"
       }
     },
@@ -2829,6 +3221,7 @@
       "placeholders": [],
       "text": {
         "he": "לא הגיע",
+        "ar": "لم يحضر",
         "en": "No-show"
       }
     },
@@ -2836,6 +3229,7 @@
       "placeholders": [],
       "text": {
         "he": "הקודם",
+        "ar": "السابق",
         "en": "Previous"
       }
     },
@@ -2843,6 +3237,7 @@
       "placeholders": [],
       "text": {
         "he": "הבא",
+        "ar": "التالي",
         "en": "Next"
       }
     },
@@ -2852,6 +3247,7 @@
       ],
       "text": {
         "he": "וטרינר: {name}",
+        "ar": "الطبيب البيطري: {name}",
         "en": "Vet: {name}"
       }
     },
@@ -2859,6 +3255,7 @@
       "placeholders": [],
       "text": {
         "he": "יש תעודת חיסונים",
+        "ar": "توجد شهادة تطعيم",
         "en": "Has a vaccination certificate"
       }
     },
@@ -2866,6 +3263,7 @@
       "placeholders": [],
       "text": {
         "he": "אין תעודת חיסונים",
+        "ar": "لا توجد شهادة تطعيم",
         "en": "No vaccination certificate"
       }
     },
@@ -2873,6 +3271,7 @@
       "placeholders": [],
       "text": {
         "he": "שירותים ומחירים",
+        "ar": "الخدمات والأسعار",
         "en": "Services & prices"
       }
     },
@@ -2880,6 +3279,7 @@
       "placeholders": [],
       "text": {
         "he": "שם",
+        "ar": "الاسم",
         "en": "Name"
       }
     },
@@ -2887,6 +3287,7 @@
       "placeholders": [],
       "text": {
         "he": "מה כולל",
+        "ar": "ماذا يشمل",
         "en": "What's included"
       }
     },
@@ -2894,6 +3295,7 @@
       "placeholders": [],
       "text": {
         "he": "משך (דקות)",
+        "ar": "المدة (دقائق)",
         "en": "Duration (minutes)"
       }
     },
@@ -2901,6 +3303,7 @@
       "placeholders": [],
       "text": {
         "he": "מחיר החל מ- (₪)",
+        "ar": "السعر ابتداءً من (₪)",
         "en": "Price from (₪)"
       }
     },
@@ -2908,6 +3311,7 @@
       "placeholders": [],
       "text": {
         "he": "אפשר לקבוע באתר",
+        "ar": "يمكن الحجز عبر الموقع",
         "en": "Can be booked online"
       }
     },
@@ -2915,6 +3319,7 @@
       "placeholders": [],
       "text": {
         "he": "פעיל",
+        "ar": "فعّال",
         "en": "Active"
       }
     },
@@ -2922,6 +3327,7 @@
       "placeholders": [],
       "text": {
         "he": "סדר",
+        "ar": "الترتيب",
         "en": "Order"
       }
     },
@@ -2929,6 +3335,7 @@
       "placeholders": [],
       "text": {
         "he": "איזה שירות לכל חיה",
+        "ar": "أي خدمة لكل حيوان",
         "en": "Which service for each pet"
       }
     },
@@ -2936,6 +3343,7 @@
       "placeholders": [],
       "text": {
         "he": "מוצרים",
+        "ar": "المنتجات",
         "en": "Products"
       }
     },
@@ -2943,6 +3351,7 @@
       "placeholders": [],
       "text": {
         "he": "תיאור",
+        "ar": "الوصف",
         "en": "Description"
       }
     },
@@ -2950,6 +3359,7 @@
       "placeholders": [],
       "text": {
         "he": "גלריה",
+        "ar": "المعرض",
         "en": "Gallery"
       }
     },
@@ -2957,6 +3367,7 @@
       "placeholders": [],
       "text": {
         "he": "העלאת תמונות",
+        "ar": "رفع صور",
         "en": "Upload photos"
       }
     },
@@ -2964,6 +3375,7 @@
       "placeholders": [],
       "text": {
         "he": "הוספת תיאור וכיתוב",
+        "ar": "إضافة وصف وتعليق",
         "en": "Add a description and caption"
       }
     },
@@ -2971,6 +3383,7 @@
       "placeholders": [],
       "text": {
         "he": "התיאור והכיתוב יישמרו לכל התמונות בהעלאה הזאת.",
+        "ar": "سيُحفظ الوصف والتعليق لكل الصور في هذا الرفع.",
         "en": "The description and caption are saved for every photo in this upload."
       }
     },
@@ -2981,6 +3394,7 @@
       ],
       "text": {
         "he": "מעלים תמונה {done} מתוך {total}…",
+        "ar": "جارٍ رفع الصورة {done} من {total}…",
         "en": "Uploading photo {done} of {total}…"
       }
     },
@@ -2992,6 +3406,7 @@
       ],
       "text": {
         "he": "{failed} מתוך {total} תמונות לא הועלו: {names}. אפשר להעלות JPG,‏ PNG או WebP עד 8MB.",
+        "ar": "{failed} من {total} صور لم تُرفع: {names}. يمكن رفع JPG أو PNG أو WebP حتى 8MB.",
         "en": "{failed} of {total} photos were not uploaded: {names}. Use a JPG, PNG or WebP of up to 8 MB."
       }
     },
@@ -2999,6 +3414,7 @@
       "placeholders": [],
       "text": {
         "he": "תמונת המוצר",
+        "ar": "صورة المنتج",
         "en": "Product photo"
       }
     },
@@ -3006,6 +3422,7 @@
       "placeholders": [],
       "text": {
         "he": "תמונת השער (בראש דף הבית)",
+        "ar": "صورة الغلاف (أعلى الصفحة الرئيسية)",
         "en": "Cover photo (top of the home page)"
       }
     },
@@ -3013,6 +3430,7 @@
       "placeholders": [],
       "text": {
         "he": "החלפת התמונה",
+        "ar": "استبدال الصورة",
         "en": "Replace the photo"
       }
     },
@@ -3020,6 +3438,7 @@
       "placeholders": [],
       "text": {
         "he": "הסרת התמונה",
+        "ar": "إزالة الصورة",
         "en": "Remove the photo"
       }
     },
@@ -3027,6 +3446,7 @@
       "placeholders": [],
       "text": {
         "he": "תיאור התמונה (לקוראי מסך)",
+        "ar": "وصف الصورة (لقارئات الشاشة)",
         "en": "Photo description (for screen readers)"
       }
     },
@@ -3034,6 +3454,7 @@
       "placeholders": [],
       "text": {
         "he": "כיתוב",
+        "ar": "التعليق",
         "en": "Caption"
       }
     },
@@ -3041,6 +3462,7 @@
       "placeholders": [],
       "text": {
         "he": "פרטי המספרה",
+        "ar": "تفاصيل الصالون",
         "en": "Salon details"
       }
     },
@@ -3048,6 +3470,7 @@
       "placeholders": [],
       "text": {
         "he": "משפט פתיחה",
+        "ar": "جملة افتتاحية",
         "en": "Tagline"
       }
     },
@@ -3055,6 +3478,7 @@
       "placeholders": [],
       "text": {
         "he": "עיר",
+        "ar": "المدينة",
         "en": "City"
       }
     },
@@ -3062,6 +3486,7 @@
       "placeholders": [],
       "text": {
         "he": "כתובת",
+        "ar": "العنوان",
         "en": "Address"
       }
     },
@@ -3069,6 +3494,7 @@
       "placeholders": [],
       "text": {
         "he": "נוסחי הודעות",
+        "ar": "نصوص الرسائل",
         "en": "Message wording"
       }
     },
@@ -3079,6 +3505,7 @@
       ],
       "text": {
         "he": "מילים בסוגריים מסולסלים, כמו {when} או {link}, מתמלאות אוטומטית. יש להשאיר אותן בנוסח.",
+        "ar": "الكلمات بين الأقواس المعقوفة، مثل {when} أو {link}، تُملأ تلقائيًا. يجب إبقاؤها في النص.",
         "en": "Words in curly braces, like {when} or {link}, are filled in automatically. Keep them in the wording."
       }
     },
@@ -3086,6 +3513,7 @@
       "placeholders": [],
       "text": {
         "he": "נוסח וואטסאפ קבוע לפי התבנית שאושרה ב-Meta. לשינוי צריך לאשר תבנית חדשה.",
+        "ar": "نص واتساب ثابت حسب القالب الذي وافقت عليه Meta. لتغييره يجب اعتماد قالب جديد.",
         "en": "The WhatsApp wording is fixed by the template approved by Meta. To change it, a new template must be approved."
       }
     },
@@ -3093,6 +3521,7 @@
       "placeholders": [],
       "text": {
         "he": "נושא",
+        "ar": "الموضوع",
         "en": "Subject"
       }
     },
@@ -3100,6 +3529,7 @@
       "placeholders": [],
       "text": {
         "he": "נוסח",
+        "ar": "النص",
         "en": "Wording"
       }
     },
@@ -3107,6 +3537,7 @@
       "placeholders": [],
       "text": {
         "he": "לא פעיל",
+        "ar": "غير فعّال",
         "en": "inactive"
       }
     },
@@ -3114,6 +3545,7 @@
       "placeholders": [],
       "text": {
         "he": "חיפוש לפי שם או טלפון",
+        "ar": "بحث بالاسم أو الهاتف",
         "en": "Search by name or phone"
       }
     },
@@ -3121,6 +3553,7 @@
       "placeholders": [],
       "text": {
         "he": "חיפוש",
+        "ar": "بحث",
         "en": "Search"
       }
     },
@@ -3128,6 +3561,7 @@
       "placeholders": [],
       "text": {
         "he": "לא נמצאו לקוחות.",
+        "ar": "لم يُعثر على زبائن.",
         "en": "No customers found."
       }
     },
@@ -3135,6 +3569,7 @@
       "placeholders": [],
       "text": {
         "he": "חיות",
+        "ar": "الحيوانات",
         "en": "Pets"
       }
     },
@@ -3142,6 +3577,7 @@
       "placeholders": [],
       "text": {
         "he": "תורים",
+        "ar": "المواعيد",
         "en": "Appointments"
       }
     },
@@ -3149,6 +3585,7 @@
       "placeholders": [],
       "text": {
         "he": "הערות פנימיות",
+        "ar": "ملاحظات داخلية",
         "en": "Internal notes"
       }
     },
@@ -3156,6 +3593,7 @@
       "placeholders": [],
       "text": {
         "he": "הסכמות",
+        "ar": "الموافقات",
         "en": "Consents"
       }
     },
@@ -3163,6 +3601,7 @@
       "placeholders": [],
       "text": {
         "he": "איחוד עם לקוח אחר",
+        "ar": "دمج مع زبون آخر",
         "en": "Merge with another customer"
       }
     },
@@ -3170,6 +3609,7 @@
       "placeholders": [],
       "text": {
         "he": "מספר הלקוח שיאוחד לתוך הרשומה הזו",
+        "ar": "رقم الزبون الذي سيُدمج في هذا السجل",
         "en": "ID of the customer to merge into this record"
       }
     },
@@ -3177,6 +3617,7 @@
       "placeholders": [],
       "text": {
         "he": "ייצוא כל המידע (JSON)",
+        "ar": "تصدير كل البيانات (JSON)",
         "en": "Export all data (JSON)"
       }
     },
@@ -3184,6 +3625,7 @@
       "placeholders": [],
       "text": {
         "he": "מחיקת המידע האישי",
+        "ar": "حذف البيانات الشخصية",
         "en": "Delete personal data"
       }
     },
@@ -3191,6 +3633,7 @@
       "placeholders": [],
       "text": {
         "he": "למחוק את הפרטים האישיים? ההיסטוריה נשמרת בלי שם וטלפון. אי אפשר לבטל.",
+        "ar": "حذف البيانات الشخصية؟ يُحتفظ بالسجل بلا اسم ولا هاتف. لا يمكن التراجع.",
         "en": "Delete the personal details? The history is kept without name and phone. This can't be undone."
       }
     },
@@ -3198,6 +3641,7 @@
       "placeholders": [],
       "text": {
         "he": "כן, למחוק",
+        "ar": "نعم، حذف",
         "en": "Yes, delete"
       }
     },
@@ -3205,6 +3649,7 @@
       "placeholders": [],
       "text": {
         "he": "הפרטים האישיים נמחקו.",
+        "ar": "حُذفت البيانات الشخصية.",
         "en": "Personal details deleted."
       }
     },
@@ -3212,6 +3657,7 @@
       "placeholders": [],
       "text": {
         "he": "הלקוחות אוחדו.",
+        "ar": "دُمج الزبونان.",
         "en": "Customers merged."
       }
     },
@@ -3219,6 +3665,7 @@
       "placeholders": [],
       "text": {
         "he": "לקוח",
+        "ar": "زبون",
         "en": "Customer"
       }
     },
@@ -3228,6 +3675,7 @@
       ],
       "text": {
         "he": "יש תעודת חיסונים (נכון ל-{date})",
+        "ar": "توجد شهادة تطعيم (حتى {date})",
         "en": "Has a vaccination certificate (as of {date})"
       }
     },
@@ -3235,6 +3683,7 @@
       "placeholders": [],
       "text": {
         "he": "עדכונים",
+        "ar": "التحديثات",
         "en": "Updates"
       }
     },
@@ -3242,6 +3691,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעות שהתקבלו",
+        "ar": "رسائل واردة",
         "en": "Messages received"
       }
     },
@@ -3249,6 +3699,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעות שנכשלו",
+        "ar": "رسائل فشل إرسالها",
         "en": "Failed messages"
       }
     },
@@ -3256,6 +3707,7 @@
       "placeholders": [],
       "text": {
         "he": "סימון הכול כנקרא",
+        "ar": "تعليم الكل كمقروء",
         "en": "Mark all as read"
       }
     },
@@ -3263,6 +3715,7 @@
       "placeholders": [],
       "text": {
         "he": "סימון כנקרא",
+        "ar": "تعليم كمقروء",
         "en": "Mark as read"
       }
     },
@@ -3270,6 +3723,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעות שלקוחות שלחו למספר האוטומטי. הן קיבלו תשובה קבועה עם מספר הצ'אט של המספרה.",
+        "ar": "رسائل أرسلها الزبائن إلى الرقم الآلي. حصلوا على رد ثابت فيه رقم الدردشة مع الصالون.",
         "en": "Messages customers sent to the automated number. They got a standard reply with the salon's chat number."
       }
     },
@@ -3277,6 +3731,7 @@
       "placeholders": [],
       "text": {
         "he": "כללי קביעת תורים",
+        "ar": "قواعد حجز المواعيد",
         "en": "Booking rules"
       }
     },
@@ -3284,6 +3739,7 @@
       "placeholders": [],
       "text": {
         "he": "מתגים",
+        "ar": "المفاتيح",
         "en": "Switches"
       }
     },
@@ -3291,6 +3747,7 @@
       "placeholders": [],
       "text": {
         "he": "מספרי וואטסאפ",
+        "ar": "أرقام واتساب",
         "en": "WhatsApp numbers"
       }
     },
@@ -3298,6 +3755,7 @@
       "placeholders": [],
       "text": {
         "he": "תקרות חודשיות",
+        "ar": "الحدود الشهرية",
         "en": "Monthly limits"
       }
     },
@@ -3305,6 +3763,7 @@
       "placeholders": [],
       "text": {
         "he": "מרווח בין שעות התחלה (דקות)",
+        "ar": "الفاصل بين أوقات البداية (دقائق)",
         "en": "Interval between start times (minutes)"
       }
     },
@@ -3312,6 +3771,7 @@
       "placeholders": [],
       "text": {
         "he": "הפסקה בין חיות (דקות)",
+        "ar": "استراحة بين الحيوانات (دقائق)",
         "en": "Break between pets (minutes)"
       }
     },
@@ -3319,6 +3779,7 @@
       "placeholders": [],
       "text": {
         "he": "זמן ניקיון אחרי תור (דקות)",
+        "ar": "وقت التنظيف بعد الموعد (دقائق)",
         "en": "Cleanup time after an appointment (minutes)"
       }
     },
@@ -3326,6 +3787,7 @@
       "placeholders": [],
       "text": {
         "he": "התראה מינימלית מראש (דקות)",
+        "ar": "أقل مهلة مسبقة (دقائق)",
         "en": "Minimum advance notice (minutes)"
       }
     },
@@ -3333,6 +3795,7 @@
       "placeholders": [],
       "text": {
         "he": "כמה ימים קדימה אפשר לקבוע",
+        "ar": "كم يومًا مقدمًا يمكن الحجز",
         "en": "How many days ahead customers can book"
       }
     },
@@ -3340,6 +3803,7 @@
       "placeholders": [],
       "text": {
         "he": "מספר חיות מרבי בתור",
+        "ar": "الحد الأقصى من الحيوانات في الموعد",
         "en": "Maximum pets per appointment"
       }
     },
@@ -3347,6 +3811,7 @@
       "placeholders": [],
       "text": {
         "he": "עד כמה שעות לפני אפשר לשנות או לבטל",
+        "ar": "حتى كم ساعة قبل الموعد يمكن التغيير أو الإلغاء",
         "en": "Up to how many hours before customers can change or cancel"
       }
     },
@@ -3354,6 +3819,7 @@
       "placeholders": [],
       "text": {
         "he": "כמה דקות שומרים מועד בזמן הקוד",
+        "ar": "كم دقيقة يُحجز الوقت أثناء إدخال الرمز",
         "en": "How many minutes a time is held while the code is entered"
       }
     },
@@ -3361,6 +3827,7 @@
       "placeholders": [],
       "text": {
         "he": "ניתוח תמונות חיות ב-AI",
+        "ar": "تحليل صور الحيوانات بالذكاء الاصطناعي",
         "en": "AI pet photo analysis"
       }
     },
@@ -3368,6 +3835,7 @@
       "placeholders": [],
       "text": {
         "he": "סיכום לפני תור ב-AI",
+        "ar": "ملخص قبل الموعد بالذكاء الاصطناعي",
         "en": "AI summary before an appointment"
       }
     },
@@ -3375,6 +3843,7 @@
       "placeholders": [],
       "text": {
         "he": "וואטסאפ מושבת – לשלוח הכול במייל",
+        "ar": "واتساب متوقف – إرسال كل شيء بالبريد الإلكتروني",
         "en": "WhatsApp is down – send everything by email"
       }
     },
@@ -3382,6 +3851,7 @@
       "placeholders": [],
       "text": {
         "he": "להסתיר את האתר ממנועי חיפוש",
+        "ar": "إخفاء الموقع عن محركات البحث",
         "en": "Hide the site from search engines"
       }
     },
@@ -3389,6 +3859,7 @@
       "placeholders": [],
       "text": {
         "he": "מספר ההודעות האוטומטיות",
+        "ar": "رقم الرسائل الآلية",
         "en": "Automated messages number"
       }
     },
@@ -3396,6 +3867,7 @@
       "placeholders": [],
       "text": {
         "he": "מספר הצ'אט עם המספרה",
+        "ar": "رقم الدردشة مع الصالون",
         "en": "Salon chat number"
       }
     },
@@ -3403,6 +3875,7 @@
       "placeholders": [],
       "text": {
         "he": "מספר הודעות בחודש",
+        "ar": "عدد الرسائل في الشهر",
         "en": "Messages per month"
       }
     },
@@ -3410,6 +3883,7 @@
       "placeholders": [],
       "text": {
         "he": "תקציב AI בחודש (אגורות)",
+        "ar": "ميزانية الذكاء الاصطناعي الشهرية (أغورات)",
         "en": "Monthly AI budget (agorot)"
       }
     },
@@ -3417,6 +3891,7 @@
       "placeholders": [],
       "text": {
         "he": "ההגדרות נשמרו.",
+        "ar": "حُفظت الإعدادات.",
         "en": "Settings saved."
       }
     },
@@ -3424,6 +3899,7 @@
       "placeholders": [],
       "text": {
         "he": "אין מפתח AI מוגדר, לכן המתגים האלה לא פעילים.",
+        "ar": "لا يوجد مفتاح ذكاء اصطناعي مهيأ، لذلك هذه المفاتيح غير فعّالة.",
         "en": "No AI key is set up, so these switches are inactive."
       }
     },
@@ -3431,6 +3907,7 @@
       "placeholders": [],
       "text": {
         "he": "מספר ישראלי, למשל 050-0000000.",
+        "ar": "رقم إسرائيلي، مثلًا 050-0000000.",
         "en": "An Israeli number, for example 050-0000000."
       }
     },
@@ -3438,6 +3915,7 @@
       "placeholders": [],
       "text": {
         "he": "תקין",
+        "ar": "سليم",
         "en": "Normal"
       }
     },
@@ -3445,6 +3923,7 @@
       "placeholders": [],
       "text": {
         "he": "מעט קשרים",
+        "ar": "عُقد قليلة",
         "en": "A few tangles"
       }
     },
@@ -3452,6 +3931,7 @@
       "placeholders": [],
       "text": {
         "he": "קשרים",
+        "ar": "عُقد",
         "en": "Matted"
       }
     },
@@ -3459,6 +3939,7 @@
       "placeholders": [],
       "text": {
         "he": "הרבה קשרים",
+        "ar": "عُقد كثيرة",
         "en": "Heavily matted"
       }
     },
@@ -3466,6 +3947,7 @@
       "placeholders": [],
       "text": {
         "he": "לא ברור",
+        "ar": "غير واضح",
         "en": "Unclear"
       }
     },
@@ -3473,6 +3955,7 @@
       "placeholders": [],
       "text": {
         "he": "כלב",
+        "ar": "كلب",
         "en": "Dog"
       }
     },
@@ -3480,6 +3963,7 @@
       "placeholders": [],
       "text": {
         "he": "חתול",
+        "ar": "قط",
         "en": "Cat"
       }
     },
@@ -3487,6 +3971,7 @@
       "placeholders": [],
       "text": {
         "he": "גור",
+        "ar": "جرو",
         "en": "Puppy"
       }
     },
@@ -3494,6 +3979,7 @@
       "placeholders": [],
       "text": {
         "he": "כלב / חתול",
+        "ar": "كلب / قط",
         "en": "Dog / Cat"
       }
     },
@@ -3501,6 +3987,7 @@
       "placeholders": [],
       "text": {
         "he": "מידע",
+        "ar": "معلومات",
         "en": "Info"
       }
     },
@@ -3508,6 +3995,7 @@
       "placeholders": [],
       "text": {
         "he": "עקבו אחרינו",
+        "ar": "تابعونا",
         "en": "Follow us"
       }
     },
@@ -3515,6 +4003,7 @@
       "placeholders": [],
       "text": {
         "he": "מייל",
+        "ar": "بريد إلكتروني",
         "en": "Email"
       }
     },
@@ -3522,6 +4011,7 @@
       "placeholders": [],
       "text": {
         "he": "התראה",
+        "ar": "إشعار",
         "en": "Notification"
       }
     },
@@ -3529,6 +4019,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעות על תורים",
+        "ar": "رسائل حول المواعيد",
         "en": "Booking messages"
       }
     },
@@ -3536,6 +4027,7 @@
       "placeholders": [],
       "text": {
         "he": "ניתוח תמונות",
+        "ar": "تحليل الصور",
         "en": "Photo analysis"
       }
     },
@@ -3543,6 +4035,7 @@
       "placeholders": [],
       "text": {
         "he": "תמונה בגלריה",
+        "ar": "صورة في المعرض",
         "en": "Gallery photo"
       }
     },
@@ -3552,6 +4045,7 @@
       ],
       "text": {
         "he": "הועבר ל-{when}",
+        "ar": "نُقل إلى {when}",
         "en": "Moved to {when}"
       }
     },
@@ -3559,6 +4053,7 @@
       "placeholders": [],
       "text": {
         "he": "בוטל",
+        "ar": "أُلغي",
         "en": "Cancelled"
       }
     },
@@ -3566,6 +4061,7 @@
       "placeholders": [],
       "text": {
         "he": "נתונים",
+        "ar": "البيانات",
         "en": "Stats"
       }
     },
@@ -3573,6 +4069,7 @@
       "placeholders": [],
       "text": {
         "he": "תקופה",
+        "ar": "الفترة",
         "en": "Period"
       }
     },
@@ -3582,6 +4079,7 @@
       ],
       "text": {
         "he": "{n} ימים",
+        "ar": "{n} أيام",
         "en": "{n} days"
       }
     },
@@ -3592,6 +4090,7 @@
       ],
       "text": {
         "he": "{from} – {to}",
+        "ar": "{from} – {to}",
         "en": "{from} – {to}"
       }
     },
@@ -3599,6 +4098,7 @@
       "placeholders": [],
       "text": {
         "he": "תורים שנקבעו",
+        "ar": "مواعيد حُجزت",
         "en": "Bookings made"
       }
     },
@@ -3610,6 +4110,7 @@
       ],
       "text": {
         "he": "{online} באתר · {owner} במספרה · {imported} מיובאים",
+        "ar": "{online} عبر الموقع · {owner} في الصالون · {imported} مستوردة",
         "en": "{online} online · {owner} by the salon · {imported} imported"
       }
     },
@@ -3617,6 +4118,7 @@
       "placeholders": [],
       "text": {
         "he": "בוטלו",
+        "ar": "أُلغيت",
         "en": "Cancelled"
       }
     },
@@ -3624,6 +4126,7 @@
       "placeholders": [],
       "text": {
         "he": "מתוך התורים שנקבעו בתקופה",
+        "ar": "من المواعيد التي حُجزت في الفترة",
         "en": "Of the bookings made in this period"
       }
     },
@@ -3631,6 +4134,7 @@
       "placeholders": [],
       "text": {
         "he": "ביקורים שהתקיימו",
+        "ar": "زيارات تمت",
         "en": "Visits held"
       }
     },
@@ -3640,6 +4144,7 @@
       ],
       "text": {
         "he": "{n} לא הגיעו",
+        "ar": "{n} لم يحضروا",
         "en": "{n} no-shows"
       }
     },
@@ -3647,6 +4152,7 @@
       "placeholders": [],
       "text": {
         "he": "לחיצות על \"קביעת תור\"",
+        "ar": "نقرات على \"حجز موعد\"",
         "en": "\"Book\" clicks"
       }
     },
@@ -3656,6 +4162,7 @@
       ],
       "text": {
         "he": "{pct} מהן הסתיימו בתור באתר",
+        "ar": "{pct} منها انتهت بحجز عبر الموقع",
         "en": "{pct} of them ended in an online booking"
       }
     },
@@ -3663,6 +4170,7 @@
       "placeholders": [],
       "text": {
         "he": "אין עדיין לחיצות",
+        "ar": "لا نقرات بعد",
         "en": "No clicks yet"
       }
     },
@@ -3670,6 +4178,7 @@
       "placeholders": [],
       "text": {
         "he": "הזמנות מוצרים בוואטסאפ",
+        "ar": "طلبات منتجات عبر واتساب",
         "en": "Product orders on WhatsApp"
       }
     },
@@ -3677,6 +4186,7 @@
       "placeholders": [],
       "text": {
         "he": "לחיצות על \"הזמנה בוואטסאפ\"",
+        "ar": "نقرات على \"طلب عبر واتساب\"",
         "en": "Clicks on \"Order on WhatsApp\""
       }
     },
@@ -3684,6 +4194,7 @@
       "placeholders": [],
       "text": {
         "he": "הודעות שנשלחו",
+        "ar": "رسائل أُرسلت",
         "en": "Messages sent"
       }
     },
@@ -3695,6 +4206,7 @@
       ],
       "text": {
         "he": "וואטסאפ {whatsapp} · מייל {email} · התראות {push}",
+        "ar": "واتساب {whatsapp} · بريد {email} · إشعارات {push}",
         "en": "WhatsApp {whatsapp} · email {email} · alerts {push}"
       }
     },
@@ -3704,6 +4216,7 @@
       ],
       "text": {
         "he": "{n} נכשלו",
+        "ar": "{n} فشلت",
         "en": "{n} failed"
       }
     },
@@ -3711,6 +4224,7 @@
       "placeholders": [],
       "text": {
         "he": "עלות ההודעות",
+        "ar": "تكلفة الرسائل",
         "en": "Message cost"
       }
     },
@@ -3720,6 +4234,7 @@
       ],
       "text": {
         "he": "בינה מלאכותית החודש: {cost}",
+        "ar": "الذكاء الاصطناعي هذا الشهر: {cost}",
         "en": "AI this month: {cost}"
       }
     },
@@ -3727,6 +4242,7 @@
       "placeholders": [],
       "text": {
         "he": "תורים שנקבעו בכל שבוע",
+        "ar": "مواعيد حُجزت في كل أسبوع",
         "en": "Bookings made each week"
       }
     },
@@ -3736,6 +4252,7 @@
       ],
       "text": {
         "he": "{n} השבועות האחרונים, מיום ראשון עד שבת. השבוע הנוכחי עדיין לא נגמר.",
+        "ar": "آخر {n} أسابيع، من الأحد إلى السبت. الأسبوع الحالي لم ينتهِ بعد.",
         "en": "Last {n} weeks, Sunday to Saturday. The current week isn't over yet."
       }
     },
@@ -3746,6 +4263,7 @@
       ],
       "text": {
         "he": "שבוע מ-{date}: {n} תורים",
+        "ar": "أسبوع {date}: {n} مواعيد",
         "en": "Week of {date}: {n} bookings"
       }
     },
@@ -3753,6 +4271,7 @@
       "placeholders": [],
       "text": {
         "he": "הצגה כטבלה",
+        "ar": "عرض كجدول",
         "en": "Show as a table"
       }
     },
@@ -3760,6 +4279,7 @@
       "placeholders": [],
       "text": {
         "he": "שבוע מתחיל ב-",
+        "ar": "أسبوع يبدأ في",
         "en": "Week starting"
       }
     },
@@ -3767,6 +4287,7 @@
       "placeholders": [],
       "text": {
         "he": "תורים",
+        "ar": "مواعيد",
         "en": "Bookings"
       }
     },
@@ -3774,6 +4295,7 @@
       "placeholders": [],
       "text": {
         "he": "מאיפה הגיעו ההזמנות באתר",
+        "ar": "من أين جاءت الحجوزات عبر الموقع",
         "en": "Where online bookings came from"
       }
     },
@@ -3781,6 +4303,7 @@
       "placeholders": [],
       "text": {
         "he": "לפי תגי הקמפיין בקישור, למשל utm_source=instagram.",
+        "ar": "حسب وسوم الحملة في الرابط، مثلًا utm_source=instagram.",
         "en": "From the campaign tags in the link, for example utm_source=instagram."
       }
     },
@@ -3788,6 +4311,7 @@
       "placeholders": [],
       "text": {
         "he": "ישירות, בלי קמפיין",
+        "ar": "مباشرة، بلا حملة",
         "en": "Direct, no campaign"
       }
     },
@@ -3795,6 +4319,7 @@
       "placeholders": [],
       "text": {
         "he": "מקור",
+        "ar": "المصدر",
         "en": "Source"
       }
     },
@@ -3802,6 +4327,7 @@
       "placeholders": [],
       "text": {
         "he": "שירותים מבוקשים",
+        "ar": "الخدمات الأكثر طلبًا",
         "en": "Most-booked services"
       }
     },
@@ -3809,6 +4335,7 @@
       "placeholders": [],
       "text": {
         "he": "מספר החיות לכל שירות, בביקורים שבתקופה.",
+        "ar": "عدد الحيوانات لكل خدمة، في زيارات الفترة.",
         "en": "Pets per service, for visits in this period."
       }
     },
@@ -3816,6 +4343,7 @@
       "placeholders": [],
       "text": {
         "he": "שירות",
+        "ar": "الخدمة",
         "en": "Service"
       }
     },
@@ -3823,6 +4351,7 @@
       "placeholders": [],
       "text": {
         "he": "חיות",
+        "ar": "الحيوانات",
         "en": "Pets"
       }
     },
@@ -3830,6 +4359,7 @@
       "placeholders": [],
       "text": {
         "he": "אין עדיין נתונים לתקופה הזו.",
+        "ar": "لا بيانات لهذه الفترة بعد.",
         "en": "No data for this period yet."
       }
     },
@@ -3839,6 +4369,7 @@
       ],
       "text": {
         "he": "{hours, plural, =1 {שעה} =2 {שעתיים} other {# שעות}}",
+        "ar": "{hours, plural, =1 {ساعة} =2 {ساعتان} few {# ساعات} other {# ساعة}}",
         "en": "{hours, plural, other {# h}}"
       }
     },
@@ -3848,6 +4379,7 @@
       ],
       "text": {
         "he": "{minutes, plural, =1 {דקה} other {# דקות}}",
+        "ar": "{minutes, plural, =1 {دقيقة} =2 {دقيقتان} few {# دقائق} other {# دقيقة}}",
         "en": "{minutes, plural, other {# min}}"
       }
     },
@@ -3858,6 +4390,7 @@
       ],
       "text": {
         "he": "{hours} ו-{minutes}",
+        "ar": "{hours} و{minutes}",
         "en": "{hours} {minutes}"
       }
     }
@@ -3878,6 +4411,7 @@
             "placeholders": [],
             "text": {
               "he": "חתול",
+              "ar": "قط",
               "en": "Cat"
             }
           },
@@ -3885,6 +4419,7 @@
             "placeholders": [],
             "text": {
               "he": "גילוח או תספורת, גזיזת ציפורניים, ניקוי שיניים, אזור העיניים והאוזניים, רחצה לפי הצורך",
+              "ar": "حلاقة أو قصّ، قصّ الأظافر، تنظيف الأسنان، منطقة العينين والأذنين، وحمّام حسب الحاجة",
               "en": "Shave or haircut, nail trim, teeth cleaning, eye and ear area, bath as needed"
             }
           }
@@ -3894,6 +4429,7 @@
             "placeholders": [],
             "text": {
               "he": "גילוח לחתול בטשטוש",
+              "ar": "حلاقة قط تحت التهدئة",
               "en": "Cat shave under sedation"
             }
           },
@@ -3901,6 +4437,7 @@
             "placeholders": [],
             "text": {
               "he": "גילוח או תספורת, גזיזת ציפורניים, ניקוי שיניים, אזור העיניים והאוזניים, רחצה לפי הצורך",
+              "ar": "حلاقة أو قصّ، قصّ الأظافر، تنظيف الأسنان، منطقة العينين والأذنين، وحمّام حسب الحاجة",
               "en": "Shave or haircut, nail trim, teeth cleaning, eye and ear area, bath as needed"
             }
           }
@@ -3910,6 +4447,7 @@
             "placeholders": [],
             "text": {
               "he": "כלב - גזע קטן עד 10 קילו",
+              "ar": "كلب - سلالة صغيرة حتى 10 كغم",
               "en": "Dog - small breed, up to 10 kg"
             }
           },
@@ -3917,6 +4455,7 @@
             "placeholders": [],
             "text": {
               "he": "תספורת, רחצה, גילוח אזור אינטימי, ציפורניים, כפות, אוזניים ועיניים",
+              "ar": "قصّ، حمّام، حلاقة المنطقة الحساسة، الأظافر، الوسائد، الأذنان والعينان",
               "en": "Haircut, bath, sanitary trim, nails, paws, ears and eyes"
             }
           }
@@ -3926,6 +4465,7 @@
             "placeholders": [],
             "text": {
               "he": "כלב - גזע גדול מעל 10 קילו",
+              "ar": "كلب - سلالة كبيرة أكثر من 10 كغم",
               "en": "Dog - large breed, over 10 kg"
             }
           },
@@ -3933,6 +4473,7 @@
             "placeholders": [],
             "text": {
               "he": "תספורת, רחצה, גילוח אזור אינטימי, ציפורניים, כפות, אוזניים ועיניים",
+              "ar": "قصّ، حمّام، حلاقة المنطقة الحساسة، الأظافر، الوسائد، الأذنان والعينان",
               "en": "Haircut, bath, sanitary trim, nails, paws, ears and eyes"
             }
           }
@@ -3942,6 +4483,7 @@
             "placeholders": [],
             "text": {
               "he": "טיפוח גורים",
+              "ar": "عناية بالجراء",
               "en": "Puppy grooming"
             }
           },
@@ -3949,6 +4491,7 @@
             "placeholders": [],
             "text": {
               "he": "עד גיל 6 חודשים: רחצה, הברשה, עיצוב כפות ופנים, ציפורניים, הסרת שיער מהאוזניים",
+              "ar": "حتى عمر 6 أشهر: حمّام، تمشيط، تهذيب الوسائد والوجه، الأظافر، إزالة الشعر من الأذنين",
               "en": "Up to 6 months old: bath, brushing, paw and face shaping, nails, ear hair removal"
             }
           }
@@ -3958,6 +4501,7 @@
             "placeholders": [],
             "text": {
               "he": "גזיזת ציפורניים",
+              "ar": "قصّ الأظافر",
               "en": "Nail trim"
             }
           },
@@ -3965,6 +4509,7 @@
             "placeholders": [],
             "text": {
               "he": "ציפורניים בלבד",
+              "ar": "الأظافر فقط",
               "en": "Nails only"
             }
           }
@@ -3986,6 +4531,7 @@
             "placeholders": [],
             "text": {
               "he": "מרכך",
+              "ar": "بلسم",
               "en": "Conditioner"
             }
           },
@@ -3993,6 +4539,7 @@
             "placeholders": [],
             "text": {
               "he": "מפריד קשרים ומעניק לחות, לכלבים ולחתולים",
+              "ar": "يفكّ العقد ويمنح الترطيب، للكلاب والقطط",
               "en": "Detangles and moisturizes, for dogs and cats"
             }
           }
@@ -4002,6 +4549,7 @@
             "placeholders": [],
             "text": {
               "he": "שמפו היפואלרגני",
+              "ar": "شامبو مضاد للحساسية",
               "en": "Hypoallergenic shampoo"
             }
           },
@@ -4009,6 +4557,7 @@
             "placeholders": [],
             "text": {
               "he": "לעור רגיש, לכלבים, חתולים וגורים",
+              "ar": "للجلد الحساس، للكلاب والقطط والجراء",
               "en": "For sensitive skin, for dogs, cats and puppies"
             }
           }
@@ -4018,6 +4567,7 @@
             "placeholders": [],
             "text": {
               "he": "שמפו ללא שטיפה",
+              "ar": "شامبو بلا شطف",
               "en": "No-rinse shampoo"
             }
           },
@@ -4025,6 +4575,7 @@
             "placeholders": [],
             "text": {
               "he": "לחתולים וגורי חתולים, 220 מ\"ל, בניחוח אבקת תינוקות",
+              "ar": "للقطط والقطط الصغيرة، 220 مل، برائحة بودرة الأطفال",
               "en": "For cats and kittens, 220 ml, baby powder scent"
             }
           }
@@ -4034,6 +4585,7 @@
             "placeholders": [],
             "text": {
               "he": "משחה למניעת יובש וטיפול בסדקים",
+              "ar": "مرهم لمنع الجفاف وعلاج التشققات",
               "en": "Balm for dryness and cracks"
             }
           },
@@ -4041,6 +4593,7 @@
             "placeholders": [],
             "text": {
               "he": "טיפוח לאף ולכפות",
+              "ar": "عناية بالأنف والوسائد",
               "en": "Care for nose and paws"
             }
           }
@@ -4050,6 +4603,7 @@
             "placeholders": [],
             "text": {
               "he": "FUR DE LUXE",
+              "ar": "FUR DE LUXE",
               "en": "FUR DE LUXE"
             }
           },
@@ -4057,6 +4611,7 @@
             "placeholders": [],
             "text": {
               "he": "שמן בושם, 10 מ\"ל, מאסק",
+              "ar": "زيت عطري، 10 مل، مسك",
               "en": "Perfume oil, 10 ml, musk"
             }
           }
@@ -4066,6 +4621,7 @@
             "placeholders": [],
             "text": {
               "he": "Fluffy Fresh",
+              "ar": "Fluffy Fresh",
               "en": "Fluffy Fresh"
             }
           },
@@ -4073,6 +4629,7 @@
             "placeholders": [],
             "text": {
               "he": "שמן בושם, 10 מ\"ל, בניחוח אבקת תינוקות",
+              "ar": "زيت عطري، 10 مل، برائحة بودرة الأطفال",
               "en": "Perfume oil, 10 ml, baby powder scent"
             }
           }
@@ -4082,6 +4639,7 @@
             "placeholders": [],
             "text": {
               "he": "PawFume No.4",
+              "ar": "PawFume No.4",
               "en": "PawFume No.4"
             }
           },
@@ -4089,6 +4647,7 @@
             "placeholders": [],
             "text": {
               "he": "שמן בושם, 10 מ\"ל, פרחוני מזרחי",
+              "ar": "زيت عطري، 10 مل، زهري شرقي",
               "en": "Perfume oil, 10 ml, floral oriental"
             }
           }
@@ -4098,6 +4657,7 @@
             "placeholders": [],
             "text": {
               "he": "ערכת טיפוח לכלב ולחתול",
+              "ar": "طقم عناية للكلب والقط",
               "en": "Dog and cat grooming kit"
             }
           },
@@ -4105,6 +4665,7 @@
             "placeholders": [],
             "text": {
               "he": "שמפו, מרכך, בושם ומשחה",
+              "ar": "شامبو، بلسم، عطر ومرهم",
               "en": "Shampoo, conditioner, perfume and balm"
             }
           }
@@ -4129,6 +4690,7 @@
             ],
             "text": {
               "he": "קוד האימות שלך ל-%BRAND%: {code}. הקוד בתוקף ל-10 דקות.",
+              "ar": "رمز التحقق الخاص بكم لـ%BRAND%: {code}. الرمز صالح لمدة 10 دقائق.",
               "en": "Your %BRAND% verification code: {code}. The code is valid for 10 minutes."
             }
           }
@@ -4140,6 +4702,7 @@
             ],
             "text": {
               "he": "קוד האימות שלך: {code}. הקוד בתוקף ל-10 דקות.",
+              "ar": "رمز التحقق الخاص بكم: {code}. الرمز صالح لمدة 10 دقائق.",
               "en": "Your verification code: {code}. The code is valid for 10 minutes."
             }
           },
@@ -4147,6 +4710,7 @@
             "placeholders": [],
             "text": {
               "he": "קוד אימות ל-%BRAND%",
+              "ar": "رمز التحقق لـ%BRAND%",
               "en": "Your %BRAND% verification code"
             }
           }
@@ -4158,6 +4722,7 @@
             ],
             "text": {
               "he": "קוד הכניסה שלך לאזור הניהול: {code}. הקוד בתוקף ל-10 דקות. אם לא ביקשת אותו, אפשר להתעלם מהאימייל.",
+              "ar": "رمز دخولكم إلى منطقة الإدارة: {code}. الرمز صالح لمدة 10 دقائق. إن لم تطلبوه، يمكن تجاهل هذه الرسالة.",
               "en": "Your admin login code: {code}. The code is valid for 10 minutes. If you did not ask for it, you can ignore this email."
             }
           },
@@ -4165,6 +4730,7 @@
             "placeholders": [],
             "text": {
               "he": "קוד כניסה לניהול %BRAND%",
+              "ar": "رمز الدخول إلى إدارة %BRAND%",
               "en": "%BRAND% admin login code"
             }
           }
@@ -4177,6 +4743,7 @@
             ],
             "text": {
               "he": "התור שלך ב-%BRAND% נקבע ל-{when}. לצפייה, שינוי או ביטול: {link}",
+              "ar": "حُجز موعدكم في %BRAND% ليوم {when}. للعرض أو التغيير أو الإلغاء: {link}",
               "en": "Your %BRAND% appointment is booked for {when}. To view, change or cancel: {link}"
             }
           }
@@ -4189,6 +4756,7 @@
             ],
             "text": {
               "he": "התור שלך נקבע ל-{when}. לצפייה, שינוי או ביטול: {link}",
+              "ar": "حُجز موعدكم ليوم {when}. للعرض أو التغيير أو الإلغاء: {link}",
               "en": "Your appointment is booked for {when}. To view, change or cancel: {link}"
             }
           },
@@ -4196,6 +4764,7 @@
             "placeholders": [],
             "text": {
               "he": "התור שלך ב-%BRAND% נקבע",
+              "ar": "حُجز موعدكم في %BRAND%",
               "en": "Your %BRAND% appointment is booked"
             }
           }
@@ -4208,6 +4777,7 @@
             ],
             "text": {
               "he": "תזכורת: מחר ב-{when} יש לך תור ב-%BRAND%. לשינוי או ביטול: {link}",
+              "ar": "تذكير: غدًا في {when} لديكم موعد في %BRAND%. للتغيير أو الإلغاء: {link}",
               "en": "Reminder: you have an appointment at %BRAND% tomorrow at {when}. To change or cancel: {link}"
             }
           }
@@ -4220,6 +4790,7 @@
             ],
             "text": {
               "he": "תזכורת: מחר ב-{when} יש לך תור. לשינוי או ביטול: {link}",
+              "ar": "تذكير: غدًا في {when} لديكم موعد. للتغيير أو الإلغاء: {link}",
               "en": "Reminder: you have an appointment tomorrow at {when}. To change or cancel: {link}"
             }
           },
@@ -4227,6 +4798,7 @@
             "placeholders": [],
             "text": {
               "he": "תזכורת לתור ב-%BRAND%",
+              "ar": "تذكير بموعد في %BRAND%",
               "en": "%BRAND% appointment reminder"
             }
           }
@@ -4239,6 +4811,7 @@
             ],
             "text": {
               "he": "התור שלך ב-%BRAND% עודכן: {change}. פרטים: {link}",
+              "ar": "تم تحديث موعدكم في %BRAND%: {change}. التفاصيل: {link}",
               "en": "Your %BRAND% appointment was updated: {change}. Details: {link}"
             }
           }
@@ -4251,6 +4824,7 @@
             ],
             "text": {
               "he": "התור שלך עודכן: {change}. פרטים: {link}",
+              "ar": "تم تحديث موعدكم: {change}. التفاصيل: {link}",
               "en": "Your appointment was updated: {change}. Details: {link}"
             }
           },
@@ -4258,6 +4832,7 @@
             "placeholders": [],
             "text": {
               "he": "התור שלך ב-%BRAND% עודכן",
+              "ar": "تم تحديث موعدكم في %BRAND%",
               "en": "Your %BRAND% appointment was updated"
             }
           }
@@ -4270,6 +4845,7 @@
             ],
             "text": {
               "he": "המספרה עדכנה את התור שלך: {change}. פרטים: {link}",
+              "ar": "حدّث الصالون موعدكم: {change}. التفاصيل: {link}",
               "en": "The salon updated your appointment: {change}. Details: {link}"
             }
           }
@@ -4282,6 +4858,7 @@
             ],
             "text": {
               "he": "המספרה עדכנה את התור שלך: {change}. פרטים: {link}",
+              "ar": "حدّث الصالون موعدكم: {change}. التفاصيل: {link}",
               "en": "The salon updated your appointment: {change}. Details: {link}"
             }
           },
@@ -4289,6 +4866,7 @@
             "placeholders": [],
             "text": {
               "he": "המספרה עדכנה את התור שלך",
+              "ar": "حدّث الصالون موعدكم",
               "en": "The salon updated your appointment"
             }
           }
@@ -4301,6 +4879,7 @@
             ],
             "text": {
               "he": "%BRAND% עברה לאתר חדש. התור שלך ב-{when} נשמר. לצפייה, שינוי או ביטול: {link}",
+              "ar": "انتقل %BRAND% إلى موقع جديد. موعدكم في {when} محفوظ. للعرض أو التغيير أو الإلغاء: {link}",
               "en": "%BRAND% has moved to a new website. Your appointment on {when} has been kept. To view, change or cancel: {link}"
             }
           }
@@ -4313,6 +4892,7 @@
             ],
             "text": {
               "he": "התור שלך ב-{when} נשמר. לצפייה, שינוי או ביטול: {link}",
+              "ar": "موعدكم في {when} محفوظ. للعرض أو التغيير أو الإلغاء: {link}",
               "en": "Your appointment on {when} has been kept. To view, change or cancel: {link}"
             }
           },
@@ -4320,6 +4900,7 @@
             "placeholders": [],
             "text": {
               "he": "%BRAND% עברה לאתר חדש",
+              "ar": "انتقل %BRAND% إلى موقع جديد",
               "en": "%BRAND% has moved to a new website"
             }
           }
@@ -4331,6 +4912,7 @@
             ],
             "text": {
               "he": "{title}",
+              "ar": "{title}",
               "en": "{title}"
             }
           }
@@ -4342,6 +4924,7 @@
             ],
             "text": {
               "he": "{title}. פרטים באזור הניהול.",
+              "ar": "{title}. التفاصيل في منطقة الإدارة.",
               "en": "{title}. Details in the admin area."
             }
           },
@@ -4349,6 +4932,7 @@
             "placeholders": [],
             "text": {
               "he": "התראה מ-%BRAND%",
+              "ar": "تنبيه من %BRAND%",
               "en": "Alert from %BRAND%"
             }
           }
@@ -4358,6 +4942,7 @@
             "placeholders": [],
             "text": {
               "he": "בדיקה יומית: ההתראות פועלות.",
+              "ar": "فحص يومي: الإشعارات تعمل.",
               "en": "Daily check: notifications are working."
             }
           }
@@ -4367,6 +4952,7 @@
             "placeholders": [],
             "text": {
               "he": "הבדיקה היומית לא הגיעה לאף מכשיר. כדאי לפתוח את אזור הניהול ולהפעיל התראות מחדש.",
+              "ar": "الفحص اليومي لم يصل إلى أي جهاز. يُستحسن فتح منطقة الإدارة وتفعيل الإشعارات من جديد.",
               "en": "The daily check didn't reach any device. Open the admin area and turn notifications on again."
             }
           },
@@ -4374,6 +4960,7 @@
             "placeholders": [],
             "text": {
               "he": "ההתראות בדפדפן לא הגיעו",
+              "ar": "إشعارات المتصفح لم تصل",
               "en": "Browser notifications didn't arrive"
             }
           }
@@ -4385,6 +4972,7 @@
             ],
             "text": {
               "he": "תודה על ההודעה! המספר הזה שולח הודעות אוטומטיות בלבד. לשינוי או ביטול תור יש להשתמש בקישור האישי שקיבלתם. לשיחה עם המספרה: {chat}",
+              "ar": "شكرًا على رسالتكم! هذا الرقم يرسل رسائل آلية فقط. لتغيير موعد أو إلغائه استخدموا الرابط الشخصي الذي وصلكم. للتحدث مع الصالون: {chat}",
               "en": "Thanks for your message! This number only sends automated messages. To change or cancel an appointment, use the personal link you received. To chat with the salon: {chat}"
             }
           }

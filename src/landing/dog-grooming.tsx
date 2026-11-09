@@ -62,7 +62,8 @@ const COPY = {
 
 export default async function DogGroomingLanding() {
   const { locale } = await getI18n();
-  const copy = COPY[locale];
+  // Written in Hebrew and English; any other language reads the default one.
+  const copy = (COPY as Record<string, (typeof COPY)[keyof typeof COPY] | undefined>)[locale] ?? COPY.he;
   const [services, rules, gallery] = await Promise.all([
     listServices({ activeOnly: true }),
     listServiceRules(),

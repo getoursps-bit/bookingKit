@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Icon, type IconName } from "@/components/ui/Icon";
+import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
 import { socialLink } from "@/server/links";
 import type { BusinessProfile } from "@/server/repos/catalog";
@@ -16,7 +17,8 @@ type Network = (typeof NETWORKS)[number];
  * language switch, then the address, phone and year.
  */
 export async function SiteFooter({ profile }: { profile: BusinessProfile }) {
-  const { t, lp } = await getI18n();
+  const { t, lp, locale } = await getI18n();
+  const name = pick(locale, profile, "name");
   const info = [
     { href: "/accessibility", label: t("nav.accessibility") },
     { href: "/privacy", label: t("nav.privacy") },
@@ -33,7 +35,7 @@ export async function SiteFooter({ profile }: { profile: BusinessProfile }) {
       <CloudEdge color="night" />
       <footer className="bg-night text-surface pb-app">
         <div className="mx-auto flex max-w-[1240px] flex-col gap-5 px-4 pt-5 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-6 md:px-6 md:pt-8">
-          <span className="font-display text-[32px] font-bold md:text-[48px]">{profile.name}</span>
+          <span className="font-display text-[32px] font-bold md:text-[48px]">{name}</span>
           {social.length > 0 ? (
             <ul aria-label={t("footer.follow")} className="flex flex-wrap gap-2">
               {social.map((link) => (
@@ -66,7 +68,7 @@ export async function SiteFooter({ profile }: { profile: BusinessProfile }) {
         </div>
         <p className="mx-auto flex max-w-[1240px] flex-wrap gap-x-3 gap-y-1 px-4 pt-6 pb-8 text-sm text-night-ink md:px-6 md:pt-8">
           <span>
-            © <bdi>{new Date().getFullYear()}</bdi> {profile.name}
+            © <bdi>{new Date().getFullYear()}</bdi> {name}
           </span>
           {profile.address ? <span>· {profile.address}</span> : null}
           {profile.phoneE164 ? (

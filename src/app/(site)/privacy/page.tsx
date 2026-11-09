@@ -1,4 +1,5 @@
 import { Phone } from "@/components/site/values";
+import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
 import { pageMetadata } from "@/server/seo";
 import { getSiteData, isNoindex } from "@/server/site";
@@ -22,7 +23,7 @@ export default async function PrivacyPage() {
   return (
     <article className="mx-auto max-w-3xl space-y-4 rounded-[20px] border border-line p-6 leading-relaxed md:rounded-card md:p-10">
       <h1 className="text-3xl font-bold md:text-4xl">{t("nav.privacy")}</h1>
-      <Text name={profile.name} phone={profile.phoneE164} />
+      <Text name={pick(locale, profile, "name")} phone={profile.phoneE164} />
     </article>
   );
 }

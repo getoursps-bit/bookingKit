@@ -143,8 +143,7 @@ Adding a language to a client: put its code in `client.json` and run
 `pnpm brand`. Adding a language to the kit: add a folder. No hand-written
 code changes and no migration in either case.
 
-The kit ships Hebrew, English and Arabic. Arabic starts from Safa's file,
-which already has 441 of the kit's 533 strings.
+The kit ships Hebrew (the reference), English and Arabic.
 
 ### The contract: how a person or an AI fills a pack
 
@@ -294,8 +293,9 @@ runs the whole check twice:
 
 - the default client: Hebrew and English, `pets` and `pet-photos` on
   (today's suite);
-- the sample client: Arabic first with Hebrew, no extensions, then with
-  `approval` and `split-hours`.
+- the sample client: Hebrew with Arabic (Arabic first once the browser
+  tests stop asserting Hebrew text), no extensions, then with `approval`
+  and `split-hours`.
 
 A core test never mentions an extension. Each extension has its own tests,
 which skip themselves when it is off.

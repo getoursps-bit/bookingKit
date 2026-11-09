@@ -59,7 +59,8 @@ export async function pageMetadata(
   noindex: boolean,
 ): Promise<Metadata> {
   const locale = await getLocale();
-  const title = page.title ? `${page.title} | ${profile.name}` : profile.name;
+  const name = pick(locale, profile, "name");
+  const title = page.title ? `${page.title} | ${name}` : name;
   const description = page.description ?? pick(locale, profile, "tagline") ?? undefined;
   return {
     title,
@@ -77,7 +78,7 @@ export async function pageMetadata(
       locale: PACKS[locale].openGraph,
       alternateLocale: othersThan(locale).map((language) => PACKS[language].openGraph),
       type: "website",
-      siteName: profile.name,
+      siteName: name,
     },
     robots: noindex ? { index: false, follow: false } : { index: true, follow: true },
   };

@@ -6,6 +6,12 @@ import pg from "pg";
 import sharp from "sharp";
 import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
+import { flatten } from "../../src/i18n/flatten";
+import { DEFAULT_LOCALE, LOCALES } from "../../src/i18n/languages.generated";
+import { MESSAGES } from "../../src/i18n/packs.generated";
+
+// The site's first language after the default one, if there is one.
+const OTHER = LOCALES.find((locale) => locale !== DEFAULT_LOCALE);
 
 // The owner area on a phone: login with password and app code, then every
 // admin page. The staff account is made up for the test and removed after.
@@ -198,13 +204,16 @@ test("the stats screen shows the period's numbers in both languages and passes a
   expect(axe.violations.map((violation) => violation.id)).toEqual([]);
   await noSideScroll(page);
 
-  await page.goto("/lang/en?back=/admin/stats?days=90");
-  await expect(page.getByRole("heading", { level: 1, name: "Stats" })).toBeVisible();
-  await expect(page.getByRole("link", { name: /90\W*days/ })).toHaveAttribute("aria-current", "page");
-  await expect(page.getByRole("heading", { name: "Bookings made each week" })).toBeVisible();
-  const axeEn = await new AxeBuilder({ page }).analyze();
-  expect(axeEn.violations.map((violation) => violation.id)).toEqual([]);
-  await page.goto("/lang/he?back=/admin");
+  if (OTHER) {
+    const t = flatten(MESSAGES[OTHER]);
+    await page.goto(`/lang/${OTHER}?back=/admin/stats?days=90`);
+    await expect(page.getByRole("heading", { level: 1, name: t["stats.title"] })).toBeVisible();
+    await expect(page.getByRole("link", { name: new RegExp(t["stats.days"].replace("{n}", "90").replace(/\s+/g, "\\W*")) })).toHaveAttribute("aria-current", "page");
+    await expect(page.getByRole("heading", { name: t["stats.weekly"] })).toBeVisible();
+    const axeOther = await new AxeBuilder({ page }).analyze();
+    expect(axeOther.violations.map((violation) => violation.id)).toEqual([]);
+    await page.goto(`/lang/${DEFAULT_LOCALE}?back=/admin`);
+  }
 });
 
 const photo = async (name: string, background: string) => ({
@@ -220,9 +229,9 @@ test("the owner uploads several gallery photos with no text, and text stays opti
   const added = () =>
     sql<{ alt_he: string; alt_en: string | null }>(
       `select g.alt_he, (select t.value from content_translations t
-         where t.entity = 'gallery_image' and t.entity_key = g.id::text and t.field = 'alt' and t.locale = 'en') as alt_en
+         where t.entity = 'gallery_image' and t.entity_key = g.id::text and t.field = 'alt' and t.locale = $2) as alt_en
        from gallery_images g where g.id > $1 order by g.id`,
-      [last],
+      [last, OTHER ?? ""],
     );
   await login(page);
   await page.goto("/admin/catalog#gallery");
@@ -236,7 +245,8 @@ test("the owner uploads several gallery photos with no text, and text stays opti
     await expect(page.getByRole("status").filter({ hasText: "נשמר" })).toBeVisible();
     await expect(page.getByAltText("תמונה מהגלריה של המספרה")).not.toHaveCount(0);
     expect(await added()).toHaveLength(3);
-    expect((await added())[0]).toEqual({ alt_he: "תמונה מהגלריה של המספרה", alt_en: "A photo from the salon's gallery" });
+    // The standard description in the default language, and in the other language when the site has one.
+    expect((await added())[0]).toEqual({ alt_he: "תמונה מהגלריה של המספרה", alt_en: OTHER ? flatten(MESSAGES[OTHER])["gallery.defaultAlt"] : null });
     await noSideScroll(page);
 
     // With the box ticked the text is kept; one bad file is named and the good one stays.

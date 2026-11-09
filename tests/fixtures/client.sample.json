@@ -1,12 +1,29 @@
 {
-  "languages": { "default": "he", "others": ["en"] },
+  "languages": {
+    "default": "he",
+    "others": [
+      "ar"
+    ]
+  },
   "brand": {
-    "name": { "he": "סטודיו לדוגמה", "en": "Example Studio" },
+    "name": {
+      "he": "סטודיו לדוגמה",
+      "ar": "استوديو تجريبي"
+    },
     "mark": "sparkle",
-    "messages": { "he": {}, "en": {} }
+    "messages": {
+      "he": {},
+      "ar": {}
+    }
   },
   "theme": {
-    "fonts": { "sans": "heebo", "display": "heebo", "languages": {} },
+    "fonts": {
+      "sans": "heebo",
+      "display": "heebo",
+      "languages": {
+        "ar": "alexandria"
+      }
+    },
     "colors": {
       "ink": "#1f2a2e",
       "ink-soft": "#3d4b50",
@@ -38,8 +55,22 @@
       "night-ink": "#c9dfda",
       "night-line": "#6f8a85"
     },
-    "radius": { "card": "1rem", "control": "0.5rem", "tile": "0.75rem", "panel": "1rem", "pill": "0.75rem" },
-    "shadows": { "card": "none", "float": "0 8px 24px color-mix(in srgb, var(--color-brand) 10%, transparent)", "lift": "none" },
-    "appIcon": { "from": "#0f766e", "to": "#134e4a", "mark": "#f8f6f1" }
+    "radius": {
+      "card": "1rem",
+      "control": "0.5rem",
+      "tile": "0.75rem",
+      "panel": "1rem",
+      "pill": "0.75rem"
+    },
+    "shadows": {
+      "card": "none",
+      "float": "0 8px 24px color-mix(in srgb, var(--color-brand) 10%, transparent)",
+      "lift": "none"
+    },
+    "appIcon": {
+      "from": "#0f766e",
+      "to": "#134e4a",
+      "mark": "#f8f6f1"
+    }
   }
 }

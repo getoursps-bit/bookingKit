@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { brand } from "@/brand";
 import { Icon } from "@/components/ui/Icon";
+import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
 import type { BusinessProfile } from "@/server/repos/catalog";
 import { LanguageSwitch } from "./LanguageSwitch";
@@ -26,14 +27,15 @@ export function Logo({ url, size }: { url: string | null; size: "sm" | "lg" }) {
  * switch and "Book".
  */
 export async function SiteHeader({ profile, logoUrl }: { profile: BusinessProfile; logoUrl: string | null }) {
-  const { t, lp } = await getI18n();
+  const { t, lp, locale } = await getI18n();
+  const name = pick(locale, profile, "name");
   return (
     <header className="sticky top-0 z-30 bg-canvas/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-2 px-4 py-3 md:gap-4 md:px-6 md:py-5">
         <MobileMenu />
         <Link href={lp("/")} className="flex items-center gap-2.5 text-ink no-underline md:gap-3">
           <Logo url={logoUrl} size="sm" />
-          <span className="font-display text-[22px] font-semibold md:text-[26px]">{profile.name}</span>
+          <span className="font-display text-[22px] font-semibold md:text-[26px]">{name}</span>
         </Link>
 
         <nav aria-label={t("nav.main")} className="hidden md:block">

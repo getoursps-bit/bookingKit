@@ -45,6 +45,8 @@ export const FONTS = {
   fredoka: "Fredoka Variable",
   nunito: "Nunito Variable",
   heebo: "Heebo Variable",
+  /** Arabic and Latin letters; no Hebrew. */
+  alexandria: "Alexandria Variable",
 } as const;
 
 export type FontId = keyof typeof FONTS;

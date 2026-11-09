@@ -9,6 +9,7 @@ import { pick } from "@/i18n/content";
 import { isLocalizedPath, localePath, splitLocale } from "@/i18n/locales";
 import { isolate } from "@/i18n/t";
 import { translator } from "@/i18n/translator";
+import { type Locale, LOCALES } from "@/i18n/locales";
 
 const en = flatten(enFile);
 const he = flatten(heFile);
@@ -25,10 +26,14 @@ const packs = readdirSync(LANGUAGES, { withFileTypes: true })
     strings: flatten(JSON.parse(readFileSync(path.join(LANGUAGES, entry.name, "messages.json"), "utf8")) as Record<string, string>),
   }));
 
+// English as a language of this client, when it has it; these checks are skipped otherwise.
+const EN = "en" as Locale;
+const HAS_EN = (LOCALES as readonly string[]).includes(EN);
+
 describe("translator()", () => {
   it("fills placeholders and isolates left-to-right values", () => {
     expect(translator("he")("site.callUs", { phone: "050-1234567" })).toBe("לשאלות אפשר להתקשר: ⁨050-1234567⁩");
-    expect(translator("en")("site.callUs", { phone: "050-1234567" })).toContain("⁨050-1234567⁩");
+    if (HAS_EN) expect(translator(EN)("site.callUs", { phone: "050-1234567" })).toContain("⁨050-1234567⁩");
   });
 
   it("leaves unknown placeholders visible", () => {
@@ -53,18 +58,18 @@ describe("the language packs", () => {
   });
 });
 
-describe("language addresses", () => {
+describe.skipIf(!HAS_EN)("language addresses", () => {
   it("adds /en to public pages and leaves Hebrew at the plain address", () => {
-    expect(localePath("en", "/")).toBe("/en");
-    expect(localePath("en", "/book?step=pets")).toBe("/en/book?step=pets");
-    expect(localePath("en", "/?source=app")).toBe("/en?source=app");
+    expect(localePath(EN, "/")).toBe("/en");
+    expect(localePath(EN, "/book?step=pets")).toBe("/en/book?step=pets");
+    expect(localePath(EN, "/?source=app")).toBe("/en?source=app");
     expect(localePath("he", "/en/services")).toBe("/services");
-    expect(localePath("en", "/en/services")).toBe("/en/services");
+    expect(localePath(EN, "/en/services")).toBe("/en/services");
   });
 
   it("never prefixes the owner area, APIs, redirects or files", () => {
     for (const path of ["/admin", "/admin/inbox", "/api/booking/hold", "/go/book", "/healthz", "/sw.js", "//evil.example"]) {
-      expect(localePath("en", path)).toBe(path);
+      expect(localePath(EN, path)).toBe(path);
     }
   });
 
@@ -85,18 +90,18 @@ describe("language addresses", () => {
   });
 });
 
-describe("owner content and formats in English", () => {
+describe.skipIf(!HAS_EN)("owner content and formats in English", () => {
   it("falls back to the default language when a translation is empty", () => {
     const row = (name: string | undefined) => ({ name: "תספורת", translations: name === undefined ? {} : { en: { name } } });
-    expect(pick("en", row("Haircut"), "name")).toBe("Haircut");
-    expect(pick("en", row(undefined), "name")).toBe("תספורת");
-    expect(pick("en", row("  "), "name")).toBe("תספורת");
+    expect(pick(EN, row("Haircut"), "name")).toBe("Haircut");
+    expect(pick(EN, row(undefined), "name")).toBe("תספורת");
+    expect(pick(EN, row("  "), "name")).toBe("תספורת");
     expect(pick("he", row("Haircut"), "name")).toBe("תספורת");
   });
 
   it("formats prices and durations", () => {
-    expect(formatPrice(22000, "en")).toMatch(/₪\s?220/);
-    expect(formatDuration(50, "en")).toBe("50 min");
-    expect(formatDuration(80, "en")).toBe("1 h 20 min");
+    expect(formatPrice(22000, EN)).toMatch(/₪\s?220/);
+    expect(formatDuration(50, EN)).toBe("50 min");
+    expect(formatDuration(80, EN)).toBe("1 h 20 min");
   });
 });

@@ -12,6 +12,7 @@ import { customerRecipient } from "@/server/notify/recipients";
 import { maskEmail, maskPhone } from "@/server/repos/customers";
 import { localDateTimeToUtc } from "@/server/time";
 import { testDog } from "../setup/pets";
+import { LOCALES } from "@/i18n/locales";
 
 const hasDb = await testDbAvailable();
 
@@ -220,7 +221,7 @@ describe.skipIf(!hasDb)("booking flow", () => {
       if (!third.ok || !("held" in third)) throw new Error("expected a hold");
       expect(third.emailOnFile).toBeNull();
       expect(await owner("shared@example.com")).toEqual({ id: second.hold.customerId, verified: true });
-      const sent = await resendCode(third.held.appointmentId, "email", "f1", pool, "en", "shared@example.com");
+      const sent = await resendCode(third.held.appointmentId, "email", "f1", pool, LOCALES[LOCALES.length - 1], "shared@example.com");
       expect(sent).toMatchObject({ ok: true, channel: "email", to: "shared@example.com" });
       const code = await lastCode(pool, "shared@example.com");
       const done = await verifyAndConfirm(third.held.appointmentId, code, "f1", { db: pool }, "shared@example.com");
