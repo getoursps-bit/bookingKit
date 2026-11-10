@@ -38,8 +38,7 @@ function aboutExtension(file: string): string {
     .filter((line) => line.startsWith("// "))
     .map((line) => line.slice(3))
     .join(" ");
-  const sentence = /^(.*?[.:])(\s|$)/.exec(comment)?.[1] ?? comment;
-  return sentence.replace(/:$/, ".");
+  return /^(.*?\.)(\s|$)/.exec(comment)?.[1] ?? comment;
 }
 
 /** Reads and checks a blueprint file; throws with every problem in plain words. */

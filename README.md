@@ -15,6 +15,42 @@ brand and the pet features are still here.
 - Why the engine works the way it does (Fluffy Fur's design and notes):
   [`docs/reference/`](docs/reference/)
 
+## A new client
+
+A client's project is made from a blueprint: one YAML file that says who the
+client is, which extensions are on, what the business offers, when it is
+open, and what the client wishes for that is their own.
+[`blueprints/example.yaml`](blueprints/example.yaml) is a filled-in one with
+every field explained.
+
+```sh
+pnpm kit new blueprints/<client>.yaml   # from a filled-in blueprint
+pnpm kit new                            # asks the questions and writes the blueprint first
+```
+
+It makes the folder next to the kit (or under `--into <folder>`) as a git
+repo of its own with one commit and no link back to the kit. In it:
+
+- the kit's whole code, extensions that are off included;
+- `client.json` with the client's name, languages, extensions and look, and
+  the files generated from it;
+- the client's services, products and opening hours as the starting content
+  (`db/seed/data.json` and every language pack's `content.json`); a name the
+  blueprint lacks in a language is copied from the default language and
+  listed as still to translate;
+- its own compose project and Postgres port, and its own name in
+  `package.json`, `README.md` and `CLAUDE.md`;
+- `blueprint.yaml`, `kit.json` (which kit commit it came from) and
+  `INITIAL_PROMPT.md`: what the first working session there is told, with a
+  task for each of the client's wishes.
+
+Nothing is installed and no server is contacted. A blueprint holds no
+secrets, phone numbers or customer data. The command refuses a blueprint it
+cannot carry out (a language with no pack, an unknown extension, a folder
+that already exists) and says why. With `pets` on, the blueprint's services
+are left out and the kit's grooming services stay, because the pet rules
+choose among them.
+
 ## Local setup
 
 Needs Node 22, pnpm 9 and Docker.
