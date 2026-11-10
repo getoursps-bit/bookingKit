@@ -1,19 +1,8 @@
-import Link from "next/link";
-import { brand } from "@/brand";
-import { Icon } from "@/components/ui/Icon";
-import { getI18n } from "@/i18n/server";
+import { view } from "@/views";
 
-export default async function NotFound() {
-  const { t, lp } = await getI18n();
-  return (
-    <div className="card mx-auto flex max-w-md flex-col items-center gap-4 p-8 text-center">
-      <span className="grid size-16 place-items-center rounded-full bg-brand-soft text-brand">
-        <Icon name={brand.mark} size={32} />
-      </span>
-      <h1 className="text-3xl font-extrabold">{t("notFound.title")}</h1>
-      <Link href={lp("/")} className="btn btn-primary">
-        {t("notFound.back")}
-      </Link>
-    </div>
-  );
+// A route only. What it shows is the "site.notFound" view, which a client may replace in theme/views.ts.
+const View = view("site.notFound");
+
+export default function Route() {
+  return <View />;
 }

@@ -76,7 +76,9 @@ In the image, the same scripts are `node worker/migrate.js`, `node worker/seed.j
 src/app/(site)/       public pages, booking (/book) and the private link (/b/<token>)
 src/app/admin/        owner area (installable as its own app)
 src/app/api/          form and JSON endpoints, webhooks, health
-src/components/       site, booking, admin and shared UI
+src/views/            the view layer: every page as a named view (pages/), their shared
+                      parts (parts/), and the list a client can replace from (kit.ts)
+theme/views.ts        this client's own views, by the name of the kit's view each replaces
 languages/<code>/     one pack per language: its strings (messages.json) and what the code needs to know about it (pack.json)
 src/i18n/             the string lookup (on next-intl), language addresses and formats
 src/core/booking/     what makes it a booking system: services, hours, customers, appointments

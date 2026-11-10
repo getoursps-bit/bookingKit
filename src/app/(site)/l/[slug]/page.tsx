@@ -1,25 +1,10 @@
-import { notFound } from "next/navigation";
-import { DEFAULT_LOCALE } from "@/i18n/locales";
-import { getLocale } from "@/i18n/server";
-import { LANDING_PAGES } from "@/core/website/landing";
-import { pageMetadata } from "@/core/website/seo";
-import { getSiteData, isNoindex } from "@/core/website/site";
+import { view, type ViewProps } from "@/views";
 
-type Props = { params: Promise<{ slug: string }> };
+export { generateMetadata } from "@/views/pages/site/landing";
 
-export async function generateMetadata({ params }: Props) {
-  const { slug } = await params;
-  const page = Object.hasOwn(LANDING_PAGES, slug) ? LANDING_PAGES[slug] : undefined;
-  if (!page) return {};
-  const locale = await getLocale();
-  const { profile, settings } = await getSiteData();
-  return pageMetadata(profile, { ...(page.meta[locale] ?? page.meta[DEFAULT_LOCALE]), path: `/l/${slug}` }, isNoindex(settings));
-}
+// A route only. What it shows is the "site.landing" view, which a client may replace in theme/views.ts.
+const View = view("site.landing");
 
-export default async function LandingRoute({ params }: Props) {
-  const { slug } = await params;
-  const page = Object.hasOwn(LANDING_PAGES, slug) ? LANDING_PAGES[slug] : undefined;
-  if (!page) notFound();
-  const Page = page.default;
-  return <Page />;
+export default function Route(props: ViewProps<"site.landing">) {
+  return <View {...props} />;
 }

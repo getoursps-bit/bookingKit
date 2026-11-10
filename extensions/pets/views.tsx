@@ -1,5 +1,5 @@
 import { aiOn } from "@ext/ai/server/api";
-import { ActionForm, Panel } from "@/components/admin/parts";
+import { ActionForm, Panel } from "@/views/parts/admin/parts";
 import { hasExtension } from "@/extension/registry";
 import { defineViews } from "@/extension/views";
 import { pick } from "@/i18n/content";

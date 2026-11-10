@@ -1,33 +1,10 @@
-import { GalleryGrid } from "@/components/site/GalleryGrid";
-import { PageHeader } from "@/components/site/PageHeader";
-import { pick } from "@/i18n/content";
-import { getI18n } from "@/i18n/server";
-import { listGallery } from "@/core/website/content";
-import { pageMetadata } from "@/core/website/seo";
-import { getSiteData, isNoindex } from "@/core/website/site";
-import { getStorage } from "@/core/platform/storage";
+import { view } from "@/views";
 
-export async function generateMetadata() {
-  const { t } = await getI18n();
-  const { profile, settings } = await getSiteData();
-  return pageMetadata(profile, { title: t("gallery.title"), path: "/gallery" }, isNoindex(settings));
-}
+export { generateMetadata } from "@/views/pages/site/gallery";
 
-export default async function GalleryPage() {
-  const { t, locale } = await getI18n();
-  const images = await listGallery();
-  const storage = getStorage();
-  return (
-    <>
-      <PageHeader icon="image" title={t("gallery.title")} />
-      <GalleryGrid
-        items={images.map((image) => ({
-          id: image.id,
-          url: storage.publicUrl(image.storageKey),
-          alt: pick(locale, image, "alt"),
-          caption: pick(locale, image, "caption"),
-        }))}
-      />
-    </>
-  );
+// A route only. What it shows is the "site.gallery" view, which a client may replace in theme/views.ts.
+const View = view("site.gallery");
+
+export default function Route() {
+  return <View />;
 }

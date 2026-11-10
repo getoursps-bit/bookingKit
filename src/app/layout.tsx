@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import type { ReactNode } from "react";
 import { theme } from "@/brand";
-import { SkipLink } from "@/components/ui/SkipLink";
+import { SkipLink } from "@/views/parts/ui/SkipLink";
 import { getI18n } from "@/i18n/server";
 import "./globals.css";
 

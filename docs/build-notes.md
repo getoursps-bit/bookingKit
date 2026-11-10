@@ -498,3 +498,39 @@ the fake ran; no key is, or should be, in this session.
   listen to. That is added when Safa's `approval` extension needs it.
 
 **Verified:** the four clients, numbers under C2 below.
+
+## Step 2, part C2: the view layer (2026-11-10)
+
+**Built**
+
+- `src/views/` is the view layer. Every page of the site and of the owner
+  area, the frame around each, and the not-found page is a named view in
+  `src/views/pages/` (25 of them, listed in `src/views/kit.ts`:
+  `site.home`, `site.book`, `site.frame`, `admin.today` and so on). Their
+  shared parts, the former `src/components/`, are `src/views/parts/`.
+- The route files under `src/app` are thin: each picks its view by name
+  with `view("<name>")` and passes on the address parameters. Next's route
+  settings (`dynamic`) stay in the route file, and the page title comes from
+  the kit's view.
+- `theme/views.ts` is the client's list of its own views, by the name of
+  the kit's view each one replaces. It is empty in the kit.
+- `tests/unit/views.test.ts`: a listed view replaces the kit's, and every
+  page and frame under `src/app` is a thin route.
+
+**Different from the design:** the design has the route load the data and
+hand it to the view. Here the view loads its own data through the core's
+functions and the route passes only the address parameters. A client's view
+is then free to read something else from the core, where a fixed data shape
+per page would have tied it to what the kit's page needs.
+
+**Not done:** no client view has been written yet, so replacing a view is
+proven by the unit test only. Safa's phone-width column will be the first.
+
+**Verified (C1 and C2 together)**
+
+- Default client: 229 unit tests, 61 browser tests, production build and
+  worker bundle. 36 of the 40 page pictures are identical; the 4 home page
+  ones differ by the hour they were taken (closed and "free tomorrow" in the
+  old pictures, open and "free today" now), which moves what is below.
+- Sample, plain and notes clients: see the numbers in the commit that
+  follows this note.

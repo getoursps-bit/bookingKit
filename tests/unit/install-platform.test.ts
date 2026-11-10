@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { installPlatform } from "@/components/site/install-platform";
+import { installPlatform } from "@/views/parts/site/install-platform";
 
 const SAFARI = "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15";
 const MAC = `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ${SAFARI}`;

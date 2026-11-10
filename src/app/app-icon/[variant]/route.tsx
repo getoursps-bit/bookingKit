@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { brand, theme } from "@/brand";
-import { ICON_PATHS } from "@/components/ui/Icon";
+import { ICON_PATHS } from "@/views/parts/ui/Icon";
 
 // App icons drawn at build time from the brand mark, so there are no image
 // files to keep in sync. "maskable-512" keeps the mark inside the safe zone

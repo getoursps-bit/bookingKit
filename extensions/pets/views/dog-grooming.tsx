@@ -1,4 +1,4 @@
-import { BookCta, Faq, GalleryStrip, Hero, ServiceHighlight } from "@/components/site/landing";
+import { BookCta, Faq, GalleryStrip, Hero, ServiceHighlight } from "@/views/parts/site/landing";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
 import { listServices } from "@/core/booking/catalog";

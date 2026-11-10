@@ -1,5 +1,5 @@
-import { SubmitButton } from "@/components/booking/SubmitButton";
-import { Icon } from "@/components/ui/Icon";
+import { SubmitButton } from "@/views/parts/booking/SubmitButton";
+import { Icon } from "@/views/parts/ui/Icon";
 import { getI18n } from "@/i18n/server";
 import { COAT_CONDITIONS } from "../server/photo-ai";
 import type { PetPhotoLine } from "../server/photos";
