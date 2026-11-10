@@ -8,14 +8,16 @@ import { clientSchema } from "../../src/brand.schema";
 
 // `pnpm kit new`: a blueprint becomes a client's project folder.
 
-const example = readFileSync(path.join(KIT_ROOT, "blueprints/example.yaml"), "utf8");
+// Only the kit makes projects; in a client's project (it has a kit.json) these do not apply.
+const isKit = !existsSync(path.join(KIT_ROOT, "kit.json"));
+const example = isKit ? readFileSync(path.join(KIT_ROOT, "blueprints/example.yaml"), "utf8") : "";
 const kit = () => {
   const has = kitHas();
   return { packs: has.packs, extensions: has.extensions.map((extension) => extension.id) };
 };
 const check = (change: Record<string, unknown>) => problems(blueprintSchema.parse({ ...readBlueprint(example), ...change }), kit());
 
-describe("a client's blueprint", () => {
+describe.skipIf(!isKit)("a client's blueprint", () => {
   it("the example is valid, and every extension of the kit has a line about it", () => {
     expect(readBlueprint(example).folder).toBe("physioStudio");
     for (const extension of kitHas().extensions) expect(extension.about, extension.id).toMatch(/\w.*\.$/);
@@ -33,7 +35,7 @@ describe("a client's blueprint", () => {
   });
 });
 
-describe("pnpm kit new", () => {
+describe.skipIf(!isKit)("pnpm kit new", () => {
   it("makes a project that is the client's own and checks out", () => {
     const parent = mkdtempSync(path.join(tmpdir(), "kit-new-"));
     try {

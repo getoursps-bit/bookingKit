@@ -307,6 +307,11 @@ async function main(): Promise<void> {
     process.exitCode = 2;
     return;
   }
+  if (existsSync(path.join(KIT_ROOT, "kit.json"))) {
+    console.error("This is a client's project, made from the kit. New clients are made from the kit itself.");
+    process.exitCode = 1;
+    return;
+  }
   const into = args.indexOf("--into");
   const parent = path.resolve(into >= 0 ? args[into + 1]! : path.join(KIT_ROOT, ".."));
   const file = args.slice(1).find((arg, index) => !arg.startsWith("--") && args[index] !== "--into");
