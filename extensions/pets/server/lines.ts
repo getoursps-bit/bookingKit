@@ -112,7 +112,7 @@ export const petLines = bookingLines<DraftPet>({
         db,
       );
       await query(
-        "update appointment_pets set pet_id = $1 where appointment_id = $2 and position = $3",
+        "update appointment_lines set pet_id = $1 where appointment_id = $2 and position = $3",
         [pet.id, appointment.id, line.position],
         db,
       );
@@ -181,7 +181,7 @@ export async function describeLines(
   const rows = await query<{ key: string; name: string | null; vetName: string | null; vaccines: boolean }>(
     `select ap.appointment_id || ':' || ap.position as key, p.name, p.vet_name as "vetName",
        p.vaccines_confirmed_at is not null as vaccines
-     from appointment_pets ap join pets p on p.id = ap.pet_id
+     from appointment_lines ap join pets p on p.id = ap.pet_id
      where ap.appointment_id = any($1::bigint[])`,
     [appointmentIds],
     db,

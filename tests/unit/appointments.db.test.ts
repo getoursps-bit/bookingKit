@@ -109,7 +109,7 @@ describe.skipIf(!hasDb)("booking against Postgres", () => {
           "select vet_name, vaccines_confirmed_at is not null as vaccines, age_group, weight_group from pets",
         );
         expect(pets[0]).toEqual({ vet_name: "מרפאת בדיקה", vaccines: true, age_group: "adult", weight_group: "small" });
-        expect(await count(db, "select * from appointment_pets where pet_id is not null")).toBe(1);
+        expect(await count(db, "select * from appointment_lines where pet_id is not null")).toBe(1);
       }
       const { rows } = await db.query<{ kind: string }>("select kind from message_outbox order by kind");
       expect(rows.map((row) => row.kind)).toEqual(["confirmation", "owner_alert", "reminder"]);

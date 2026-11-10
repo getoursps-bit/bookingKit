@@ -40,7 +40,7 @@ export async function bookingsBetween(
        c.display_name as "customerName", c.phone_e164 as phone, a.notes, a.created_by as "createdBy",
        coalesce((select json_agg(json_build_object('position', ap.position, 'serviceName', ${serviceName(opts.locale)})
                    order by ap.position)
-                 from appointment_pets ap join services s on s.id = ap.service_id
+                 from appointment_lines ap join services s on s.id = ap.service_id
                  where ap.appointment_id = a.id), '[]') as lines
      from appointments a join customers c on c.id = a.customer_id
      where a.starts_at < $2 and a.ends_at > $1 and a.status = any($3)
@@ -159,7 +159,7 @@ export async function customerBookings(
   return query<CustomerBooking>(
     `select a.id::int, a.starts_at as start, a.status,
        coalesce((select string_agg(${serviceName(locale)}, ', ' order by ap.position)
-                 from appointment_pets ap join services s on s.id = ap.service_id
+                 from appointment_lines ap join services s on s.id = ap.service_id
                  where ap.appointment_id = a.id), '') as services
      from appointments a
      where a.customer_id = $1 and a.status in ('confirmed', 'completed', 'no_show', 'cancelled')

@@ -19,8 +19,8 @@ export type Appointment = {
 
 /**
  * One line of a booking: a service, with its length and price copied at
- * booking time. The table is named appointment_pets and has a pet_id column
- * for the pets extension, which fills it itself; the core never reads it.
+ * booking time. An extension that keeps something about a line (which pet it
+ * is for, say) adds its own column to appointment_lines and fills it itself.
  */
 export type AppointmentLine = {
   serviceId: number;
@@ -86,7 +86,7 @@ export async function listLines(appointmentId: number, db?: Db): Promise<Appoint
   return query<AppointmentLine>(
     `select service_id::int as "serviceId", duration_min as "durationMin",
        price_from_agorot as "priceFromAgorot"
-     from appointment_pets where appointment_id = $1 order by position`,
+     from appointment_lines where appointment_id = $1 order by position`,
     [appointmentId],
     db,
   );
@@ -127,7 +127,7 @@ async function insert(
       );
       for (const [index, line] of input.lines.entries()) {
         await query(
-          `insert into appointment_pets (appointment_id, position, service_id, duration_min, price_from_agorot)
+          `insert into appointment_lines (appointment_id, position, service_id, duration_min, price_from_agorot)
            values ($1, $2, $3, $4, $5)`,
           [row!.id, index + 1, line.serviceId, line.durationMin, line.priceFromAgorot],
           client,

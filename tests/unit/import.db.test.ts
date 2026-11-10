@@ -93,7 +93,7 @@ describe.skipIf(!hasDb)("Dibs import", () => {
       ]);
       const booked = await pool.query(
         `select a.dibs_ref, a.status, a.created_by, a.notes, s.name_he as service, a.ends_at - a.starts_at as length
-         from appointments a join appointment_pets ap on ap.appointment_id = a.id join services s on s.id = ap.service_id
+         from appointments a join appointment_lines ap on ap.appointment_id = a.id join services s on s.id = ap.service_id
          order by a.dibs_ref`,
       );
       expect(booked.rows.map((row) => [row.dibs_ref, row.status, row.created_by, row.service])).toEqual([

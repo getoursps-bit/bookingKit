@@ -1,4 +1,6 @@
+import { DEFAULT_LOCALE } from "../../i18n/locales";
 import { type Db, getPool, query, withTransaction } from "../db";
+import { describeLines } from "../lines";
 import { normalizePhone } from "../links";
 import * as appointments from "../repos/appointments";
 import { findOrCreateByPhone } from "../repos/customers";
@@ -299,8 +301,8 @@ export async function applyImport(runId: number, db: Db = getPool()): Promise<Im
           client,
         );
         await query(
-          `insert into appointment_pets (appointment_id, position, pet_id, service_id, duration_min, price_from_agorot)
-           values ($1, 1, null, $2, $3, $4)`,
+          `insert into appointment_lines (appointment_id, position, service_id, duration_min, price_from_agorot)
+           values ($1, 1, $2, $3, $4)`,
           [past!.id, row.serviceId, row.duration, service?.price ?? 0],
           client,
         );
@@ -364,16 +366,36 @@ const csvCell = (value: string | number | null) => {
  * enter them back into Dibs by hand if the switch is undone.
  */
 export async function exportFutureCsv(now: Date = new Date(), db: Db = getPool()): Promise<string> {
-  const rows = await query<{ start: Date; end: Date; name: string; phone: string | null; services: string; notes: string | null; ref: string | null }>(
-    `select a.starts_at as start, a.ends_at as "end", c.display_name as name, c.phone_e164 as phone, a.notes, a.dibs_ref as ref,
-       coalesce((select string_agg(coalesce(p.name || ' – ', '') || s.name_he, '; ' order by ap.position)
-                 from appointment_pets ap join services s on s.id = ap.service_id left join pets p on p.id = ap.pet_id
-                 where ap.appointment_id = a.id), '') as services
+  const found = await query<{
+    id: number;
+    start: Date;
+    end: Date;
+    name: string;
+    phone: string | null;
+    lines: { position: number; service: string }[];
+    notes: string | null;
+    ref: string | null;
+  }>(
+    `select a.id::int, a.starts_at as start, a.ends_at as "end", c.display_name as name, c.phone_e164 as phone, a.notes,
+       a.dibs_ref as ref,
+       coalesce((select json_agg(json_build_object('position', ap.position, 'service', s.name_he) order by ap.position)
+                 from appointment_lines ap join services s on s.id = ap.service_id
+                 where ap.appointment_id = a.id), '[]') as lines
      from appointments a join customers c on c.id = a.customer_id
      where a.status = 'confirmed' and a.starts_at > $1 order by a.starts_at`,
     [now],
     db,
   );
+  // An extension may name a line (a pet's name, say); the name goes before the service.
+  const describe = await describeLines(
+    found.map((row) => row.id),
+    DEFAULT_LOCALE,
+    db,
+  );
+  const rows = found.map((row) => ({
+    ...row,
+    services: row.lines.map((line) => [describe(row.id, line.position).label, line.service].filter(Boolean).join(" – ")).join("; "),
+  }));
   const header = ["date", "start", "end", "name", "phone", "services", "notes", "dibs_ref"];
   const lines = rows.map((row) =>
     [

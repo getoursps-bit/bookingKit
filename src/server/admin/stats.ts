@@ -123,7 +123,7 @@ export async function getStats(
     query<{ name: string; count: number }>(
       `select ${translatedSql("service", "name", "s.id", "s.name_he", opts.locale)} as name,
               count(*)::int as count
-       from appointment_pets ap
+       from appointment_lines ap
        join appointments a on a.id = ap.appointment_id
        join services s on s.id = ap.service_id
        where a.status in ('confirmed', 'completed', 'no_show') and a.starts_at >= $1 and a.starts_at < $2

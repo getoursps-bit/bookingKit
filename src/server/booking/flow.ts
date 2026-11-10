@@ -196,7 +196,7 @@ export async function bookingView(token: string, ctx: Context = {}): Promise<Boo
     `select ap.position, null as label,
        ${translatedSql("service", "name", "s.id", "s.name_he", ctx.locale)} as "serviceName", ap.duration_min as "durationMin",
        ap.price_from_agorot as "priceFromAgorot"
-     from appointment_pets ap
+     from appointment_lines ap
      join services s on s.id = ap.service_id
      where ap.appointment_id = $1 order by ap.position`,
     [appointment.id],

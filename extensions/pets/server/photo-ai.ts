@@ -68,7 +68,7 @@ async function lineFacts(appointmentIds: number[], db: Db): Promise<Map<string, 
   const rows = await query<{ key: string } & Record<string, unknown>>(
     `select ap.appointment_id || ':' || ap.position as key, coalesce(p.species, '') as species, p.breed,
        p.coat_notes as "coatNotes", p.coat_condition as "coatCondition", p.temperament_note as "temperamentNote"
-     from appointment_pets ap join pets p on p.id = ap.pet_id
+     from appointment_lines ap join pets p on p.id = ap.pet_id
      where ap.appointment_id = any($1::bigint[])`,
     [appointmentIds],
     db,

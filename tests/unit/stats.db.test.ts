@@ -45,7 +45,7 @@ async function addBooking(
     [rows[0]!.id, b.start, b.status, b.by, JSON.stringify(b.source ?? {}), b.created],
   );
   await pool.query(
-    `insert into appointment_pets (appointment_id, position, service_id, duration_min, price_from_agorot)
+    `insert into appointment_lines (appointment_id, position, service_id, duration_min, price_from_agorot)
      select $1, 1, id, 60, 10000 from services order by sort_order, id limit 1`,
     [appt[0]!.id],
   );

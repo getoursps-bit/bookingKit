@@ -50,7 +50,7 @@ export async function summaryInput(appointmentId: number, db: Db = getPool()): P
   if (!booking || booking.status !== "confirmed") return null;
   const lines = await query<{ position: number; service: string }>(
     `select ap.position, s.name_he as service
-     from appointment_pets ap join services s on s.id = ap.service_id
+     from appointment_lines ap join services s on s.id = ap.service_id
      where ap.appointment_id = $1 order by ap.position`,
     [appointmentId],
     db,

@@ -24,21 +24,6 @@ create table customer_contacts (
 create index customer_contacts_customer_idx on customer_contacts (customer_id);
 alter table customer_contacts enable row level security;
 
-create table pets (
-  id bigint generated always as identity primary key,
-  customer_id bigint not null references customers (id) on delete cascade,
-  name text not null,
-  species text not null check (species in ('dog', 'cat')),
-  breed text,
-  age_group text not null check (age_group in ('young', 'adult')),
-  weight_group text check (weight_group in ('small', 'large', 'unknown')),
-  coat_notes text,
-  temperament_note text,
-  created_at timestamptz not null default now()
-);
-create index pets_customer_idx on pets (customer_id);
-alter table pets enable row level security;
-
 create table appointments (
   id bigint generated always as identity primary key,
   customer_id bigint not null references customers (id),
@@ -70,18 +55,18 @@ create index appointments_customer_idx on appointments (customer_id);
 create index appointments_held_idx on appointments (hold_expires_at) where status = 'held';
 alter table appointments enable row level security;
 
--- One line per pet. Service, duration and price are copied at booking time so
--- history survives later price edits.
-create table appointment_pets (
+-- One line per booked service. Service, duration and price are copied at
+-- booking time so history survives later price edits. An extension that
+-- keeps something about a line adds its own column or table.
+create table appointment_lines (
   appointment_id bigint not null references appointments (id) on delete cascade,
   position smallint not null check (position >= 1),
-  pet_id bigint references pets (id) on delete set null,
   service_id bigint not null references services (id),
   duration_min integer not null check (duration_min > 0),
   price_from_agorot integer not null check (price_from_agorot >= 0),
   primary key (appointment_id, position)
 );
-alter table appointment_pets enable row level security;
+alter table appointment_lines enable row level security;
 
 create table manage_tokens (
   id bigint generated always as identity primary key,

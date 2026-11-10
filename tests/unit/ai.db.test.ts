@@ -181,7 +181,7 @@ describe.skipIf(!hasDb || !hasExtension("pets") || !hasExtension("ai"))("pet pho
     await withMigratedSchema(async (pool) => {
       await setting(pool, "ai.photo", true);
       const booking = await booked(pool, 9);
-      const [{ id: petId }] = (await pool.query("select pet_id::int as id from appointment_pets where appointment_id = $1", [booking.id])).rows;
+      const [{ id: petId }] = (await pool.query("select pet_id::int as id from appointment_lines where appointment_id = $1", [booking.id])).rows;
       const png = await sharp({ create: { width: 2000, height: 1500, channels: 3, background: "#c99" } })
         .withMetadata({ exif: { IFD0: { Copyright: "test" } } })
         .png()

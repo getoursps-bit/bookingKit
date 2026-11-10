@@ -352,7 +352,7 @@ boundaries.
   the extension is on. Keys renamed: `service.remove`, `service.max`,
   `service.lineN`, `manage.lines`, `stats.count`. `isMessageKey` counts the
   enabled extensions' strings, so an extension's own error is shown.
-- Renamed: `maxPets` to `maxLines` (migration 0015 copies the setting),
+- Renamed: `maxPets` to `maxLines`,
   `TooManyPets` to `TooManyLines`, calendar class `cal-event-lines`.
 - `tests/fixtures/client.plain.json`: a client with no extensions. The
   browser tests read which extensions are on (`tests/e2e/client.ts`) and
@@ -369,10 +369,6 @@ boundaries.
 
 **Still pet-shaped in the core (next)**
 
-- Tables: `pets`, `service_rules`, `pet_photos` and the `pet_id` column are
-  created by the core migrations, and the lines table is still named
-  `appointment_pets`. They move to `extensions/pets/migrations` (new
-  installs) with a rename of the lines table.
 - Consent purposes shown on the customer record (`photo_analysis`,
   `gallery_photo`) are a fixed list in the core.
 - The export's booking lines no longer carry `pet_id`.
@@ -436,3 +432,28 @@ this must be made again (`docker compose -f docker/compose.dev.yml down -v`,
 
 **Not checked:** a real AI call. The Anthropic adapter was reshaped and only
 the fake ran; no key is, or should be, in this session.
+
+## Step 2, part B4: the pet tables leave the core migrations (2026-11-10)
+
+- The core's lines table is `appointment_lines` (was `appointment_pets`) and
+  has no pet column.
+- `extensions/pets/migrations/0001_pets.sql` makes everything pets keep:
+  `pets` (with the coat and vet columns that were added later),
+  `service_rules`, `pet_photos`, and the `pet_id` column it adds to
+  `appointment_lines`. Every extension's migrations are applied whether it
+  is on or not, so there is still one database shape.
+- Removed from the core: the pets and rules tables in `0002` and `0003`, and
+  the files `0009_pet_photos`, `0012_pet_health` and `0015_max_lines` (the
+  last only copied an old setting). Changed in place, as in B3: a local
+  database made before this must be made again.
+- The Dibs import no longer names pets: an imported past visit is a line
+  with a service, and the export of future bookings takes a line's name from
+  `describeLines`.
+- Verified with the four clients (below, after B3's numbers): same counts.
+
+**Still one client's in the core**
+
+- The Dibs import (`scripts/import-dibs.ts`, `src/server/import/dibs.ts`,
+  migration `0010`, the `dibs_ref` columns) is the grooming salon's move
+  from its old booking system. It is a client's customisation and should
+  become an extension.

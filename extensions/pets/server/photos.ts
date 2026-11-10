@@ -39,7 +39,7 @@ export async function petPhotoLines(appointmentId: number, db: Db = getPool()): 
   const lines = await query<Omit<PetPhotoLine, "suggestion">>(
     `select ap.pet_id::int as "petId", p.name, p.breed, p.coat_condition as "coatCondition",
        exists (select 1 from pet_photos ph where ph.pet_id = ap.pet_id and ph.appointment_id = ap.appointment_id) as "hasPhoto"
-     from appointment_pets ap
+     from appointment_lines ap
      left join pets p on p.id = ap.pet_id
      where ap.appointment_id = $1 order by ap.position`,
     [appointmentId],
@@ -66,7 +66,7 @@ export async function savePetPhoto(
     return { ok: false, reason: "Invalid" };
   }
   const [line] = await query(
-    "select 1 from appointment_pets where appointment_id = $1 and pet_id = $2",
+    "select 1 from appointment_lines where appointment_id = $1 and pet_id = $2",
     [appointment.id, input.petId],
     db,
   );

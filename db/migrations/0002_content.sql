@@ -49,19 +49,6 @@ create table services (
 );
 alter table services enable row level security;
 
--- Turns a customer's description of a pet into a service. A null attribute
--- matches any value; the most specific rule wins, age before weight.
-create table service_rules (
-  id bigint generated always as identity primary key,
-  species text not null check (species in ('dog', 'cat')),
-  age_group text check (age_group in ('young', 'adult')),
-  weight_group text check (weight_group in ('small', 'large', 'unknown')),
-  request text not null check (request in ('groom', 'nails')),
-  service_id bigint not null references services (id),
-  unique nulls not distinct (species, age_group, weight_group, request)
-);
-alter table service_rules enable row level security;
-
 -- Local Israel wall-clock times; turned into UTC per date by the app.
 create table opening_hours (
   weekday smallint primary key check (weekday between 0 and 6), -- 0 = Sunday

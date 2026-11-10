@@ -185,7 +185,7 @@ export async function exportAll(id: number, db?: Db) {
          coalesce(json_agg(json_build_object('service_id', p.service_id,
            'duration_min', p.duration_min, 'price_from_agorot', p.price_from_agorot)
            order by p.position) filter (where p.position is not null), '[]') as lines
-       from appointments a left join appointment_pets p on p.appointment_id = a.id
+       from appointments a left join appointment_lines p on p.appointment_id = a.id
        where a.customer_id = $1 group by a.id order by a.starts_at`,
     [id],
     db,
