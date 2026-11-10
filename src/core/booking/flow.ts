@@ -2,7 +2,6 @@
 // phone (by code, or by a trusted device), confirm. Also what the private-link
 // page reads and the consent switch it offers.
 import type { Locale } from "../../i18n/locales";
-import { getFeatures } from "../platform/features";
 import { z } from "zod";
 import { type Db, getPool, query, withTransaction } from "../platform/db";
 import { checkCode, type CodeChannel, issueCode, type IssueResult } from "../platform/identity/codes";
@@ -10,9 +9,7 @@ import { hit, LIMITS } from "../platform/identity/rateLimit";
 import { issueTrustedDevice, resolveManageToken, resolveTrustedDevice } from "./manageTokens";
 import type { Appointment } from "./appointments";
 import * as customers from "./customers";
-import { customerRecipient } from "../platform/notify/recipients";
-import { route } from "../platform/notify/routing";
-import { monthlyCount } from "../platform/outbox";
+import { Notify } from "../platform/notify";
 import { getSettings } from "../platform/settings";
 import { type BookingError, type Confirmed, confirmBooking, type Context, requestHold } from "./service";
 import { describeLines } from "./lines";
@@ -168,18 +165,14 @@ export type BookingView = {
   canChange: boolean;
   messagesOn: boolean;
   /** Where this booking's messages go now, masked, as the worker will choose; null when nowhere. */
-  messagesTo: { channel: "whatsapp" | "email"; to: string } | null;
+  messagesTo: { channel: "messaging" | "email"; to: string } | null;
 };
 
 /** The channel and masked address the worker will use for this customer's booking messages. */
 async function messagesTarget(customerId: number, db: Db): Promise<BookingView["messagesTo"]> {
-  const to = await customerRecipient(customerId, db);
-  const [first] = route("confirmation", to, {
-    settings: await getSettings(db),
-    features: getFeatures(),
-    monthlyCount: await monthlyCount(new Date(), db),
-  });
-  if (first === "whatsapp" && to.phone) return { channel: "whatsapp", to: customers.maskPhone(to.phone) };
+  const to = await Notify.recipient(customerId, db);
+  const [first] = await Notify.plan("confirmation", to, db);
+  if (first === "messaging" && to.phone) return { channel: "messaging", to: customers.maskPhone(to.phone) };
   if (first === "email" && to.email) return { channel: "email", to: customers.maskEmail(to.email) };
   return null;
 }

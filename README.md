@@ -86,7 +86,7 @@ src/core/booking/     what makes it a booking system: services, hours, customers
 src/core/website/     what makes it a website: the business profile, products, gallery,
                       landing pages, search-engine data, visit counts
 src/core/platform/    what both need: config, database, staff and sessions, settings, the
-                      outbox and route(), translations, stored files, time (Asia/Jerusalem)
+                      notifications (Notify, channels, drivers), translations, stored files, time (Asia/Jerusalem)
 src/extension/        the extension points and the registry of the extensions that are on
 extensions/<id>/      one folder per extension: manifest, strings, migrations, starting content
 worker/               worker entry point; bundled to worker/dist
@@ -148,6 +148,39 @@ It has no pages, and the script refuses to run for a client that has it off.
 lets a weekday have a second opening range after a break; the core already
 treats a day as a list of ranges, and this extension keeps the second one
 and asks the owner for it on the hours screen.
+
+## Notifications
+
+Everything the app sends goes through one layer, `src/core/platform/notify`,
+and the rest of the code reaches it through the `Notify` facade:
+
+| Call | What it does |
+| --- | --- |
+| `Notify.queue(rows)` | Puts messages in the outbox; the worker sends them |
+| `Notify.send(row, to, vars)` | Sends one row now (a code the customer is waiting for) |
+| `Notify.cancel(appointmentId, kinds, reason)` | Drops a booking's queued messages |
+| `Notify.plan(kind, to)` | The channels a message would try, in order |
+| `Notify.channels()` | Each channel's driver and whether it is on |
+
+There are three **channels**: `messaging` (WhatsApp or SMS), `email`, and
+`push` (alerts to the owner's phone). The routing table in `routing.ts`
+decides the order to try them in. Each channel sends through a **driver**,
+chosen in the environment, so changing a provider changes no code:
+
+| Channel | Driver | Set with | Sends through |
+| --- | --- | --- | --- |
+| messaging | `meta` (default) | `MESSAGING_DRIVER=meta`, `WHATSAPP_*` | WhatsApp, straight from Meta's Cloud API |
+| messaging | `twilio` | `MESSAGING_DRIVER=twilio`, `TWILIO_*` | WhatsApp or SMS through Twilio |
+| email | `http` (default) | `EMAIL_DRIVER=http`, `EMAIL_API_*` | An email service's HTTPS API |
+| email | `smtp` | `EMAIL_DRIVER=smtp`, `SMTP_*` | Any SMTP server, the client's own included |
+| email | `gmail` | `EMAIL_DRIVER=gmail`, `GMAIL_*` | A Gmail or Google Workspace mailbox |
+| push | `webpush` | `VAPID_*` | Browser push |
+
+A new provider is one file in `notify/drivers/`, one line in
+`notify/drivers.ts` and its keys in `DRIVER_KEYS` (`config.ts`). With
+`PROVIDERS=fake` every channel uses the fake driver, which sends nothing.
+Delivery reports and customers' replies are read from Meta only; with
+Twilio a message counts as sent once Twilio accepts it.
 
 ## Re-branding
 

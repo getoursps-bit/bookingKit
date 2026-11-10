@@ -118,7 +118,7 @@
   "message_templates": [
     {
       "key": "code",
-      "channel": "whatsapp",
+      "channel": "messaging",
       "category": "authentication",
       "provider_template": "booking_code"
     },
@@ -132,7 +132,7 @@
     },
     {
       "key": "confirmation",
-      "channel": "whatsapp",
+      "channel": "messaging",
       "category": "utility",
       "provider_template": "booking_confirmation"
     },
@@ -142,7 +142,7 @@
     },
     {
       "key": "reminder",
-      "channel": "whatsapp",
+      "channel": "messaging",
       "category": "utility",
       "provider_template": "booking_reminder"
     },
@@ -152,7 +152,7 @@
     },
     {
       "key": "customer_change",
-      "channel": "whatsapp",
+      "channel": "messaging",
       "category": "utility",
       "provider_template": "booking_customer_change"
     },
@@ -162,7 +162,7 @@
     },
     {
       "key": "owner_change",
-      "channel": "whatsapp",
+      "channel": "messaging",
       "category": "utility",
       "provider_template": "booking_owner_change"
     },
@@ -172,7 +172,7 @@
     },
     {
       "key": "import_link",
-      "channel": "whatsapp",
+      "channel": "messaging",
       "category": "utility",
       "provider_template": "booking_import_link"
     },
@@ -198,7 +198,7 @@
     },
     {
       "key": "auto_reply",
-      "channel": "whatsapp"
+      "channel": "messaging"
     }
   ]
 }

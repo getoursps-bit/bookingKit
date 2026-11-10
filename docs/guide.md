@@ -45,8 +45,8 @@ app from starting, with a message naming the missing key.
 | Service | Keys | If left empty |
 | --- | --- | --- |
 | Photo storage | `STORAGE_*` | No gallery or pet photo uploads |
-| WhatsApp | `WHATSAPP_*`, `WEBHOOK_SECRET_MESSAGING` | Online booking shows "call the salon" instead (unless email is on) |
-| Email | `EMAIL_*` | No email codes or messages |
+| Messaging (WhatsApp or SMS) | `MESSAGING_DRIVER` and that driver's keys: `WHATSAPP_*` and `WEBHOOK_SECRET_MESSAGING` for `meta`, `TWILIO_*` for `twilio` | Online booking shows "call the salon" instead (unless email is on) |
+| Email | `EMAIL_DRIVER`, `EMAIL_FROM` and that driver's keys: `EMAIL_API_*` for `http`, `SMTP_*` for `smtp`, `GMAIL_*` for `gmail` | No email codes or messages |
 | Owner alerts | `VAPID_*` (generate once: `npx web-push generate-vapid-keys`; never change them) | No phone alerts |
 | AI | `AI_API_KEY`, `AI_MODEL`, `AI_PRICE_*` | AI switches in Settings stay greyed out |
 

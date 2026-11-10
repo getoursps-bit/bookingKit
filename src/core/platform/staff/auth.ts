@@ -4,8 +4,8 @@ import { generateSecret, generateURI, verify as verifyTotp } from "otplib";
 import { DEFAULT_LOCALE, type Locale } from "../../../i18n/locales";
 import { type Db, getPool, query } from "../db";
 import { newRawToken, secretHash } from "../identity/hash";
-import { deliver } from "../notify/deliver";
-import { claimOne, enqueue } from "../outbox";
+import { Notify } from "../notify";
+import { claimOne } from "../outbox";
 import { hit } from "../rateLimits";
 
 // Staff login, two ways to the same 30-day session cookie (it renews on use,
@@ -112,10 +112,10 @@ export async function sendEmailCode(email: string, locale: Locale, db: Db = getP
     [staff.id, secretHash(`staff:${staff.id}:${code}`), EMAIL_CODE_TTL_MIN],
     db,
   );
-  const [id] = await enqueue([{ kind: "staff_code", templateKey: "staff_code", staffId: staff.id }], db);
+  const [id] = await Notify.queue([{ kind: "staff_code", templateKey: "staff_code", staffId: staff.id }], db);
   const row = id ? await claimOne(id, db) : null;
   const sent = row
-    ? await deliver(row, { phone: null, email: staff.email, prefer: "email", locale }, { code }, { db })
+    ? await Notify.send(row, { phone: null, email: staff.email, prefer: "email", locale }, { code }, { db })
     : null;
   if (!sent?.ok) {
     await query("update staff set email_code_hash = null, email_code_expires_at = null where id = $1", [staff.id], db);

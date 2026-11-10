@@ -26,7 +26,7 @@ describe("the language packs", () => {
         expect.stringContaining("content service.cat.name is 81 characters, at most 80"),
         expect.stringContaining("content service.cat.colour is not a field of service"),
         expect.stringContaining("content service.unicorn is not in the seed"),
-        expect.stringContaining("content message_template.code:whatsapp.body: placeholders should be {code}"),
+        expect.stringContaining("content message_template.code:messaging.body: placeholders should be {code}"),
         expect.stringContaining("content furniture is not a kind of starting content"),
       ]),
     );

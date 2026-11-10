@@ -9,7 +9,7 @@
     }
   },
   "message_template": {
-    "code:whatsapp": {
+    "code:messaging": {
       "body": "No code here"
     }
   },

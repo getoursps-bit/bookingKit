@@ -4,7 +4,7 @@ import { describeLines } from "@/core/booking/lines";
 import { normalizePhone } from "@/core/platform/links";
 import * as appointments from "@/core/booking/appointments";
 import { findOrCreateByPhone } from "@/core/booking/customers";
-import { enqueue } from "@/core/platform/outbox";
+import { Notify } from "@/core/platform/notify";
 import { formatHe, localDateTimeToUtc } from "@/core/platform/time";
 
 // Dibs import. Steps: stage the export, check and normalise it, report; then
@@ -345,7 +345,7 @@ export async function queueImportLinks(
     [now],
     db,
   );
-  await enqueue(
+  await Notify.queue(
     rows.map((row, index) => ({
       kind: "import_link" as const,
       templateKey: "import_link",

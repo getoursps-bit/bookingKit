@@ -9,7 +9,7 @@ export type Features = {
   /** Booking online needs a way to send the code: WhatsApp or email. Otherwise "call the salon". */
   onlineBooking: boolean;
   /** Messages by WhatsApp; without it, email only (or none). */
-  whatsappMessages: boolean;
+  messaging: boolean;
   emailMessages: boolean;
   /** Uploading photos (gallery, products, pets) needs object storage. */
   photoUploads: boolean;
@@ -19,8 +19,8 @@ export type Features = {
 export function getFeatures(config: Config = getConfig()): Features {
   const on = (name: Parameters<typeof providerMode>[0]) => providerMode(name, config) !== "off";
   return {
-    onlineBooking: on("whatsapp") || on("email"),
-    whatsappMessages: on("whatsapp"),
+    onlineBooking: on("messaging") || on("email"),
+    messaging: on("messaging"),
     emailMessages: on("email"),
     photoUploads: on("storage"),
     ownerPush: on("push"),

@@ -1,25 +1,12 @@
-import { DEFAULT_LOCALE, type Locale, PACKS } from "../../../i18n/locales";
-import { getConfig } from "../config";
-import type { EmailChannel, OutgoingMessage, SendResult } from "./types";
-import { brandName } from "@/brand";
-
-function escapeHtml(text: string): string {
-  return text.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
-}
-
-/** An email body in the message's language and direction, with links made clickable. */
-export function emailHtml(text: string, locale: Locale = DEFAULT_LOCALE): string {
-  const linked = escapeHtml(text).replace(/https?:\/\/[^\s<⁩]+/g, (url) => `<a href="${url}">${url}</a>`);
-  const dir = PACKS[locale].dir;
-  const align = dir === "rtl" ? "right" : "left";
-  return `<!doctype html><html lang="${locale}" dir="${dir}"><body style="font-family:Arial,sans-serif;font-size:16px;line-height:1.6;direction:${dir};text-align:${align}">${linked.replace(/\n/g, "<br>")}</body></html>`;
-}
+import { getConfig } from "../../config";
+import type { Driver, OutgoingMessage, SendResult } from "../types";
+import { emailHtml, emailSubject } from "./email-body";
 
 /**
  * Posts to the HTTPS email API at EMAIL_API_URL with a bearer key and a JSON
  * body of from, to, subject, html and text (the shape most email APIs accept).
  */
-export function createEmail(): EmailChannel {
+export function createHttpEmail(): Driver {
   const config = getConfig();
   return {
     async send(message: OutgoingMessage): Promise<SendResult> {
@@ -31,7 +18,7 @@ export function createEmail(): EmailChannel {
           body: JSON.stringify({
             from: config.EMAIL_FROM,
             to: [message.to],
-            subject: message.subject ?? brandName(message.locale ?? DEFAULT_LOCALE),
+            subject: emailSubject(message),
             html: emailHtml(message.body, message.locale),
             text: message.body,
           }),

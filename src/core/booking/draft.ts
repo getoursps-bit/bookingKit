@@ -27,7 +27,7 @@ const Draft = z.object({
   holdId: z.number().int().positive().nullable().default(null),
   holdExpiresAt: z.string().nullable().default(null),
   /** Where the code went, and when, for the "send by email" offer. */
-  codeChannel: z.enum(["whatsapp", "email"]).nullable().default(null),
+  codeChannel: z.enum(["messaging", "email"]).nullable().default(null),
   codeSentAt: z.number().nullable().default(null),
   hasEmail: z.boolean().default(false),
   /** The email typed on the contact step; the code goes there even when another record holds it. */

@@ -39,7 +39,7 @@ in `docs/reference/` to explain why the engine works the way it does.
 - Every outside service sits behind an interface with a fake; `PROVIDERS=fake` locally and in CI.
 - Times are stored in UTC and handled in Asia/Jerusalem through `src/core/platform/time.ts` only. Test both clock changes.
 - The no-overlap booking rule lives in the database, not only in code.
-- Every message goes through the outbox and `route()`; nothing else picks a channel.
+- Every message goes through `Notify` (`src/core/platform/notify`): the outbox, then `route()`, then the channel's driver. Nothing else picks a channel, and nothing outside that folder touches a driver.
 - AI never blocks or changes a booking.
 - Migrations are plain SQL, additive first, and never run on app start-up.
 - Ask before choosing a provider, adding a paid service, or changing a decision in a design.

@@ -46,14 +46,14 @@ describe.skipIf(!hasDb)("codes", () => {
       const hold = await requestHold(holdInput(1), { db: pool });
       if (!hold.ok) throw new Error(hold.reason);
       const sent = await issueCode({ ...hold.hold, address: "a1", appointmentId: hold.hold.appointmentId }, pool);
-      expect(sent).toMatchObject({ ok: true, channel: "whatsapp" });
+      expect(sent).toMatchObject({ ok: true, channel: "messaging" });
 
       const code = await lastCode(pool, phone(1));
       const { rows } = await pool.query("select code_hash, contact from verification_codes");
       expect(rows[0].code_hash).toBe(secretHash(`${hold.hold.appointmentId}:${code}`));
       expect(JSON.stringify(rows)).not.toContain(code);
       const outbox = await pool.query("select kind, channel, status, data from message_outbox where kind = 'code'");
-      expect(outbox.rows).toEqual([{ kind: "code", channel: "whatsapp", status: "sent", data: {} }]);
+      expect(outbox.rows).toEqual([{ kind: "code", channel: "messaging", status: "sent", data: {} }]);
 
       const wrong = code === "000000" ? "111111" : "000000";
       expect(await checkCode(hold.hold.appointmentId, wrong, pool)).toEqual({ ok: false, reason: "Wrong" });
@@ -123,7 +123,7 @@ describe.skipIf(!hasDb)("codes", () => {
           reason: "NoChannel",
         });
       }
-      expect(await issueCode({ ...hold.hold, address: "d1" }, pool)).toMatchObject({ ok: true, channel: "whatsapp" });
+      expect(await issueCode({ ...hold.hold, address: "d1" }, pool)).toMatchObject({ ok: true, channel: "messaging" });
     });
   });
 });
@@ -283,8 +283,8 @@ describe.skipIf(!hasDb)("booking flow", () => {
         const customerId = await verifiedCustomer(pool, 42, "old@example.com");
         const started = await startBooking(holdInput(42, "11:30", { email: "new@example.com" }), undefined, { db: pool });
         if (!started.ok || !("held" in started)) throw new Error("expected a hold");
-        const sent = await resendCode(started.held.appointmentId, "whatsapp", "h1", pool, "he", "new@example.com");
-        expect(sent).toMatchObject({ ok: true, channel: "whatsapp", to: phone(42) });
+        const sent = await resendCode(started.held.appointmentId, "messaging", "h1", pool, "he", "new@example.com");
+        expect(sent).toMatchObject({ ok: true, channel: "messaging", to: phone(42) });
         const done = await verifyAndConfirm(started.held.appointmentId, await lastCode(pool, phone(42)), "h1", { db: pool }, null);
         if (!done.ok) throw new Error(done.reason);
         expect(await emailsOf(pool, customerId)).toEqual([{ value: "old@example.com", verified: true }]);
@@ -300,7 +300,7 @@ describe.skipIf(!hasDb)("booking flow", () => {
         expect(await emailsOf(pool, customerId)).toEqual([{ value: "new@example.com", verified: true }]);
         const view = await bookingView(started.confirmed.manageToken, { db: pool });
         // Fake mode has WhatsApp on, so booking messages go there first.
-        expect(view?.messagesTo).toEqual({ channel: "whatsapp", to: "***0043" });
+        expect(view?.messagesTo).toEqual({ channel: "messaging", to: "***0043" });
       });
     });
   });

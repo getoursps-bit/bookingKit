@@ -1,6 +1,6 @@
 import webpush from "web-push";
-import { getConfig } from "../config";
-import type { OutgoingMessage, PushChannel, SendResult } from "./types";
+import { getConfig } from "../../config";
+import type { Driver, OutgoingMessage, SendResult } from "../types";
 
 // An alert older than this is no longer worth showing.
 const TTL_S = 60 * 60;
@@ -9,7 +9,7 @@ const TTL_S = 60 * 60;
  * Browser push with VAPID. `message.to` is the stored subscription as JSON and
  * `message.body` the payload (event type, time and a path only).
  */
-export function createPush(): PushChannel {
+export function createWebPush(): Driver {
   const config = getConfig();
   webpush.setVapidDetails(config.VAPID_SUBJECT!, config.VAPID_PUBLIC_KEY!, config.VAPID_PRIVATE_KEY!);
   return {

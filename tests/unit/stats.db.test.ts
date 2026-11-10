@@ -93,10 +93,10 @@ describe.skipIf(!hasDb)("getStats", () => {
       );
       await pool.query(
         `insert into message_outbox (kind, template_key, status, channel, cost_agorot, created_at) values
-         ('confirmation', 'confirmation', 'delivered', 'whatsapp', 30, $1),
+         ('confirmation', 'confirmation', 'delivered', 'messaging', 30, $1),
          ('code', 'code', 'sent', 'email', 0, $1),
          ('reminder', 'reminder', 'failed', null, 0, $1),
-         ('reminder', 'reminder', 'sent', 'whatsapp', 30, $2)`,
+         ('reminder', 'reminder', 'sent', 'messaging', 30, $2)`,
         [at("2026-10-25"), at("2026-09-01")],
       );
 

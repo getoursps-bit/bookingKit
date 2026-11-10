@@ -12,7 +12,7 @@ import { getAppointment } from "../../booking/appointments";
 import { markFailed, markSent, markSkipped, monthlyCount, type OutboxRow } from "../outbox";
 import { getSettings } from "../settings";
 import { formatLocal } from "../time";
-import { channelFor } from "./channels";
+import { driverFor } from "./drivers";
 import { deliver } from "./deliver";
 import { customerRecipient } from "./recipients";
 import { route } from "./routing";
@@ -153,7 +153,7 @@ async function sendToOwners(row: OutboxRow, db: Db, now: Date): Promise<void> {
   let sent = 0;
   let retry = false;
   for (const subscription of subscriptions) {
-    const result = await channelFor("push", db).send({
+    const result = await driverFor("push", db).send({
       kind: row.kind,
       templateKey: row.templateKey,
       to: JSON.stringify({

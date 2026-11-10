@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getConfig, providerMode } from "@/core/platform/config";
+import { driverOf, getConfig, providerMode } from "@/core/platform/config";
 import { handleWebhook, signatureOk } from "@/core/platform/notify/webhook";
 
 export const dynamic = "force-dynamic";
@@ -7,7 +7,9 @@ export const dynamic = "force-dynamic";
 /** The signing secret: the real one, or with fake providers the session secret, so tests can sign. */
 function secret(): string | null {
   const config = getConfig();
-  const mode = providerMode("whatsapp");
+  // These callbacks are Meta's; another messaging driver has no use for this address.
+  if (driverOf("messaging") !== "meta") return null;
+  const mode = providerMode("messaging");
   if (mode === "real") return config.WEBHOOK_SECRET_MESSAGING ?? null;
   if (mode === "fake") return config.SESSION_SECRET;
   return null;
@@ -17,7 +19,7 @@ function secret(): string | null {
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
   const config = getConfig();
-  const expected = providerMode("whatsapp") === "real" ? config.WHATSAPP_VERIFY_TOKEN : null;
+  const expected = driverOf("messaging") === "meta" && providerMode("messaging") === "real" ? config.WHATSAPP_VERIFY_TOKEN : null;
   if (params.get("hub.mode") === "subscribe" && expected && params.get("hub.verify_token") === expected) {
     return new NextResponse(params.get("hub.challenge") ?? "", { headers: { "Content-Type": "text/plain" } });
   }

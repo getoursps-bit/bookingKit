@@ -235,7 +235,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
           summary={summary}
           lines={lines}
           errorField={errorField}
-          emailRequired={!features.whatsappMessages}
+          emailRequired={!features.messaging}
         />
         <a href={lp("/book?step=time")} className="btn btn-secondary mt-6 w-fit">
           {t("book.back")}
@@ -268,7 +268,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
         hasEmail={draft.hasEmail}
         codeChannel={draft.codeChannel}
         emailChange={draft.emailOnFile && draft.email ? { onFile: draft.emailOnFile, typed: draft.email } : null}
-        whatsappOn={features.whatsappMessages && !settings["messaging.whatsappOutage"]}
+        whatsappOn={features.messaging && !settings["messaging.whatsappOutage"]}
         emailOn={features.emailMessages}
         callHref={phoneLink(profile.phoneE164)}
         callLabel={displayPhone(profile.phoneE164)}

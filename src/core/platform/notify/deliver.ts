@@ -6,7 +6,7 @@ import { log } from "../log";
 import { addOwnerEvent } from "../events";
 import { markFailed, markSent, monthlyCount, type OutboxRow } from "../outbox";
 import { getSettings } from "../settings";
-import { channelFor } from "./channels";
+import { driverFor } from "./drivers";
 import { route, type Recipient } from "./routing";
 import { getTemplate, render, type Template } from "./templates";
 import type { Channel } from "./types";
@@ -28,7 +28,7 @@ function backoffMin(attempt: number): number {
 }
 
 function addressFor(channel: Channel, to: Recipient): string | null {
-  if (channel === "whatsapp") return to.phone;
+  if (channel === "messaging") return to.phone;
   if (channel === "email") return to.email;
   return null;
 }
@@ -63,7 +63,7 @@ export async function deliver(
     const locale = messageLocale(template, to);
     const filled = typeof vars === "function" ? vars(locale) : vars;
     const { text, params } = render(pick(locale, template, "body"), filled);
-    const result = await channelFor(channel, opts.db).send({
+    const result = await driverFor(channel, opts.db).send({
       kind: row.kind,
       templateKey: row.templateKey,
       to: address,

@@ -8,11 +8,11 @@ export type { Channel };
 export type OutgoingMessage = {
   kind: MessageKind;
   templateKey: string;
-  /** Phone number in E.164 for WhatsApp, an address for email, a subscription for push. */
+  /** Phone number in E.164 for messaging, an address for email, a subscription for push. */
   to: string;
   body: string;
   subject?: string | null;
-  /** Name of the Meta-approved template and its text parameters, in order. */
+  /** The provider's name for the approved template (Meta's template name, Twilio's content SID) and its text parameters, in order. */
   providerTemplate?: string | null;
   params?: string[];
   /**
@@ -32,14 +32,12 @@ export type SendResult =
    */
   | { ok: false; error: string; retry: boolean; gone?: boolean };
 
-export interface WhatsAppChannel {
-  send(message: OutgoingMessage): Promise<SendResult>;
-}
-
-export interface EmailChannel {
-  send(message: OutgoingMessage): Promise<SendResult>;
-}
-
-export interface PushChannel {
+/**
+ * A driver: one way of sending on a channel (Meta or Twilio for messaging;
+ * an HTTPS API, SMTP or Gmail for email). Every driver of a channel takes the
+ * same message and gives the same result, so nothing above it knows which
+ * one is in use.
+ */
+export interface Driver {
   send(message: OutgoingMessage): Promise<SendResult>;
 }

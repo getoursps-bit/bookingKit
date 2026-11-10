@@ -30,7 +30,7 @@ export function CodeStep({
   /** Null when no code went out, so the alternatives show at once. */
   secondsSinceSent: number | null;
   hasEmail: boolean;
-  codeChannel: "whatsapp" | "email" | null;
+  codeChannel: "messaging" | "email" | null;
   /** The phone already has a verified email (masked) and another was typed. */
   emailChange: { onFile: string; typed: string } | null;
   whatsappOn: boolean;
@@ -150,7 +150,7 @@ export function CodeStep({
             {whatsappOn ? (
               <form method="post" action="/api/booking/resend">
                 <input type="hidden" name="csrf" value={csrf} />
-                <input type="hidden" name="channel" value="whatsapp" />
+                <input type="hidden" name="channel" value="messaging" />
                 <SubmitButton className="btn btn-secondary">
                   <Icon name="chat" />
                   {/* When the code went to an email the customer cannot open, offer the phone plainly. */}

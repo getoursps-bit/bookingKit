@@ -1,7 +1,7 @@
 -- Message text lives in data, in Hebrew, one row per message kind and channel.
 create table message_templates (
   key text not null,
-  channel text not null check (channel in ('whatsapp', 'email', 'push')),
+  channel text not null check (channel in ('messaging', 'email', 'push')),
   body_he text not null,
   subject_he text,
   -- Name of the template approved by Meta, for WhatsApp rows.
@@ -30,7 +30,7 @@ create table message_outbox (
   status text not null default 'queued' check (status in (
     'queued', 'sending', 'sent', 'delivered', 'read', 'failed', 'skipped'
   )),
-  channel text check (channel in ('whatsapp', 'email', 'push')),
+  channel text check (channel in ('messaging', 'email', 'push')),
   tried_channels text[] not null default '{}',
   attempts integer not null default 0,
   provider_ref text,

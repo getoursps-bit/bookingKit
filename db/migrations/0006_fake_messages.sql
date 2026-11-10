@@ -3,7 +3,7 @@
 -- here (PROVIDERS=fake); with real providers the table stays empty.
 create table fake_messages (
   id bigint generated always as identity primary key,
-  channel text not null check (channel in ('whatsapp', 'email', 'push')),
+  channel text not null check (channel in ('messaging', 'email', 'push')),
   recipient text not null,
   template_key text not null,
   body text not null,

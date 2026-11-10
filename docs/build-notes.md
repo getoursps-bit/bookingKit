@@ -571,3 +571,41 @@ Seeding a second range is left to the client's own starting content (step 3).
   58 browser. Notes: 229 unit (8 skipped), 59 browser, including the owner
   adding, getting refused and removing a second range.
 - The production build and the page pictures were not rerun for this part.
+
+## Step 2, part D2: the notification layer (2026-11-10)
+
+Asked for by the owner of the kit: channels (email, messaging), each with
+swappable drivers, behind one facade.
+
+- **`Notify`** (`src/core/platform/notify/index.ts`) is what the app calls:
+  `queue`, `send`, `cancel`, `plan`, `route`, `recipient`, `dispatch`,
+  `channels`. The booking code, the codes, the owner's login code, the push
+  test, the Dibs import and the worker all go through it.
+- **Channels** are `messaging`, `email` and `push`. The channel that was
+  called `whatsapp` is now `messaging` in the code, the database checks, the
+  seed and the content packs (`code:messaging`), because Twilio can send SMS
+  on it. The feature flag is `features.messaging`.
+- **Drivers**: `meta` and `twilio` for messaging; `http`, `smtp` and `gmail`
+  for email; `webpush` for push; `fake` for every channel locally and in CI.
+  `MESSAGING_DRIVER` and `EMAIL_DRIVER` pick one; `DRIVER_KEYS` in
+  `config.ts` lists each driver's keys, and only the chosen driver's keys
+  are checked. SMTP and Gmail use the `nodemailer` library.
+- `tests/unit/notify.test.ts`: every driver has its keys listed, nothing
+  outside the layer imports a driver, the Twilio request and its answers
+  (with a stand-in for the network), and the SMTP driver through a
+  transport that writes to memory.
+
+**Not done, and not checked**
+
+- No driver was run against a real provider. Meta and the HTTPS email API
+  are the code Fluffy Fur runs live; Twilio, SMTP and Gmail are new and have
+  only been tested against stand-ins.
+- Delivery reports and replies (the webhook) are Meta's only. With Twilio a
+  failed delivery after acceptance is not seen, so it does not fall back to
+  email.
+- The wording still says "WhatsApp" (the code step, the outage notice, the
+  settings names `messaging.whatsappOutage`, `whatsapp.senderNumber`). A
+  client sending SMS needs those strings reworded in `client.json`.
+- Templates: Meta takes the template's name, Twilio its content SID, both
+  in the same `provider_template` column, so a client's seed must hold the
+  ones of its driver.

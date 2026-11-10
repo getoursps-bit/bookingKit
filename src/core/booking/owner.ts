@@ -6,7 +6,7 @@ import { type Db, getPool, withTransaction } from "../platform/db";
 import * as appointments from "./appointments";
 import { writeAudit } from "../platform/audit";
 import { addOwnerEvent } from "../platform/events";
-import { enqueue, skipQueued } from "../platform/outbox";
+import { Notify } from "../platform/notify";
 import { bookingMessages, ownerTimeCheck } from "./service";
 
 type Result =
@@ -23,8 +23,8 @@ async function finish(
   now: Date,
 ): Promise<void> {
   if (notify) {
-    await skipQueued(after.id, ["reminder"], action, client);
-    await enqueue(bookingMessages(after, now, "owner_change", notify.change), client);
+    await Notify.cancel(after.id, ["reminder"], action, client);
+    await Notify.queue(bookingMessages(after, now, "owner_change", notify.change), client);
   }
   await writeAudit(client, { staffId, actor: "staff", entity: "appointments", entityId: after.id, action, before, after });
 }
@@ -68,7 +68,7 @@ export async function ownerCancel(id: number, notify: boolean, staffId: number, 
     if (!before) return { ok: false, reason: "NotFound" } as const;
     const cancelled = await appointments.cancel(id, client);
     if (!cancelled) return { ok: false, reason: "NotFound" } as const;
-    await skipQueued(id, ["reminder", "confirmation"], "cancelled", client);
+    await Notify.cancel(id, ["reminder", "confirmation"], "cancelled", client);
     await finish(client, staffId, "cancel", before, cancelled, notify ? { change: "cancelled" } : null, now);
     await addOwnerEvent("booking_cancelled", id, { by: "owner" }, { silent: true }, client);
     return { ok: true, appointment: cancelled } as const;
@@ -88,7 +88,7 @@ export async function ownerSetStatus(
     const after =
       status === "completed" ? await appointments.markCompleted(id, client) : await appointments.markNoShow(id, client);
     if (!after) return { ok: false, reason: "NotFound" } as const;
-    await skipQueued(id, ["reminder"], status, client);
+    await Notify.cancel(id, ["reminder"], status, client);
     await finish(client, staffId, status, before, after, null, new Date());
     return { ok: true, appointment: after } as const;
   }, db);

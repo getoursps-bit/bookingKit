@@ -9,15 +9,15 @@ function ctx(
 ) {
   return {
     settings: { "messaging.whatsappOutage": over.outage ?? false, "cap.messagesMonthly": over.cap ?? 1000 },
-    features: { whatsappMessages: over.wa ?? true, emailMessages: over.mail ?? true, ownerPush: over.push ?? true },
+    features: { messaging: over.wa ?? true, emailMessages: over.mail ?? true, ownerPush: over.push ?? true },
     monthlyCount: over.count ?? 0,
   } satisfies RouteContext;
 }
 
 describe("route", () => {
   it("sends codes by WhatsApp, then email when one is known", () => {
-    expect(route("code", { phone, email }, ctx())).toEqual(["whatsapp", "email"]);
-    expect(route("code", { phone, email: null }, ctx())).toEqual(["whatsapp"]);
+    expect(route("code", { phone, email }, ctx())).toEqual(["messaging", "email"]);
+    expect(route("code", { phone, email: null }, ctx())).toEqual(["messaging"]);
   });
 
   it("sends a code by email only when the customer asks for it", () => {
@@ -45,7 +45,7 @@ describe("route", () => {
 
   it("sends booking messages by WhatsApp with email as the fallback", () => {
     for (const kind of ["confirmation", "reminder", "customer_change", "owner_change", "import_link"] as const) {
-      expect(route(kind, { phone, email }, ctx())).toEqual(["whatsapp", "email"]);
+      expect(route(kind, { phone, email }, ctx())).toEqual(["messaging", "email"]);
     }
   });
 

@@ -72,7 +72,7 @@ export async function updateTemplate(
   staffId: number,
   db?: Db,
 ): Promise<"ok" | "locked" | "placeholders" | "missing"> {
-  if (channel === "whatsapp") return "locked";
+  if (channel === "messaging") return "locked";
   return withTransaction(async (client) => {
     const before = await getTemplate(key, channel, client);
     if (!before) return "missing";

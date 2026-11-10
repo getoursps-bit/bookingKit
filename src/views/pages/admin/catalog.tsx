@@ -221,8 +221,8 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
   const { t, locale } = await getI18n();
   const words: Words = { t, locale };
   const inactive = ` (${translator(locale)("catalog.inactive")})`;
-  const channelName = (channel: "whatsapp" | "email" | "push") =>
-    channel === "whatsapp" ? t("contact.whatsapp") : translator(locale)(`channel.${channel}`);
+  const channelName = (channel: "messaging" | "email" | "push") =>
+    channel === "messaging" ? t("contact.whatsapp") : translator(locale)(`channel.${channel}`);
   const [services, products, gallery, profile, templates] = await Promise.all([
     listServices(),
     listProducts(),
@@ -387,7 +387,7 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
         <div className="flex flex-col gap-2">
           {templates.map((template) => (
             <Item key={`${template.key}:${template.channel}`} title={`${template.key} · ${channelName(template.channel)}`}>
-              {template.channel === "whatsapp" ? (
+              {template.channel === "messaging" ? (
                 <>
                   <p className="rounded-xl bg-surface p-3 text-sm" lang={DEFAULT_LOCALE} dir={PACKS[DEFAULT_LOCALE].dir}>
                     {template.body}

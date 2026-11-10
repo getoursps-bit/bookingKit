@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
   const contact = Contact.safeParse({ name: form.name ?? "", phone: form.phone ?? "", email: form.email ?? "" });
   if (!contact.success) return fail(`${String(contact.error.issues[0]?.path[0] ?? "name")}Invalid`);
   // Without WhatsApp the code can only go by email.
-  if (!getFeatures().whatsappMessages && contact.data.email === null) return fail("emailRequired");
+  if (!getFeatures().messaging && contact.data.email === null) return fail("emailRequired");
 
   const result = await startBooking(
     {

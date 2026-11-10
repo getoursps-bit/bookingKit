@@ -79,7 +79,7 @@ describe.skipIf(!hasDb)("outbox", () => {
       const booking = await book(pool, 1);
       await sendAllDue(pool);
       const [row] = await outbox(pool, "confirmation");
-      expect(row).toMatchObject({ status: "sent", channel: "whatsapp" });
+      expect(row).toMatchObject({ status: "sent", channel: "messaging" });
       const { rows } = await pool.query<{ body: string }>(
         "select body from fake_messages where recipient = $1 and template_key = 'confirmation'",
         [phone(1)],
@@ -108,7 +108,7 @@ describe.skipIf(!hasDb)("outbox", () => {
       expect(await handleWebhook(failed, pool)).toMatchObject({ statuses: 1 });
       await sendAllDue(pool);
       const [after] = await outbox(pool, "confirmation");
-      expect(after).toMatchObject({ status: "sent", channel: "email", tried_channels: ["whatsapp", "email"] });
+      expect(after).toMatchObject({ status: "sent", channel: "email", tried_channels: ["messaging", "email"] });
 
       expect(await handleWebhook(failed, pool)).toMatchObject({ statuses: 0 });
       await sendAllDue(pool);
@@ -176,7 +176,7 @@ describe.skipIf(!hasDb)("whatsapp replies", () => {
       expect((await pool.query("select 1 from owner_events where type = 'reply_received'")).rowCount).toBe(2);
       expect((await outbox(pool, "auto_reply")).length).toBe(1);
       await sendAllDue(pool);
-      expect((await outbox(pool, "auto_reply"))[0]).toMatchObject({ status: "sent", channel: "whatsapp" });
+      expect((await outbox(pool, "auto_reply"))[0]).toMatchObject({ status: "sent", channel: "messaging" });
       const consent = await pool.query("select 1 from consents where revoked_at is not null");
       expect(consent.rowCount).toBe(1);
     });

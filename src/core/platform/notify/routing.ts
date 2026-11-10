@@ -17,7 +17,7 @@ export type Recipient = {
 
 export type RouteContext = {
   settings: Pick<Settings, "messaging.whatsappOutage" | "cap.messagesMonthly">;
-  features: Pick<Features, "whatsappMessages" | "emailMessages" | "ownerPush">;
+  features: Pick<Features, "messaging" | "emailMessages" | "ownerPush">;
   /** WhatsApp messages sent so far this month. */
   monthlyCount: number;
 };
@@ -33,7 +33,7 @@ const CUSTOMER_KINDS: MessageKind[] = ["confirmation", "reminder", "customer_cha
 export function route(kind: MessageKind, to: Recipient, ctx: RouteContext): Channel[] {
   const capReached = ctx.monthlyCount >= ctx.settings["cap.messagesMonthly"];
   const whatsapp =
-    ctx.features.whatsappMessages && !ctx.settings["messaging.whatsappOutage"] && !capReached && to.phone !== null;
+    ctx.features.messaging && !ctx.settings["messaging.whatsappOutage"] && !capReached && to.phone !== null;
   const email = ctx.features.emailMessages && to.email !== null;
 
   // Owner alerts go to the owner's devices by push. The one exception is the
@@ -45,7 +45,7 @@ export function route(kind: MessageKind, to: Recipient, ctx: RouteContext): Chan
 
   // The fixed answer to someone who wrote to the automated number: WhatsApp
   // only, inside the chat they opened, so no consent or template is needed.
-  if (kind === "auto_reply") return whatsapp ? ["whatsapp"] : [];
+  if (kind === "auto_reply") return whatsapp ? ["messaging"] : [];
 
   // The owner's login code goes to the staff email only, and the monthly cap
   // (for customer messages) never locks the owner out.
@@ -55,12 +55,12 @@ export function route(kind: MessageKind, to: Recipient, ctx: RouteContext): Chan
     // The cap stops codes: the page then offers "call the salon".
     if (capReached) return [];
     if (to.prefer === "email") return email ? ["email"] : [];
-    return [...(whatsapp ? (["whatsapp"] as const) : []), ...(email ? (["email"] as const) : [])];
+    return [...(whatsapp ? (["messaging"] as const) : []), ...(email ? (["email"] as const) : [])];
   }
 
   if (CUSTOMER_KINDS.includes(kind)) {
     if (to.optedOut) return [];
-    return [...(whatsapp ? (["whatsapp"] as const) : []), ...(email ? (["email"] as const) : [])];
+    return [...(whatsapp ? (["messaging"] as const) : []), ...(email ? (["email"] as const) : [])];
   }
   return [];
 }

@@ -60,7 +60,7 @@
     }
   },
   "message_template": {
-    "code:whatsapp": {
+    "code:messaging": {
       "body": "رمز التحقق الخاص بكم لـ%BRAND%: {code}. الرمز صالح لمدة 10 دقائق."
     },
     "code:email": {
@@ -71,35 +71,35 @@
       "body": "رمز دخولكم إلى منطقة الإدارة: {code}. الرمز صالح لمدة 10 دقائق. إن لم تطلبوه، يمكن تجاهل هذه الرسالة.",
       "subject": "رمز الدخول إلى إدارة %BRAND%"
     },
-    "confirmation:whatsapp": {
+    "confirmation:messaging": {
       "body": "حُجز موعدكم في %BRAND% ليوم {when}. للعرض أو التغيير أو الإلغاء: {link}"
     },
     "confirmation:email": {
       "body": "حُجز موعدكم ليوم {when}. للعرض أو التغيير أو الإلغاء: {link}",
       "subject": "حُجز موعدكم في %BRAND%"
     },
-    "reminder:whatsapp": {
+    "reminder:messaging": {
       "body": "تذكير: غدًا في {when} لديكم موعد في %BRAND%. للتغيير أو الإلغاء: {link}"
     },
     "reminder:email": {
       "body": "تذكير: غدًا في {when} لديكم موعد. للتغيير أو الإلغاء: {link}",
       "subject": "تذكير بموعد في %BRAND%"
     },
-    "customer_change:whatsapp": {
+    "customer_change:messaging": {
       "body": "تم تحديث موعدكم في %BRAND%: {change}. التفاصيل: {link}"
     },
     "customer_change:email": {
       "body": "تم تحديث موعدكم: {change}. التفاصيل: {link}",
       "subject": "تم تحديث موعدكم في %BRAND%"
     },
-    "owner_change:whatsapp": {
+    "owner_change:messaging": {
       "body": "حدّث الصالون موعدكم: {change}. التفاصيل: {link}"
     },
     "owner_change:email": {
       "body": "حدّث الصالون موعدكم: {change}. التفاصيل: {link}",
       "subject": "حدّث الصالون موعدكم"
     },
-    "import_link:whatsapp": {
+    "import_link:messaging": {
       "body": "انتقل %BRAND% إلى موقع جديد. موعدكم في {when} محفوظ. للعرض أو التغيير أو الإلغاء: {link}"
     },
     "import_link:email": {
@@ -120,7 +120,7 @@
       "body": "الفحص اليومي لم يصل إلى أي جهاز. يُستحسن فتح منطقة الإدارة وتفعيل الإشعارات من جديد.",
       "subject": "إشعارات المتصفح لم تصل"
     },
-    "auto_reply:whatsapp": {
+    "auto_reply:messaging": {
       "body": "شكرًا على رسالتكم! هذا الرقم يرسل رسائل آلية فقط. لتغيير موعد أو إلغائه استخدموا الرابط الشخصي الذي وصلكم. للتحدث مع الصالون: {chat}"
     }
   }

@@ -88,7 +88,7 @@ alter table trusted_devices enable row level security;
 create table verification_codes (
   id bigint generated always as identity primary key,
   contact text not null,
-  channel text not null check (channel in ('whatsapp', 'email')),
+  channel text not null check (channel in ('messaging', 'email')),
   code_hash text not null,
   appointment_id bigint references appointments (id) on delete cascade,
   attempts integer not null default 0,

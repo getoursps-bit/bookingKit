@@ -97,7 +97,7 @@ export async function getStats(
       db,
     ),
     query<{ whatsapp: number; email: number; push: number; failed: number; costAgorot: number }>(
-      `select count(*) filter (where channel = 'whatsapp' and status in ('sent', 'delivered', 'read'))::int as whatsapp,
+      `select count(*) filter (where channel = 'messaging' and status in ('sent', 'delivered', 'read'))::int as whatsapp,
               count(*) filter (where channel = 'email' and status in ('sent', 'delivered', 'read'))::int as email,
               count(*) filter (where channel = 'push' and status in ('sent', 'delivered', 'read'))::int as push,
               count(*) filter (where status = 'failed')::int as failed,

@@ -13,7 +13,7 @@ import { writeAudit } from "../platform/audit";
 import * as catalog from "./catalog";
 import * as customers from "./customers";
 import { addOwnerEvent } from "../platform/events";
-import { enqueue, skipQueued } from "../platform/outbox";
+import { Notify } from "../platform/notify";
 import { hit } from "../platform/rateLimits";
 import { getSettings, type Settings } from "../platform/settings";
 import { localDateOf, localDayBounds } from "../platform/time";
@@ -333,7 +333,7 @@ export function bookingMessages(
   kind: "confirmation" | "customer_change" | "owner_change",
   change?: string,
 ) {
-  const rows: Parameters<typeof enqueue>[0] = [
+  const rows: Parameters<typeof Notify.queue>[0] = [
     {
       kind,
       templateKey: kind,
@@ -405,7 +405,7 @@ export async function confirmBooking(
     );
     // The phone is proven by now, so the booking may set the customer's language.
     if (ctx.locale) await customers.setLocale(appointment.customerId, ctx.locale, client);
-    await enqueue(bookingMessages(appointment, now, "confirmation"), client);
+    await Notify.queue(bookingMessages(appointment, now, "confirmation"), client);
     await addOwnerEvent("booking_created", appointment.id, {}, {}, client);
     return { ok: true, booking: { appointment: { ...appointment, source }, manageToken } } as const;
   }, ctx.db ?? getPool());
@@ -441,8 +441,8 @@ export async function moveBooking(
     if (!moved) return { ok: false, reason: "NotFound" } as const;
     if (!moved.ok) return moved;
 
-    await skipQueued(current.id, ["reminder"], "moved", client);
-    await enqueue(bookingMessages(moved.appointment, now, "customer_change", "moved"), client);
+    await Notify.cancel(current.id, ["reminder"], "moved", client);
+    await Notify.queue(bookingMessages(moved.appointment, now, "customer_change", "moved"), client);
     await addOwnerEvent("booking_moved", current.id, { from: current.start.toISOString() }, {}, client);
     return { ok: true, appointment: moved.appointment } as const;
   }, db);
@@ -461,9 +461,9 @@ export async function cancelBooking(
     if (!beforeCutoff(current, settings, now)) return { ok: false, reason: "PastCutoff" } as const;
     const cancelled = await appointments.cancel(current.id, client);
     if (!cancelled) return { ok: false, reason: "NotFound" } as const;
-    await skipQueued(current.id, ["reminder"], "cancelled", client);
+    await Notify.cancel(current.id, ["reminder"], "cancelled", client);
     await revoke(current.id, client);
-    await enqueue(bookingMessages(cancelled, now, "customer_change", "cancelled"), client);
+    await Notify.queue(bookingMessages(cancelled, now, "customer_change", "cancelled"), client);
     await addOwnerEvent("booking_cancelled", current.id, {}, {}, client);
     return { ok: true, appointment: cancelled } as const;
   }, ctx.db ?? getPool());
@@ -524,7 +524,7 @@ export async function ownerCreateBooking(
       client,
     );
     if (!result.ok) return result;
-    if (data.notifyCustomer) await enqueue(bookingMessages(result.appointment, now, "confirmation"), client);
+    if (data.notifyCustomer) await Notify.queue(bookingMessages(result.appointment, now, "confirmation"), client);
     // The owner made this change, so the event is kept but no alert is sent.
     await addOwnerEvent("booking_created", result.appointment.id, { by: "owner" }, { silent: true }, client);
     await writeAudit(client, {

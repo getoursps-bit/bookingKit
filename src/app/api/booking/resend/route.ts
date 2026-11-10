@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   if (!csrfOk(request, form)) return next(request, stepPath("code", { error: "expired" }), {}, 403);
   const draft = getDraft(request);
   if (!draft.holdId) return next(request, stepPath("contact", { error: "HoldExpired" }), {}, 400);
-  const channel = form.channel === "email" ? "email" : "whatsapp";
+  const channel = form.channel === "email" ? "email" : "messaging";
   let email = draft.email;
   if (channel === "email" && form.email !== undefined) {
     const typed = TypedEmail.safeParse(form.email);

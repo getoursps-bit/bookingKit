@@ -4800,7 +4800,7 @@
         }
       },
       "items": {
-        "code:whatsapp": {
+        "code:messaging": {
           "body": {
             "placeholders": [
               "code"
@@ -4852,7 +4852,7 @@
             }
           }
         },
-        "confirmation:whatsapp": {
+        "confirmation:messaging": {
           "body": {
             "placeholders": [
               "link",
@@ -4886,7 +4886,7 @@
             }
           }
         },
-        "reminder:whatsapp": {
+        "reminder:messaging": {
           "body": {
             "placeholders": [
               "link",
@@ -4920,7 +4920,7 @@
             }
           }
         },
-        "customer_change:whatsapp": {
+        "customer_change:messaging": {
           "body": {
             "placeholders": [
               "change",
@@ -4954,7 +4954,7 @@
             }
           }
         },
-        "owner_change:whatsapp": {
+        "owner_change:messaging": {
           "body": {
             "placeholders": [
               "change",
@@ -4988,7 +4988,7 @@
             }
           }
         },
-        "import_link:whatsapp": {
+        "import_link:messaging": {
           "body": {
             "placeholders": [
               "link",
@@ -5082,7 +5082,7 @@
             }
           }
         },
-        "auto_reply:whatsapp": {
+        "auto_reply:messaging": {
           "body": {
             "placeholders": [
               "chat"

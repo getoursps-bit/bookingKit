@@ -1,5 +1,5 @@
-import { getConfig } from "../config";
-import type { OutgoingMessage, SendResult, WhatsAppChannel } from "./types";
+import { getConfig } from "../../config";
+import type { Driver, OutgoingMessage, SendResult } from "../types";
 import { DEFAULT_LOCALE } from "@/i18n/locales";
 
 const GRAPH = "https://graph.facebook.com/v21.0";
@@ -8,7 +8,7 @@ const GRAPH = "https://graph.facebook.com/v21.0";
 const NOT_REACHABLE = new Set([131026, 131047, 131051, 131021, 470]);
 
 /** Sends approved template messages through Meta's WhatsApp Cloud API. */
-export function createWhatsApp(): WhatsAppChannel {
+export function createMeta(): Driver {
   const config = getConfig();
   return {
     async send(message: OutgoingMessage): Promise<SendResult> {

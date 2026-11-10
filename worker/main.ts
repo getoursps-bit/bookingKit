@@ -13,7 +13,7 @@ const { releaseExpiredHolds } = await import("../src/core/booking/appointments")
 const { pruneTokens } = await import("../src/core/booking/manageTokens");
 const { pruneRateLimits } = await import("../src/core/platform/rateLimits");
 const { cleanup: cleanupCodes } = await import("../src/core/platform/identity/codes");
-const { dispatch } = await import("../src/core/platform/notify/dispatch");
+const { Notify } = await import("../src/core/platform/notify");
 const { claimDaily } = await import("../src/core/platform/jobRuns");
 const { checkMessageCap, checkReceipts, queueDailyCheck } = await import("../src/core/platform/ownerAlerts");
 const { extensions } = await import("../src/extension/registry");
@@ -39,7 +39,7 @@ async function sendOutbox(): Promise<void> {
   const rows = await claimDue(BATCH, undefined, db);
   for (const row of rows) {
     try {
-      await dispatch(row, db);
+      await Notify.dispatch(row, db);
     } catch (error) {
       log.error({ err: error, outboxId: row.id }, "outbox row failed");
       await markFailed(row.id, {

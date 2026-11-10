@@ -1,18 +1,14 @@
 import { randomInt, timingSafeEqual } from "node:crypto";
 import type { Locale } from "../../../i18n/locales";
 import { type Db, getPool, query } from "../db";
-import { getFeatures } from "../features";
-import { deliver } from "../notify/deliver";
-import { customerRecipient } from "../notify/recipients";
-import { route } from "../notify/routing";
-import { claimOne, enqueue, monthlyCount } from "../outbox";
-import { getSettings } from "../settings";
+import { Notify } from "../notify";
+import { claimOne } from "../outbox";
 import { secretHash } from "./hash";
 import { hit, LIMITS } from "./rateLimit";
 
 export const CODE_TTL_MIN = 10;
 
-export type CodeChannel = "whatsapp" | "email";
+export type CodeChannel = "messaging" | "email";
 
 export type IssueResult =
   | { ok: true; channel: CodeChannel; expiresAt: Date; to: string }
@@ -37,7 +33,7 @@ export async function issueCode(
   },
   db: Db = getPool(),
 ): Promise<IssueResult> {
-  const to = await customerRecipient(input.customerId, db);
+  const to = await Notify.recipient(input.customerId, db);
   // Consent to appointment messages does not cover a code the customer asked for.
   // The code goes out in the language of the page the customer is on.
   const recipient = {
@@ -48,8 +44,7 @@ export async function issueCode(
     locale: input.locale ?? to.locale,
   };
   // A code with nowhere to go is not a send, so it does not use up the limits.
-  const settings = await getSettings(db);
-  const channels = route("code", recipient, { settings, features: getFeatures(), monthlyCount: await monthlyCount(new Date(), db) });
+  const channels = await Notify.plan("code", recipient, db);
   if (channels.length === 0) return { ok: false, reason: "NoChannel" };
   const allowed = [
     await hit(
@@ -68,13 +63,13 @@ export async function issueCode(
   if (allowed.includes(false)) return { ok: false, reason: "RateLimited" };
 
   const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
-  const [id] = await enqueue(
+  const [id] = await Notify.queue(
     [{ kind: "code", templateKey: "code", appointmentId: input.appointmentId, customerId: input.customerId }],
     db,
   );
   const row = await claimOne(id!, db);
   if (!row) return { ok: false, reason: "Failed" };
-  const sent = await deliver(row, recipient, { code }, { buttonParam: code, db });
+  const sent = await Notify.send(row, recipient, { code }, { buttonParam: code, db });
   if (!sent.ok) return { ok: false, reason: sent.reason === "NoChannel" ? "NoChannel" : "Failed" };
   if (sent.channel === "push") return { ok: false, reason: "Failed" };
 

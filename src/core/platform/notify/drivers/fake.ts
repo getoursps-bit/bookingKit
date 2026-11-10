@@ -1,15 +1,15 @@
-import { getPool, type Db } from "../db";
-import type { Channel, OutgoingMessage, SendResult } from "./types";
+import { getPool, type Db } from "../../db";
+import type { Channel, Driver, OutgoingMessage, SendResult } from "../types";
 
 /** Every message the fakes "sent" in this process, newest last. */
 export const fakeSent: (OutgoingMessage & { channel: Channel })[] = [];
 
 /**
- * A stand-in channel for local runs and CI (PROVIDERS=fake). It sends nothing:
+ * The stand-in driver of every channel for local runs and CI (PROVIDERS=fake). It sends nothing:
  * it keeps the message in memory and in the `fake_messages` table, where the
  * end-to-end tests read codes and confirmations.
  */
-export function createFakeChannel(channel: Channel, db?: Db) {
+export function createFake(channel: Channel, db?: Db): Driver {
   return {
     async send(message: OutgoingMessage): Promise<SendResult> {
       fakeSent.push({ ...message, channel });
@@ -25,7 +25,7 @@ export function createFakeChannel(channel: Channel, db?: Db) {
 }
 
 /** A channel that is not set up. Routing never picks it; this guards against mistakes. */
-export function createOffChannel(channel: Channel) {
+export function createOff(channel: Channel): Driver {
   return {
     async send(): Promise<SendResult> {
       return { ok: false, error: `${channel} is not set up`, retry: false };

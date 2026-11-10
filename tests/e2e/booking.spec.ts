@@ -480,7 +480,7 @@ test("a visitor in the site's other language books in it and gets the code and m
   await expect(page.getByText(before(t["code.sentWhatsappTo"], "{to}"))).toContainText(who.e164.slice(-4));
   const { body } = await latestMessage(who.e164, "code");
   // The code message is in the language's own wording: the words after the code.
-  expect(body).toContain(CONTENT[lang].message_template["code:whatsapp"].body.split("{code}")[1]!.replace(/^[.\s]+/, ""));
+  expect(body).toContain(CONTENT[lang].message_template["code:messaging"].body.split("{code}")[1]!.replace(/^[.\s]+/, ""));
   await page.getByLabel(t["code.label"]).fill(/(\d{6})/.exec(body)![1]!);
   await page.getByLabel(t["code.label"]).press("Enter");
 
