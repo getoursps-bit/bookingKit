@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import seedData from "../../db/seed/data.json";
+import { SEED as seedData } from "../../db/seed/structure";
 import petRules from "../../extensions/pets/seed.json";
 import text from "../../languages/he/content.json";
 import { PetDescription, profileFor, resolveService, type ServiceRule, speciesFor } from "@ext/pets/server/rules";
