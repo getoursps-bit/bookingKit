@@ -291,7 +291,7 @@ export async function applyImport(runId: number, db: Db = getPool()): Promise<Im
         if (result.ok) imported.future += 1;
         else imported.refusedByOverlap += 1;
       } else {
-        // History only: past visits count for the customer record and the AI summary.
+        // History only: past visits count for the customer record and any pre-visit note.
         const [past] = await query<{ id: number }>(
           `insert into appointments (customer_id, starts_at, ends_at, status, created_by, dibs_ref, notes, source)
            values ($1, $2, $3, 'completed', 'import', $4, $5, '{"dibs": true}') returning id::int`,

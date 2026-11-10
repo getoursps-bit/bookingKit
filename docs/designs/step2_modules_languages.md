@@ -330,11 +330,13 @@ Not by guessing. The two existing clients are the specification:
 | `settings.booking.maxPets` | a limit on pets | the core's limit on lines |
 | strings `pets.*`, `coat.*`, `tag.*`, `details.vet*`, hero sticker, paw icons on service cards, seed `service_rules` | wording and content | the extension's strings and content; the core's views show the brand mark |
 
-Status on 2026-11-10: every row is done except the photo and AI row and the
-database tables, which the build notes list under "Still pet-shaped in the
-core". `suggestServices` was built as two smaller points, `serviceTags` and
-`previewService`, and pet photos stayed inside `pets` rather than becoming
-an extension of their own.
+Status on 2026-11-10: every row is done except the database tables, which
+the build notes list under "Still pet-shaped in the core". `suggestServices`
+was built as two smaller points, `serviceTags` and `previewService`, and pet
+photos stayed inside `pets` rather than becoming an extension of their own.
+The photo and AI row was decided by the owner of the kit on 2026-11-10: AI is
+part of neither the core nor pets. It is its own extension, `ai`, that a
+client's blueprint switches on; pets ask it for photo analysis.
 
 ### Testing two shapes of client
 

@@ -58,13 +58,12 @@ create table inbound_messages (
 alter table inbound_messages enable row level security;
 
 -- The owner's record of what happened. Alerts point here; a lost push never
--- loses the event.
+-- loses the event. The core's types are booking_created, booking_moved,
+-- booking_cancelled, message_failed, reply_received, alerts_stopped and
+-- message_cap; an extension may add its own, so the type is not a fixed list.
 create table owner_events (
   id bigint generated always as identity primary key,
-  type text not null check (type in (
-    'booking_created', 'booking_moved', 'booking_cancelled',
-    'message_failed', 'reply_received', 'ai_cap_reached', 'alerts_stopped', 'message_cap'
-  )),
+  type text not null,
   appointment_id bigint references appointments (id) on delete set null,
   data jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now(),

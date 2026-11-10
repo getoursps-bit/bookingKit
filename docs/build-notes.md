@@ -373,16 +373,66 @@ boundaries.
   created by the core migrations, and the lines table is still named
   `appointment_pets`. They move to `extensions/pets/migrations` (new
   installs) with a rename of the lines table.
-- AI: the provider interface and the job runner (`src/server/ai/*`, the
-  `ai_jobs.pet_id` column, the `ai.photo` setting) analyse a pet's photo and
-  write the pre-visit note from pet facts. Saving a pet photo, its form
-  (`/api/ext/pets/photo`) and its daily clean-up are in the extension
-  already, through two more points: `actions` in the views (a form an
-  extension's view posts) and `cleanup` in the manifest (the worker's daily
-  clean-up). Whether the pre-visit note is a core feature fed by extensions
-  or part of pets is a design decision still open.
+- Consent purposes shown on the customer record (`photo_analysis`,
+  `gallery_photo`) are a fixed list in the core.
 - The export's booking lines no longer carry `pet_id`.
 - Starting content (`db/seed/data.json`, the packs' `content.json`) and the
   privacy and accessibility pages still describe a grooming salon; they are
   the client's content and belong to `kit new`.
 - The home page's icons on the service cards alternate scissors and a paw.
+
+## Step 2, part B3: AI out of the core (2026-11-10)
+
+Decided by the kit's owner: AI belongs to neither the core nor pets. It is
+an extension a client's blueprint switches on.
+
+**Built**
+
+- `extensions/ai/`: the provider (Anthropic adapter and the fake), the job
+  runner with the monthly cap, the pre-visit note, the tables (`ai_jobs`,
+  `ai_spend`, in its own migration), its two settings, its strings in he, en
+  and ar, and its part of the settings screen. Its environment variables
+  (`AI_*`) are read by the extension, not by the core's config.
+- The provider answers one general question (`ask`: instructions, text, an
+  optional picture). What is asked and how the answer is checked belongs to
+  a *kind of job*. `summary` is the extension's own kind.
+- Another extension uses AI through `extensions/ai/server/api.ts`: it
+  describes its kinds and its facts for the note under `provides.ai` in its
+  manifest, and queues jobs with `queueAiJob`. Pets do this for photo
+  analysis (`extensions/pets/server/photo-ai.ts`: the prompt, the checked
+  result, the `ai.photo` switch). With `ai` off, `aiOn()` is false and pet
+  photos are not offered.
+- The pre-visit note is written from generic facts: the booking, the
+  customer record, each line's name and notes (`describeLines`) and what
+  extensions add (`lineFacts`). It is written in the site's default
+  language; the stored result is `{ text }`.
+- New points in the manifest: `settings` (an extension's own settings,
+  stored with the core's), `minute` and `daily` (worker jobs), `bookingNotes`
+  (a note on a booking for the today page and the calendar), `monthlyCost`
+  (a line under the cost tile of the statistics), `customerData.erase`, and
+  `provides` (what one extension offers another). New page slot: `settings`
+  (where its settings go on the settings screen, and why they are inactive).
+- An owner event's type is no longer a fixed list, so an extension can add
+  one with its own "event.<type>" string (`ai_cap_reached` is the ai
+  extension's).
+- Erasing a customer now deletes that customer's AI jobs. Before, the notes
+  (which quote what the customer wrote) stayed after an erase.
+- `tests/fixtures/client.notes.json`: a client with `ai` alone. CI runs four
+  clients.
+
+**Changed in place:** migrations `0004` (no fixed list of event types) and
+`0005` (renamed `0005_staff.sql`; the AI tables left it). The kit has no
+installed database, so nothing is migrated; a local database made before
+this must be made again (`docker compose -f docker/compose.dev.yml down -v`,
+`up -d`, then migrate and seed).
+
+**Verified**
+
+- Default client (pets + ai): 225 unit tests, 61 browser tests, production
+  build and worker bundle.
+- Sample (he + ar, pets, no ai): 212 unit (13 skipped), 60 browser.
+- Plain (no extensions): 215 unit (10 skipped), 57 browser.
+- Notes (ai alone): 221 unit (4 skipped), 57 browser.
+
+**Not checked:** a real AI call. The Anthropic adapter was reshaped and only
+the fake ran; no key is, or should be, in this session.

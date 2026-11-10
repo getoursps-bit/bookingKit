@@ -115,6 +115,17 @@ rules and the pet and salon wording all live in `extensions/pets/`. With
 `"extensions": []` the site is a plain booking site; `tests/fixtures/client.plain.json`
 is tested that way.
 
+`ai` is the second: a short note for the owner about each of tomorrow's
+bookings, and AI calls that other extensions ask for, inside one monthly cap
+she sets. It is not part of the core and not part of pets: a client's
+blueprint switches it on. Everything about it is in `extensions/ai/` (the
+provider, the job runner, its tables, its settings and strings), and it reads
+the `AI_*` variables. Another extension uses it through
+`extensions/ai/server/api.ts`: pets ask it to look at a pet's photo and give
+the note the pet's facts, under `provides.ai` in their manifest. With `ai`
+off, pet photos are not offered. `tests/fixtures/client.notes.json` is a
+client with `ai` alone.
+
 ## Re-branding
 
 Everything that makes the site one client's is in `client.json`: its
