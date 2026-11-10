@@ -84,7 +84,11 @@ test.describe("without JavaScript", () => {
     await expect(page.getByRole("heading", { level: 1, name: "שירותים ומחירים" })).toBeVisible();
     await expect(page.getByRole("heading", { name: FIRST_SERVICE, exact: true })).toBeVisible();
     await page.goto("/hours");
-    await expect(page.getByRole("row", { name: /רביעי/ })).toContainText("סגור");
+    // Each day of the client's own starting hours: closed, or the time it opens.
+    for (const day of seed.opening_hours) {
+      const row = page.getByRole("row", { name: new RegExp(he[`day.${day.weekday}`]!) });
+      await expect(row).toContainText(day.closed ? "סגור" : day.opens!);
+    }
   });
 });
 
@@ -118,7 +122,8 @@ test("the WhatsApp order link names the product and its price for the chat numbe
   expect(`${target.origin}${target.pathname}`).toBe("https://wa.me/972555000123");
   const text = target.searchParams.get("text")!;
   expect(text).toContain(FIRST_PRODUCT!);
-  expect(text).toContain((seed.products[0]!.price_agorot / 100).toFixed(2));
+  const price = seed.products[0]!.price_agorot / 100;
+  expect(text).toContain(Number.isInteger(price) ? String(price) : price.toFixed(2));
   expect(response.headers()["location"]).not.toMatch(/[א-ת]/);
 });
 
