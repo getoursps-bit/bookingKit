@@ -37,6 +37,9 @@ const TEXT_PAIRS: [ThemeColor, ThemeColor[]][] = [
   ["ink-soft", ["canvas", "surface", "paper"]],
   ["ink-muted", ["canvas", "surface", "paper"]],
   ["brand-ink", ["brand", "brand-strong"]],
+  // The accent as text (prices, the hero's accent words) and the soft accent on an accent card.
+  ["brand", ["canvas", "surface", "paper"]],
+  ["brand-soft", ["brand"]],
   ["brand-strong", ["canvas", "surface", "brand-soft"]],
   ["brand-deep", ["canvas", "surface"]],
   ["tint-pink-ink", ["tint-pink"]],
