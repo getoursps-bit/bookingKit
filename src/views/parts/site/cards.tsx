@@ -43,7 +43,7 @@ export async function ServiceCard({
           <div>
             <dt className="visually-hidden">{t("services.price")}</dt>
             <dd className="text-[17px] font-semibold md:text-lg">
-              {t("services.from", { price: formatPrice(service.priceFromAgorot, locale) })}
+              {service.priceFromAgorot > 0 ? t("services.from", { price: formatPrice(service.priceFromAgorot, locale) }) : t("services.onRequest")}
             </dd>
           </div>
           <div className="flex items-center gap-1.5 text-[13px] text-ink-muted md:text-sm">
@@ -89,7 +89,7 @@ export async function ServiceRow({ service, tag }: { service: Service; tag?: str
       </span>
       <span className="flex shrink-0 items-center gap-3 text-end">
         {service.bookableOnline ? (
-          <span className="font-semibold">{t("services.from", { price: formatPrice(service.priceFromAgorot, locale) })}</span>
+          <span className="font-semibold">{service.priceFromAgorot > 0 ? t("services.from", { price: formatPrice(service.priceFromAgorot, locale) }) : t("services.onRequest")}</span>
         ) : (
           <span className="text-sm text-ink-muted">{t("services.callToBook")}</span>
         )}

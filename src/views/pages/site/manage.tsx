@@ -164,8 +164,14 @@ export default async function ManagePage({
                         {line.serviceName}
                       </span>
                       <span className="text-sm text-ink-muted">
-                        {t("manage.priceFrom")}
-                        <Price agorot={line.priceFromAgorot} />
+                        {line.priceFromAgorot > 0 ? (
+                          <>
+                            {t("manage.priceFrom")}
+                            <Price agorot={line.priceFromAgorot} />
+                          </>
+                        ) : (
+                          t("services.onRequest")
+                        )}
                       </span>
                     </li>
                   ))}

@@ -311,7 +311,7 @@ export default async function HomePage() {
                       </span>
                       {service.bookableOnline ? (
                         <span className="w-fit rounded-full bg-paper px-2.5 py-0.5 text-[13px] font-extrabold text-brand md:px-3 md:text-sm">
-                          {t("services.from", { price: formatPrice(service.priceFromAgorot, locale) })}
+                          {service.priceFromAgorot > 0 ? t("services.from", { price: formatPrice(service.priceFromAgorot, locale) }) : t("services.onRequest")}
                         </span>
                       ) : (
                         <span className="text-[13px] text-ink-muted">{t("services.callToBook")}</span>

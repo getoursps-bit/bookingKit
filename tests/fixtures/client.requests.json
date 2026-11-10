@@ -25,7 +25,7 @@
       "display": "fredoka",
       "languages": {
         "en": "nunito"
-      }
+      }, "displayLanguages": {}
     },
     "colors": {
       "ink": "#3a1f2b",

@@ -53,7 +53,20 @@ export function brandCss(client: Client): string {
   const { fonts, colors, radius, shadows } = client.theme;
   const sans = FONTS[fonts.sans];
   const perLanguage = Object.entries(fonts.languages).filter(([code]) => localesOf(client).includes(code));
-  const packages = [...new Set([fonts.sans, fonts.display, ...perLanguage.map(([, font]) => font)])];
+  const displayPerLanguage = Object.entries(fonts.displayLanguages).filter(([code]) => localesOf(client).includes(code));
+  const packages = [...new Set([fonts.sans, fonts.display, ...perLanguage.map(([, font]) => font), ...displayPerLanguage.map(([, font]) => font)])];
+  // Each language that has a font of its own for body text, headings, or both.
+  const own = [...new Set([...perLanguage, ...displayPerLanguage].map(([code]) => code))].map((code) => {
+    const body = fonts.languages[code] ? FONTS[fonts.languages[code]] : sans;
+    const heading = fonts.displayLanguages[code];
+    return {
+      code,
+      lines: [
+        ...(fonts.languages[code] ? [`--font-sans: ${stack(body, sans)};`] : []),
+        ...(heading ? [`--font-display: ${stack(FONTS[heading], body)};`] : []),
+      ],
+    };
+  });
   const tokens = [
     `--font-sans: ${stack(sans)};`,
     `--font-display: ${stack(FONTS[fonts.display], sans)};`,
@@ -70,16 +83,12 @@ export function brandCss(client: Client): string {
     "@theme {",
     ...tokens.map((line) => (line ? `  ${line}` : "")),
     "}",
-    ...(perLanguage.length
+    ...(own.length
       ? [
           "",
           "/* A language that reads better in a font of its own. */",
           "@layer base {",
-          ...perLanguage.flatMap(([code, font]) => [
-            `  html[lang="${code}"] {`,
-            `    --font-sans: ${stack(FONTS[font], sans)};`,
-            "  }",
-          ]),
+          ...own.flatMap(({ code, lines }) => [`  html[lang="${code}"] {`, ...lines.map((line) => `    ${line}`), "  }"]),
           "}",
         ]
       : []),
@@ -181,7 +190,7 @@ export function generated(client: Client): Record<string, string> {
 function main(): void {
   const client = readClient();
   const { fonts } = client.theme;
-  for (const font of new Set([fonts.sans, fonts.display, ...Object.values(fonts.languages)])) {
+  for (const font of new Set([fonts.sans, fonts.display, ...Object.values(fonts.languages), ...Object.values(fonts.displayLanguages)])) {
     if (!existsSync(path.join(ROOT, "node_modules/@fontsource-variable", font, "package.json")))
       throw new Error(`The font "${font}" is not installed: pnpm add @fontsource-variable/${font}`);
   }

@@ -710,6 +710,14 @@
         "en": "From {price}"
       }
     },
+    "services.onRequest": {
+      "placeholders": [],
+      "text": {
+        "he": "מחיר לפי בקשה",
+        "ar": "السعر عند الطلب",
+        "en": "Price on request"
+      }
+    },
     "services.callToBook": {
       "placeholders": [],
       "text": {

@@ -92,6 +92,7 @@
     "duration": "المدة",
     "price": "السعر",
     "from": "ابتداءً من {price}",
+    "onRequest": "السعر عند الطلب",
     "callToBook": "هذه الخدمة تُحجز عبر الهاتف فقط"
   },
   "products": {

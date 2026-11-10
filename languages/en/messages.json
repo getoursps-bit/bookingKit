@@ -92,6 +92,7 @@
     "duration": "Duration",
     "price": "Price",
     "from": "From {price}",
+    "onRequest": "Price on request",
     "callToBook": "This service can only be booked by phone"
   },
   "products": {

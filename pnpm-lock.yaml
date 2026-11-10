@@ -20,6 +20,12 @@ importers:
       '@fontsource-variable/alexandria':
         specifier: 5.3.0
         version: 5.3.0
+      '@fontsource-variable/el-messiri':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource-variable/frank-ruhl-libre':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource-variable/fredoka':
         specifier: ^5.3.0
         version: 5.3.0
@@ -546,6 +552,12 @@ packages:
 
   '@fontsource-variable/alexandria@5.3.0':
     resolution: {integrity: sha512-SIMkP0elELBKNl58Ak7IhTeLQqclV9ziwC/BAAF7n26cBIuz5kNFQdCUmbaHxLJW1WZlGbfK6WE3rdFmuJHC5A==}
+
+  '@fontsource-variable/el-messiri@5.3.0':
+    resolution: {integrity: sha512-N5tqDwWLQa/PguZdOkYqSRchVDzoGCi7Hu7XNYnF/5rVp5/dIsEDVQ78D/el/3pgFloKiWiWIKbVMLCbvVevLA==}
+
+  '@fontsource-variable/frank-ruhl-libre@5.3.0':
+    resolution: {integrity: sha512-BgE4pEPDSXfg7741yQYdxB7XShRgdMTYoP4sdoRXfo0FCDWlQdDUm+o1xPcISC8+TTmC6ytvq+u/QmnpQ+EhpQ==}
 
   '@fontsource-variable/fredoka@5.3.0':
     resolution: {integrity: sha512-13w98iw2RcmYfZQRZPLSu+0YJK3HHm5A2XrpU26moFIAePmfiKfvkmEJUgkc8r5GNR+pbDijOueS1KdGAMAWmQ==}
@@ -3965,6 +3977,10 @@ snapshots:
       levn: 0.4.1
 
   '@fontsource-variable/alexandria@5.3.0': {}
+
+  '@fontsource-variable/el-messiri@5.3.0': {}
+
+  '@fontsource-variable/frank-ruhl-libre@5.3.0': {}
 
   '@fontsource-variable/fredoka@5.3.0': {}
 

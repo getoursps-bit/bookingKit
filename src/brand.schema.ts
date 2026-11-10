@@ -47,6 +47,10 @@ export const FONTS = {
   heebo: "Heebo Variable",
   /** Arabic and Latin letters; no Hebrew. */
   alexandria: "Alexandria Variable",
+  /** A Hebrew and Latin serif, for headings with a classic look; no Arabic. */
+  "frank-ruhl-libre": "Frank Ruhl Libre Variable",
+  /** An Arabic and Latin display face with a calligraphic feel, for headings; no Hebrew. */
+  "el-messiri": "El Messiri Variable",
 } as const;
 
 export type FontId = keyof typeof FONTS;
@@ -99,6 +103,8 @@ export const clientSchema = z
         display: font,
         /** Body text in a language that reads better in another font, by language code. */
         languages: z.record(language, font),
+        /** Headings in a language the display font has no letters for, by language code. */
+        displayLanguages: z.record(language, font),
       }),
       colors: z.strictObject(
         Object.fromEntries(Object.keys(THEME_COLORS).map((key) => [key, hex])) as Record<ThemeColor, typeof hex>,
