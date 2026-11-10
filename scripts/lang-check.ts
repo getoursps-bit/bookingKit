@@ -1,7 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { packSchema } from "../src/brand.schema";
-import { TRANSLATABLE } from "../src/server/translation/content";
+import { TRANSLATABLE } from "../src/core/platform/translation";
 import {
   contentOf,
   extensionIds,

@@ -1,5 +1,5 @@
 import { defineExtension } from "@/extension/types";
-import { query } from "@/server/db";
+import { forgetReference } from "./server/dibs";
 
 // The move from Dibs, the booking system one client used before: a script
 // (script.ts, `pnpm import:dibs`) that stages a Dibs export, checks it,
@@ -11,8 +11,6 @@ export default defineExtension({
   id: "dibs-import",
   customerData: {
     tables: [],
-    async erase(customerId, db) {
-      await query("update customers set dibs_ref = null where id = $1", [customerId], db);
-    },
+    erase: forgetReference,
   },
 });

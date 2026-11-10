@@ -1,11 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getLocale } from "@/i18n/server";
-import { bookingsBetween } from "@/server/admin/data";
-import { ownerCancel, ownerExtend, ownerMove, ownerSetStatus } from "@/server/booking/owner";
-import { ownerCreateBooking } from "@/server/booking/service";
-import { normalizePhone } from "@/server/links";
-import { resolveSession, SESSION_COOKIE } from "@/server/staff/auth";
-import { adminRequest, backTo } from "@/server/staff/http";
+import { bookingsBetween } from "@/core/booking/owner-data";
+import { ownerCancel, ownerExtend, ownerMove, ownerSetStatus } from "@/core/booking/owner";
+import { ownerCreateBooking } from "@/core/booking/service";
+import { normalizePhone } from "@/core/platform/links";
+import { resolveSession, SESSION_COOKIE } from "@/core/platform/staff/auth";
+import { adminRequest, backTo } from "@/core/platform/staff/http";
 
 export const dynamic = "force-dynamic";
 

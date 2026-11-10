@@ -3,8 +3,8 @@ import { BottomBar } from "@/components/site/BottomBar";
 import { InstallPrompt } from "@/components/site/InstallPrompt";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
-import { getSiteData } from "@/server/site";
-import { getStorage } from "@/server/storage";
+import { getSiteData } from "@/core/website/site";
+import { getStorage } from "@/core/platform/storage";
 
 // Every public page reads the owner's content at request time, and the
 // per-request script nonce needs a dynamic render anyway.

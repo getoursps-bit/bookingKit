@@ -79,14 +79,16 @@ src/app/api/          form and JSON endpoints, webhooks, health
 src/components/       site, booking, admin and shared UI
 languages/<code>/     one pack per language: its strings (messages.json) and what the code needs to know about it (pack.json)
 src/i18n/             the string lookup (on next-intl), language addresses and formats
-src/server/translation/  the owner's text in the other languages (content_translations)
+src/core/booking/     what makes it a booking system: services, hours, customers, appointments
+                      and their lines, holds, free times, the private link
+src/core/website/     what makes it a website: the business profile, products, gallery,
+                      landing pages, search-engine data, visit counts
+src/core/platform/    what both need: config, database, staff and sessions, settings, the
+                      outbox and route(), translations, stored files, time (Asia/Jerusalem)
 src/extension/        the extension points and the registry of the extensions that are on
 extensions/<id>/      one folder per extension: manifest, strings, migrations, starting content
-src/landing/          campaign landing pages (code)
-src/server/           domain logic: booking engine, identity, notify (outbox and route()),
-                      repos, ai, photos, import, staff, time (Asia/Jerusalem)
-worker/               worker entry point and timed jobs; bundled to worker/dist
-scripts/              migrate, staff-create, import-dibs
+worker/               worker entry point; bundled to worker/dist
+scripts/              migrate, staff-create
 db/migrations/        plain SQL, additive first, never run on start-up
 db/seed/              starting content
 docker/               Dockerfile (one image, two entry points) and local compose
@@ -97,6 +99,16 @@ The image runs the web app with `node server.js` and the worker with
 `node worker/main.js`. Health is `GET /healthz`. All configuration comes from
 environment variables (see `env.example`); a service without keys is switched
 off, not faked, when `PROVIDERS=real`.
+
+## The core
+
+The system is a booking system and a website in one, and its core is three
+modules under `src/core/`: `booking`, `website` and `platform` (what both
+need). They own the database: pages, routes, the worker and the extensions'
+manifests call their functions and never run SQL themselves. Platform code
+does not import booking or website code. `tests/unit/boundaries.test.ts`
+checks both rules; the few places where the platform still reaches into
+booking are listed there and the list may only get shorter.
 
 ## Extensions
 
@@ -152,10 +164,12 @@ supplies the starting value, the browser title and the app name.
 
 ## Adding a landing page
 
-1. Create `src/landing/<slug>.tsx` that exports `meta` (`title` and
+1. Create `src/core/website/landing/<slug>.tsx` that exports `meta` (`title` and
    `description` for `he` and `en`) and a default component that picks its
    text by `locale`. Copy `dog-grooming.tsx` as a start.
-2. Add it to `LANDING_PAGES` in `src/landing/index.ts`.
+2. Add it to `LANDING_PAGES` in `src/core/website/landing.ts`. A page for one
+   client only belongs to that client's extension instead (`landingPages`
+   in its `views.tsx`, as `extensions/pets/views/dog-grooming.tsx`).
 3. It is served at `/l/<slug>` and `/en/l/<slug>` and listed in the sitemap. Use logical CSS
    (`ms-`, `pe-`, `text-start`), wrap prices, times and phone numbers with
    `isolate()` / `t()`, and check it at phone width.
@@ -207,7 +221,7 @@ code to `others` in `client.json` and run `pnpm brand`.
 The owner's own text (services, products, photo texts, tagline, message
 wording) is written in the default language, and the owner area shows one
 extra field per other language. Those translations live in one table,
-`content_translations`, owned by `src/server/translation/`; an empty
+`content_translations`, owned by `src/core/platform/translation.ts`; an empty
 translation shows the default language. Customers get messages in the
 language they booked in when the template has wording in it. WhatsApp
 messages in another language need the same templates approved in that

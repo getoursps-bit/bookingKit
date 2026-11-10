@@ -1,8 +1,8 @@
 import { AdminNotice, Panel } from "@/components/admin/parts";
 import { Phone } from "@/components/site/values";
 import { getI18n } from "@/i18n/server";
-import { searchCustomers } from "@/server/admin/data";
-import { requireStaffPage } from "@/server/staff/session";
+import { searchCustomers } from "@/core/booking/owner-data";
+import { requireStaffPage } from "@/core/platform/staff/session";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

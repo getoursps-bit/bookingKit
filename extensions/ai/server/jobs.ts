@@ -1,8 +1,8 @@
 import { extensions } from "@/extension/registry";
-import { type Db, getPool, query, withTransaction } from "@/server/db";
-import { log } from "@/server/log";
-import { addOwnerEvent } from "@/server/repos/events";
-import { readSettings } from "@/server/repos/settings";
+import { type Db, getPool, query, withTransaction } from "@/core/platform/db";
+import { log } from "@/core/platform/log";
+import { addOwnerEvent } from "@/core/platform/events";
+import { readSettings } from "@/core/platform/settings";
 import type { AiJobKind, AiOffer } from "./api";
 import { getAi } from "./provider";
 import { AI_SETTINGS } from "./settings";
@@ -153,4 +153,9 @@ async function runOne(job: Job, ctx: { db: Db; now: Date; ai: AiProvider | null;
 export async function spentIn(month: string, db: Db = getPool()): Promise<number> {
   const [row] = await query<{ total: number }>("select total_agorot::int as total from ai_spend where month = $1::date", [month], db);
   return row?.total ?? 0;
+}
+
+/** Removes every job about a customer's bookings: the notes and results hold what the customer wrote. */
+export async function forgetCustomer(customerId: number, db: Db = getPool()): Promise<void> {
+  await query("delete from ai_jobs where appointment_id in (select id from appointments where customer_id = $1)", [customerId], db);
 }

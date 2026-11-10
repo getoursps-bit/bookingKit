@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { verifyAndConfirm } from "@/server/booking/flow";
+import { verifyAndConfirm } from "@/core/booking/flow";
 import {
   clientAddress,
   csrfOk,
@@ -10,8 +10,8 @@ import {
   setCookie,
   setDraft,
   stepPath,
-} from "@/server/booking/http";
-import { TRUSTED_DEVICE_COOKIE } from "@/server/identity/tokens";
+} from "@/core/booking/http";
+import { TRUSTED_DEVICE_COOKIE } from "@/core/booking/manageTokens";
 
 export const dynamic = "force-dynamic";
 

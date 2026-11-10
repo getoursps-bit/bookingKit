@@ -1,8 +1,8 @@
 import { Calendar } from "@/components/admin/Calendar";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
-import { getOpeningHours, listServices } from "@/server/repos/catalog";
-import { requireStaffPage } from "@/server/staff/session";
+import { getOpeningHours, listServices } from "@/core/booking/catalog";
+import { requireStaffPage } from "@/core/platform/staff/session";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

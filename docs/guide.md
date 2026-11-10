@@ -90,7 +90,7 @@ Once WhatsApp is on, it is tried first and email becomes the fallback.
 The app posts to one HTTPS address with `Authorization: Bearer <key>` and a
 JSON body of `from`, `to` (a list), `subject`, `html` and `text`. That is
 Resend's request format (`https://api.resend.com/emails`); a service with a
-different format needs a small adapter in `src/server/notify/email.ts`.
+different format needs a small adapter in `src/core/platform/notify/email.ts`.
 
 1. Create an account with the email service and **verify the sending domain**
    by adding the SPF and DKIM DNS records it shows. Without them, mail goes to

@@ -1,8 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getPool } from "@/server/db";
-import { writeAudit } from "@/server/repos/audit";
-import { exportAll } from "@/server/repos/customers";
-import { resolveSession, SESSION_COOKIE } from "@/server/staff/auth";
+import { auditStaff } from "@/core/platform/audit";
+import { exportAll } from "@/core/booking/customers";
+import { resolveSession, SESSION_COOKIE } from "@/core/platform/staff/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +12,7 @@ export async function GET(request: NextRequest) {
   const id = Number(request.nextUrl.searchParams.get("id"));
   const data = Number.isInteger(id) ? await exportAll(id) : null;
   if (!data) return NextResponse.json({ error: "NotFound" }, { status: 404 });
-  await writeAudit(getPool(), { staffId: staff.id, actor: "staff", entity: "customers", entityId: id, action: "export" });
+  await auditStaff(staff.id, { entity: "customers", entityId: id, action: "export" });
   return new NextResponse(JSON.stringify(data, null, 2), {
     headers: {
       "Content-Type": "application/json; charset=utf-8",

@@ -1,12 +1,12 @@
 import { randomUUID } from "node:crypto";
 import { aiOn, aiResults, closeAiJob, queueAiJob } from "@ext/ai/server/api";
-import { type Db, getPool, query, withTransaction } from "@/server/db";
-import { getFeatures } from "@/server/features";
-import { resolveManageToken } from "@/server/identity/tokens";
-import { PHOTO_MAX_BYTES, PHOTO_TYPES, toWebp } from "@/server/photos";
-import type { Appointment } from "@/server/repos/appointments";
-import { readSettings } from "@/server/repos/settings";
-import { getStorage } from "@/server/storage";
+import { type Db, getPool, query, withTransaction } from "@/core/platform/db";
+import { getFeatures } from "@/core/platform/features";
+import { resolveManageToken } from "@/core/booking/manageTokens";
+import { PHOTO_MAX_BYTES, PHOTO_TYPES, toWebp } from "@/core/platform/photos";
+import type { Appointment } from "@/core/booking/appointments";
+import { readSettings } from "@/core/platform/settings";
+import { getStorage } from "@/core/platform/storage";
 import { COAT_CONDITIONS, type CoatCondition, PET_SETTINGS, type PhotoResult } from "./photo-ai";
 
 /** A pet photo is deleted this many days after its visit. */

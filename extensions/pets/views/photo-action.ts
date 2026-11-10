@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
-import { clientAddress, next } from "@/server/booking/http";
-import { hit } from "@/server/repos/rateLimits";
-import { CSRF_COOKIE, csrfMatches } from "@/server/security";
+import { clientAddress, next } from "@/core/booking/http";
+import { hit } from "@/core/platform/rateLimits";
+import { CSRF_COOKIE, csrfMatches } from "@/core/platform/security";
 import { acceptSuggestion, savePetPhoto } from "../server/photos";
 
 /** The private link's pet photo: upload one (multipart), or accept the suggestion from it. Posted to /api/ext/pets/photo. */

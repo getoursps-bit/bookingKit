@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { TRANSLATABLE } from "../src/server/translation/content";
+import { TRANSLATABLE } from "../src/core/platform/translation";
 import { flatten } from "../src/i18n/flatten";
 import seed from "../db/seed/data.json";
 

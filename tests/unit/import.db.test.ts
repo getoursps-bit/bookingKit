@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { openDay } from "../setup/days";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
-import { addLocalDays } from "@/server/booking/slots";
+import { addLocalDays } from "@/core/booking/slots";
 import mapping from "@ext/dibs-import/service-map.json" with { type: "json" };
 import { hasExtension } from "@/extension/registry";
 import {
@@ -13,7 +13,7 @@ import {
   queueImportLinks,
   stageImport,
 } from "@ext/dibs-import/server/dibs";
-import { localDateOf, localDateTimeToUtc } from "@/server/time";
+import { localDateOf, localDateTimeToUtc } from "@/core/platform/time";
 
 const hasDb = await testDbAvailable();
 const map = mapping as DibsMapping;

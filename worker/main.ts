@@ -5,16 +5,17 @@ export {};
 // Set before the logger loads, so every log line is tagged with this service.
 process.env.APP_SERVICE ??= "worker";
 
-const { log } = await import("../src/server/log");
-const { getConfig } = await import("../src/server/config");
-const { closePool, getPool } = await import("../src/server/db");
-const { claimDue, markFailed } = await import("../src/server/repos/outbox");
-const { releaseExpiredHolds } = await import("../src/server/repos/appointments");
-const { pruneRateLimits } = await import("../src/server/repos/rateLimits");
-const { cleanup: cleanupCodes } = await import("../src/server/identity/codes");
-const { dispatch } = await import("../src/server/notify/dispatch");
-const { claimDaily } = await import("./jobs/schedule");
-const { checkMessageCap, checkReceipts, queueDailyCheck } = await import("./jobs/ownerAlerts");
+const { log } = await import("../src/core/platform/log");
+const { getConfig } = await import("../src/core/platform/config");
+const { closePool, getPool } = await import("../src/core/platform/db");
+const { claimDue, markFailed } = await import("../src/core/platform/outbox");
+const { releaseExpiredHolds } = await import("../src/core/booking/appointments");
+const { pruneTokens } = await import("../src/core/booking/manageTokens");
+const { pruneRateLimits } = await import("../src/core/platform/rateLimits");
+const { cleanup: cleanupCodes } = await import("../src/core/platform/identity/codes");
+const { dispatch } = await import("../src/core/platform/notify/dispatch");
+const { claimDaily } = await import("../src/core/platform/jobRuns");
+const { checkMessageCap, checkReceipts, queueDailyCheck } = await import("../src/core/platform/ownerAlerts");
 const { extensions } = await import("../src/extension/registry");
 
 // Bad configuration stops the worker at once, so the container restarts and shows it,
@@ -58,8 +59,7 @@ const DAILY: { name: string; hour: number; run: (now: Date) => Promise<unknown> 
       const db = getPool();
       const codes = await cleanupCodes(db);
       const limits = await pruneRateLimits(db);
-      await db.query("delete from trusted_devices where expires_at < now()");
-      await db.query("delete from manage_tokens where expires_at < now() - interval '30 days'");
+      await pruneTokens(db);
       // Each extension that is on cleans up what it keeps (pet photos, say).
       const extra: Record<string, number> = {};
       for (const extension of extensions()) Object.assign(extra, await extension.cleanup?.(db, new Date()));

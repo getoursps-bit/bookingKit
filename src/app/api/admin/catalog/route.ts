@@ -1,22 +1,15 @@
 import type { NextRequest } from "next/server";
 import { extensions } from "@/extension/registry";
-import { updateTemplate } from "@/server/notify/templates";
-import type { Channel } from "@/server/notify/types";
-import {
-  getBusinessProfile,
-  listProducts,
-  listServices,
-  removeGalleryImage,
-  updateBusinessProfile,
-  upsertProduct,
-  upsertService,
-} from "@/server/repos/catalog";
-import { getFeatures } from "@/server/features";
-import { normalizePhone } from "@/server/links";
-import { savePublicPhoto } from "@/server/photos";
-import { getStorage } from "@/server/storage";
-import { adminRequest, backTo } from "@/server/staff/http";
-import { TRANSLATABLE, translationsFrom } from "@/server/translation/content";
+import { updateTemplate } from "@/core/platform/notify/templates";
+import type { Channel } from "@/core/platform/notify/types";
+import { listServices, upsertService } from "@/core/booking/catalog";
+import { getBusinessProfile, listProducts, removeGalleryImage, updateBusinessProfile, upsertProduct } from "@/core/website/content";
+import { getFeatures } from "@/core/platform/features";
+import { normalizePhone } from "@/core/platform/links";
+import { savePublicPhoto } from "@/core/platform/photos";
+import { getStorage } from "@/core/platform/storage";
+import { adminRequest, backTo } from "@/core/platform/staff/http";
+import { TRANSLATABLE, translationsFrom } from "@/core/platform/translation";
 
 export const dynamic = "force-dynamic";
 

@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { bookingLinePoints } from "@/extension/registry";
-import { readAttribution, ATTRIBUTION_COOKIE } from "@/server/attribution";
-import { startBooking } from "@/server/booking/flow";
+import { readAttribution, ATTRIBUTION_COOKIE } from "@/core/website/attribution";
+import { startBooking } from "@/core/booking/flow";
 import {
   clientAddress,
   csrfOk,
@@ -13,13 +13,13 @@ import {
   requestLocale,
   setDraft,
   stepPath,
-} from "@/server/booking/http";
-import { getConfig } from "@/server/config";
-import { getFeatures } from "@/server/features";
-import { TRUSTED_DEVICE_COOKIE } from "@/server/identity/tokens";
-import { normalizePhone } from "@/server/links";
-import { log } from "@/server/log";
-import { maskEmail, maskPhone } from "@/server/repos/customers";
+} from "@/core/booking/http";
+import { getConfig } from "@/core/platform/config";
+import { getFeatures } from "@/core/platform/features";
+import { TRUSTED_DEVICE_COOKIE } from "@/core/booking/manageTokens";
+import { normalizePhone } from "@/core/platform/links";
+import { log } from "@/core/platform/log";
+import { maskEmail, maskPhone } from "@/core/booking/customers";
 
 export const dynamic = "force-dynamic";
 

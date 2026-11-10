@@ -3,7 +3,7 @@ import { brand } from "@/brand";
 import { Icon } from "@/components/ui/Icon";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
-import type { BusinessProfile } from "@/server/repos/catalog";
+import type { BusinessProfile } from "@/core/website/content";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { MobileMenu } from "./MobileMenu";
 import { NavLinks } from "./NavLinks";

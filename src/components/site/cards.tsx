@@ -3,7 +3,8 @@ import { Icon } from "@/components/ui/Icon";
 import { pick } from "@/i18n/content";
 import { formatPrice } from "@/i18n/format";
 import { getI18n } from "@/i18n/server";
-import type { Product, Service } from "@/server/repos/catalog";
+import type { Service } from "@/core/booking/catalog";
+import type { Product } from "@/core/website/content";
 import { Duration, Price } from "./values";
 
 /** A service: name and who it is for, what it includes, "from" price, length and "Choose". */

@@ -7,9 +7,9 @@ import { Phone, Time } from "@/components/site/values";
 import { getI18n } from "@/i18n/server";
 import type { MessageKey } from "@/i18n/t";
 import { translator } from "@/i18n/translator";
-import { customerBookings, customerConsents } from "@/server/admin/data";
-import { getCustomer } from "@/server/repos/customers";
-import { requireStaffPage } from "@/server/staff/session";
+import { customerBookings, customerConsents } from "@/core/booking/owner-data";
+import { getCustomer } from "@/core/booking/customers";
+import { requireStaffPage } from "@/core/platform/staff/session";
 
 export async function generateMetadata() {
   const { locale } = await getI18n();

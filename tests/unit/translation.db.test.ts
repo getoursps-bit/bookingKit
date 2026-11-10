@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
 import { pick } from "@/i18n/content";
 import { DEFAULT_LOCALE, type Locale, LOCALES } from "@/i18n/locales";
-import { messageLocale } from "@/server/notify/deliver";
-import { getTemplate, updateTemplate } from "@/server/notify/templates";
-import { listServices, upsertService } from "@/server/repos/catalog";
-import { cleanTranslations, saveTranslations, translatedSql, translationsFrom } from "@/server/translation/content";
+import { messageLocale } from "@/core/platform/notify/deliver";
+import { getTemplate, updateTemplate } from "@/core/platform/notify/templates";
+import { listServices, upsertService } from "@/core/booking/catalog";
+import { cleanTranslations, saveTranslations, translatedSql, translationsFrom } from "@/core/platform/translation";
 
 // Needs the compose Postgres locally or the CI service; skipped otherwise.
 const hasDb = await testDbAvailable();

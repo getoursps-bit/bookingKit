@@ -1,5 +1,5 @@
 import { hasExtension } from "@/extension/registry";
-import { type Db, getPool, query } from "@/server/db";
+import { type Db, getPool, query } from "@/core/platform/db";
 import { getAi } from "./provider";
 import type { AiRequest } from "./types";
 

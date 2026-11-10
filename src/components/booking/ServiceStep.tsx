@@ -3,9 +3,9 @@ import { Icon } from "@/components/ui/Icon";
 import { pick } from "@/i18n/content";
 import { formatPrice } from "@/i18n/format";
 import { getI18n } from "@/i18n/server";
-import type { Service } from "@/server/repos/catalog";
-import type { Tags } from "@/server/serviceTags";
-import { MULTI_LINE_BOOKING } from "@/server/booking/draft";
+import type { Service } from "@/core/booking/catalog";
+import type { Tags } from "@/core/booking/serviceTags";
+import { MULTI_LINE_BOOKING } from "@/core/booking/draft";
 import { FormSecrets } from "./parts";
 import { SubmitButton } from "./SubmitButton";
 

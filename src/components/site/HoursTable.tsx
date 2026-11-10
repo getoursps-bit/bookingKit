@@ -1,6 +1,6 @@
 import { getI18n } from "@/i18n/server";
 import type { MessageKey } from "@/i18n/t";
-import type { OpeningHours } from "@/server/repos/catalog";
+import type { OpeningHours } from "@/core/booking/catalog";
 import { ClockTime } from "./values";
 
 /** The week's opening hours, Sunday first, one soft row per day with today in pink. */

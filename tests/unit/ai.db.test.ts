@@ -10,12 +10,12 @@ import { queueSummaries } from "@ext/ai/server/summary";
 import { PhotoResult } from "@ext/pets/server/photo-ai";
 import { acceptSuggestion, deleteExpiredPhotos, petPhotoLines, savePetPhoto } from "@ext/pets/server/photos";
 import { hasExtension } from "@/extension/registry";
-import { bookingsBetween } from "@/server/admin/data";
-import { erase } from "@/server/repos/customers";
-import { confirmBooking, requestHold } from "@/server/booking/service";
-import { addLocalDays } from "@/server/booking/slots";
-import { getStorage } from "@/server/storage";
-import { localDateTimeToUtc } from "@/server/time";
+import { bookingsBetween } from "@/core/booking/owner-data";
+import { erase } from "@/core/booking/customers";
+import { confirmBooking, requestHold } from "@/core/booking/service";
+import { addLocalDays } from "@/core/booking/slots";
+import { getStorage } from "@/core/platform/storage";
+import { localDateTimeToUtc } from "@/core/platform/time";
 import { testDog } from "../setup/pets";
 
 const hasDb = await testDbAvailable();
@@ -55,7 +55,7 @@ const spend = (pool: pg.Pool) => pool.query("select coalesce(sum(total_agorot), 
 
 describe("settings of an extension", () => {
   it("are known only while the extension is on", async () => {
-    const { allSettingDefaults, isSettingKey, settingValid } = await import("@/server/repos/settings");
+    const { allSettingDefaults, isSettingKey, settingValid } = await import("@/core/platform/settings");
     expect(isSettingKey("booking.maxLines")).toBe(true);
     expect(isSettingKey("ai.summary")).toBe(hasExtension("ai"));
     expect(isSettingKey("ai.photo")).toBe(hasExtension("pets"));

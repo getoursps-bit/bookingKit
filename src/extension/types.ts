@@ -1,9 +1,9 @@
 import type pg from "pg";
 import type { z } from "zod";
 import type { Locale } from "@/i18n/locales";
-import type { Db } from "@/server/db";
-import type { Appointment } from "@/server/repos/appointments";
-import type { Service } from "@/server/repos/catalog";
+import type { Db } from "@/core/platform/db";
+import type { Appointment } from "@/core/booking/appointments";
+import type { Service } from "@/core/booking/catalog";
 
 // An extension is a client's customisation, added to the core through the
 // points below and nothing else. Its folder is extensions/<id>/ with:

@@ -5,9 +5,9 @@ import { formatPrice } from "@/i18n/format";
 import type { Locale } from "@/i18n/locales";
 import { getI18n } from "@/i18n/server";
 import { isolate, type MessageKey } from "@/i18n/t";
-import { getStats, STATS_PERIODS, type StatsPeriod, WEEKS_SHOWN } from "@/server/admin/stats";
-import { requireStaffPage } from "@/server/staff/session";
-import { formatLocal, localDayBounds } from "@/server/time";
+import { getStats, STATS_PERIODS, type StatsPeriod, WEEKS_SHOWN } from "@/core/stats";
+import { requireStaffPage } from "@/core/platform/staff/session";
+import { formatLocal, localDayBounds } from "@/core/platform/time";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

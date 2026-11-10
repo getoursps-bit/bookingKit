@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
-import { setMessageConsent } from "@/server/booking/flow";
-import { csrfOk, next, readForm } from "@/server/booking/http";
-import { cancelBooking, moveBooking } from "@/server/booking/service";
+import { setMessageConsent } from "@/core/booking/flow";
+import { csrfOk, next, readForm } from "@/core/booking/http";
+import { cancelBooking, moveBooking } from "@/core/booking/service";
 
 export const dynamic = "force-dynamic";
 

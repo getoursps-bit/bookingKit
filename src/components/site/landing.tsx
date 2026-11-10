@@ -2,11 +2,11 @@ import type { ReactNode } from "react";
 import { brand } from "@/brand";
 import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
-import type { Service } from "@/server/repos/catalog";
+import type { Service } from "@/core/booking/catalog";
 import { ServiceCard } from "./cards";
 import { GalleryGrid, type GalleryItem } from "./GalleryGrid";
 
-// Sections composed into the home page and the campaign landing pages (src/landing/).
+// Sections composed into the home page and the campaign landing pages.
 
 /** Narrows the service list the booking flow opens with: the address parameter of an extension's service filter and its value. */
 export type BookFilter = Record<string, string>;

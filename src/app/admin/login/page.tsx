@@ -8,15 +8,15 @@ import { LanguageSwitch } from "@/components/admin/LanguageSwitch";
 import { getI18n } from "@/i18n/server";
 import type { Translate } from "@/i18n/t";
 import { isMessageKey } from "@/i18n/keys";
-import { getFeatures } from "@/server/features";
-import { CSRF_COOKIE } from "@/server/security";
+import { getFeatures } from "@/core/platform/features";
+import { CSRF_COOKIE } from "@/core/platform/security";
 import {
   EMAIL_CODE_TTL_MIN,
   EMAIL_PENDING_COOKIE,
   PENDING_COOKIE,
   resolveSession,
   SESSION_COOKIE,
-} from "@/server/staff/auth";
+} from "@/core/platform/staff/auth";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

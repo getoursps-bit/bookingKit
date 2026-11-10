@@ -1,8 +1,8 @@
 import type pg from "pg";
 import { describe, expect, it } from "vitest";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
-import { bucketByWeek, getStats, periodBounds, weekStartOf } from "@/server/admin/stats";
-import { localDateTimeToUtc } from "@/server/time";
+import { bucketByWeek, getStats, periodBounds, weekStartOf } from "@/core/stats";
+import { localDateTimeToUtc } from "@/core/platform/time";
 
 // Needs the compose Postgres locally or the CI service; skipped otherwise.
 const hasDb = await testDbAvailable();

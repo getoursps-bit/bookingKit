@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
-import { csrfOk } from "@/server/booking/http";
-import { query } from "@/server/db";
-import { resolveSession, SESSION_COOKIE } from "@/server/staff/auth";
+import { csrfOk } from "@/core/booking/http";
+import { saveOwnerDevice } from "@/core/platform/ownerDevices";
+import { resolveSession, SESSION_COOKIE } from "@/core/platform/staff/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -22,13 +22,6 @@ export async function POST(request: NextRequest) {
   if (!parsed.success || !csrfOk(request, { csrf: parsed.data.csrf })) {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
-  const { endpoint, keys } = parsed.data.subscription;
-  await query(
-    `insert into push_subscriptions (staff_id, endpoint, p256dh, auth, device_label)
-     values ($1, $2, $3, $4, left($5, 200))
-     on conflict (endpoint) do update set staff_id = excluded.staff_id, customer_id = null,
-       p256dh = excluded.p256dh, auth = excluded.auth, device_label = excluded.device_label`,
-    [staff.id, endpoint, keys.p256dh, keys.auth, request.headers.get("user-agent")],
-  );
+  await saveOwnerDevice(staff.id, parsed.data.subscription, request.headers.get("user-agent"));
   return NextResponse.json({ ok: true });
 }

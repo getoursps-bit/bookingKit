@@ -2,10 +2,10 @@ import { GalleryGrid } from "@/components/site/GalleryGrid";
 import { PageHeader } from "@/components/site/PageHeader";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
-import { listGallery } from "@/server/repos/catalog";
-import { pageMetadata } from "@/server/seo";
-import { getSiteData, isNoindex } from "@/server/site";
-import { getStorage } from "@/server/storage";
+import { listGallery } from "@/core/website/content";
+import { pageMetadata } from "@/core/website/seo";
+import { getSiteData, isNoindex } from "@/core/website/site";
+import { getStorage } from "@/core/platform/storage";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

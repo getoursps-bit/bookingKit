@@ -1,7 +1,7 @@
 import sharp from "sharp";
 import { describe, expect, it } from "vitest";
-import { PHOTO_MAX_BYTES, savePublicPhoto, toWebp } from "@/server/photos";
-import { getStorage } from "@/server/storage";
+import { PHOTO_MAX_BYTES, savePublicPhoto, toWebp } from "@/core/platform/photos";
+import { getStorage } from "@/core/platform/storage";
 
 describe("toWebp", () => {
   it("drops camera metadata, keeps the picture upright and limits the width", async () => {

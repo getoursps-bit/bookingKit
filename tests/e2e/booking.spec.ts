@@ -3,7 +3,7 @@ import { type Browser, expect, type Page, test } from "@playwright/test";
 import pg from "pg";
 import sharp from "sharp";
 import seed from "../../db/seed/data.json" with { type: "json" };
-import { searchPathOption } from "../../src/server/db-schema";
+import { searchPathOption } from "../../src/core/platform/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { DEFAULT_LOCALE, LOCALES, PACKS } from "../../src/i18n/languages.generated";
 import { CONTENT } from "../../src/i18n/packs.generated";

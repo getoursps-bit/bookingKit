@@ -1,9 +1,8 @@
 import { defineExtension } from "@/extension/types";
-import { query } from "@/server/db";
 import ar from "./languages/ar.json";
 import en from "./languages/en.json";
 import he from "./languages/he.json";
-import { runAiJobs, spentIn } from "./server/jobs";
+import { forgetCustomer, runAiJobs, spentIn } from "./server/jobs";
 import { AI_SETTINGS } from "./server/settings";
 import { queueSummaries, summaries } from "./server/summary";
 
@@ -26,8 +25,6 @@ export default defineExtension({
   customerData: {
     tables: [],
     /** The notes and results hold what the customer wrote, so they go with an erase. */
-    async erase(customerId, db) {
-      await query("delete from ai_jobs where appointment_id in (select id from appointments where customer_id = $1)", [customerId], db);
-    },
+    erase: forgetCustomer,
   },
 });

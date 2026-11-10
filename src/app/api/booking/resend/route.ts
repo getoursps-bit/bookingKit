@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { resendCode } from "@/server/booking/flow";
-import { maskEmail, maskPhone } from "@/server/repos/customers";
-import { clientAddress, csrfOk, getDraft, next, readForm, requestLocale, setDraft, stepPath } from "@/server/booking/http";
+import { resendCode } from "@/core/booking/flow";
+import { maskEmail, maskPhone } from "@/core/booking/customers";
+import { clientAddress, csrfOk, getDraft, next, readForm, requestLocale, setDraft, stepPath } from "@/core/booking/http";
 
 export const dynamic = "force-dynamic";
 

@@ -6,9 +6,9 @@ import { migrate, pendingMigrations } from "../../scripts/migrate";
 import { openDay } from "../setup/days";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
 import { hasExtension } from "@/extension/registry";
-import * as booking from "@/server/booking/service";
-import * as appointments from "@/server/repos/appointments";
-import { localDateTimeToUtc } from "@/server/time";
+import * as booking from "@/core/booking/service";
+import * as appointments from "@/core/booking/appointments";
+import { localDateTimeToUtc } from "@/core/platform/time";
 import { dogWith, testDog } from "../setup/pets";
 
 // Needs the compose Postgres locally or the CI service; skipped otherwise.

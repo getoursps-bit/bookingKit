@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
-import { query } from "@/server/db";
-import { enqueue } from "@/server/repos/outbox";
-import { adminRequest, backTo } from "@/server/staff/http";
+import { enqueue } from "@/core/platform/outbox";
+import { removeOwnerDevice } from "@/core/platform/ownerDevices";
+import { adminRequest, backTo } from "@/core/platform/staff/http";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     return backTo(request, "/admin", { ok: "today.testSent" });
   }
   if (req.form.action === "remove" && /^\d+$/.test(req.form.id ?? "")) {
-    await query("delete from push_subscriptions where id = $1 and staff_id is not null", [Number(req.form.id)]);
+    await removeOwnerDevice(Number(req.form.id));
   }
   return backTo(request, "/admin", { ok: "saved" });
 }

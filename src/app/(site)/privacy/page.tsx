@@ -3,8 +3,8 @@ import { extensionViews } from "@/extension/views";
 import { Phone } from "@/components/site/values";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
-import { pageMetadata } from "@/server/seo";
-import { getSiteData, isNoindex } from "@/server/site";
+import { pageMetadata } from "@/core/website/seo";
+import { getSiteData, isNoindex } from "@/core/website/site";
 import { DEFAULT_LOCALE } from "@/i18n/locales";
 
 // Privacy notice under the Protection of Privacy Law, 5741-1981. The wording is

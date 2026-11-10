@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { formatDuration, formatPrice } from "@/i18n/format";
 import { translator } from "@/i18n/translator";
-import { attributionFromUrl, encodeAttribution, readAttribution } from "@/server/attribution";
-import { displayPhone, socialLink, wazeLink, whatsappLink } from "@/server/links";
-import type { BusinessProfile, OpeningHours } from "@/server/repos/catalog";
-import { jsonLdString, localBusinessJsonLd } from "@/server/seo";
+import { attributionFromUrl, encodeAttribution, readAttribution } from "@/core/website/attribution";
+import { displayPhone, socialLink, wazeLink, whatsappLink } from "@/core/platform/links";
+import type { OpeningHours } from "@/core/booking/catalog";
+import type { BusinessProfile } from "@/core/website/content";
+import { jsonLdString, localBusinessJsonLd } from "@/core/website/seo";
 
 // Fictional test number in the 0555 range.
 const CHAT = "+972555000123";

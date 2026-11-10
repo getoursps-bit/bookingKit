@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getDraft } from "@/server/booking/http";
-import { getWeek, getWeekForMove } from "@/server/booking/service";
-import { localDateOf } from "@/server/time";
+import { getDraft } from "@/core/booking/http";
+import { getWeek, getWeekForMove } from "@/core/booking/service";
+import { localDateOf } from "@/core/platform/time";
 
 export const dynamic = "force-dynamic";
 

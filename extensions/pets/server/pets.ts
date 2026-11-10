@@ -1,4 +1,4 @@
-import { type Db, query } from "@/server/db";
+import { type Db, query } from "@/core/platform/db";
 import type { AgeGroup, Species, WeightGroup } from "./rules";
 
 // The pets a customer has booked for. Saved once the customer's phone is

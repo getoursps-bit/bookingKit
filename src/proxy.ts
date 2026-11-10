@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { DEFAULT_LOCALE, isLocalizedPath, LOCALE_COOKIE, LOCALE_HEADER, splitLocale } from "./i18n/locales";
-import { ATTRIBUTION_COOKIE, ATTRIBUTION_MAX_AGE_S, attributionFromUrl, encodeAttribution } from "./server/attribution";
-import { contentSecurityPolicy, CSRF_COOKIE, newCsrfToken } from "./server/security";
-import { SESSION_COOKIE, SESSION_DAYS } from "./server/staff/cookie";
+import { ATTRIBUTION_COOKIE, ATTRIBUTION_MAX_AGE_S, attributionFromUrl, encodeAttribution } from "./core/website/attribution";
+import { contentSecurityPolicy, CSRF_COOKIE, newCsrfToken } from "./core/platform/security";
+import { SESSION_COOKIE, SESSION_DAYS } from "./core/platform/staff/cookie";
 
 /**
  * Runs before every page:

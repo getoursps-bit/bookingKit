@@ -1,10 +1,10 @@
 import { ActionForm, AdminNotice, Panel } from "@/components/admin/parts";
 import { getI18n } from "@/i18n/server";
 import type { MessageKey, Translate } from "@/i18n/t";
-import { displayPhone } from "@/server/links";
+import { displayPhone } from "@/core/platform/links";
 import { extensionViews } from "@/extension/views";
-import { getAllSettings } from "@/server/repos/settings";
-import { requireStaffPage } from "@/server/staff/session";
+import { getAllSettings } from "@/core/platform/settings";
+import { requireStaffPage } from "@/core/platform/staff/session";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

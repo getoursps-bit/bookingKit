@@ -2,9 +2,9 @@ import { ContactButtons } from "@/components/site/ContactButtons";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Phone } from "@/components/site/values";
 import { getI18n } from "@/i18n/server";
-import { mapLink, whatsappLink } from "@/server/links";
-import { pageMetadata } from "@/server/seo";
-import { getSiteData, isNoindex } from "@/server/site";
+import { mapLink, whatsappLink } from "@/core/platform/links";
+import { pageMetadata } from "@/core/website/seo";
+import { getSiteData, isNoindex } from "@/core/website/site";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

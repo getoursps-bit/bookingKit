@@ -1,5 +1,5 @@
-import { addLocalDays, weekdayOf } from "@/server/booking/slots";
-import { localDateOf } from "@/server/time";
+import { addLocalDays, weekdayOf } from "@/core/booking/slots";
+import { localDateOf } from "@/core/platform/time";
 
 /**
  * A local date at least `ahead` days from today on which the seeded hours

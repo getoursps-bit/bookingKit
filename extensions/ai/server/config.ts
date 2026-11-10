@@ -1,4 +1,4 @@
-import { type ProviderMode, serviceMode } from "@/server/config";
+import { type ProviderMode, serviceMode } from "@/core/platform/config";
 
 // The model and its prices are set with the key, so no model is ever picked by default.
 const KEYS = ["AI_API_KEY", "AI_MODEL", "AI_PRICE_INPUT_AGOROT_PER_MTOK", "AI_PRICE_OUTPUT_AGOROT_PER_MTOK"] as const;

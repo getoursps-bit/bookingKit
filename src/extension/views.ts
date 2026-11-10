@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import type { ReactNode } from "react";
 import { VIEWS } from "@/extension-views.generated";
-import type { Appointment } from "@/server/repos/appointments";
+import type { Appointment } from "@/core/booking/appointments";
 
 // What an extension shows in the core's pages: extensions/<id>/views.tsx.
 // Kept apart from the manifest so the worker and the release scripts never

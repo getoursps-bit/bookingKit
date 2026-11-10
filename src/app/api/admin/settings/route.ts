@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
-import { normalizePhone } from "@/server/links";
-import { allSettingDefaults, getAllSettings, settingValid, updateSetting } from "@/server/repos/settings";
-import { adminRequest, backTo } from "@/server/staff/http";
+import { normalizePhone } from "@/core/platform/links";
+import { allSettingDefaults, getAllSettings, settingValid, updateSetting } from "@/core/platform/settings";
+import { adminRequest, backTo } from "@/core/platform/staff/http";
 
 export const dynamic = "force-dynamic";
 

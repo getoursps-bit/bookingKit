@@ -1,11 +1,11 @@
 import type { NextRequest } from "next/server";
 import { translator } from "@/i18n/translator";
-import { getFeatures } from "@/server/features";
-import { savePublicPhoto } from "@/server/photos";
-import { addGalleryImage, listGallery } from "@/server/repos/catalog";
-import { adminRequest, backTo } from "@/server/staff/http";
+import { getFeatures } from "@/core/platform/features";
+import { savePublicPhoto } from "@/core/platform/photos";
+import { addGalleryImage, listGallery } from "@/core/website/content";
+import { adminRequest, backTo } from "@/core/platform/staff/http";
 import { DEFAULT_LOCALE, OTHER_LOCALES } from "@/i18n/locales";
-import { TRANSLATABLE, translationsFrom } from "@/server/translation/content";
+import { TRANSLATABLE, translationsFrom } from "@/core/platform/translation";
 
 export const dynamic = "force-dynamic";
 

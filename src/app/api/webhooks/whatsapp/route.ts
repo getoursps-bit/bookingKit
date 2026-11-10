@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getConfig, providerMode } from "@/server/config";
-import { handleWebhook, signatureOk } from "@/server/notify/webhook";
+import { getConfig, providerMode } from "@/core/platform/config";
+import { handleWebhook, signatureOk } from "@/core/platform/notify/webhook";
 
 export const dynamic = "force-dynamic";
 

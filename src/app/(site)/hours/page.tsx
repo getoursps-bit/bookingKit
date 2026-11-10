@@ -2,11 +2,11 @@ import { HoursTable } from "@/components/site/HoursTable";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Time } from "@/components/site/values";
 import { getI18n } from "@/i18n/server";
-import { weekdayOf } from "@/server/booking/slots";
-import { listTimeOff } from "@/server/repos/catalog";
-import { pageMetadata } from "@/server/seo";
-import { getSiteData, isNoindex } from "@/server/site";
-import { localDateOf } from "@/server/time";
+import { weekdayOf } from "@/core/booking/slots";
+import { listTimeOff } from "@/core/booking/catalog";
+import { pageMetadata } from "@/core/website/seo";
+import { getSiteData, isNoindex } from "@/core/website/site";
+import { localDateOf } from "@/core/platform/time";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

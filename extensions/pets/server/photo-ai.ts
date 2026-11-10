@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { type AiJobKind, offerAi } from "@ext/ai/server/api";
-import { type Db, query } from "@/server/db";
-import { readSettings } from "@/server/repos/settings";
-import { getStorage } from "@/server/storage";
+import { type Db, query } from "@/core/platform/db";
+import { readSettings } from "@/core/platform/settings";
+import { getStorage } from "@/core/platform/storage";
 
 // What pets ask of the ai extension (its server/api.ts): a look at a pet's
 // photo before the visit, and the pet's facts for the pre-visit note. With

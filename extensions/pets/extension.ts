@@ -1,5 +1,5 @@
 import { type ActionResult, defineExtension, type Form } from "@/extension/types";
-import { listServices } from "@/server/repos/catalog";
+import { listServices } from "@/core/booking/catalog";
 import ar from "./languages/ar.json" with { type: "json" };
 import en from "./languages/en.json" with { type: "json" };
 import he from "./languages/he.json" with { type: "json" };
@@ -8,7 +8,7 @@ import { describeLines, petLines, petServiceTags, previewService } from "./serve
 import { listPets } from "./server/pets";
 import { PET_SETTINGS, petAi } from "./server/photo-ai";
 import { deleteExpiredPhotos } from "./server/photos";
-import { type AgeGroup, type PetRequest, setServiceRule, type Species, type WeightGroup } from "./server/rules";
+import { type AgeGroup, type PetRequest, seedServiceRules, setServiceRule, type Species, type WeightGroup } from "./server/rules";
 
 // Pets: the customisation of a grooming salon. A booking is for one or more
 // pets; the pet's kind and size choose the service; the owner sees the pet
@@ -52,16 +52,5 @@ export default defineExtension({
   /** Pet photos are deleted 90 days after their visit. */
   cleanup: async (db, now) => ({ photos: await deleteExpiredPhotos(now, db) }),
   /** Which service each kind and size of pet gets by default. */
-  async seed(db, { serviceIds }) {
-    for (const rule of rules.service_rules) {
-      const serviceId = serviceIds.get(rule.service);
-      if (!serviceId) throw new Error(`Pets rule points to unknown service "${rule.service}"`);
-      await db.query(
-        `insert into service_rules (species, age_group, weight_group, request, service_id)
-         values ($1, $2, $3, $4, $5)
-         on conflict (species, age_group, weight_group, request) do nothing`,
-        [rule.species, rule.age_group, rule.weight_group, rule.request, serviceId],
-      );
-    }
-  },
+  seed: (db, { serviceIds }) => seedServiceRules(db, rules.service_rules, serviceIds),
 });

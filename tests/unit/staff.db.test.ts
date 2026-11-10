@@ -4,8 +4,8 @@ import type pg from "pg";
 import { describe, expect, it } from "vitest";
 import { openDay } from "../setup/days";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
-import { ownerCancel, ownerExtend, ownerMove } from "@/server/booking/owner";
-import { requestHold, confirmBooking } from "@/server/booking/service";
+import { ownerCancel, ownerExtend, ownerMove } from "@/core/booking/owner";
+import { requestHold, confirmBooking } from "@/core/booking/service";
 import {
   checkEmailCode,
   checkPassword,
@@ -16,8 +16,8 @@ import {
   resolveSession,
   revokeSession,
   sendEmailCode,
-} from "@/server/staff/auth";
-import { localDateTimeToUtc } from "@/server/time";
+} from "@/core/platform/staff/auth";
+import { localDateTimeToUtc } from "@/core/platform/time";
 import { testDog } from "../setup/pets";
 
 const hasDb = await testDbAvailable();

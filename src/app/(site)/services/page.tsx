@@ -2,10 +2,10 @@ import { ServiceCard } from "@/components/site/cards";
 import { PageHeader } from "@/components/site/PageHeader";
 import { BookButton } from "@/components/site/landing";
 import { getI18n } from "@/i18n/server";
-import { listServices } from "@/server/repos/catalog";
-import { serviceTags } from "@/server/serviceTags";
-import { pageMetadata } from "@/server/seo";
-import { getSiteData, isNoindex } from "@/server/site";
+import { listServices } from "@/core/booking/catalog";
+import { serviceTags } from "@/core/booking/serviceTags";
+import { pageMetadata } from "@/core/website/seo";
+import { getSiteData, isNoindex } from "@/core/website/site";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

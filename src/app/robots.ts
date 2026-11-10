@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { getConfig } from "@/server/config";
-import { getSettings } from "@/server/repos/settings";
-import { isNoindex } from "@/server/site";
+import { getConfig } from "@/core/platform/config";
+import { getSettings } from "@/core/platform/settings";
+import { isNoindex } from "@/core/website/site";
 
 export const dynamic = "force-dynamic";
 

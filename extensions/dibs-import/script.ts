@@ -6,7 +6,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { hasExtension } from "@/extension/registry";
-import { closePool } from "@/server/db";
+import { closePool } from "@/core/platform/db";
 import { applyImport, type DibsMapping, exportFutureCsv, queueImportLinks, stageImport } from "./server/dibs";
 // Imported, not read from disk, so the bundled release script carries it; --map overrides it.
 import defaultMapping from "./service-map.json" with { type: "json" };

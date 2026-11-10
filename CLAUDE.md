@@ -37,7 +37,7 @@ in `docs/reference/` to explain why the engine works the way it does.
 - One stateless container with two entry points (web, worker); health path `/healthz`; config from environment variables only; JSON logs; immutable image tags.
 - Never write secrets, real phone numbers or customer data into code, tests, logs or commits.
 - Every outside service sits behind an interface with a fake; `PROVIDERS=fake` locally and in CI.
-- Times are stored in UTC and handled in Asia/Jerusalem through `src/server/time.ts` only. Test both clock changes.
+- Times are stored in UTC and handled in Asia/Jerusalem through `src/core/platform/time.ts` only. Test both clock changes.
 - The no-overlap booking rule lives in the database, not only in code.
 - Every message goes through the outbox and `route()`; nothing else picks a channel.
 - AI never blocks or changes a booking.

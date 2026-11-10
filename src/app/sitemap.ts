@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { LANDING_PAGES } from "@/landing";
+import { LANDING_PAGES } from "@/core/website/landing";
 import { localePath, LOCALES } from "@/i18n/locales";
-import { getConfig } from "@/server/config";
+import { getConfig } from "@/core/platform/config";
 
 export const dynamic = "force-dynamic";
 

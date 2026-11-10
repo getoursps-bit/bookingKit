@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { type Db, query, withTransaction } from "@/server/db";
-import { writeAudit } from "@/server/repos/audit";
-import type { Service } from "@/server/repos/catalog";
+import { type Db, query, withTransaction } from "@/core/platform/db";
+import { writeAudit } from "@/core/platform/audit";
+import type { Service } from "@/core/booking/catalog";
 
 // Which service each kind and size of pet gets: the owner's rules, and the
 // pure functions that read them.
@@ -111,4 +111,22 @@ export function profileFor(
     .filter((rule) => rule.serviceId === serviceId && rule.species === species)
     .sort((a, b) => specificity(b) - specificity(a))[0];
   return { ageGroup: best?.ageGroup ?? null, weightGroup: species === "dog" ? (best?.weightGroup ?? null) : null };
+}
+
+/** The starting rules, by the seeded services' keys. A rule that exists is left alone. */
+export async function seedServiceRules(
+  db: { query(text: string, values?: unknown[]): Promise<unknown> },
+  rules: { species: string; age_group: string | null; weight_group: string | null; request: string; service: string }[],
+  serviceIds: ReadonlyMap<string, number>,
+): Promise<void> {
+  for (const rule of rules) {
+    const serviceId = serviceIds.get(rule.service);
+    if (!serviceId) throw new Error(`Pets rule points to unknown service "${rule.service}"`);
+    await db.query(
+      `insert into service_rules (species, age_group, weight_group, request, service_id)
+       values ($1, $2, $3, $4, $5)
+       on conflict (species, age_group, weight_group, request) do nothing`,
+      [rule.species, rule.age_group, rule.weight_group, rule.request, serviceId],
+    );
+  }
 }

@@ -7,7 +7,7 @@ import {
   MIN_FILL_MS,
   signValue,
   verifySignedValue,
-} from "@/server/security";
+} from "@/core/platform/security";
 
 const SECRET = "test-secret";
 

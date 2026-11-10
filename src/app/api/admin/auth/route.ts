@@ -1,9 +1,9 @@
 import type { NextRequest } from "next/server";
-import { clientAddress, csrfOk, next, readForm, setCookie } from "@/server/booking/http";
+import { clientAddress, csrfOk, next, readForm, setCookie } from "@/core/booking/http";
 import { toLocale } from "@/i18n/locales";
-import { getConfig } from "@/server/config";
-import { hit } from "@/server/repos/rateLimits";
-import { signValue, verifySignedValue } from "@/server/security";
+import { getConfig } from "@/core/platform/config";
+import { hit } from "@/core/platform/rateLimits";
+import { signValue, verifySignedValue } from "@/core/platform/security";
 import {
   checkEmailCode,
   checkPassword,
@@ -15,7 +15,7 @@ import {
   revokeSession,
   sendEmailCode,
   SESSION_COOKIE,
-} from "@/server/staff/auth";
+} from "@/core/platform/staff/auth";
 
 export const dynamic = "force-dynamic";
 

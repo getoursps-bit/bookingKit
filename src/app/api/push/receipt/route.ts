@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
-import { query } from "@/server/db";
+import { confirmPushReceipt } from "@/core/platform/ownerDevices";
 
 export const dynamic = "force-dynamic";
 
@@ -14,8 +14,6 @@ const Receipt = z.object({ endpoint: z.url().max(1000) });
 export async function POST(request: NextRequest) {
   const parsed = Receipt.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ ok: false }, { status: 400 });
-  const rows = await query("update push_subscriptions set last_receipt_at = now() where endpoint = $1 returning id", [
-    parsed.data.endpoint,
-  ]);
-  return NextResponse.json({ ok: rows.length > 0 }, { status: rows.length > 0 ? 200 : 404 });
+  const known = await confirmPushReceipt(parsed.data.endpoint);
+  return NextResponse.json({ ok: known }, { status: known ? 200 : 404 });
 }

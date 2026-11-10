@@ -1,9 +1,9 @@
 import type { NextRequest } from "next/server";
-import { bookingsBetween } from "@/server/admin/data";
-import { ownerCancel } from "@/server/booking/owner";
-import { addTimeOff, listTimeOff, removeTimeOff, setOpeningHours } from "@/server/repos/catalog";
-import { adminRequest, backTo } from "@/server/staff/http";
-import { localDateTimeToUtc } from "@/server/time";
+import { bookingsBetween } from "@/core/booking/owner-data";
+import { ownerCancel } from "@/core/booking/owner";
+import { addTimeOff, listTimeOff, removeTimeOff, setOpeningHours } from "@/core/booking/catalog";
+import { adminRequest, backTo } from "@/core/platform/staff/http";
+import { localDateTimeToUtc } from "@/core/platform/time";
 
 export const dynamic = "force-dynamic";
 

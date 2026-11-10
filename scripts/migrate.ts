@@ -9,7 +9,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
-import { searchPathOption } from "../src/server/db-schema";
+import { searchPathOption } from "../src/core/platform/db-schema";
 
 export const MIGRATIONS_DIR = fileURLToPath(new URL("../db/migrations/", import.meta.url));
 export const EXTENSIONS_DIR = fileURLToPath(new URL("../extensions/", import.meta.url));

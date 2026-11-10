@@ -1,8 +1,8 @@
 // The standalone server leaves SIGTERM to the app (NEXT_MANUAL_SIG_HANDLE=true
 // in the image), so the container contract's clean shutdown lives here: close
 // the database pool, then exit 0.
-import { closePool } from "./server/db";
-import { log } from "./server/log";
+import { closePool } from "./core/platform/db";
+import { log } from "./core/platform/log";
 
 let stopping = false;
 

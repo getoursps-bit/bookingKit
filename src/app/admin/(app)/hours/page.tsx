@@ -2,9 +2,9 @@ import { ActionForm, AdminNotice, Panel } from "@/components/admin/parts";
 import { Time } from "@/components/site/values";
 import { getI18n } from "@/i18n/server";
 import type { MessageKey } from "@/i18n/t";
-import { bookingsBetween } from "@/server/admin/data";
-import { getOpeningHours, listTimeOff } from "@/server/repos/catalog";
-import { requireStaffPage } from "@/server/staff/session";
+import { bookingsBetween } from "@/core/booking/owner-data";
+import { getOpeningHours, listTimeOff } from "@/core/booking/catalog";
+import { requireStaffPage } from "@/core/platform/staff/session";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

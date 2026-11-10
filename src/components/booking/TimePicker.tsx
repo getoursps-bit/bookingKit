@@ -4,7 +4,7 @@ import { type KeyboardEvent, type MouseEvent, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { useI18n } from "@/i18n/client";
 import type { MessageKey } from "@/i18n/t";
-import { formatLocal } from "@/server/time";
+import { formatLocal } from "@/core/platform/time";
 import { SubmitButton } from "./SubmitButton";
 
 export type WeekData = {

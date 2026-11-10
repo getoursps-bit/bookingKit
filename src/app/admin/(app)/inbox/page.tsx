@@ -3,8 +3,8 @@ import { Phone, Time } from "@/components/site/values";
 import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
 import type { MessageKey } from "@/i18n/t";
-import { failedMessages, recentEvents, recentReplies } from "@/server/admin/data";
-import { requireStaffPage } from "@/server/staff/session";
+import { failedMessages, recentEvents, recentReplies } from "@/core/platform/owner-data";
+import { requireStaffPage } from "@/core/platform/staff/session";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

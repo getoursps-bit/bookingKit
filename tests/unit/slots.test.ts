@@ -6,8 +6,8 @@ import {
   freeSlots,
   type SlotRules,
   visitLength,
-} from "@/server/booking/slots";
-import { formatHe, localDateTimeToUtc } from "@/server/time";
+} from "@/core/booking/slots";
+import { formatHe, localDateTimeToUtc } from "@/core/platform/time";
 
 const rules: SlotRules = { slotStepMin: 15, gapMin: 0, bufferMin: 10, noticeMin: 120, horizonDays: 30 };
 const open = (weekday: number, opens = "09:00", closes = "16:00") => ({ weekday, opens, closes, closed: false });

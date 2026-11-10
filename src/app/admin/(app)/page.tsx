@@ -4,12 +4,13 @@ import { Phone, Time } from "@/components/site/values";
 import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
 import type { MessageKey } from "@/i18n/t";
-import { bookingsBetween, failedMessages, ownerDevices, recentEvents } from "@/server/admin/data";
-import { getConfig } from "@/server/config";
-import { getFeatures } from "@/server/features";
-import { requireStaffPage } from "@/server/staff/session";
-import { localDateOf, localDayBounds } from "@/server/time";
-import { addLocalDays } from "@/server/booking/slots";
+import { bookingsBetween } from "@/core/booking/owner-data";
+import { failedMessages, ownerDevices, recentEvents } from "@/core/platform/owner-data";
+import { getConfig } from "@/core/platform/config";
+import { getFeatures } from "@/core/platform/features";
+import { requireStaffPage } from "@/core/platform/staff/session";
+import { localDateOf, localDayBounds } from "@/core/platform/time";
+import { addLocalDays } from "@/core/booking/slots";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

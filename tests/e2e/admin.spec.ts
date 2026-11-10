@@ -4,7 +4,7 @@ import argon2 from "argon2";
 import { generate, generateSecret } from "otplib";
 import pg from "pg";
 import sharp from "sharp";
-import { searchPathOption } from "../../src/server/db-schema";
+import { searchPathOption } from "../../src/core/platform/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { DEFAULT_LOCALE, LOCALES } from "../../src/i18n/languages.generated";
 import { strings } from "./client";

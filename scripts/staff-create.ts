@@ -2,8 +2,8 @@
 // Usage: pnpm staff:create <email>   (the password is read from STAFF_PASSWORD
 // or typed in, never passed on the command line where shell history keeps it)
 import { createInterface } from "node:readline/promises";
-import { closePool, query } from "../src/server/db";
-import { hashPassword, newTotpSecret } from "../src/server/staff/auth";
+import { closePool } from "../src/core/platform/db";
+import { hashPassword, newTotpSecret, saveStaff } from "../src/core/platform/staff/auth";
 
 async function main(): Promise<void> {
   const email = process.argv[2]?.trim().toLowerCase();
@@ -16,12 +16,7 @@ async function main(): Promise<void> {
   }
   if (password.length < 12) throw new Error("The password must have at least 12 characters");
   const totp = newTotpSecret(email);
-  await query(
-    `insert into staff (email, password_hash, totp_secret) values ($1, $2, $3)
-     on conflict (email) do update set password_hash = excluded.password_hash, totp_secret = excluded.totp_secret,
-       totp_last_step = null, failed_logins = 0, locked_until = null`,
-    [email, await hashPassword(password), totp.secret],
-  );
+  await saveStaff(email, await hashPassword(password), totp.secret);
   console.log(`Staff account ready: ${email}`);
   console.log("Add this to an authenticator app (scan as a link or type the key):");
   console.log(`  key: ${totp.secret}`);

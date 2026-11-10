@@ -463,3 +463,38 @@ the fake ran; no key is, or should be, in this session.
 - The script prints its usage for any client and refuses to do anything for
   a client that has the extension off.
 - Changed in place: `0003` lost the two `dibs_ref` columns and `0010` moved.
+
+## Step 2, part C1: the core as three folders (2026-11-10)
+
+**Built**
+
+- `src/server/` is gone. The core is `src/core/booking`, `src/core/website`
+  and `src/core/platform`. The catalog repository was split: services, hours
+  and time off are booking (`booking/catalog.ts`); products, the gallery and
+  the business profile are website (`website/content.ts`). The owner's read
+  queries were split the same way (`booking/owner-data.ts`,
+  `platform/owner-data.ts`).
+- No SQL outside the core: the SQL that sat in routes, the worker, the
+  staff-create script and the extensions' manifests moved into core
+  functions (`setNotes`, `auditStaff`, `markAllRead`, `ping`,
+  `platform/ownerDevices.ts`, `pruneTokens`, `saveStaff`) or the extension's
+  `server/` folder. The worker's job claims and owner alerts are
+  `platform/jobRuns.ts` and `platform/ownerAlerts.ts`.
+- `tests/unit/boundaries.test.ts` checks that SQL is run only in
+  `src/core/`, an extension's `server/` folder, the migration runner and the
+  seed, and that platform code imports no booking or website code.
+
+**Left as it is**
+
+- Three known crossings from platform into booking, listed in the test:
+  `notify/dispatch.ts` reads the appointment and makes the private link when
+  it sends a booking message, and `staff/http.ts` reuses the booking form
+  helpers.
+- `src/core/stats.ts` reads all three modules for the owner's statistics
+  screen and sits beside them.
+- Extensions still join the core's tables in their own SQL (pets read
+  `appointment_lines` and `services`).
+- Events: the core modules do not yet announce events that an extension can
+  listen to. That is added when Safa's `approval` extension needs it.
+
+**Verified:** the four clients, numbers under C2 below.

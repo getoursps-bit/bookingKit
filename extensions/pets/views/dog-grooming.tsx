@@ -1,10 +1,11 @@
 import { BookCta, Faq, GalleryStrip, Hero, ServiceHighlight } from "@/components/site/landing";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
-import { listGallery, listServices } from "@/server/repos/catalog";
-import { serviceTags } from "@/server/serviceTags";
-import { getStorage } from "@/server/storage";
-import type { LandingMeta } from "@/landing";
+import { listServices } from "@/core/booking/catalog";
+import { listGallery } from "@/core/website/content";
+import { serviceTags } from "@/core/booking/serviceTags";
+import { getStorage } from "@/core/platform/storage";
+import type { LandingMeta } from "@/core/website/landing";
 
 // Example campaign page for Instagram dog-grooming posts: /l/dog-grooming.
 

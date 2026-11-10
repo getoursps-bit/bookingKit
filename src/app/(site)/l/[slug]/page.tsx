@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { DEFAULT_LOCALE } from "@/i18n/locales";
 import { getLocale } from "@/i18n/server";
-import { LANDING_PAGES } from "@/landing";
-import { pageMetadata } from "@/server/seo";
-import { getSiteData, isNoindex } from "@/server/site";
+import { LANDING_PAGES } from "@/core/website/landing";
+import { pageMetadata } from "@/core/website/seo";
+import { getSiteData, isNoindex } from "@/core/website/site";
 
 type Props = { params: Promise<{ slug: string }> };
 

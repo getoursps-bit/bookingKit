@@ -12,15 +12,16 @@ import { formatPrice } from "@/i18n/format";
 import type { Locale } from "@/i18n/locales";
 import { getI18n } from "@/i18n/server";
 import { isolate, type Translate } from "@/i18n/t";
-import { getWeek } from "@/server/booking/service";
-import { addLocalDays, weekdayOf } from "@/server/booking/slots";
-import { getConfig } from "@/server/config";
-import { whatsappLink } from "@/server/links";
-import { listGallery, listProducts, listServices, type OpeningHours } from "@/server/repos/catalog";
-import { jsonLdString, localBusinessJsonLd, pageMetadata } from "@/server/seo";
-import { getSiteData, isNoindex } from "@/server/site";
-import { getStorage } from "@/server/storage";
-import { formatLocal, localDateOf } from "@/server/time";
+import { getWeek } from "@/core/booking/service";
+import { addLocalDays, weekdayOf } from "@/core/booking/slots";
+import { getConfig } from "@/core/platform/config";
+import { whatsappLink } from "@/core/platform/links";
+import { listServices, type OpeningHours } from "@/core/booking/catalog";
+import { listGallery, listProducts } from "@/core/website/content";
+import { jsonLdString, localBusinessJsonLd, pageMetadata } from "@/core/website/seo";
+import { getSiteData, isNoindex } from "@/core/website/site";
+import { getStorage } from "@/core/platform/storage";
+import { formatLocal, localDateOf } from "@/core/platform/time";
 
 // The home page from the "v3" design (docs/reference/templates/temp2): the
 // cover in an arch, a slogan, and a white card with the next free times and

@@ -1,8 +1,8 @@
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
 import type { Translate } from "@/i18n/t";
-import { phoneLink, socialLink, wazeLink, whatsappLink } from "@/server/links";
-import type { BusinessProfile } from "@/server/repos/catalog";
+import { phoneLink, socialLink, wazeLink, whatsappLink } from "@/core/platform/links";
+import type { BusinessProfile } from "@/core/website/content";
 
 type Button = { key: string; label: string; href: string; icon: IconName; external: boolean };
 

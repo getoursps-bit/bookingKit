@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { isLocale, LOCALE_COOKIE, localePath } from "@/i18n/locales";
-import { getConfig } from "@/server/config";
+import { getConfig } from "@/core/platform/config";
 
 export const dynamic = "force-dynamic";
 

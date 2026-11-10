@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { route, type RouteContext } from "@/server/notify/routing";
+import { route, type RouteContext } from "@/core/platform/notify/routing";
 
 const phone = "+972555000001";
 const email = "test@example.com";

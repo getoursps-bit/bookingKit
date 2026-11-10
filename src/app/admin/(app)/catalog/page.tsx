@@ -7,19 +7,13 @@ import { DEFAULT_LOCALE, type Locale, OTHER_LOCALES, PACKS } from "@/i18n/locale
 import { getI18n } from "@/i18n/server";
 import { type MessageKey, type Translate } from "@/i18n/t";
 import { translator } from "@/i18n/translator";
-import { getFeatures } from "@/server/features";
-import { listTemplates } from "@/server/notify/templates";
-import {
-  getBusinessProfile,
-  listGallery,
-  listProducts,
-  listServices,
-  type Product,
-  type Service,
-} from "@/server/repos/catalog";
-import { displayPhone } from "@/server/links";
-import { requireStaffPage } from "@/server/staff/session";
-import { getStorage } from "@/server/storage";
+import { getFeatures } from "@/core/platform/features";
+import { listTemplates } from "@/core/platform/notify/templates";
+import { listServices, type Service } from "@/core/booking/catalog";
+import { getBusinessProfile, listGallery, listProducts, type Product } from "@/core/website/content";
+import { displayPhone } from "@/core/platform/links";
+import { requireStaffPage } from "@/core/platform/staff/session";
+import { getStorage } from "@/core/platform/storage";
 
 export async function generateMetadata() {
   const { t } = await getI18n();

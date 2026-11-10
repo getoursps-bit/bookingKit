@@ -5,7 +5,7 @@ import { AdminNav } from "@/components/admin/AdminNav";
 import { AdminServiceWorker } from "@/components/admin/AdminPush";
 import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
-import { requireStaffPage } from "@/server/staff/session";
+import { requireStaffPage } from "@/core/platform/staff/session";
 
 /** Every admin page needs a signed-in staff member; the login page sits outside this group. */
 export default async function AdminLayout({ children }: { children: ReactNode }) {

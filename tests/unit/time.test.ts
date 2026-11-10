@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatHe, localDateOf, localDateTimeToUtc, localDayBounds } from "@/server/time";
+import { formatHe, localDateOf, localDateTimeToUtc, localDayBounds } from "@/core/platform/time";
 
 const HOUR = 3_600_000;
 

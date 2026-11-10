@@ -12,8 +12,8 @@ import { brand, brandName } from "../../src/brand";
 import { extensions } from "../../src/extension/registry";
 import { DEFAULT_LOCALE, type Locale, LOCALES } from "../../src/i18n/locales";
 import { CONTENT } from "../../src/i18n/packs.generated";
-import { searchPathOption } from "../../src/server/db-schema";
-import { SETTINGS_DEFAULTS } from "../../src/server/repos/settings";
+import { searchPathOption } from "../../src/core/platform/db-schema";
+import { SETTINGS_DEFAULTS } from "../../src/core/platform/settings";
 // Imported, not read from disk, so the bundled release script carries it.
 import data from "./data.json" with { type: "json" };
 

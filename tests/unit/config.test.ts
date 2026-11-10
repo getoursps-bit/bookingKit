@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { getFeatures } from "@/server/features";
-import { getConfig, PROVIDER_KEYS, type ProviderName, providerMode, resetConfigForTests } from "@/server/config";
+import { getFeatures } from "@/core/platform/features";
+import { getConfig, PROVIDER_KEYS, type ProviderName, providerMode, resetConfigForTests } from "@/core/platform/config";
 
 const saved = { ...process.env };
 

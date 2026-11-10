@@ -1,9 +1,9 @@
 import { randomUUID } from "node:crypto";
 import type { NextRequest } from "next/server";
-import { EMPTY_DRAFT, MULTI_LINE_BOOKING } from "@/server/booking/draft";
-import { csrfOk, getDraft, next, readForm, setDraft, stepPath } from "@/server/booking/http";
-import { listServices } from "@/server/repos/catalog";
-import { getSettings } from "@/server/repos/settings";
+import { EMPTY_DRAFT, MULTI_LINE_BOOKING } from "@/core/booking/draft";
+import { csrfOk, getDraft, next, readForm, setDraft, stepPath } from "@/core/booking/http";
+import { listServices } from "@/core/booking/catalog";
+import { getSettings } from "@/core/platform/settings";
 
 export const dynamic = "force-dynamic";
 

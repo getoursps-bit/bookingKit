@@ -1,7 +1,7 @@
 import { formatDuration, formatPrice } from "@/i18n/format";
 import { getLocale } from "@/i18n/server";
-import { displayPhone } from "@/server/links";
-import { formatLocal } from "@/server/time";
+import { displayPhone } from "@/core/platform/links";
+import { formatLocal } from "@/core/platform/time";
 
 // Numbers, prices, times and phone numbers inside text of either direction,
 // each isolated in <bdi> so it keeps its own order. Names follow the page language.

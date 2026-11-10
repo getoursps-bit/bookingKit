@@ -1,11 +1,11 @@
 import { DEFAULT_LOCALE } from "@/i18n/locales";
-import { type Db, getPool, query, withTransaction } from "@/server/db";
-import { describeLines } from "@/server/lines";
-import { normalizePhone } from "@/server/links";
-import * as appointments from "@/server/repos/appointments";
-import { findOrCreateByPhone } from "@/server/repos/customers";
-import { enqueue } from "@/server/repos/outbox";
-import { formatHe, localDateTimeToUtc } from "@/server/time";
+import { type Db, getPool, query, withTransaction } from "@/core/platform/db";
+import { describeLines } from "@/core/booking/lines";
+import { normalizePhone } from "@/core/platform/links";
+import * as appointments from "@/core/booking/appointments";
+import { findOrCreateByPhone } from "@/core/booking/customers";
+import { enqueue } from "@/core/platform/outbox";
+import { formatHe, localDateTimeToUtc } from "@/core/platform/time";
 
 // Dibs import. Steps: stage the export, check and normalise it, report; then
 // (not in a dry run) import it, and after the switch queue one "your new link"
@@ -416,4 +416,9 @@ export async function exportFutureCsv(now: Date = new Date(), db: Db = getPool()
   );
   // A byte-order mark so Excel opens the Hebrew correctly.
   return `﻿${[header.join(","), ...lines].join("\r\n")}\r\n`;
+}
+
+/** Removes a customer's Dibs reference, as part of an erase. */
+export async function forgetReference(customerId: number, db: Db = getPool()): Promise<void> {
+  await query("update customers set dibs_ref = null where id = $1", [customerId], db);
 }

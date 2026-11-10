@@ -12,13 +12,13 @@ import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
 import { isolate } from "@/i18n/t";
 import type { MessageKey } from "@/i18n/t";
-import { bookingView } from "@/server/booking/flow";
-import { getWeekForMove } from "@/server/booking/service";
-import { getSettings } from "@/server/repos/settings";
-import { CSRF_COOKIE } from "@/server/security";
-import { pageMetadata } from "@/server/seo";
-import { getSiteData } from "@/server/site";
-import { localDateOf } from "@/server/time";
+import { bookingView } from "@/core/booking/flow";
+import { getWeekForMove } from "@/core/booking/service";
+import { getSettings } from "@/core/platform/settings";
+import { CSRF_COOKIE } from "@/core/platform/security";
+import { pageMetadata } from "@/core/website/seo";
+import { getSiteData } from "@/core/website/site";
+import { localDateOf } from "@/core/platform/time";
 
 export const dynamic = "force-dynamic";
 

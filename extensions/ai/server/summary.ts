@@ -1,10 +1,10 @@
 import { extensions } from "@/extension/registry";
 import { DEFAULT_LOCALE, PACKS } from "@/i18n/locales";
-import { addLocalDays } from "@/server/booking/slots";
-import { type Db, getPool, query } from "@/server/db";
-import { describeLines } from "@/server/lines";
-import { readSettings } from "@/server/repos/settings";
-import { formatLocal, localDateOf, localDayBounds } from "@/server/time";
+import { addLocalDays } from "@/core/booking/slots";
+import { type Db, getPool, query } from "@/core/platform/db";
+import { describeLines } from "@/core/booking/lines";
+import { readSettings } from "@/core/platform/settings";
+import { formatLocal, localDateOf, localDayBounds } from "@/core/platform/time";
 import type { AiJobKind, AiOffer } from "./api";
 import { getAi } from "./provider";
 import { AI_SETTINGS } from "./settings";

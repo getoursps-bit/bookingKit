@@ -1,16 +1,16 @@
 import { randomUUID } from "node:crypto";
 import type pg from "pg";
 import { describe, expect, it } from "vitest";
-import { checkReceipts, queueDailyCheck } from "../../worker/jobs/ownerAlerts";
-import { claimDaily } from "../../worker/jobs/schedule";
+import { checkReceipts, queueDailyCheck } from "../../src/core/platform/ownerAlerts";
+import { claimDaily } from "../../src/core/platform/jobRuns";
 import { openDay } from "../setup/days";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
-import { startBooking, verifyAndConfirm } from "@/server/booking/flow";
-import { cancelBooking } from "@/server/booking/service";
-import { dispatch } from "@/server/notify/dispatch";
-import { handleWebhook } from "@/server/notify/webhook";
-import { claimDue, enqueue } from "@/server/repos/outbox";
-import { localDateTimeToUtc } from "@/server/time";
+import { startBooking, verifyAndConfirm } from "@/core/booking/flow";
+import { cancelBooking } from "@/core/booking/service";
+import { dispatch } from "@/core/platform/notify/dispatch";
+import { handleWebhook } from "@/core/platform/notify/webhook";
+import { claimDue, enqueue } from "@/core/platform/outbox";
+import { localDateTimeToUtc } from "@/core/platform/time";
 import { testDog } from "../setup/pets";
 
 const hasDb = await testDbAvailable();

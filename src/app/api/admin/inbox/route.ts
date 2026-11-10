@@ -1,7 +1,6 @@
 import type { NextRequest } from "next/server";
-import { query } from "@/server/db";
-import { markRead } from "@/server/repos/events";
-import { adminRequest, backTo } from "@/server/staff/http";
+import { markAllRead, markRead } from "@/core/platform/events";
+import { adminRequest, backTo } from "@/core/platform/staff/http";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +10,7 @@ export async function POST(request: NextRequest) {
   if (!req.ok) return req.response;
   const back = req.form.back === "/admin" ? "/admin" : "/admin/inbox";
   if (req.form.action === "readAll") {
-    await query("update owner_events set read_at = now() where read_at is null");
+    await markAllRead();
   } else if (req.form.action === "read" && /^\d+$/.test(req.form.id ?? "")) {
     await markRead([Number(req.form.id)]);
   }

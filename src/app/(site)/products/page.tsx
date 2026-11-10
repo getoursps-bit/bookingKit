@@ -1,10 +1,10 @@
 import { ProductCard } from "@/components/site/cards";
 import { PageHeader } from "@/components/site/PageHeader";
 import { getI18n } from "@/i18n/server";
-import { listProducts } from "@/server/repos/catalog";
-import { pageMetadata } from "@/server/seo";
-import { getSiteData, isNoindex } from "@/server/site";
-import { getStorage } from "@/server/storage";
+import { listProducts } from "@/core/website/content";
+import { pageMetadata } from "@/core/website/seo";
+import { getSiteData, isNoindex } from "@/core/website/site";
+import { getStorage } from "@/core/platform/storage";
 
 export async function generateMetadata() {
   const { t } = await getI18n();
