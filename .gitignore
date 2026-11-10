@@ -23,3 +23,8 @@ local/
 
 # Page pictures taken by tests/e2e/visual.spec.ts; they differ by machine
 tests/e2e/*-snapshots/
+
+# Clients' blueprints are kept beside the kit's code, not in its history: a
+# client's project is a clone of the kit and must not carry the others'.
+blueprints/*
+!blueprints/example.yaml

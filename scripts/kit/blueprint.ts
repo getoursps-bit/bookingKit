@@ -301,6 +301,14 @@ For each wish, in this order:
 
 ${todo.map((item, index) => `${index + 1}. ${item}`).join("\n")}
 
+## Updates from the kit
+
+This project shares the kit's history. When the kit improves, \`pnpm kit update\` here merges its changes in, keeps this client's own files, and says what to run next (new database changes, the checks). Because of that:
+
+- What only this client needs lives in its own places: \`client.json\`, an extension of its own under \`extensions/\`, a view of its own in \`theme/views.ts\`. Those never meet a kit change.
+- Change the core (\`src/core\`, \`src/views\`, the kit's extensions) here only when there is no other way, and note it in \`docs/build-notes.md\`: the same change belongs in the kit, and until it is there every update may stop on those lines.
+- After an update, run the whole suite before releasing.
+
 ## Rules that are easy to break
 
 - No secrets, real phone numbers or customer data in code, tests, logs or commits. Filled-in \`.env\` files are never committed.
