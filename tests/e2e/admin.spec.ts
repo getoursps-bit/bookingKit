@@ -7,7 +7,7 @@ import sharp from "sharp";
 import { searchPathOption } from "../../src/core/platform/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { DEFAULT_LOCALE, LOCALES } from "../../src/i18n/languages.generated";
-import { SPLIT_HOURS, strings } from "./client";
+import { APPROVAL, SPLIT_HOURS, strings } from "./client";
 
 // The site's first language after the default one, if there is one.
 const OTHER = LOCALES.find((locale) => locale !== DEFAULT_LOCALE);
@@ -344,6 +344,62 @@ test("the owner adds a second opening range to a day, and the site lists both", 
   await page.goto("/hours");
   await expect(row).toContainText("09:00");
   await expect(row).not.toContainText("20:00");
+});
+
+test("the owner approves one booking request and refuses another with a reason", async ({ page }) => {
+  test.skip(!APPROVAL, "booking requests belong to the approval extension");
+  const t = strings(DEFAULT_LOCALE);
+  const stamp = Date.now();
+  const names = { yes: `e2e request yes ${stamp}`, no: `e2e request no ${stamp}` };
+  const reason = `e2e reason ${stamp}`;
+  // Far ahead and at night, so no other test's free times or bookings meet these.
+  const start = (days: number) => {
+    const at = new Date(Date.UTC(new Date().getUTCFullYear() + 1, 0, 10 + days, 1, 0));
+    return [at.toISOString(), new Date(at.getTime() + 30 * 60_000).toISOString()];
+  };
+  const [service] = await sql<{ id: string }>("select id from services order by id limit 1");
+  const ids: Record<string, string> = {};
+  const customers: string[] = [];
+  for (const [index, key] of (["yes", "no"] as const).entries()) {
+    const [customer] = await sql<{ id: string }>("insert into customers (display_name, source) values ($1, 'online') returning id", [names[key]]);
+    customers.push(customer!.id);
+    const [from, to] = start(index);
+    const [row] = await sql<{ id: string }>(
+      "insert into appointments (customer_id, starts_at, ends_at, status, created_by) values ($1, $2, $3, 'pending', 'customer') returning id",
+      [customer!.id, from, to],
+    );
+    ids[key] = row!.id;
+    await sql("insert into appointment_lines (appointment_id, position, service_id, duration_min, price_from_agorot) values ($1, 1, $2, 30, 0)", [
+      row!.id,
+      service!.id,
+    ]);
+  }
+  const status = async (id: string) => (await sql<{ status: string }>("select status from appointments where id = $1", [id]))[0]?.status;
+  const card = (name: string) => page.getByRole("listitem").filter({ hasText: name });
+  try {
+    await login(page);
+    // The today page lists them first, with a link to the screen of their own.
+    await expect(card(names.yes)).toBeVisible();
+    await page.goto("/admin/x/requests");
+    await noSideScroll(page);
+    await expect(card(names.no)).toBeVisible();
+
+    await card(names.yes).getByRole("button", { name: t["requests.approve"]! }).click();
+    await expect(page.getByText(t["requests.approved"]!)).toBeVisible();
+    await expect(card(names.yes)).toHaveCount(0);
+    expect(await status(ids.yes!)).toBe("confirmed");
+
+    await card(names.no).getByLabel(t["requests.refuseReason"]!).fill(reason);
+    await card(names.no).getByRole("button", { name: t["requests.refuse"]! }).click();
+    await expect(page.getByText(t["requests.refused"]!)).toBeVisible();
+    await expect(card(names.no)).toHaveCount(0);
+    expect(await status(ids.no!)).toBe("cancelled");
+    expect(await sql("select outcome, reason from booking_requests where appointment_id = $1", [ids.no])).toEqual([{ outcome: "refused", reason }]);
+  } finally {
+    await sql("delete from message_outbox where appointment_id = any($1::bigint[])", [Object.values(ids)]);
+    await sql("delete from appointments where id = any($1::bigint[])", [Object.values(ids)]);
+    await sql("delete from customers where id = any($1::bigint[])", [customers]);
+  }
 });
 
 test("the owner adds, replaces and removes a product photo", async ({ page }) => {
