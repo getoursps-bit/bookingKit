@@ -149,6 +149,18 @@ lets a weekday have a second opening range after a break; the core already
 treats a day as a list of ranges, and this extension keeps the second one
 and asks the owner for it on the hours screen.
 
+`approval` makes every online booking a request the owner approves or
+refuses. The core knows a `pending` booking: it keeps its time like a
+confirmed one, and the customer can still move or cancel it. The extension
+decides that a booking waits, tells the customer and the owner, brings the
+requests screen (`/admin/x/requests`, also first on the today page), and
+ends a request nobody answered before its time. A refused or expired request
+is a cancelled booking plus a row in `booking_requests` that says why. The
+owner can switch approval off in her settings (`booking.approval`), and
+bookings are then confirmed at once. `tests/fixtures/client.requests.json`
+is a client with `approval` alone; the test suites switch the setting off
+after seeding, and the approval tests turn it on for themselves.
+
 ## Notifications
 
 Everything the app sends goes through one layer, `src/core/platform/notify`,
