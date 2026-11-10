@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { TRANSLATABLE } from "../src/core/platform/translation";
 import { flatten } from "../src/i18n/flatten";
-import seed from "../db/seed/data.json";
+import { SEED as seed } from "../db/seed/structure";
 
 // Describes everything a language pack holds, so that a person or an AI can
 // fill one from this file alone: every interface string with its

@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import seedData from "../../db/seed/data.json";
+import { SEED as seedData } from "../../db/seed/structure";
 import type pg from "pg";
 import { describe, expect, it } from "vitest";
 import { seed } from "../../db/seed/seed";

@@ -4,7 +4,7 @@ import pg from "pg";
 import { searchPathOption } from "../../src/core/platform/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { DEFAULT_LOCALE, LOCALES, PACKS } from "../../src/i18n/languages.generated";
-import seed from "../../db/seed/data.json" with { type: "json" };
+import { SEED as seed } from "../../db/seed/structure";
 import { CONTENT } from "../../src/i18n/packs.generated";
 import { PETS, strings } from "./client";
 

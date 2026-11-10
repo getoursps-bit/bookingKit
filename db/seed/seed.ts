@@ -14,17 +14,9 @@ import { DEFAULT_LOCALE, type Locale, LOCALES } from "../../src/i18n/locales";
 import { CONTENT } from "../../src/i18n/packs.generated";
 import { searchPathOption } from "../../src/core/platform/db-schema";
 import { SETTINGS_DEFAULTS } from "../../src/core/platform/settings";
-// Imported, not read from disk, so the bundled release script carries it.
-import data from "./data.json" with { type: "json" };
+import { SEED as data, type SeedData } from "./structure";
 
 type Queryable = pg.Client | pg.PoolClient | pg.Pool;
-
-type SeedData = {
-  services: { key: string; duration_min: number; price_from_agorot: number; bookable_online: boolean }[];
-  products: { key: string; price_agorot: number }[];
-  opening_hours: { weekday: number; opens: string | null; closes: string | null; closed: boolean }[];
-  message_templates: { key: string; channel: string; provider_template?: string; category?: string }[];
-};
 
 /** A language pack's content.json: kind of row, then the row's key, then its text fields. */
 type Content = Record<string, Record<string, Record<string, string | undefined> | undefined> | undefined>;
