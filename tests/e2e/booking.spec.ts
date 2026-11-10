@@ -88,7 +88,11 @@ async function newCustomerPage(browser: Browser, address: string): Promise<Page>
   return context.newPage();
 }
 
-const SMALL_DOG = "כלב - גזע קטן עד 10 קילו";
+// The service the tests book: a small dog's care where the client has the
+// kit's grooming services, else the client's first service that books online.
+const SMALL_DOG = seed.services.some((service) => service.key === "dog_small")
+  ? "כלב - גזע קטן עד 10 קילו"
+  : (CONTENT[DEFAULT_LOCALE].service as Record<string, { name: string }>)[seed.services.find((service) => service.bookable_online)!.key]!.name;
 const CAT = "חתול";
 
 /** The button that chooses a service. */
@@ -456,7 +460,9 @@ test("a visitor in the site's other language books in it and gets the code and m
   await expect(page.locator("html")).toHaveAttribute("lang", lang);
   await expect(page.locator("html")).toHaveAttribute("dir", PACKS[lang].dir);
   await axe(page);
-  const service = CONTENT[lang].service.dog_small.name;
+  // A small dog's care when the client books pets, else the first service that books online.
+  const names = CONTENT[lang].service as Record<string, { name: string }>;
+  const service = names[PETS ? "dog_small" : seed.services.find((item) => item.bookable_online)!.key]!.name;
   await serviceButton(page, service, t["home.choose"]).click();
 
   // Every step stays under the language's prefix, form posts included.

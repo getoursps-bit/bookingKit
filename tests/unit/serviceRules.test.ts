@@ -6,10 +6,14 @@ import { PetDescription, profileFor, resolveService, type ServiceRule, speciesFo
 import type { Service } from "@/core/booking/catalog";
 
 // The seed's services and default rules, with ids as the database would give them.
+const content: Record<string, { name: string; includes?: string }> = text.service;
+// The pet rules choose among the kit's grooming services. A client made by
+// `pnpm kit new` with services of its own has pets off, and these do not apply.
+const grooming = petRules.service_rules.every((rule) => seedData.services.some((service) => service.key === rule.service));
 const services: Service[] = seedData.services.map((service, index) => ({
   id: index + 1,
-  name: text.service[service.key as keyof typeof text.service].name,
-  includes: text.service[service.key as keyof typeof text.service].includes,
+  name: content[service.key]?.name ?? service.key,
+  includes: content[service.key]?.includes ?? null,
   translations: {},
   durationMin: service.duration_min,
   priceFromAgorot: service.price_from_agorot,
@@ -33,7 +37,7 @@ const serviceKey = (pet: Record<string, unknown>) => {
   return result.ok ? seedData.services[result.service.id - 1]!.key : result.reason;
 };
 
-describe("resolveService", () => {
+describe.skipIf(!grooming)("resolveService", () => {
   it("gives a puppy over 10 kg puppy care: age is checked before weight", () => {
     expect(serviceKey({ species: "dog", ageGroup: "young", weightGroup: "large" })).toBe("puppy");
   });
@@ -87,7 +91,7 @@ describe("resolveService", () => {
   });
 });
 
-describe("a chosen service", () => {
+describe.skipIf(!grooming)("a chosen service", () => {
   it("names the species it is for; nails only is for both", () => {
     expect(speciesFor(idOf("cat"), rules)).toEqual(["cat"]);
     expect(speciesFor(idOf("puppy"), rules)).toEqual(["dog"]);

@@ -3,6 +3,7 @@ import pg from "pg";
 import { seed } from "../../db/seed/seed";
 import { migrate } from "../../scripts/migrate";
 import { hasExtension } from "../../src/extension/registry";
+import { TEST_WEEK } from "./days";
 
 /**
  * Gives a test its own throwaway schema on the local or CI Postgres, and drops
@@ -34,6 +35,17 @@ export async function withMigratedSchema<T>(
   return withTestSchema(async (client, schema) => {
     await migrate(client);
     if (opts.seed !== false) await seed(client);
+    // The tests book on the test week, not on the client's own opening hours.
+    if (opts.seed !== false) {
+      for (const day of TEST_WEEK) {
+        await client.query("update opening_hours set opens = $2, closes = $3, closed = $4 where weekday = $1", [
+          day.weekday,
+          day.opens,
+          day.closes,
+          day.opens === null,
+        ]);
+      }
+    }
     // For a client with the approval extension the suite still tests bookings
     // that are confirmed at once; the approval tests switch it on themselves.
     if (hasExtension("approval")) {

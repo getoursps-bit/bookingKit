@@ -676,3 +676,79 @@ extension, because a booking that waits still has to keep its time.
   build and worker bundle.
 - Sample: 229 unit, 61 browser. Plain: 232 unit, 58 browser. Notes: 239
   unit, 59 browser. Requests (approval alone): 237 unit, 59 browser.
+
+## Step 3: `kit new`, the blueprint and the starting prompt (2026-11-10)
+
+A new client is now made by one command from one file.
+
+**What was built**
+
+- The blueprint: a YAML file per client (`blueprints/example.yaml` explains
+  every field): folder, name per language, kind of business, languages,
+  extensions, mark, any part of the look, the client's own wording, services,
+  products, opening hours, the local Postgres port, and the client's wishes.
+  Checked by `scripts/kit/blueprint.ts` (zod), with what cannot be done said
+  in plain words.
+- `pnpm kit new [blueprint]` (`scripts/kit.ts`). With no file it asks the
+  questions (@clack/prompts) and keeps the blueprint in `blueprints/`. It
+  copies the kit's files as they are (what git tracks, plus new files not
+  ignored) into a new folder next to the kit, writes `client.json`, the
+  starting content, the project's own names and port, the files generated
+  from `client.json`, `kit.json`, `blueprint.yaml` and `INITIAL_PROMPT.md`,
+  and makes the first commit of a repo of its own. Nothing is installed and
+  no server is contacted.
+- `INITIAL_PROMPT.md`: who the client is, what is set up, which extensions
+  are on and off, a task for each wish (existing setting or extension first,
+  else an extension in the client's project), what is left before the owner
+  sees the site (translations that stand in the default language, wording,
+  the look when untouched, the privacy notice, providers, the owner's
+  account, the stack registry), and the rules that are easy to break.
+
+**Decisions**
+
+- The client's services, products and hours are the seed's starting content,
+  written into `db/seed/data.json` and every pack's `content.json` (the
+  Hebrew pack is the reference even for a site without Hebrew). Message
+  templates stay as the kit has them.
+- A name the blueprint lacks in a language is copied from the default
+  language and listed in the starting prompt, so the project's checks pass
+  from the first minute and nothing untranslated is hidden.
+- With `pets` on, the blueprint must leave services out: the pet rules
+  choose among the kit's grooming services.
+- The new project keeps every extension and the test clients without pets
+  in its CI; the two with pets leave its CI list, because they need the
+  grooming services.
+- The generated files are written by the new project's own script, which
+  borrows the kit's `node_modules` through a link for that one run.
+- `kit new` refuses to run inside a client's project (one with `kit.json`).
+
+**What had to change in the tests**
+
+Making a non-grooming client showed where the tests leaned on the kit's own
+content. They now read the client's: the database tests book on a fixed test
+week (`TEST_WEEK` in `tests/setup/days.ts`) and on the first service that
+books online when there is no small-dog service; counts, names, prices and
+opening hours come from `db/seed/data.json` and the packs; the pet-rules
+tests skip when the services are not the grooming ones.
+
+**Not done**
+
+- Taking a later kit change into an existing client project. `kit.json`
+  records the commit a project came from; there is no update command.
+- The privacy notice is still one text for every client; the starting prompt
+  asks for it to be checked. No terms page exists.
+- Phone numbers, address and social links are not in the blueprint: the
+  owner types them into her settings.
+- The interactive questions were not run by a person here, only type-checked;
+  the file path is the tested one.
+- The home page's wording is neutral but was written for a salon; the prompt
+  asks for a read-through rather than the kit guessing per business.
+
+**Verified (step 3)**
+
+- The example blueprint made into a project in a scratch folder, installed,
+  and run on its own: typecheck, lint, language check, 227 unit tests (28
+  skipped), 59 browser tests, production build and worker bundle.
+- The kit after the test changes: default 249 unit and 62 browser tests with
+  the production build; sample 232 and 61; plain 235 and 58; notes 242 and
+  59; requests 240 and 59.

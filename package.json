@@ -16,6 +16,7 @@
     "migrate": "tsx scripts/migrate.ts",
     "seed": "tsx db/seed/seed.ts",
     "brand": "tsx scripts/apply-client.ts",
+    "kit": "tsx scripts/kit.ts",
     "lang:check": "tsx scripts/lang-check.ts",
     "import:dibs": "tsx extensions/dibs-import/script.ts",
     "staff:create": "tsx scripts/staff-create.ts",
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
+    "@clack/prompts": "^1.9.0",
     "@playwright/test": "1.64.1",
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "26.6.5",
@@ -70,6 +72,7 @@
     "tsup": "9.0.0",
     "tsx": "4.23.15",
     "typescript": "6.0.3",
-    "vitest": "5.0.5"
+    "vitest": "5.0.5",
+    "yaml": "^2.9.1"
   }
 }

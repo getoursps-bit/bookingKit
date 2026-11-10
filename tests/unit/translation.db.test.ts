@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
 import { pick } from "@/i18n/content";
+import { CONTENT } from "@/i18n/packs.generated";
 import { DEFAULT_LOCALE, type Locale, LOCALES } from "@/i18n/locales";
 import { messageLocale } from "@/core/platform/notify/deliver";
 import { getTemplate, updateTemplate } from "@/core/platform/notify/templates";
@@ -107,7 +108,12 @@ describe.skipIf(!hasDb)("the seed", () => {
         "select count(*)::int as n from content_translations where locale = $1 and entity = 'service'",
         [OTHER],
       );
-      expect(seeded.rows[0]!.n).toBe(OTHER === DEFAULT_LOCALE ? 0 : 12);
+      // One row for each text field a service has in that language's pack.
+      const fields = Object.values((CONTENT[OTHER as keyof typeof CONTENT] as { service: Record<string, Record<string, string>> }).service).flatMap(
+        (service) => Object.values(service).filter((value) => value.trim()),
+      ).length;
+      expect(fields).toBeGreaterThan(0);
+      expect(seeded.rows[0]!.n).toBe(OTHER === DEFAULT_LOCALE ? 0 : fields);
       const stale = await pool.query<{ n: number }>("select count(*)::int as n from services where name_en is not null");
       expect(stale.rows[0]!.n).toBe(0);
     });
