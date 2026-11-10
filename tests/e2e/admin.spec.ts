@@ -316,7 +316,7 @@ test("the owner adds a second opening range to a day, and the site lists both", 
   test.skip(!SPLIT_HOURS, "a second range a day belongs to the split-hours extension");
   const t = strings(DEFAULT_LOCALE);
   const monday = () => page.getByRole("group", { name: t["day.1"]! });
-  const save = () => page.locator("#weekly").getByRole("button", { name: t["admin.save"]! }).click();
+  const save = () => page.locator('section[aria-labelledby="weekly"]').getByRole("button", { name: t["admin.save"]! }).click();
   await login(page);
   // Late in the evening, after the seeded closing time, so no other test's free times move.
   await page.goto("/admin/hours");
