@@ -1,0 +1,97 @@
+# A client's blueprint. Copy this file, fill it in, then:
+#   pnpm kit new blueprints/<your file>.yaml
+# No secrets, real phone numbers or customer data in here: the owner types
+# her phone and address into her own settings after the site is up.
+
+# The project's folder, made next to the kit, in camelCase.
+folder: physioStudio
+
+# The business name in each language of the site.
+name:
+  he: סטודיו פיזיו
+  en: Physio Studio
+
+# What kind of business it is, in a few words.
+business: A physiotherapy studio with one therapist
+
+# The default language has the plain addresses and is the one the owner
+# writes in; each other language lives under its own prefix (/en).
+# The kit has a pack for: he, en, ar.
+languages:
+  default: he
+  others: [en]
+
+# Extensions to switch on. The others stay in the code, switched off.
+#   approval     every online booking is a request the owner approves
+#   split-hours  a second opening range on a day, after a break
+#   map-links    Google Maps and Apple Maps in the contact row
+#   ai           a short note for the owner about tomorrow's bookings
+#   pets         a grooming salon's bookings (then leave services out)
+#   dibs-import  a grooming salon's move from Dibs
+extensions: [approval, map-links]
+
+# The icon shown where there is no logo: paw, sparkle, navigate or chat.
+mark: sparkle
+
+# Any part of the look. What is left out stays as the kit has it; the full
+# list of colours is in src/brand.schema.ts.
+theme:
+  colors:
+    brand: "#1f6f78"
+    brand-strong: "#17565d"
+    brand-deep: "#103f44"
+    brand-soft: "#dff1f2"
+
+# Wording of this client's own, replacing the same keys of the language pack.
+wording:
+  he:
+    home.servicesTitle: הטיפולים שלנו
+  en:
+    home.servicesTitle: Our treatments
+
+# What can be booked. `key` is a short name the files use; `price` is the
+# "from" price in shekels; `online: false` is for a service only the owner
+# books. A name left out in a language is copied from the default language
+# and listed in INITIAL_PROMPT.md as still to translate.
+services:
+  - key: first_visit
+    name: { he: פגישה ראשונה, en: First visit }
+    includes: { he: אבחון ותוכנית טיפול, en: Assessment and a treatment plan }
+    minutes: 60
+    price: 350
+  - key: treatment
+    name: { he: טיפול המשך, en: Follow-up treatment }
+    minutes: 45
+    price: 280
+  - key: home_visit
+    name: { he: ביקור בית }
+    minutes: 60
+    price: 450
+    online: false
+
+# Things sold at the business; leave out for none.
+products:
+  - key: exercise_band
+    name: { he: גומיית התנגדות, en: Exercise band }
+    price: 40
+
+# Opening hours of every day of the week: "09:00-17:00" or "closed".
+hours:
+  sun: 09:00-17:00
+  mon: 09:00-17:00
+  tue: 09:00-17:00
+  wed: 12:00-19:00
+  thu: 09:00-17:00
+  fri: 08:00-12:00
+  sat: closed
+
+# The host port of the project's own local Postgres. Take one no other
+# project uses (5433, 5434 and 5435 are taken).
+postgresPort: 5436
+
+# What the client asked for that is their own. Each wish becomes a task in
+# INITIAL_PROMPT.md: an existing setting or extension if there is one, else a
+# new extension in the client's project.
+wishes:
+  - A health questionnaire the customer fills in before a first visit
+  - The therapist wants to block a lunch break on some days only
