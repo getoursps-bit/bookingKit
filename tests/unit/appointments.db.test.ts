@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import seedData from "../../db/seed/data.json";
 import type pg from "pg";
 import { describe, expect, it } from "vitest";
 import { seed } from "../../db/seed/seed";
@@ -48,10 +49,12 @@ describe.skipIf(!hasDb)("migrations and seed", () => {
       } finally {
         client.release();
       }
-      expect(await count(pool, "select * from services")).toBe(6);
-      expect(await count(pool, "select * from products")).toBe(8);
-      expect(await count(pool, "select * from opening_hours where closed")).toBe(2);
-      expect(await count(pool, "select * from services where not bookable_online")).toBe(1);
+      expect(await count(pool, "select * from services")).toBe(seedData.services.length);
+      expect(await count(pool, "select * from products")).toBe(seedData.products.length);
+      expect(await count(pool, "select * from opening_hours")).toBe(7);
+      expect(await count(pool, "select * from services where not bookable_online")).toBe(
+        seedData.services.filter((service) => !service.bookable_online).length,
+      );
       expect(await count(pool, "select * from pg_tables where schemaname = current_schema() and not rowsecurity")).toBe(
         0,
       );
@@ -193,7 +196,7 @@ describe.skipIf(!hasDb)("booking against Postgres", () => {
   it("refuses an owner booking that clashes with a held slot", async () => {
     await withMigratedSchema(async (db) => {
       expect((await booking.requestHold(holdInput(noon, 1), { db })).ok).toBe(true);
-      const { rows } = await db.query<{ id: number }>("select id::int from services where duration_min = 80");
+      const { rows } = await db.query<{ id: number }>("select id::int from services order by duration_min desc limit 1");
       const owner = await booking.ownerCreateBooking(
         {
           start: localDateTimeToUtc(date, "12:30"),

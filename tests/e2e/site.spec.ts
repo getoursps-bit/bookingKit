@@ -4,7 +4,14 @@ import pg from "pg";
 import { searchPathOption } from "../../src/core/platform/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { DEFAULT_LOCALE, LOCALES, PACKS } from "../../src/i18n/languages.generated";
+import seed from "../../db/seed/data.json" with { type: "json" };
+import { CONTENT } from "../../src/i18n/packs.generated";
 import { PETS, strings } from "./client";
+
+// The client's own starting content, as the default language shows it.
+const content = CONTENT[DEFAULT_LOCALE] as { service: Record<string, { name: string }>; product: Record<string, { name: string }> };
+const FIRST_SERVICE = content.service[seed.services[0]!.key]!.name;
+const FIRST_PRODUCT = seed.products[0] ? content.product[seed.products[0].key]!.name : null;
 
 const he = strings("he");
 // The site's languages after the default one; the switch test uses the first.
@@ -75,7 +82,7 @@ test.describe("without JavaScript", () => {
   test("pages render their content", async ({ page }) => {
     await page.goto("/services");
     await expect(page.getByRole("heading", { level: 1, name: "שירותים ומחירים" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "חתול", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: FIRST_SERVICE, exact: true })).toBeVisible();
     await page.goto("/hours");
     await expect(page.getByRole("row", { name: /רביעי/ })).toContainText("סגור");
   });
@@ -98,8 +105,9 @@ test("each page gets its own script nonce", async ({ request }) => {
 });
 
 test("the WhatsApp order link names the product and its price for the chat number", async ({ page, request }) => {
+  test.skip(!FIRST_PRODUCT, "this client's starting content has no products");
   await page.goto("/products");
-  const link = page.locator('a[href^="/go/order/"]').filter({ hasText: /:\s*מרכך\s/ });
+  const link = page.locator('a[href^="/go/order/"]').filter({ hasText: FIRST_PRODUCT! }).first();
   await expect(link).toHaveText(/^הזמנה בוואטסאפ/);
   const href = await link.getAttribute("href");
   expect(href).toMatch(/^\/go\/order\/\d+$/);
@@ -109,8 +117,8 @@ test("the WhatsApp order link names the product and its price for the chat numbe
   const target = new URL(response.headers()["location"]!);
   expect(`${target.origin}${target.pathname}`).toBe("https://wa.me/972555000123");
   const text = target.searchParams.get("text")!;
-  expect(text).toContain("מרכך");
-  expect(text).toContain("69.90");
+  expect(text).toContain(FIRST_PRODUCT!);
+  expect(text).toContain((seed.products[0]!.price_agorot / 100).toFixed(2));
   expect(response.headers()["location"]).not.toMatch(/[א-ת]/);
 });
 
@@ -136,7 +144,7 @@ test("the home page carries valid LocalBusiness JSON-LD", async ({ page }) => {
   expect(data["@context"]).toBe("https://schema.org");
   expect(data["@type"]).toBe("LocalBusiness");
   expect(data.name).toBeTruthy();
-  expect(data.openingHoursSpecification.length).toBe(5);
+  expect(data.openingHoursSpecification.length).toBe(seed.opening_hours.filter((day) => !day.closed).length);
 });
 
 test("campaign tags from the first visit are kept in a signed cookie", async ({ page, context }) => {

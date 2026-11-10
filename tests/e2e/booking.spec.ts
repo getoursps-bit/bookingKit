@@ -88,7 +88,11 @@ async function newCustomerPage(browser: Browser, address: string): Promise<Page>
   return context.newPage();
 }
 
-const SMALL_DOG = "כלב - גזע קטן עד 10 קילו";
+// The service the tests book: a small dog's care where the client has the
+// kit's grooming services, else the client's first service that books online.
+const SMALL_DOG = seed.services.some((service) => service.key === "dog_small")
+  ? "כלב - גזע קטן עד 10 קילו"
+  : (CONTENT[DEFAULT_LOCALE].service as Record<string, { name: string }>)[seed.services.find((service) => service.bookable_online)!.key]!.name;
 const CAT = "חתול";
 
 /** The button that chooses a service. */
