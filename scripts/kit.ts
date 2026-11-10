@@ -1,11 +1,14 @@
-// Makes a new client's project from this kit.
+// Makes a new client's project from this kit, and keeps the projects level with it.
 //   pnpm kit new blueprints/<client>.yaml     from a filled-in blueprint
 //   pnpm kit new                              asks the questions, writes the blueprint, then the same
 //   pnpm kit new <blueprint> --into <folder>  where the project folder is made (default: next to the kit)
-// The new project is a separate git repo with no link back to the kit. It
-// holds the kit's whole code (extensions that are off included), the client's
-// client.json and starting content, and INITIAL_PROMPT.md for the first
-// working session. Nothing is installed and no server is contacted.
+//   pnpm kit status                           in the kit: every client project and how far behind the kit it is
+//   pnpm kit update                           in a client's project: takes in the kit's changes since it was made
+// The new project is a git repo of its own that shares the kit's history, so
+// a later kit change is merged in, not copied by hand. It holds the kit's
+// whole code (extensions that are off included), the client's client.json
+// and starting content, and INITIAL_PROMPT.md for the first working session.
+// Nothing is installed and no server is contacted.
 import { execFileSync } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, symlinkSync, unlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -76,9 +79,10 @@ export type Made = { target: string; borrowed: Record<string, string[]> };
  */
 export function createProject(
   blueprint: Blueprint,
-  options: { parent: string; blueprintText: string; root?: string; repo?: boolean; now?: Date },
+  options: { parent: string; blueprintText: string; root?: string; modules?: string; repo?: boolean; now?: Date },
 ): Made {
   const root = options.root ?? KIT_ROOT;
+  const libraries = options.modules ?? path.join(root, "node_modules");
   // The real path: the new project's scripts compare their own path with the one they were started by.
   mkdirSync(options.parent, { recursive: true });
   const target = path.join(realpathSync(options.parent), blueprint.folder);
@@ -87,15 +91,21 @@ export function createProject(
   const lower = blueprint.folder.toLowerCase();
   const name = blueprint.name.en ?? blueprint.name[blueprint.languages.default]!;
 
-  // The kit's files as they are now: what git tracks, and new files not ignored.
-  const files = git(root, "ls-files", "-co", "--exclude-standard", "-z").split("\0").filter(Boolean);
-  for (const file of files) {
-    const from = path.join(root, file);
-    if (!existsSync(from)) continue;
-    // Other clients' blueprints stay in the kit; only the example goes along.
-    if (file.startsWith("blueprints/") && file !== "blueprints/example.yaml") continue;
-    mkdirSync(path.dirname(path.join(target, file)), { recursive: true });
-    copyFileSync(from, path.join(target, file));
+  if (options.repo !== false) {
+    // A clone, so the project shares the kit's history and `pnpm kit update` can merge later changes in.
+    if (git(root, "status", "--porcelain") !== "")
+      throw new Error("The kit has changes that are not committed. Commit them first: a client's project starts from a kit commit.");
+    git(root, "clone", "-q", "--origin", "kit", root, target);
+    git(target, "checkout", "-q", "-B", "main");
+  } else {
+    // The kit's files as they are now: what git tracks, and new files not ignored.
+    const files = git(root, "ls-files", "-co", "--exclude-standard", "-z").split("\0").filter(Boolean);
+    for (const file of files) {
+      const from = path.join(root, file);
+      if (!existsSync(from)) continue;
+      mkdirSync(path.dirname(path.join(target, file)), { recursive: true });
+      copyFileSync(from, path.join(target, file));
+    }
   }
 
   // The client itself.
@@ -152,8 +162,8 @@ export function createProject(
 
   const now = options.now ?? new Date();
   const commit = git(root, "rev-parse", "--short", "HEAD");
-  const dirty = git(root, "status", "--porcelain") !== "";
-  writeFileSync(path.join(target, "kit.json"), json({ kit: "bookingKit", commit, uncommittedChanges: dirty, made: now.toISOString().slice(0, 10) }));
+  const date = now.toISOString().slice(0, 10);
+  writeFileSync(path.join(target, "kit.json"), json({ kit: "bookingKit", commit, made: date, updated: date }));
   writeFileSync(path.join(target, "blueprint.yaml"), options.blueprintText);
   writeFileSync(
     path.join(target, "INITIAL_PROMPT.md"),
@@ -161,17 +171,17 @@ export function createProject(
       extensions: kit.extensions,
       borrowed,
       kitColours: !blueprint.theme.colors,
-      kitCommit: commit + (dirty ? " plus uncommitted changes" : ""),
-      date: now.toISOString().slice(0, 10),
+      kitCommit: commit,
+      date,
     }),
   );
 
   // The files generated from client.json, written by the new project's own
   // script. It needs the libraries, so it borrows the kit's for this one run.
   const modules = path.join(target, "node_modules");
-  symlinkSync(path.join(root, "node_modules"), modules, "dir");
+  symlinkSync(libraries, modules, "dir");
   try {
-    const tsx = path.join(root, "node_modules/.bin/tsx");
+    const tsx = path.join(libraries, ".bin/tsx");
     execFileSync(tsx, [path.join(target, "scripts/apply-client.ts")], { cwd: target, stdio: "pipe" });
     execFileSync(tsx, [path.join(target, "scripts/lang-check.ts"), ...languagesOf(blueprint)], { cwd: target, stdio: "pipe" });
   } catch (error) {
@@ -183,11 +193,105 @@ export function createProject(
   }
 
   if (options.repo !== false) {
-    git(target, "init", "-q", "-b", "main");
     git(target, "add", "-A");
     git(target, "commit", "-q", "-m", `Start ${name} from bookingKit ${commit}`);
   }
   return { target, borrowed };
+}
+
+/** The files `pnpm brand` writes: on an update the client's are kept and then written again. */
+const GENERATED = [
+  "src/app/brand.css",
+  "src/extensions.generated.ts",
+  "src/extension-views.generated.ts",
+  "src/i18n/languages.generated.ts",
+  "src/i18n/packs.generated.ts",
+  "languages/contract.json",
+];
+
+export type Updated =
+  | { state: "level"; commit: string }
+  | { state: "updated"; from: string; to: string; changes: number; migrations: string[]; librariesChanged: boolean }
+  | { state: "conflicts"; to: string; files: string[] };
+
+/**
+ * Takes the kit's changes into a client's project: fetches the kit, merges it,
+ * keeps the client's generated files and writes them again, and commits. When
+ * the same lines changed on both sides it stops with the merge open and names
+ * the files; nothing is lost and `git merge --abort` goes back.
+ * `from` is the kit's folder or address when it has moved (it is remembered).
+ */
+export function updateProject(project: string, options: { from?: string; now?: Date } = {}): Updated {
+  const record = path.join(project, "kit.json");
+  if (!existsSync(record)) throw new Error("This is not a client's project made by `pnpm kit new` (there is no kit.json).");
+  if (git(project, "status", "--porcelain") !== "") throw new Error("This project has changes that are not committed. Commit or put them aside first.");
+  const remotes = git(project, "remote").split("\n");
+  if (options.from) git(project, "remote", remotes.includes("kit") ? "set-url" : "add", "kit", options.from);
+  else if (!remotes.includes("kit"))
+    throw new Error("This project does not know where the kit is. Run `pnpm kit update --from <the kit's folder or address>` once.");
+  git(project, "fetch", "-q", "kit", "main");
+  const to = git(project, "rev-parse", "--short", "FETCH_HEAD");
+  const changes = Number(git(project, "rev-list", "--count", "HEAD..FETCH_HEAD"));
+  if (changes === 0) return { state: "level", commit: to };
+  const base = git(project, "merge-base", "HEAD", "FETCH_HEAD");
+  const changed = git(project, "diff", "--name-only", base, "FETCH_HEAD").split("\n");
+
+  try {
+    git(project, "merge", "-q", "--no-commit", "--no-ff", "FETCH_HEAD");
+  } catch {
+    // Conflicts: looked at below.
+  }
+  // The generated files are the client's, never the kit's: take this side and write them again below.
+  for (const file of GENERATED) {
+    try {
+      git(project, "checkout", "-q", "HEAD", "--", file);
+    } catch {
+      // The kit no longer has this file, or the project never had it.
+    }
+  }
+  const conflicts = git(project, "diff", "--name-only", "--diff-filter=U").split("\n").filter(Boolean);
+  if (conflicts.length) return { state: "conflicts", to, files: conflicts };
+
+  const kit = JSON.parse(readFileSync(record, "utf8")) as Record<string, unknown>;
+  const from = String(kit.commit);
+  writeFileSync(record, json({ ...kit, commit: to, updated: (options.now ?? new Date()).toISOString().slice(0, 10) }));
+  // Written again from the client's client.json, when the libraries are installed here.
+  const tsx = path.join(project, "node_modules/.bin/tsx");
+  let rewritten = false;
+  try {
+    if (existsSync(tsx)) execFileSync(tsx, [path.join(project, "scripts/apply-client.ts")], { cwd: project, stdio: "pipe" });
+    rewritten = existsSync(tsx);
+  } catch {
+    // The kit's new code needs libraries that are not installed yet; the person is told to install and run it.
+  }
+  git(project, "add", "-A");
+  git(project, "commit", "-q", "-m", `Update from bookingKit ${to}`);
+  return {
+    state: "updated",
+    from,
+    to,
+    changes,
+    migrations: changed.filter((file) => /(^|\/)migrations\/.+\.sql$/.test(file)),
+    librariesChanged: changed.includes("pnpm-lock.yaml") || !rewritten,
+  };
+}
+
+export type ClientState = { folder: string; commit: string; updated: string; behind: number | null };
+
+/** Every client project next to the kit (a folder with kit.json) and how many kit commits it has not taken in. */
+export function clientProjects(parent: string, root = KIT_ROOT): ClientState[] {
+  return folders(parent)
+    .filter((folder) => existsSync(path.join(parent, folder, "kit.json")))
+    .map((folder) => {
+      const kit = JSON.parse(readFileSync(path.join(parent, folder, "kit.json"), "utf8")) as { commit: string; updated?: string; made: string };
+      let behind: number | null = null;
+      try {
+        behind = Number(git(root, "rev-list", "--count", `${kit.commit}..main`));
+      } catch {
+        // A commit this kit does not have.
+      }
+      return { folder, commit: kit.commit, updated: kit.updated ?? kit.made, behind };
+    });
 }
 
 /** A host port for the new project's Postgres: one above the highest that the folders next to the kit use. */
@@ -302,12 +406,46 @@ async function ask(parent: string): Promise<string | null> {
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
+  const client = existsSync(path.join(KIT_ROOT, "kit.json"));
+  const flag = (name: string) => (args.indexOf(name) >= 0 ? args[args.indexOf(name) + 1] : undefined);
+
+  if (args[0] === "update") {
+    if (!client) throw new Error("`pnpm kit update` is run inside a client's project. In the kit, `pnpm kit status` lists the projects.");
+    const result = updateProject(KIT_ROOT, { from: flag("--from") });
+    if (result.state === "level") console.log(`Already level with the kit (${result.commit}).`);
+    else if (result.state === "conflicts") {
+      console.log(`The kit (${result.to}) and this project changed the same lines in:`);
+      for (const file of result.files) console.log(`  ${file}`);
+      console.log("The merge is left open. In each file keep what this client needs, then:");
+      console.log("  pnpm install && pnpm brand && git add -A && git commit");
+      console.log("and set `commit` in kit.json to the kit commit above. To go back instead: git merge --abort");
+      process.exitCode = 1;
+    } else {
+      console.log(`Updated from the kit: ${result.from} to ${result.to} (${result.changes} changes).`);
+      if (result.librariesChanged) console.log("Run `pnpm install`, then `pnpm brand`, and commit what it writes.");
+      if (result.migrations.length) console.log(`New database changes to apply with \`pnpm migrate\`:\n${result.migrations.map((file) => `  ${file}`).join("\n")}`);
+      console.log("Now run the checks before releasing: pnpm typecheck && pnpm lint && pnpm lang:check && pnpm test && pnpm test:e2e");
+    }
+    return;
+  }
+
+  if (args[0] === "status") {
+    if (client) throw new Error("`pnpm kit status` is run in the kit. Here, `pnpm kit update` takes in the kit's changes.");
+    const projects = clientProjects(path.resolve(flag("--in") ?? path.join(KIT_ROOT, "..")));
+    if (projects.length === 0) console.log("No client project is next to the kit yet.");
+    for (const project of projects) {
+      const state = project.behind === null ? "from a commit this kit does not have" : project.behind === 0 ? "level" : `${project.behind} changes behind`;
+      console.log(`${project.folder}: ${state} (kit ${project.commit}, taken ${project.updated})`);
+    }
+    return;
+  }
+
   if (args[0] !== "new") {
-    console.log("Usage: pnpm kit new [blueprint.yaml] [--into <folder the project folder is made in>]");
+    console.log("Usage: pnpm kit new [blueprint.yaml] [--into <folder>] | pnpm kit status | pnpm kit update [--from <kit>]");
     process.exitCode = 2;
     return;
   }
-  if (existsSync(path.join(KIT_ROOT, "kit.json"))) {
+  if (client) {
     console.error("This is a client's project, made from the kit. New clients are made from the kit itself.");
     process.exitCode = 1;
     return;

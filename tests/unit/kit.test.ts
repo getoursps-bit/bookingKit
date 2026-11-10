@@ -1,8 +1,9 @@
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { appendFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { createProject, KIT_ROOT, kitHas, readBlueprint } from "../../scripts/kit";
+import { clientProjects, createProject, KIT_ROOT, kitHas, readBlueprint, updateProject } from "../../scripts/kit";
 import { blueprintSchema, problems } from "../../scripts/kit/blueprint";
 import { clientSchema } from "../../src/brand.schema";
 
@@ -93,4 +94,81 @@ describe.skipIf(!isKit)("pnpm kit new", () => {
       rmSync(parent, { recursive: true, force: true });
     }
   }, 120_000);
+});
+
+// A whole copy of the kit's history is needed; a shallow checkout (some CI setups) cannot be cloned from.
+const git = (cwd: string, ...args: string[]) => execFileSync("git", args, { cwd, encoding: "utf8" }).trim();
+const fullHistory = isKit && git(KIT_ROOT, "rev-parse", "--is-shallow-repository") === "false";
+
+describe.skipIf(!fullHistory)("pnpm kit update", () => {
+  it("takes the kit's later changes into a client's project and keeps what is the client's", () => {
+    const dir = mkdtempSync(path.join(tmpdir(), "kit-update-"));
+    const author = { GIT_AUTHOR_NAME: "Test", GIT_AUTHOR_EMAIL: "test@example.test", GIT_COMMITTER_NAME: "Test", GIT_COMMITTER_EMAIL: "test@example.test" };
+    const before = { ...process.env };
+    Object.assign(process.env, author);
+    try {
+      // A copy of the kit as it is committed, to change without touching the real one.
+      const kit = path.join(dir, "kit");
+      git(KIT_ROOT, "clone", "-q", KIT_ROOT, kit);
+      git(kit, "checkout", "-q", "-B", "main");
+      const commitKit = (message: string) => {
+        git(kit, "add", "-A");
+        git(kit, "commit", "-q", "-m", message);
+      };
+      const clients = path.join(dir, "clients");
+      const blueprint = readFileSync(path.join(kit, "blueprints/example.yaml"), "utf8");
+      const made = createProject(readBlueprint(blueprint, kit), {
+        parent: clients,
+        blueprintText: blueprint,
+        root: kit,
+        modules: path.join(KIT_ROOT, "node_modules"),
+      });
+      const project = made.target;
+      const read = (file: string) => readFileSync(path.join(project, file), "utf8");
+
+      // One commit on top of the kit's history, the kit remembered, and level with it.
+      expect(git(project, "log", "--format=%s", "-1")).toMatch(/^Start Physio Studio from bookingKit /);
+      expect(Number(git(project, "rev-list", "--count", "HEAD"))).toBe(Number(git(kit, "rev-list", "--count", "HEAD")) + 1);
+      expect(git(project, "status", "--porcelain")).toBe("");
+      expect(clientProjects(clients, kit)).toMatchObject([{ folder: "physioStudio", behind: 0 }]);
+      expect(updateProject(project)).toMatchObject({ state: "level" });
+
+      // The kit moves on: a new file, a database change, and a line in a file the client's project rewrote elsewhere.
+      mkdirSync(path.join(kit, "db/migrations"), { recursive: true });
+      writeFileSync(path.join(kit, "db/migrations/9999_later.sql"), "-- a later change\n");
+      writeFileSync(path.join(kit, "docs/later.md"), "A later note.\n");
+      appendFileSync(path.join(kit, "README.md"), "\nA line added to the kit later.\n");
+      commitKit("A later kit change");
+      expect(clientProjects(clients, kit)).toMatchObject([{ behind: 1 }]);
+
+      const updated = updateProject(project, { now: new Date("2026-12-01T10:00:00Z") });
+      expect(updated).toMatchObject({ state: "updated", changes: 1, migrations: ["db/migrations/9999_later.sql"] });
+      expect(read("docs/later.md")).toBe("A later note.\n");
+      expect(read("README.md")).toMatch(/^# Physio Studio\n/);
+      expect(read("README.md")).toContain("A line added to the kit later.");
+      expect(JSON.parse(read("client.json")).brand.name.en).toBe("Physio Studio");
+      expect(read("src/extensions.generated.ts")).toContain("extensions/approval/extension");
+      expect(JSON.parse(read("kit.json"))).toMatchObject({ commit: git(kit, "rev-parse", "--short", "HEAD"), updated: "2026-12-01" });
+      expect(git(project, "status", "--porcelain")).toBe("");
+      expect(clientProjects(clients, kit)).toMatchObject([{ behind: 0 }]);
+
+      // The kit changes a line the client's project also changed: it stops, names the file, and can go back.
+      const packageFile = path.join(kit, "package.json");
+      writeFileSync(packageFile, readFileSync(packageFile, "utf8").replace('"name": "bookingkit"', '"name": "bookingkit-two"'));
+      commitKit("The kit renames itself");
+      expect(updateProject(project)).toMatchObject({ state: "conflicts", files: ["package.json"] });
+      git(project, "merge", "--abort");
+      expect(JSON.parse(read("package.json")).name).toBe("physiostudio");
+
+      // A project with uncommitted work is not touched.
+      writeFileSync(path.join(project, "notes.txt"), "work in progress\n");
+      expect(() => updateProject(project)).toThrow(/not committed/);
+    } finally {
+      for (const key of Object.keys(author)) {
+        if (before[key] === undefined) delete process.env[key];
+        else process.env[key] = before[key];
+      }
+      rmSync(dir, { recursive: true, force: true });
+    }
+  }, 180_000);
 });
