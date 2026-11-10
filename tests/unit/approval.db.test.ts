@@ -66,7 +66,7 @@ describe.skipIf(!hasDb || !hasExtension("approval"))("booking requests the owner
         { start: booking.appointment.start, lines: [testDog], name: "אחר", phone: phone(99), idempotencyKey: randomUUID(), address: "10.4.0.99" },
         { db: pool },
       );
-      expect(again).toMatchObject({ ok: false, reason: "SlotTaken" });
+      expect(again).toMatchObject({ ok: false, reason: "SlotUnavailable" });
 
       await sendAllDue(pool);
       expect(await sent(pool, 2, "request_received")).toHaveLength(1);
