@@ -3,7 +3,7 @@ import { defineConfig } from "tsup";
 // The worker and the release scripts (migrate, seed, Dibs import) each ship as one
 // self-contained file, so the runtime image needs no node_modules for them.
 export default defineConfig({
-  entry: { main: "worker/main.ts", migrate: "scripts/migrate.ts", seed: "db/seed/seed.ts", "import-dibs": "scripts/import-dibs.ts", "staff-create": "scripts/staff-create.ts" },
+  entry: { main: "worker/main.ts", migrate: "scripts/migrate.ts", seed: "db/seed/seed.ts", "import-dibs": "extensions/dibs-import/script.ts", "staff-create": "scripts/staff-create.ts" },
   outDir: "worker/dist",
   format: ["esm"],
   target: "node22",

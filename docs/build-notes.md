@@ -451,9 +451,15 @@ the fake ran; no key is, or should be, in this session.
   `describeLines`.
 - Verified with the four clients (below, after B3's numbers): same counts.
 
-**Still one client's in the core**
+## Step 2, part B5: the Dibs import leaves the core (2026-11-10)
 
-- The Dibs import (`scripts/import-dibs.ts`, `src/server/import/dibs.ts`,
-  migration `0010`, the `dibs_ref` columns) is the grooming salon's move
-  from its old booking system. It is a client's customisation and should
-  become an extension.
+- `extensions/dibs-import/`: the import (`server/dibs.ts`), its script
+  (`script.ts`, still `pnpm import:dibs` and `worker/dist/import-dibs.js`),
+  the default service map, and its migration (the staging tables, and the
+  `dibs_ref` columns it adds to `customers` and `appointments`).
+- The core's booking insert no longer has a Dibs column; the import writes
+  the reference itself. The reference is removed on an erase by the
+  extension's `customerData.erase`.
+- The script prints its usage for any client and refuses to do anything for
+  a client that has the extension off.
+- Changed in place: `0003` lost the two `dibs_ref` columns and `0010` moved.

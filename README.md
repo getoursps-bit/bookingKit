@@ -88,7 +88,7 @@ src/server/           domain logic: booking engine, identity, notify (outbox and
 worker/               worker entry point and timed jobs; bundled to worker/dist
 scripts/              migrate, staff-create, import-dibs
 db/migrations/        plain SQL, additive first, never run on start-up
-db/seed/              starting content and the Dibs mapping file
+db/seed/              starting content
 docker/               Dockerfile (one image, two entry points) and local compose
 tests/unit, tests/e2e
 ```
@@ -125,6 +125,10 @@ the `AI_*` variables. Another extension uses it through
 the note the pet's facts, under `provides.ai` in their manifest. With `ai`
 off, pet photos are not offered. `tests/fixtures/client.notes.json` is a
 client with `ai` alone.
+
+`dibs-import` is the salon's move from the booking system it used before:
+the `pnpm import:dibs` script, its staging tables and the Dibs references.
+It has no pages, and the script refuses to run for a client that has it off.
 
 ## Re-branding
 

@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { openDay } from "../setup/days";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
 import { addLocalDays } from "@/server/booking/slots";
-import mapping from "../../db/seed/dibs-service-map.json" with { type: "json" };
+import mapping from "@ext/dibs-import/service-map.json" with { type: "json" };
+import { hasExtension } from "@/extension/registry";
 import {
   applyImport,
   type DibsMapping,
@@ -11,7 +12,7 @@ import {
   parseDibsTime,
   queueImportLinks,
   stageImport,
-} from "@/server/import/dibs";
+} from "@ext/dibs-import/server/dibs";
 import { localDateOf, localDateTimeToUtc } from "@/server/time";
 
 const hasDb = await testDbAvailable();
@@ -54,7 +55,7 @@ describe("CSV and dates", () => {
   });
 });
 
-describe.skipIf(!hasDb)("Dibs import", () => {
+describe.skipIf(!hasDb || !hasExtension("dibs-import"))("Dibs import", () => {
   it("a dry run checks and reports without importing", async () => {
     await withMigratedSchema(async (pool) => {
       const { report } = await stageImport({ text: exportCsv(), fileName: "dibs.csv", mapping: map, dryRun: true, freezeTime: new Date() }, pool);

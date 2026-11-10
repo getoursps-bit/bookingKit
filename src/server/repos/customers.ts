@@ -205,7 +205,7 @@ export async function exportAll(id: number, db?: Db) {
 export async function erase(id: number, db?: Db): Promise<void> {
   await withTransaction(async (client) => {
     await query(
-      `update customers set display_name = 'נמחק', phone_e164 = null, notes = null, dibs_ref = null,
+      `update customers set display_name = 'נמחק', phone_e164 = null, notes = null,
          erased_at = now()
        where id = $1`,
       [id],

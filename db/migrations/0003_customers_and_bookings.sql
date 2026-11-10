@@ -5,7 +5,6 @@ create table customers (
   notes text,
   no_show_count integer not null default 0,
   source text not null check (source in ('online', 'owner', 'import')),
-  dibs_ref text unique,
   created_at timestamptz not null default now(),
   -- Set when personal data was erased on request; the row keeps booking history.
   erased_at timestamptz
@@ -38,7 +37,6 @@ create table appointments (
   created_by text not null check (created_by in ('customer', 'owner', 'import')),
   source jsonb not null default '{}'::jsonb,
   notes text,
-  dibs_ref text unique,
   idempotency_key text unique,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),

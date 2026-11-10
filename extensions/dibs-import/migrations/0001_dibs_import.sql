@@ -1,3 +1,8 @@
+-- The reference each customer and booking had in Dibs, so a second import
+-- of the same export changes nothing.
+alter table customers add column dibs_ref text unique;
+alter table appointments add column dibs_ref text unique;
+
 -- Dibs import: each run stages the export, checks it, and keeps its report.
 -- Staged rows stay for the reconciliation report and are never shown to customers.
 create table import_runs (

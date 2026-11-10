@@ -17,7 +17,7 @@
     "seed": "tsx db/seed/seed.ts",
     "brand": "tsx scripts/apply-client.ts",
     "lang:check": "tsx scripts/lang-check.ts",
-    "import:dibs": "tsx scripts/import-dibs.ts",
+    "import:dibs": "tsx extensions/dibs-import/script.ts",
     "staff:create": "tsx scripts/staff-create.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.tests.json",

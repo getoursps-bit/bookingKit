@@ -1,11 +1,11 @@
-import { DEFAULT_LOCALE } from "../../i18n/locales";
-import { type Db, getPool, query, withTransaction } from "../db";
-import { describeLines } from "../lines";
-import { normalizePhone } from "../links";
-import * as appointments from "../repos/appointments";
-import { findOrCreateByPhone } from "../repos/customers";
-import { enqueue } from "../repos/outbox";
-import { formatHe, localDateTimeToUtc } from "../time";
+import { DEFAULT_LOCALE } from "@/i18n/locales";
+import { type Db, getPool, query, withTransaction } from "@/server/db";
+import { describeLines } from "@/server/lines";
+import { normalizePhone } from "@/server/links";
+import * as appointments from "@/server/repos/appointments";
+import { findOrCreateByPhone } from "@/server/repos/customers";
+import { enqueue } from "@/server/repos/outbox";
+import { formatHe, localDateTimeToUtc } from "@/server/time";
 
 // Dibs import. Steps: stage the export, check and normalise it, report; then
 // (not in a dry run) import it, and after the switch queue one "your new link"
@@ -287,10 +287,13 @@ export async function applyImport(runId: number, db: Db = getPool()): Promise<Im
       const lines = [{ serviceId: row.serviceId, durationMin: row.duration, priceFromAgorot: service?.price ?? 0 }];
       if (row.start >= run.freezeTime) {
         const result = await appointments.createConfirmed(
-          { customerId: customer.id, start: row.start, end, lines, createdBy: "import", dibsRef: row.ref, notes: row.notes, source: { dibs: true } },
+          { customerId: customer.id, start: row.start, end, lines, createdBy: "import", notes: row.notes, source: { dibs: true } },
           client,
         );
-        if (result.ok) imported.future += 1;
+        if (result.ok) {
+          await query("update appointments set dibs_ref = $2 where id = $1", [result.appointment.id, row.ref], client);
+          imported.future += 1;
+        }
         else imported.refusedByOverlap += 1;
       } else {
         // History only: past visits count for the customer record and any pre-visit note.

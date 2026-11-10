@@ -37,7 +37,6 @@ export type NewAppointment = {
   source?: Record<string, unknown>;
   notes?: string | null;
   idempotencyKey?: string | null;
-  dibsRef?: string | null;
 };
 
 export type SlotResult = { ok: true; appointment: Appointment } | { ok: false; reason: "SlotTaken" };
@@ -108,8 +107,8 @@ async function insert(
       await releaseExpiredHolds(new Date(), client);
       const [row] = await query<Appointment>(
         `insert into appointments
-           (customer_id, starts_at, ends_at, status, hold_expires_at, created_by, source, notes, idempotency_key, dibs_ref)
-         values ($1, $2, $3, $4, now() + make_interval(mins => $5::int), $6, $7, $8, $9, $10)
+           (customer_id, starts_at, ends_at, status, hold_expires_at, created_by, source, notes, idempotency_key)
+         values ($1, $2, $3, $4, now() + make_interval(mins => $5::int), $6, $7, $8, $9)
          returning ${COLUMNS}`,
         [
           input.customerId,
@@ -121,7 +120,6 @@ async function insert(
           JSON.stringify(input.source ?? {}),
           input.notes ?? null,
           input.idempotencyKey ?? null,
-          input.dibsRef ?? null,
         ],
         client,
       );
