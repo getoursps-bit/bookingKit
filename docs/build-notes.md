@@ -532,5 +532,6 @@ proven by the unit test only. Safa's phone-width column will be the first.
   worker bundle. 36 of the 40 page pictures are identical; the 4 home page
   ones differ by the hour they were taken (closed and "free tomorrow" in the
   old pictures, open and "free today" now), which moves what is below.
-- Sample, plain and notes clients: see the numbers in the commit that
-  follows this note.
+- Sample (he + ar, pets): 212 unit (17 skipped), 60 browser. Plain: 215
+  unit (14 skipped), 57 browser. Notes (ai alone): 221 unit (8 skipped), 57
+  browser.
