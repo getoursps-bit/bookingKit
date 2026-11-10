@@ -43,7 +43,7 @@ type Booking = {
 
 type Service = { id: number; name: string; durationMin: number };
 
-/** One weekday's opening hours, "HH:MM", or null when closed. */
+/** One opening range of a weekday, "HH:MM", or null for a closed day. A day with a break has two entries. */
 export type DayHours = { weekday: number; opens: string; closes: string } | null;
 
 type View = "timeGridDay" | "timeGridWeek" | "dayGridMonth";

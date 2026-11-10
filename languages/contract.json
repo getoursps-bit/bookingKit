@@ -4483,6 +4483,33 @@
         "en": "AI pet photo analysis"
       },
       "extension": "pets"
+    },
+    "hours.split": {
+      "placeholders": [],
+      "text": {
+        "he": "טווח שני באותו יום (אחרי הפסקה)",
+        "ar": "فترة ثانية في اليوم نفسه (بعد استراحة)",
+        "en": "A second range the same day (after a break)"
+      },
+      "extension": "split-hours"
+    },
+    "hours.opens2": {
+      "placeholders": [],
+      "text": {
+        "he": "פתיחה שנייה",
+        "ar": "افتتاح الفترة الثانية",
+        "en": "Second opens"
+      },
+      "extension": "split-hours"
+    },
+    "hours.closes2": {
+      "placeholders": [],
+      "text": {
+        "he": "סגירה שנייה",
+        "ar": "إغلاق الفترة الثانية",
+        "en": "Second closes"
+      },
+      "extension": "split-hours"
     }
   },
   "content": {

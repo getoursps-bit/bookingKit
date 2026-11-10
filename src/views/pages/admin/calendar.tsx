@@ -2,6 +2,7 @@ import { Calendar } from "@/views/parts/admin/Calendar";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
 import { getOpeningHours, listServices } from "@/core/booking/catalog";
+import { hourRanges } from "@/core/booking/hours";
 import { requireStaffPage } from "@/core/platform/staff/session";
 
 export async function generateMetadata() {
@@ -21,9 +22,10 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
       <Calendar
         csrf={csrf}
         focusId={focusId}
-        hours={hours.map((day) =>
-          day.closed || !day.opens || !day.closes ? null : { weekday: day.weekday, opens: day.opens, closes: day.closes },
-        )}
+        hours={hours.flatMap((day) => {
+          const ranges = hourRanges(day);
+          return ranges.length === 0 ? [null] : ranges.map((range) => ({ weekday: day.weekday, ...range }));
+        })}
         services={services.map((service) => ({ id: service.id, name: pick(locale, service, "name"), durationMin: service.durationMin }))}
       />
     </div>

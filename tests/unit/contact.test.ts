@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { appleMapLink } from "@ext/map-links/views";
+import { appleMapLink } from "@ext/map-links/links";
 import type { BusinessProfile } from "@/core/website/content";
 import { hasExtension } from "@/extension/registry";
 import { DEFAULT_LOCALE } from "@/i18n/locales";

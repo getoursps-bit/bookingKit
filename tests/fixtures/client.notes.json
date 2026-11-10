@@ -6,7 +6,8 @@
     ]
   },
   "extensions": [
-    "ai"
+    "ai",
+    "split-hours"
   ],
   "brand": {
     "name": {

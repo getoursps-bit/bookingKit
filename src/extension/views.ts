@@ -46,6 +46,8 @@ export type ExtensionViews = {
    * is left out. `icon` is the name of one of the kit's icons.
    */
   contactLinks?(profile: { address: string | null; city: string | null }): { key: string; label: string; icon: string; href: string | null }[];
+  /** More fields for one weekday on the owner's hours form, under the core's opening and closing time. `more` is what its manifest's `openingRanges` loaded. */
+  hoursFields?(props: { weekday: number; more: { opens: string; closes: string }[] }): ReactNode;
   /** Forms its views post, by name: served at /api/ext/<id>/<name>. The handler checks its own form. */
   actions?: Record<string, (request: NextRequest) => Promise<Response>>;
   /** Campaign pages, by slug. */

@@ -1,7 +1,8 @@
 import type { NextRequest } from "next/server";
 import { bookingsBetween } from "@/core/booking/owner-data";
 import { ownerCancel } from "@/core/booking/owner";
-import { addTimeOff, listTimeOff, removeTimeOff, setOpeningHours } from "@/core/booking/catalog";
+import { addTimeOff, listTimeOff, removeTimeOff, setOpeningHours, type OpeningHours } from "@/core/booking/catalog";
+import { firstWith } from "@/extension/registry";
 import { adminRequest, backTo } from "@/core/platform/staff/http";
 import { localDateTimeToUtc } from "@/core/platform/time";
 
@@ -20,6 +21,9 @@ export async function POST(request: NextRequest) {
 
   switch (form.action) {
     case "weekly": {
+      // The whole week is checked before any day is saved. Further ranges on a day are an extension's.
+      const further = firstWith("openingRanges");
+      const week: OpeningHours[] = [];
       for (let weekday = 0; weekday < 7; weekday += 1) {
         const closed = form[`closed.${weekday}`] === "on";
         const opens = form[`opens.${weekday}`] ?? "";
@@ -27,14 +31,11 @@ export async function POST(request: NextRequest) {
         if (!closed && (!TIME.test(opens) || !TIME.test(closes) || opens >= closes)) {
           return backTo(request, back, { error: "invalid" });
         }
+        const more = further?.read(form, weekday, closed ? null : { opens, closes }) ?? [];
+        if (more === "invalid") return backTo(request, back, { error: "invalid" });
+        week.push({ weekday, closed, opens: closed ? null : opens, closes: closed ? null : closes, ...(further ? { more } : {}) });
       }
-      for (let weekday = 0; weekday < 7; weekday += 1) {
-        const closed = form[`closed.${weekday}`] === "on";
-        await setOpeningHours(
-          { weekday, closed, opens: closed ? null : form[`opens.${weekday}`]!, closes: closed ? null : form[`closes.${weekday}`]! },
-          writer,
-        );
-      }
+      for (const day of week) await setOpeningHours(day, writer);
       return backTo(request, back, { ok: "saved" });
     }
     case "timeoff": {

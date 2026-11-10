@@ -1,7 +1,11 @@
 import type { Translations } from "@/i18n/content";
 import { type Db, query, withTransaction } from "../platform/db";
 import { saveTranslations, translationsColumn } from "../platform/translation";
+import { firstWith } from "@/extension/registry";
 import { writeAudit } from "../platform/audit";
+import type { OpeningHours } from "./hours";
+
+export type { HourRange, OpeningHours } from "./hours";
 
 // Postgres returns bigint ids as strings; repositories hand out numbers.
 
@@ -17,8 +21,6 @@ export type Service = {
   active: boolean;
   sortOrder: number;
 };
-
-export type OpeningHours = { weekday: number; opens: string | null; closes: string | null; closed: boolean };
 
 export type TimeOff = { id: number; start: Date; end: Date; reason: string | null };
 
@@ -81,13 +83,16 @@ export async function upsertService(service: Omit<Service, "id"> & { id?: number
   }, db);
 }
 
+/** The week's hours. An extension may keep further ranges for a day; they come back in `more`. */
 export async function getOpeningHours(db?: Db): Promise<OpeningHours[]> {
-  return query<OpeningHours>(
+  const rows = await query<OpeningHours>(
     `select weekday, to_char(opens, 'HH24:MI') as opens, to_char(closes, 'HH24:MI') as closes, closed
      from opening_hours order by weekday`,
     [],
     db,
   );
+  const more = await firstWith("openingRanges")?.load(db);
+  return more ? rows.map((row) => ({ ...row, more: row.closed ? [] : (more.get(row.weekday) ?? []) })) : rows;
 }
 
 export async function setOpeningHours(day: OpeningHours, { staffId, db }: Writer): Promise<void> {
@@ -99,6 +104,7 @@ export async function setOpeningHours(day: OpeningHours, { staffId, db }: Writer
       [day.weekday, day.closed ? null : day.opens, day.closed ? null : day.closes, day.closed],
       client,
     );
+    await firstWith("openingRanges")?.save(day.weekday, day.closed ? [] : (day.more ?? []), client);
     await writeAudit(client, {
       staffId,
       actor: "staff",

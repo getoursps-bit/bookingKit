@@ -13,6 +13,7 @@ import type { Locale } from "@/i18n/locales";
 import { getI18n } from "@/i18n/server";
 import { isolate, type Translate } from "@/i18n/t";
 import { getWeek } from "@/core/booking/service";
+import { hourRanges } from "@/core/booking/hours";
 import { addLocalDays, weekdayOf } from "@/core/booking/slots";
 import { getConfig } from "@/core/platform/config";
 import { whatsappLink } from "@/core/platform/links";
@@ -64,11 +65,13 @@ async function freeTimes(today: string): Promise<FreeTimes | null> {
 
 /** "Open today until 19:00", "Opens today at 09:00" or "Closed today". */
 function openStatus(t: Translate, hours: OpeningHours[], now: Date): { open: boolean; text: string } {
-  const day = hours.find((row) => row.weekday === weekdayOf(localDateOf(now)));
-  if (!day || day.closed || !day.opens || !day.closes) return { open: false, text: t("home.closedToday") };
+  const ranges = hourRanges(hours.find((row) => row.weekday === weekdayOf(localDateOf(now))));
   const time = formatLocal(now, "HH:mm", "he");
-  if (time < day.opens) return { open: false, text: t("home.opensToday", { time: isolate(day.opens) }) };
-  if (time < day.closes) return { open: true, text: t("home.openUntil", { time: isolate(day.closes) }) };
+  // In a break between two ranges the next opening is what matters.
+  for (const range of ranges) {
+    if (time < range.opens) return { open: false, text: t("home.opensToday", { time: isolate(range.opens) }) };
+    if (time < range.closes) return { open: true, text: t("home.openUntil", { time: isolate(range.closes) }) };
+  }
   return { open: false, text: t("home.closedToday") };
 }
 

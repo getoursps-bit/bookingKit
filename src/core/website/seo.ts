@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { OpeningHours } from "../booking/catalog";
+import { hourRanges, type OpeningHours } from "../booking/hours";
 import type { BusinessProfile } from "./content";
 import { pick } from "@/i18n/content";
 import { localePath, LOCALES, othersThan, PACKS } from "@/i18n/locales";
@@ -33,14 +33,15 @@ export function localBusinessJsonLd(profile: BusinessProfile, hours: OpeningHour
           },
         }
       : {}),
-    openingHoursSpecification: hours
-      .filter((day) => !day.closed && day.opens && day.closes)
-      .map((day) => ({
+    // One entry per opening range, so a day with a break lists both.
+    openingHoursSpecification: hours.flatMap((day) =>
+      hourRanges(day).map((range) => ({
         "@type": "OpeningHoursSpecification",
         dayOfWeek: `https://schema.org/${DAY_NAMES[day.weekday]}`,
-        opens: day.opens,
-        closes: day.closes,
+        opens: range.opens,
+        closes: range.closes,
       })),
+    ),
     ...(sameAs.length ? { sameAs } : {}),
   };
 }

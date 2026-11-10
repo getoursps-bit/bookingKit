@@ -1,7 +1,7 @@
 // Free times, worked out with no database access. Everything is UTC instants;
 // local opening hours are turned into UTC per date through time.ts.
 import { addDays, format } from "date-fns";
-import type { OpeningHours } from "./catalog";
+import { hourRanges, type OpeningHours } from "./hours";
 import { localDateOf, localDateTimeToUtc } from "../platform/time";
 
 export type Interval = { start: Date; end: Date };
@@ -40,10 +40,19 @@ export function addLocalDays(date: string, days: number): string {
   return format(addDays(new Date(`${date}T12:00:00Z`), days), "yyyy-MM-dd");
 }
 
-/** The day's opening time and closing time as UTC instants, or null when closed. */
+/** The day's opening ranges as UTC intervals, in order; empty when closed. A day with a break has two. */
+export function openingIntervals(date: string, hours: OpeningHours | undefined): Interval[] {
+  return hourRanges(hours).map((range) => ({
+    start: localDateTimeToUtc(date, range.opens),
+    end: localDateTimeToUtc(date, range.closes),
+  }));
+}
+
+/** The first opening to the last closing, or null when closed. A break between ranges is not open time. */
 export function openingInterval(date: string, hours: OpeningHours | undefined): Interval | null {
-  if (!hours || hours.closed || !hours.opens || !hours.closes) return null;
-  return { start: localDateTimeToUtc(date, hours.opens), end: localDateTimeToUtc(date, hours.closes) };
+  const ranges = openingIntervals(date, hours);
+  if (ranges.length === 0) return null;
+  return { start: ranges[0]!.start, end: ranges.at(-1)!.end };
 }
 
 function overlaps(a: Interval, b: Interval): boolean {
@@ -56,9 +65,10 @@ function overlaps(a: Interval, b: Interval): boolean {
  * Other bookings are left to the database's no-overlap rule.
  */
 export function fitsDay(day: DayInput, start: Date, lengthMin: number, bufferMin: number): "ok" | "OutsideHours" | "TimeOff" {
-  const open = openingInterval(day.date, day.hours);
   const workEnd = new Date(start.getTime() + (lengthMin - bufferMin) * MINUTE);
-  if (!open || start < open.start || workEnd > open.end) return "OutsideHours";
+  // The visit must sit inside one opening range: a break between ranges is closed time.
+  const inside = openingIntervals(day.date, day.hours).some((open) => start >= open.start && workEnd <= open.end);
+  if (!inside) return "OutsideHours";
   const visit = { start, end: new Date(start.getTime() + lengthMin * MINUTE) };
   return day.timeOff.some((interval) => overlaps(visit, interval)) ? "TimeOff" : "ok";
 }
@@ -70,22 +80,24 @@ export function fitsDay(day: DayInput, start: Date, lengthMin: number, bufferMin
  * booking. Stored bookings already include their own buffer.
  */
 export function freeSlots(day: DayInput, lengthMin: number, rules: SlotRules, now: Date): Date[] {
-  const open = openingInterval(day.date, day.hours);
-  if (!open || lengthMin <= 0) return [];
+  if (lengthMin <= 0) return [];
   const earliest = new Date(now.getTime() + rules.noticeMin * MINUTE);
   const latest = new Date(now.getTime() + rules.horizonDays * 24 * 60 * MINUTE);
   const workMin = lengthMin - rules.bufferMin;
   const blocked = [...day.timeOff, ...day.busy];
   const slots: Date[] = [];
-  for (
-    let start = open.start.getTime();
-    start + workMin * MINUTE <= open.end.getTime();
-    start += rules.slotStepMin * MINUTE
-  ) {
-    const candidate = { start: new Date(start), end: new Date(start + lengthMin * MINUTE) };
-    if (candidate.start < earliest || candidate.start > latest) continue;
-    if (blocked.some((interval) => overlaps(candidate, interval))) continue;
-    slots.push(candidate.start);
+  // Each opening range on its own: a visit never straddles the break between two.
+  for (const open of openingIntervals(day.date, day.hours)) {
+    for (
+      let start = open.start.getTime();
+      start + workMin * MINUTE <= open.end.getTime();
+      start += rules.slotStepMin * MINUTE
+    ) {
+      const candidate = { start: new Date(start), end: new Date(start + lengthMin * MINUTE) };
+      if (candidate.start < earliest || candidate.start > latest) continue;
+      if (blocked.some((interval) => overlaps(candidate, interval))) continue;
+      slots.push(candidate.start);
+    }
   }
   return slots;
 }
@@ -95,9 +107,9 @@ export function freeSlots(day: DayInput, lengthMin: number, rules: SlotRules, no
  * no visit of this length fits. Available: at least one start time.
  */
 export function dayStatus(day: DayInput, lengthMin: number, rules: SlotRules, now: Date): DayStatus {
-  const open = openingInterval(day.date, day.hours);
-  if (!open) return "closed";
-  if (coveredBy(open, day.timeOff)) return "closed";
+  const ranges = openingIntervals(day.date, day.hours);
+  if (ranges.length === 0) return "closed";
+  if (ranges.every((open) => coveredBy(open, day.timeOff))) return "closed";
   return freeSlots(day, lengthMin, rules, now).length > 0 ? "available" : "full";
 }
 

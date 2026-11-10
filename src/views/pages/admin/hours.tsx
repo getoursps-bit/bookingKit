@@ -1,4 +1,7 @@
+import { Fragment } from "react";
 import { ActionForm, AdminNotice, Panel } from "@/views/parts/admin/parts";
+import { TIMES, TimeSelect } from "@/views/parts/admin/TimeSelect";
+import { extensionViews } from "@/extension/views";
 import { Time } from "@/views/parts/site/values";
 import { getI18n } from "@/i18n/server";
 import type { MessageKey } from "@/i18n/t";
@@ -9,28 +12,6 @@ import { requireStaffPage } from "@/core/platform/staff/session";
 export async function generateMetadata() {
   const { t } = await getI18n();
   return { title: t("admin.nav.hours") };
-}
-
-// Quarter hours from 06:00 to 22:00, as a list: shows 24-hour times on every phone.
-const TIMES = Array.from({ length: 65 }, (_, i) => {
-  const minutes = 6 * 60 + i * 15;
-  return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
-});
-
-function TimeSelect({ name, label, value }: { name: string; label: string; value: string }) {
-  return (
-    <label className="field min-w-0">
-      <span className="field-label text-xs">{label}</span>
-      <select name={name} defaultValue={value} dir="ltr" className="input min-w-0">
-        {TIMES.includes(value) ? null : <option value={value}>{value}</option>}
-        {TIMES.map((time) => (
-          <option key={time} value={time}>
-            {time}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
 }
 
 const WEEKDAYS = [0, 1, 2, 3, 4, 5, 6];
@@ -72,6 +53,9 @@ export default async function HoursPage({ searchParams }: { searchParams: Promis
                   <TimeSelect name={`opens.${weekday}`} label={t("hours.opens")} value={row?.opens ?? "09:00"} />
                   <TimeSelect name={`closes.${weekday}`} label={t("hours.closes")} value={row?.closes ?? "16:00"} />
                 </div>
+                {extensionViews().map((views) => (
+                  <Fragment key={views.id}>{views.hoursFields?.({ weekday, more: row?.more ?? [] })}</Fragment>
+                ))}
               </fieldset>
             );
           })}

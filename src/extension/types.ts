@@ -4,6 +4,7 @@ import type { Locale } from "@/i18n/locales";
 import type { Db } from "@/core/platform/db";
 import type { Appointment } from "@/core/booking/appointments";
 import type { Service } from "@/core/booking/catalog";
+import type { HourRange } from "@/core/booking/hours";
 
 // An extension is a client's customisation, added to the core through the
 // points below and nothing else. Its folder is extensions/<id>/ with:
@@ -113,6 +114,19 @@ export type Extension = {
    * extension defines the shape and reads it; the core only carries it.
    */
   provides?: Record<string, unknown>;
+  /**
+   * Further opening ranges on a weekday, after the core's one, in order. The
+   * core reads, checks and saves them with the day; the fields are in its
+   * views (`hoursFields`).
+   */
+  openingRanges?: {
+    /** The further ranges of each weekday that has any. */
+    load(db?: Db): Promise<Map<number, HourRange[]>>;
+    /** What the hours form says for a weekday; `first` is the core's range, null on a closed day. "invalid" refuses the form. */
+    read(form: Form, weekday: number, first: HourRange | null): HourRange[] | "invalid";
+    /** Inside the transaction that saves the day. */
+    save(weekday: number, ranges: HourRange[], db: Db): Promise<void>;
+  };
   /** Form actions of the owner's content screen that belong to the extension, by the form's `action`. */
   catalogActions?: Record<string, (form: Form, ctx: { staffId: number }) => Promise<ActionResult>>;
 };

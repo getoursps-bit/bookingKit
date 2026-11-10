@@ -3,6 +3,7 @@ import {
   dayStatus,
   type DayInput,
   firstAvailable,
+  fitsDay,
   freeSlots,
   type SlotRules,
   visitLength,
@@ -162,4 +163,51 @@ describe("clock changes", () => {
       expect(slots[index]!.getTime() - slots[index - 1]!.getTime()).toBe(15 * 60_000);
     }
   }
+});
+
+describe("a day with a break", () => {
+  // A morning and a late afternoon: 09:00 to 13:00 and 16:00 to 18:00.
+  const split = { ...open(3, "09:00", "13:00"), more: [{ opens: "16:00", closes: "18:00" }] };
+  const noBuffer: SlotRules = { ...rules, bufferMin: 0 };
+  const WEDNESDAY = "2026-11-04";
+
+  it("offers times in both ranges and none across the break", () => {
+    const slots = times(freeSlots({ ...day(), date: WEDNESDAY, hours: split }, 60, noBuffer, earlyNow));
+    expect(slots[0]).toBe("09:00");
+    expect(slots).toContain("12:00"); // ends 13:00, the last of the morning
+    expect(slots).not.toContain("12:15");
+    expect(slots).not.toContain("15:45");
+    expect(slots).toContain("16:00");
+    expect(slots.at(-1)).toBe("17:00");
+  });
+
+  it("treats the break as closed time for the owner's own bookings", () => {
+    const wednesday = { ...day(), date: WEDNESDAY, hours: split };
+    expect(fitsDay(wednesday, local(WEDNESDAY, "12:00"), 60, 0)).toBe("ok");
+    expect(fitsDay(wednesday, local(WEDNESDAY, "12:30"), 60, 0)).toBe("OutsideHours");
+    expect(fitsDay(wednesday, local(WEDNESDAY, "14:00"), 60, 0)).toBe("OutsideHours");
+    expect(fitsDay(wednesday, local(WEDNESDAY, "16:30"), 60, 0)).toBe("ok");
+  });
+
+  it("is closed only when time off covers both ranges", () => {
+    const wednesday = { ...day(), date: WEDNESDAY, hours: split };
+    const morningOff = { ...wednesday, timeOff: [{ start: local(WEDNESDAY, "08:00"), end: local(WEDNESDAY, "14:00") }] };
+    expect(dayStatus(morningOff, 60, noBuffer, earlyNow)).toBe("available");
+    const allOff = { ...morningOff, timeOff: [...morningOff.timeOff, { start: local(WEDNESDAY, "15:00"), end: local(WEDNESDAY, "19:00") }] };
+    expect(dayStatus(allOff, 60, noBuffer, earlyNow)).toBe("closed");
+  });
+
+  it("keeps both ranges at their local times on the clock-change days", () => {
+    // 25 October 2026 (autumn, 03:00 to 02:00) and 27 March 2026 (spring, 02:00 to 03:00).
+    for (const [date, utcOffset] of [
+      ["2026-10-25", "+02:00"],
+      ["2026-03-27", "+03:00"],
+    ] as const) {
+      const dayBefore = new Date(new Date(`${date}T00:00:00Z`).getTime() - 86_400_000);
+      const slots = freeSlots({ ...day(), date, hours: { ...split, weekday: 0 } }, 60, noBuffer, dayBefore);
+      expect(slots.map((slot) => slot.toISOString())).toContain(new Date(`${date}T09:00:00${utcOffset}`).toISOString());
+      expect(slots.map((slot) => slot.toISOString())).toContain(new Date(`${date}T16:00:00${utcOffset}`).toISOString());
+      expect(times(slots)).not.toContain("13:00");
+    }
+  });
 });

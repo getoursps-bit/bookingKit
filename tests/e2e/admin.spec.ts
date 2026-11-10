@@ -7,7 +7,7 @@ import sharp from "sharp";
 import { searchPathOption } from "../../src/core/platform/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { DEFAULT_LOCALE, LOCALES } from "../../src/i18n/languages.generated";
-import { strings } from "./client";
+import { SPLIT_HOURS, strings } from "./client";
 
 // The site's first language after the default one, if there is one.
 const OTHER = LOCALES.find((locale) => locale !== DEFAULT_LOCALE);
@@ -310,6 +310,40 @@ test("the owner uploads a logo, which takes the place of the mark in the header,
   } finally {
     await sql("update business_profile set logo_key = null");
   }
+});
+
+test("the owner adds a second opening range to a day, and the site lists both", async ({ page }) => {
+  test.skip(!SPLIT_HOURS, "a second range a day belongs to the split-hours extension");
+  const t = strings(DEFAULT_LOCALE);
+  const monday = () => page.getByRole("group", { name: t["day.1"]! });
+  const save = () => page.locator("#weekly").getByRole("button", { name: t["admin.save"]! }).click();
+  await login(page);
+  // Late in the evening, after the seeded closing time, so no other test's free times move.
+  await page.goto("/admin/hours");
+  await monday().getByLabel(t["hours.split"]!).check();
+  await monday().getByLabel(t["hours.opens2"]!).selectOption("20:00");
+  await monday().getByLabel(t["hours.closes2"]!).selectOption("21:00");
+  await save();
+  await expect(monday().getByLabel(t["hours.split"]!)).toBeChecked();
+  await page.goto("/hours");
+  const row = page.getByRole("row", { name: new RegExp(t["day.1"]!) });
+  await expect(row).toContainText("09:00");
+  await expect(row).toContainText("20:00");
+
+  // A second range that starts before the first one closes is refused.
+  await page.goto("/admin/hours");
+  await monday().getByLabel(t["hours.opens2"]!).selectOption("12:00");
+  await save();
+  await expect(page.getByText(t["admin.error.invalid"]!)).toBeVisible();
+  await page.goto("/hours");
+  await expect(row).toContainText("20:00");
+
+  await page.goto("/admin/hours");
+  await monday().getByLabel(t["hours.split"]!).uncheck();
+  await save();
+  await page.goto("/hours");
+  await expect(row).toContainText("09:00");
+  await expect(row).not.toContainText("20:00");
 });
 
 test("the owner adds, replaces and removes a product photo", async ({ page }) => {
