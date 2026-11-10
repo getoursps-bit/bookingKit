@@ -1,3 +1,4 @@
+import { customerMessage } from "../../../extension/registry";
 import type { Locale } from "../../../i18n/locales";
 import type { Features } from "../features";
 import type { Settings } from "../settings";
@@ -58,7 +59,8 @@ export function route(kind: MessageKind, to: Recipient, ctx: RouteContext): Chan
     return [...(whatsapp ? (["messaging"] as const) : []), ...(email ? (["email"] as const) : [])];
   }
 
-  if (CUSTOMER_KINDS.includes(kind)) {
+  // The core's booking messages, and the ones an extension brings.
+  if (CUSTOMER_KINDS.includes(kind) || customerMessage(kind)) {
     if (to.optedOut) return [];
     return [...(whatsapp ? (["messaging"] as const) : []), ...(email ? (["email"] as const) : [])];
   }

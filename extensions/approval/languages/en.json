@@ -1,0 +1,28 @@
+{
+  "admin": { "nav": { "requests": "Requests" } },
+  "requests": {
+    "title": "Requests awaiting approval",
+    "all": "All requests",
+    "intro": "Booking requests awaiting your answer, soonest first. The time is kept for the customer until you answer.",
+    "none": "No requests are waiting.",
+    "requestedAt": "Requested",
+    "note": "Customer's note",
+    "firstVisit": "First visit",
+    "approve": "Approve request",
+    "refuse": "Refuse request",
+    "refuseReason": "Reason for the customer (optional)",
+    "approved": "Approved; the customer has been sent the confirmation.",
+    "refused": "Refused; the customer has been told.",
+    "noReason": "We could not confirm this time."
+  },
+  "manage": {
+    "refusedText": "We could not approve this request: {reason}",
+    "expiredText": "The requested time passed before we answered. Sorry, you can book again.",
+    "bookAgain": "Book another time"
+  },
+  "event": {
+    "request_new": "New booking request",
+    "request_expired": "A booking request was not answered in time"
+  },
+  "settings": { "booking": { "approval": "Every online booking is a request that needs your approval" } }
+}

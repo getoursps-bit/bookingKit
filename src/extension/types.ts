@@ -127,6 +127,32 @@ export type Extension = {
     /** Inside the transaction that saves the day. */
     save(weekday: number, ranges: HourRange[], db: Db): Promise<void>;
   };
+  /**
+   * Makes a new online booking wait for an answer instead of confirming it
+   * at once. The booking is then "pending": it keeps its time, and the
+   * customer can still move or cancel it. The extension confirms it with the
+   * core's `approvePending`, or cancels it.
+   */
+  approval?: {
+    /** True when a booking whose phone was just proven should wait. */
+    needed(db: Db): Promise<boolean>;
+    /** Inside the transaction that settles it, in place of the confirmation: tells the customer and the owner. */
+    requested(appointment: Appointment, db: Db, now: Date): Promise<void>;
+  };
+  /**
+   * Customer messages of its own, by kind. They are routed like the core's
+   * booking messages, with {when} and {link}; the extension seeds their
+   * templates under the same key as the kind.
+   */
+  customerMessages?: Record<
+    string,
+    {
+      /** False drops a queued message the booking no longer calls for. */
+      still?(appointment: Appointment, db: Db): Promise<boolean>;
+      /** More values for the template, in the language it is sent in. */
+      vars?(appointment: Appointment, locale: Locale, db: Db): Promise<Record<string, string>>;
+    }
+  >;
   /** Form actions of the owner's content screen that belong to the extension, by the form's `action`. */
   catalogActions?: Record<string, (form: Form, ctx: { staffId: number }) => Promise<ActionResult>>;
 };

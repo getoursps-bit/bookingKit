@@ -1,0 +1,14 @@
+{
+  "request_received": {
+    "provider_template": "request_received",
+    "he": { "subject": "הבקשה לתור ב%BRAND% התקבלה", "body": "קיבלנו את הבקשה לתור ב%BRAND% ב{when}. נשלח הודעה כשהתור יאושר. לצפייה, שינוי או ביטול: {link}" },
+    "en": { "subject": "Your %BRAND% booking request was received", "body": "We received your request for an appointment at %BRAND% on {when}. We'll message you once it is approved. To view, change or cancel: {link}" },
+    "ar": { "subject": "تم استلام طلب الحجز في %BRAND%", "body": "استلمنا طلبك لموعد في %BRAND% يوم {when}. سنرسل لك رسالة عند الموافقة. للعرض أو التغيير أو الإلغاء: {link}" }
+  },
+  "request_refused": {
+    "provider_template": "request_refused",
+    "he": { "subject": "הבקשה לתור ב%BRAND% לא אושרה", "body": "לא יכולנו לאשר את הבקשה לתור ב{when}. {reason} להזמנת מועד אחר: {link}" },
+    "en": { "subject": "Your %BRAND% booking request was not approved", "body": "We could not approve your request for {when}. {reason} To book another time: {link}" },
+    "ar": { "subject": "لم تتم الموافقة على طلب الحجز في %BRAND%", "body": "لم نتمكن من الموافقة على طلبك ليوم {when}. {reason} لحجز موعد آخر: {link}" }
+  }
+}

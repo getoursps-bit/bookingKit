@@ -33,7 +33,7 @@ type Booking = {
   id: number;
   start: string;
   end: string;
-  status: "confirmed" | "completed" | "no_show";
+  status: "pending" | "confirmed" | "completed" | "no_show";
   customerName: string;
   phone: string | null;
   notes: string | null;
@@ -106,11 +106,14 @@ export function Calendar({
   services,
   hours,
   focusId,
+  pendingHref,
 }: {
   csrf: string;
   services: Service[];
   hours: DayHours[];
   focusId: number | null;
+  /** The screen where bookings that wait for an answer are handled, when an extension brings one. */
+  pendingHref?: string | null;
 }) {
   const calendar = useRef<CalendarRef>(null);
   const { t, locale, dir } = useI18n();
@@ -206,7 +209,7 @@ export function Calendar({
       start: booking.start,
       end: booking.end,
       className: `cal-event cal-event-${booking.status}`,
-      editable: booking.status === "confirmed",
+      editable: booking.status === "confirmed" || booking.status === "pending",
       extendedProps: booking,
     }));
   }
@@ -386,6 +389,23 @@ export function Calendar({
           <Icon name="sparkle" className="shrink-0 text-brand" />
           <span className="whitespace-pre-line">{selected.summary}</span>
         </p>
+      ) : null}
+      {selected.status === "pending" ? (
+        <div className="flex flex-col gap-2 border-t border-line pt-4">
+          <p className="text-sm text-ink-muted">{t("cal.pendingNote")}</p>
+          {pendingHref ? (
+            <a href={pendingHref} className="btn btn-primary">
+              {t("cal.answer")}
+            </a>
+          ) : null}
+          <button
+            type="button"
+            className="btn border border-danger/30 text-danger hover:bg-danger-soft"
+            onClick={() => act("cancel", { notify: true })}
+          >
+            {t("cal.cancelNotify")}
+          </button>
+        </div>
       ) : null}
       {selected.status === "confirmed" ? (
         <div className="flex flex-col gap-2 border-t border-line pt-4">
@@ -593,6 +613,8 @@ function StatusBadge({ status, label }: { status: Booking["status"]; label: stri
   const style =
     status === "completed"
       ? "bg-success-soft text-success-ink"
+      : status === "pending"
+        ? "bg-warn-soft text-warn-ink"
       : status === "no_show"
         ? "bg-paper text-ink-muted"
         : "bg-brand-soft text-brand-strong";

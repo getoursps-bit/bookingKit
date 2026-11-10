@@ -18,14 +18,18 @@ const LINKS: { href: string; key: MessageKey; icon: IconName }[] = [
   { href: "/admin/settings", key: "admin.nav.settings", icon: "settings" },
 ];
 
-/** The admin sections: a scrolling row on phones, a column on wide screens. */
-export function AdminNav() {
+/** The admin sections: a scrolling row on phones, a column on wide screens. `extra` are the screens extensions bring, after "today". */
+export function AdminNav({ extra = [] }: { extra?: { href: string; label: string; icon: string }[] }) {
   const pathname = usePathname();
   const { t, locale } = useI18n();
   return (
     <nav aria-label={t("admin.navLabel")}>
       <ul className="flex gap-1 overflow-x-auto pb-1 md:flex-col md:overflow-visible">
-        {LINKS.map((link) => {
+        {[
+          LINKS[0]!,
+          ...extra.map((link) => ({ href: link.href, icon: link.icon as IconName, label: link.label })),
+          ...LINKS.slice(1),
+        ].map((link) => {
           const current = link.href === "/admin" ? pathname === "/admin" : pathname.startsWith(link.href);
           return (
             <li key={link.href} className="shrink-0">
@@ -37,7 +41,7 @@ export function AdminNav() {
                 }`}
               >
                 <Icon name={link.icon} size={18} />
-                {t(link.key)}
+                {"key" in link ? t(link.key) : link.label}
               </Link>
             </li>
           );

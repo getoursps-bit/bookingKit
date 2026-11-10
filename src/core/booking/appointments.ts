@@ -2,7 +2,20 @@ import type pg from "pg";
 import { type Db, pgError, query, withTransaction } from "../platform/db";
 import { secretHash } from "../platform/identity/hash";
 
-export type AppointmentStatus = "held" | "confirmed" | "cancelled" | "completed" | "no_show" | "released";
+export type AppointmentStatus =
+  | "held"
+  /** The phone is proven and the booking waits for an answer; it keeps its time. Used when an extension asks for it. */
+  | "pending"
+  | "confirmed"
+  | "cancelled"
+  | "completed"
+  | "no_show"
+  | "released";
+
+/** A booking the customer or the owner may still move or cancel: confirmed, or waiting for an answer. */
+export function changeable(appointment: Pick<Appointment, "status">): boolean {
+  return appointment.status === "confirmed" || appointment.status === "pending";
+}
 
 export type Appointment = {
   id: number;
@@ -156,16 +169,24 @@ export async function createConfirmed(input: NewAppointment, db?: Db): Promise<S
   return insert(input, "confirmed", null, db);
 }
 
-/** Confirms a hold that has not expired. Returns null when the hold is gone. */
-export async function confirm(id: number, db?: Db): Promise<Appointment | null> {
+/**
+ * Settles a hold that has not expired, once the phone is proven: confirmed,
+ * or pending when it waits for an answer. Returns null when the hold is gone.
+ */
+export async function settle(id: number, status: "pending" | "confirmed", db?: Db): Promise<Appointment | null> {
   const [row] = await query<Appointment>(
-    `update appointments set status = 'confirmed', hold_expires_at = null, updated_at = now()
+    `update appointments set status = $2, hold_expires_at = null, updated_at = now()
      where id = $1 and status = 'held' and hold_expires_at > now()
      returning ${COLUMNS}`,
-    [id],
+    [id, status],
     db,
   );
   return row ?? null;
+}
+
+/** A pending booking becomes confirmed. Null when it is no longer pending. */
+export async function approve(id: number, db?: Db): Promise<Appointment | null> {
+  return setStatus(id, "confirmed", ["pending"], db);
 }
 
 /**
@@ -178,7 +199,7 @@ export async function move(id: number, start: Date, end: Date, db?: Db): Promise
       await lockSchedule(client);
       const rows = await query<Appointment>(
         `update appointments set starts_at = $2, ends_at = $3, updated_at = now()
-         where id = $1 and status in ('held', 'confirmed')
+         where id = $1 and status in ('held', 'pending', 'confirmed')
          returning ${COLUMNS}`,
         [id, start, end],
         client,
@@ -213,7 +234,7 @@ async function setStatus(id: number, to: AppointmentStatus, from: AppointmentSta
 /** Cancels a booking and revokes its private links. */
 export async function cancel(id: number, db?: Db): Promise<Appointment | null> {
   return withTransaction(async (client) => {
-    const row = await setStatus(id, "cancelled", ["held", "confirmed"], client);
+    const row = await setStatus(id, "cancelled", ["held", "pending", "confirmed"], client);
     if (row) {
       await query(
         "update manage_tokens set revoked_at = now() where appointment_id = $1 and revoked_at is null",
@@ -251,7 +272,7 @@ export async function releaseExpiredHolds(now: Date = new Date(), db?: Db): Prom
   return rows.length;
 }
 
-/** Live bookings (held or confirmed) that overlap [start, end), for free-time checks and the calendar. */
+/** Live bookings (held, pending or confirmed) that overlap [start, end), for free-time checks and the calendar. */
 export async function listForRange(
   start: Date,
   end: Date,
@@ -261,7 +282,7 @@ export async function listForRange(
   return query<Appointment>(
     `select ${COLUMNS} from appointments
      where starts_at < $2 and ends_at > $1
-       ${opts.includeInactive ? "" : "and status in ('held', 'confirmed') and (status <> 'held' or hold_expires_at > now())"}
+       ${opts.includeInactive ? "" : "and status in ('held', 'pending', 'confirmed') and (status <> 'held' or hold_expires_at > now())"}
      order by starts_at`,
     [start, end],
     db,

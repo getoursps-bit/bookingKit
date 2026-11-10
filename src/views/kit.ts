@@ -3,6 +3,7 @@ import AdminCatalog from "./pages/admin/catalog";
 import AdminCustomer from "./pages/admin/customer";
 import AdminCustomers from "./pages/admin/customers";
 import AdminFrame from "./pages/admin/frame";
+import AdminExtension from "./pages/admin/extension";
 import AdminHours from "./pages/admin/hours";
 import AdminInbox from "./pages/admin/inbox";
 import AdminLogin from "./pages/admin/login";
@@ -52,6 +53,7 @@ export const KIT_VIEWS = {
   "admin.inbox": AdminInbox,
   "admin.settings": AdminSettings,
   "admin.stats": AdminStats,
+  "admin.extension": AdminExtension,
   "admin.frame": AdminFrame,
   "admin.login": AdminLogin,
 };

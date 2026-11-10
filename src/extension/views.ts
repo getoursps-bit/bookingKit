@@ -48,6 +48,18 @@ export type ExtensionViews = {
   contactLinks?(profile: { address: string | null; city: string | null }): { key: string; label: string; icon: string; href: string | null }[];
   /** More fields for one weekday on the owner's hours form, under the core's opening and closing time. `more` is what its manifest's `openingRanges` loaded. */
   hoursFields?(props: { weekday: number; more: { opens: string; closes: string }[] }): ReactNode;
+  /** On the owner's today page, before the next bookings. */
+  today?(props: { csrf: string }): ReactNode;
+  /**
+   * Screens of its own in the owner area, by slug: served at /admin/x/<slug>,
+   * with an entry in the menu. `label` is the key of a string, `icon` one of
+   * the kit's icons. `pending` marks the screen where bookings that wait for
+   * an answer are handled; the calendar links a pending booking to it.
+   */
+  adminPages?: Record<
+    string,
+    { label: string; icon: string; pending?: boolean; default(props: { search: Record<string, string | undefined> }): Promise<ReactNode> | ReactNode }
+  >;
   /** Forms its views post, by name: served at /api/ext/<id>/<name>. The handler checks its own form. */
   actions?: Record<string, (request: NextRequest) => Promise<Response>>;
   /** Campaign pages, by slug. */
@@ -67,4 +79,17 @@ export function extensionViews(): readonly ExtensionViews[] {
 /** Every campaign page the extensions bring, by slug. */
 export function extensionLandingPages(): Record<string, ExtensionLandingPage> {
   return Object.assign({}, ...VIEWS.map((views) => views.landingPages ?? {})) as Record<string, ExtensionLandingPage>;
+}
+
+/** The owner screens the extensions bring, with their address. */
+export function extensionAdminPages(): { href: string; slug: string; label: string; icon: string; pending: boolean }[] {
+  return VIEWS.flatMap((views) =>
+    Object.entries(views.adminPages ?? {}).map(([slug, page]) => ({
+      href: `/admin/x/${slug}`,
+      slug,
+      label: page.label,
+      icon: page.icon,
+      pending: page.pending === true,
+    })),
+  );
 }

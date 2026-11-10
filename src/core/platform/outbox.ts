@@ -10,7 +10,9 @@ export type OutboxKind =
   | "owner_alert"
   | "owner_check"
   | "auto_reply"
-  | "staff_code";
+  | "staff_code"
+  /** A customer message kind an extension brings (its manifest's `customerMessages`). */
+  | (string & {});
 export type Channel = "messaging" | "email" | "push";
 export type OutboxStatus = "queued" | "sending" | "sent" | "delivered" | "read" | "failed" | "skipped";
 

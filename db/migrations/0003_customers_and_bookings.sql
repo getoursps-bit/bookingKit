@@ -32,7 +32,9 @@ create table appointments (
   starts_at timestamptz not null,
   ends_at timestamptz not null,
   during tstzrange generated always as (tstzrange(starts_at, ends_at, '[)')) stored,
-  status text not null check (status in ('held', 'confirmed', 'cancelled', 'completed', 'no_show', 'released')),
+  -- pending: the customer proved the phone, and the booking waits for an answer
+  -- (an extension decides when). It keeps its time like a confirmed one.
+  status text not null check (status in ('held', 'pending', 'confirmed', 'cancelled', 'completed', 'no_show', 'released')),
   hold_expires_at timestamptz,
   created_by text not null check (created_by in ('customer', 'owner', 'import')),
   source jsonb not null default '{}'::jsonb,
@@ -46,7 +48,7 @@ create table appointments (
   -- so nobody can take a slot while its customer types the code.
   constraint appointments_no_overlap
     exclude using gist (groomer with =, during with &&)
-    where (status in ('held', 'confirmed'))
+    where (status in ('held', 'pending', 'confirmed'))
 );
 create index appointments_starts_idx on appointments (starts_at);
 create index appointments_customer_idx on appointments (customer_id);

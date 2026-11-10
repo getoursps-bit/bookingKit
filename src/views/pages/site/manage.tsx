@@ -12,6 +12,7 @@ import { Icon } from "@/views/parts/ui/Icon";
 import { getI18n } from "@/i18n/server";
 import { isolate } from "@/i18n/t";
 import type { MessageKey } from "@/i18n/t";
+import { changeable } from "@/core/booking/appointments";
 import { bookingView } from "@/core/booking/flow";
 import { getWeekForMove } from "@/core/booking/service";
 import { getSettings } from "@/core/platform/settings";
@@ -120,7 +121,9 @@ export default async function ManagePage({
     <>
       <PageHeader icon="calendar" title={t("manage.title")} />
       <div className="flex flex-col gap-4">
-        {search.new ? (
+        {search.new && appointment.status === "pending" ? (
+          <Alert kind="ok">{t("manage.requested")}</Alert>
+        ) : search.new ? (
           <Alert kind="ok">
             {view.messagesTo
               ? t(view.messagesTo.channel === "email" ? "manage.confirmedEmail" : "manage.confirmedWhatsapp", {
@@ -129,6 +132,7 @@ export default async function ManagePage({
               : t("manage.confirmed")}
           </Alert>
         ) : null}
+        {appointment.status === "pending" ? <Alert kind="info">{t("manage.pendingNote")}</Alert> : null}
         {done ? <Alert kind="ok">{done}</Alert> : null}
         {error ? <Alert kind="error">{error}</Alert> : null}
 
@@ -176,7 +180,7 @@ export default async function ManagePage({
           </dl>
         </section>
 
-        {appointment.status === "confirmed" ? (
+        {changeable(appointment) ? (
           view.canChange ? (
             <section className="flex flex-wrap gap-3">
               {!search.move ? (
@@ -215,7 +219,7 @@ export default async function ManagePage({
         views.manage ? <Fragment key={views.id}>{views.manage({ token, csrf, appointment })}</Fragment> : null,
       )}
 
-      {appointment.status === "confirmed" ? (
+      {changeable(appointment) ? (
         <section aria-labelledby="messages-title" className="card mt-8 p-5">
           <h2 id="messages-title" className="mb-3 font-bold">
             {t("manage.messages")}

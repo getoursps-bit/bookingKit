@@ -3,6 +3,7 @@ import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
 import { getOpeningHours, listServices } from "@/core/booking/catalog";
 import { hourRanges } from "@/core/booking/hours";
+import { extensionAdminPages } from "@/extension/views";
 import { requireStaffPage } from "@/core/platform/staff/session";
 
 export async function generateMetadata() {
@@ -22,6 +23,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
       <Calendar
         csrf={csrf}
         focusId={focusId}
+        pendingHref={extensionAdminPages().find((page) => page.pending)?.href ?? null}
         hours={hours.flatMap((day) => {
           const ranges = hourRanges(day);
           return ranges.length === 0 ? [null] : ranges.map((range) => ({ weekday: day.weekday, ...range }));

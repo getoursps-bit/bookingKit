@@ -33,7 +33,7 @@ async function finish(
 export async function ownerMove(id: number, start: Date, staffId: number, db: Db = getPool(), now = new Date()): Promise<Result> {
   return withTransaction(async (client) => {
     const before = await appointments.getAppointment(id, client);
-    if (!before || before.status !== "confirmed") return { ok: false, reason: "NotFound" } as const;
+    if (!before || !appointments.changeable(before)) return { ok: false, reason: "NotFound" } as const;
     const end = new Date(start.getTime() + (before.end.getTime() - before.start.getTime()));
     const fits = await ownerTimeCheck(start, (end.getTime() - start.getTime()) / 60_000, client);
     if (!fits.ok) return fits;
@@ -50,7 +50,7 @@ export async function ownerMove(id: number, start: Date, staffId: number, db: Db
 export async function ownerExtend(id: number, minutes: number, staffId: number, db: Db = getPool(), now = new Date()): Promise<Result> {
   return withTransaction(async (client) => {
     const before = await appointments.getAppointment(id, client);
-    if (!before || before.status !== "confirmed") return { ok: false, reason: "NotFound" } as const;
+    if (!before || !appointments.changeable(before)) return { ok: false, reason: "NotFound" } as const;
     const end = new Date(before.end.getTime() + minutes * 60_000);
     if (end <= before.start) return { ok: false, reason: "NotFound" } as const;
     const moved = await appointments.move(id, before.start, end, client);

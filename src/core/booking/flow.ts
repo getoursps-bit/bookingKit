@@ -7,6 +7,7 @@ import { type Db, getPool, query, withTransaction } from "../platform/db";
 import { checkCode, type CodeChannel, issueCode, type IssueResult } from "../platform/identity/codes";
 import { hit, LIMITS } from "../platform/identity/rateLimit";
 import { issueTrustedDevice, resolveManageToken, resolveTrustedDevice } from "./manageTokens";
+import * as appointments from "./appointments";
 import type { Appointment } from "./appointments";
 import * as customers from "./customers";
 import { Notify } from "../platform/notify";
@@ -209,7 +210,7 @@ export async function bookingView(token: string, ctx: Context = {}): Promise<Boo
     appointment,
     customerName: customer?.displayName ?? "",
     lines,
-    canChange: appointment.status === "confirmed" && now.getTime() < cutoff,
+    canChange: appointments.changeable(appointment) && now.getTime() < cutoff,
     messagesOn: consent?.on ?? true,
     messagesTo: await messagesTarget(appointment.customerId, db),
   };

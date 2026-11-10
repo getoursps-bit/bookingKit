@@ -9,6 +9,7 @@ const port = Number(process.env.E2E_PORT ?? 3600);
 // visitors arrive from Instagram on a phone.
 export default defineConfig({
   testDir: "tests/e2e",
+  globalSetup: "./tests/e2e/global-setup.ts",
   use: {
     ...devices["Pixel 7"],
     locale: "he-IL",

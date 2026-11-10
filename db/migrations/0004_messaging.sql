@@ -17,10 +17,8 @@ alter table message_templates enable row level security;
 -- without a second row.
 create table message_outbox (
   id bigint generated always as identity primary key,
-  kind text not null check (kind in (
-    'code', 'confirmation', 'reminder', 'customer_change', 'owner_change',
-    'import_link', 'owner_alert', 'owner_check'
-  )),
+  -- No fixed list: an extension may bring message kinds of its own.
+  kind text not null,
   appointment_id bigint references appointments (id) on delete set null,
   customer_id bigint references customers (id) on delete set null,
   staff_id bigint,
