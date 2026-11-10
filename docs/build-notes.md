@@ -790,3 +790,7 @@ changes equally.
   gets a later commit, the update brings it in and keeps the client's name,
   content and generated files; a change to the same line stops and names the
   file; uncommitted work is refused.
+- A real run: the example project made as a clone in a scratch folder passed
+  its own suite (227 unit tests, 59 browser tests, production build); after
+  the kit's next commit `pnpm kit status` showed it behind and
+  `pnpm kit update` brought it level with a clean tree and passing typecheck.
