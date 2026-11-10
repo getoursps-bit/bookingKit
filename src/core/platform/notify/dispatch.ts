@@ -1,4 +1,5 @@
-import { DEFAULT_LOCALE, type Locale, localePath } from "../../../i18n/locales";
+import { customerMessage } from "../../../extension/registry";
+import { DEFAULT_LOCALE, type Locale, LOCALES, localePath } from "../../../i18n/locales";
 import { isMessageKey } from "../../../i18n/keys";
 import { type MessageKey } from "../../../i18n/t";
 import { translator } from "../../../i18n/translator";
@@ -65,19 +66,30 @@ async function sendBookingMessage(row: OutboxRow, db: Db, now: Date): Promise<vo
     return;
   }
   const change = typeof row.data.change === "string" ? row.data.change : null;
-  const live = appointment.status === "confirmed";
+  // Confirmed and pending bookings are live: they keep a time and have a private link.
+  const confirmed = appointment.status === "confirmed";
+  const live = confirmed || appointment.status === "pending";
   if (row.kind === "reminder") {
     // A reminder belongs to one start time; a moved booking has its own.
     const due = appointment.start.getTime() - 24 * 60 * 60_000;
-    if (!live || Math.abs(due - row.sendAt.getTime()) > 60_000 || appointment.start <= now) {
+    if (!confirmed || Math.abs(due - row.sendAt.getTime()) > 60_000 || appointment.start <= now) {
       await markSkipped(row.id, "booking changed", db);
       return;
     }
   }
-  if ((row.kind === "confirmation" || row.kind === "import_link") && !live) {
+  if ((row.kind === "confirmation" || row.kind === "import_link") && !confirmed) {
     await markSkipped(row.id, "booking no longer confirmed", db);
     return;
   }
+
+  // An extension's own message: it says whether the booking still calls for it, and adds its values.
+  const own = customerMessage(row.kind);
+  if (own?.still && !(await own.still(appointment, db))) {
+    await markSkipped(row.id, "booking changed", db);
+    return;
+  }
+  const more = new Map<Locale, Record<string, string>>();
+  if (own?.vars) for (const locale of LOCALES) more.set(locale, await own.vars(appointment, locale, db));
 
   const base = getConfig().APP_BASE_URL.replace(/\/$/, "");
   let token: string | null = null;
@@ -93,6 +105,7 @@ async function sendBookingMessage(row: OutboxRow, db: Db, now: Date): Promise<vo
       when,
       link,
       change: change && CHANGE_KEYS[change] ? translator(locale)(CHANGE_KEYS[change], { when }) : "",
+      ...more.get(locale),
     };
   };
   await deliver(row, to, vars, { buttonParam: token, db });

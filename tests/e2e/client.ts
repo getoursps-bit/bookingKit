@@ -11,6 +11,8 @@ import { MESSAGES } from "../../src/i18n/packs.generated";
 export const PETS = (client.extensions as string[]).includes("pets");
 /** True when the client keeps a second opening range a day. */
 export const SPLIT_HOURS = (client.extensions as string[]).includes("split-hours");
+/** True when the client's online bookings are requests the owner approves. */
+export const APPROVAL = (client.extensions as string[]).includes("approval");
 /** True when the client has the ai extension: pet photos are analysed, and offered, only then. */
 export const AI = (client.extensions as string[]).includes("ai");
 

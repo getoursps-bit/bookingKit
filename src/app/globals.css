@@ -355,6 +355,11 @@
   border-radius: 0.5rem !important;
   overflow: hidden;
 }
+.cal-event-pending {
+  border-inline-start-style: dashed !important;
+  border-inline-start-color: var(--color-warn-ink) !important;
+  background: var(--color-warn-soft) !important;
+}
 .cal-event-completed {
   border-inline-start-color: var(--color-success) !important;
   background: var(--color-success-soft) !important;

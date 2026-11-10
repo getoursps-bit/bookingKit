@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import pg from "pg";
 import { seed } from "../../db/seed/seed";
 import { migrate } from "../../scripts/migrate";
+import { hasExtension } from "../../src/extension/registry";
 
 /**
  * Gives a test its own throwaway schema on the local or CI Postgres, and drops
@@ -33,6 +34,11 @@ export async function withMigratedSchema<T>(
   return withTestSchema(async (client, schema) => {
     await migrate(client);
     if (opts.seed !== false) await seed(client);
+    // For a client with the approval extension the suite still tests bookings
+    // that are confirmed at once; the approval tests switch it on themselves.
+    if (hasExtension("approval")) {
+      await client.query(`insert into settings (key, value) values ('booking.approval', 'false') on conflict (key) do nothing`);
+    }
     const pool = new pg.Pool({
       connectionString: process.env.TEST_ADMIN_DATABASE_URL,
       options: `-c search_path=${schema},public`,

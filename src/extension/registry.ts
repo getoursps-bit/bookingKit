@@ -27,6 +27,15 @@ export function firstWith<Key extends keyof Extension>(key: Key): NonNullable<Ex
   return EXTENSIONS.find((extension) => extension[key] !== undefined)?.[key] as NonNullable<Extension[Key]> | undefined;
 }
 
+/** An extension's own customer message kind, or undefined when the kind is not one. */
+export function customerMessage(kind: string): NonNullable<Extension["customerMessages"]>[string] | undefined {
+  for (const extension of EXTENSIONS) {
+    const point = extension.customerMessages;
+    if (point && Object.hasOwn(point, kind)) return point[kind];
+  }
+  return undefined;
+}
+
 /** Every extension that asks for details on a booking's lines, with its id (the key its details are stored under). */
 export function bookingLinePoints(): { id: string; point: BookingLines<unknown> }[] {
   return EXTENSIONS.flatMap((extension) =>

@@ -3,7 +3,7 @@
 // repositories with the pure functions in slots.ts, and keeps every change and
 // the messages it causes in one transaction.
 import { z } from "zod";
-import { bookingLinePoints } from "../../extension/registry";
+import { bookingLinePoints, firstWith } from "../../extension/registry";
 import type { Locale } from "../../i18n/locales";
 import { type Db, getPool, query, withTransaction } from "../platform/db";
 import { newRawToken } from "../platform/identity/hash";
@@ -180,7 +180,7 @@ export async function getWeekForMove(
 ): Promise<{ ok: true; week: Week } | Fail> {
   const db = ctx.db ?? getPool();
   const current = await appointments.getByToken(token, db);
-  if (!current || current.status !== "confirmed") return { ok: false, reason: "NotFound" };
+  if (!current || !appointments.changeable(current)) return { ok: false, reason: "NotFound" };
   const settings = await getSettings(db);
   const lengthMin = Math.round((current.end.getTime() - current.start.getTime()) / 60_000);
   const week = await buildWeek(
@@ -330,7 +330,8 @@ function toHold(appointment: appointments.Appointment): Hold {
 export function bookingMessages(
   appointment: appointments.Appointment,
   now: Date,
-  kind: "confirmation" | "customer_change" | "owner_change",
+  /** One of the core's, or an extension's own customer message kind. */
+  kind: "confirmation" | "customer_change" | "owner_change" | (string & {}),
   change?: string,
 ) {
   const rows: Parameters<typeof Notify.queue>[0] = [
@@ -360,8 +361,8 @@ export function bookingMessages(
 export type Confirmed = { appointment: appointments.Appointment; manageToken: string };
 
 /**
- * Confirms a hold after the code (or a trusted device) proved the phone. In one
- * transaction: confirms, lets the extensions save the lines' details, issues the
+ * Settles a hold after the code (or a trusted device) proved the phone. In one
+ * transaction: confirms it (or, when an extension asks, leaves it pending), lets the extensions save the lines' details, issues the
  * private link, and queues the confirmation, the reminder and the owner alert.
  */
 export async function confirmBooking(
@@ -370,7 +371,10 @@ export async function confirmBooking(
 ): Promise<{ ok: true; booking: Confirmed } | Fail> {
   const now = ctx.now ?? new Date();
   return withTransaction(async (client) => {
-    const appointment = await appointments.confirm(holdId, client);
+    // An extension may make the booking wait for an answer; it then keeps its time as pending.
+    const approval = firstWith("approval");
+    const waits = approval ? await approval.needed(client) : false;
+    const appointment = await appointments.settle(holdId, waits ? "pending" : "confirmed", client);
     if (!appointment) {
       const existing = await appointments.getAppointment(holdId, client);
       return { ok: false, reason: existing ? "HoldExpired" : "NotFound" } as const;
@@ -405,9 +409,35 @@ export async function confirmBooking(
     );
     // The phone is proven by now, so the booking may set the customer's language.
     if (ctx.locale) await customers.setLocale(appointment.customerId, ctx.locale, client);
-    await Notify.queue(bookingMessages(appointment, now, "confirmation"), client);
-    await addOwnerEvent("booking_created", appointment.id, {}, {}, client);
+    if (approval && appointment.status === "pending") {
+      await approval.requested(appointment, client, now);
+    } else {
+      await Notify.queue(bookingMessages(appointment, now, "confirmation"), client);
+      await addOwnerEvent("booking_created", appointment.id, {}, {}, client);
+    }
     return { ok: true, booking: { appointment: { ...appointment, source }, manageToken } } as const;
+  }, ctx.db ?? getPool());
+}
+
+/**
+ * A pending booking is approved: it becomes confirmed and the customer gets
+ * the confirmation and the reminder. The owner's own action, so no alert
+ * goes back to her. For the extension that made it wait.
+ */
+export async function approvePending(
+  id: number,
+  staffId: number,
+  ctx: Context = {},
+): Promise<{ ok: true; appointment: appointments.Appointment } | Fail> {
+  const now = ctx.now ?? new Date();
+  return withTransaction(async (client) => {
+    const before = await appointments.getAppointment(id, client);
+    const approved = before ? await appointments.approve(id, client) : null;
+    if (!before || !approved) return { ok: false, reason: "NotFound" } as const;
+    await Notify.queue(bookingMessages(approved, now, "confirmation"), client);
+    await addOwnerEvent("booking_created", id, { by: "owner", approved: true }, { silent: true }, client);
+    await writeAudit(client, { staffId, actor: "staff", entity: "appointments", entityId: id, action: "approve", before, after: approved });
+    return { ok: true, appointment: approved } as const;
   }, ctx.db ?? getPool());
 }
 
@@ -426,7 +456,7 @@ export async function moveBooking(
   const start = z.coerce.date().parse(newStart);
   return withTransaction(async (client) => {
     const current = await appointments.getByToken(token, client);
-    if (!current || current.status !== "confirmed") return { ok: false, reason: "NotFound" } as const;
+    if (!current || !appointments.changeable(current)) return { ok: false, reason: "NotFound" } as const;
     const settings = await getSettings(client);
     if (!beforeCutoff(current, settings, now)) return { ok: false, reason: "PastCutoff" } as const;
 
@@ -456,7 +486,7 @@ export async function cancelBooking(
   const now = ctx.now ?? new Date();
   return withTransaction(async (client) => {
     const current = await appointments.getByToken(token, client);
-    if (!current || current.status !== "confirmed") return { ok: false, reason: "NotFound" } as const;
+    if (!current || !appointments.changeable(current)) return { ok: false, reason: "NotFound" } as const;
     const settings = await getSettings(client);
     if (!beforeCutoff(current, settings, now)) return { ok: false, reason: "PastCutoff" } as const;
     const cancelled = await appointments.cancel(current.id, client);

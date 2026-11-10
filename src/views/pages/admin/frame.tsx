@@ -4,6 +4,7 @@ import { AdminFrame } from "@/views/parts/admin/AdminFrame";
 import { AdminNav } from "@/views/parts/admin/AdminNav";
 import { AdminServiceWorker } from "@/views/parts/admin/AdminPush";
 import { Icon } from "@/views/parts/ui/Icon";
+import { extensionAdminPages } from "@/extension/views";
 import { getI18n } from "@/i18n/server";
 import { requireStaffPage } from "@/core/platform/staff/session";
 
@@ -11,6 +12,8 @@ import { requireStaffPage } from "@/core/platform/staff/session";
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const { staff, csrf } = await requireStaffPage();
   const { t } = await getI18n();
+  // An extension's own string, which the core's list of keys does not have.
+  const say = t as unknown as (key: string) => string;
   return (
     <>
       <AdminFrame
@@ -35,7 +38,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             <p className="truncate text-sm text-ink-muted" dir="ltr">
               {staff.email}
             </p>
-            <AdminNav />
+            <AdminNav extra={extensionAdminPages().map((page) => ({ href: page.href, icon: page.icon, label: say(page.label) }))} />
           </>
         }
       >

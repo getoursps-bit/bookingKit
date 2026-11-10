@@ -45,7 +45,7 @@ export async function bookingsBetween(
      from appointments a join customers c on c.id = a.customer_id
      where a.starts_at < $2 and a.ends_at > $1 and a.status = any($3)
      order by a.starts_at`,
-    [start, end, opts.statuses ?? ["confirmed", "completed", "no_show"]],
+    [start, end, opts.statuses ?? ["pending", "confirmed", "completed", "no_show"]],
     db,
   );
   const describe = await describeLines(
@@ -97,7 +97,7 @@ export async function customerBookings(
                  from appointment_lines ap join services s on s.id = ap.service_id
                  where ap.appointment_id = a.id), '') as services
      from appointments a
-     where a.customer_id = $1 and a.status in ('confirmed', 'completed', 'no_show', 'cancelled')
+     where a.customer_id = $1 and a.status in ('pending', 'confirmed', 'completed', 'no_show', 'cancelled')
      order by a.starts_at desc limit 100`,
     [customerId],
     db,

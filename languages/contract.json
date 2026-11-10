@@ -1845,6 +1845,14 @@
         "en": "No-show"
       }
     },
+    "manage.status.pending": {
+      "placeholders": [],
+      "text": {
+        "he": "ממתין לאישור",
+        "ar": "بانتظار الموافقة",
+        "en": "Awaiting approval"
+      }
+    },
     "manage.move": {
       "placeholders": [],
       "text": {
@@ -1946,10 +1954,11 @@
     "manage.bookAgain": {
       "placeholders": [],
       "text": {
-        "he": "קביעת תור חדש",
-        "ar": "حجز موعد جديد",
-        "en": "Book a new appointment"
-      }
+        "he": "הזמנת מועד אחר",
+        "ar": "حجز موعد آخر",
+        "en": "Book another time"
+      },
+      "extension": "approval"
     },
     "manage.private": {
       "placeholders": [],
@@ -1957,6 +1966,22 @@
         "he": "זה קישור אישי. לא כדאי לשתף אותו.",
         "ar": "هذا رابط شخصي. يُفضّل عدم مشاركته.",
         "en": "This is a personal link. Please don't share it."
+      }
+    },
+    "manage.requested": {
+      "placeholders": [],
+      "text": {
+        "he": "הבקשה התקבלה! תישלח אליך הודעה כשהתור יאושר.",
+        "ar": "تم استلام الطلب! ستصلك رسالة عند الموافقة على الموعد.",
+        "en": "Request received! You'll get a message once the appointment is approved."
+      }
+    },
+    "manage.pendingNote": {
+      "placeholders": [],
+      "text": {
+        "he": "השעה שמורה לך עד שנענה. אפשר להזיז או לבטל כאן.",
+        "ar": "الوقت محجوز لك حتى نرد. يمكنك تغييره أو إلغاؤه من هنا.",
+        "en": "The time is kept for you until we answer. You can move or cancel it here."
       }
     },
     "err.expired": {
@@ -2981,6 +3006,14 @@
         "en": "No-show"
       }
     },
+    "cal.status.pending": {
+      "placeholders": [],
+      "text": {
+        "he": "ממתין לאישור",
+        "ar": "بانتظار الموافقة",
+        "en": "Awaiting approval"
+      }
+    },
     "cal.prev": {
       "placeholders": [],
       "text": {
@@ -2995,6 +3028,22 @@
         "he": "הבא",
         "ar": "التالي",
         "en": "Next"
+      }
+    },
+    "cal.pendingNote": {
+      "placeholders": [],
+      "text": {
+        "he": "התור הזה הוא בקשה שממתינה לתשובה שלך. השעה שמורה ללקוח.",
+        "ar": "هذا الحجز طلب بانتظار ردّك. الوقت محجوز للزبون.",
+        "en": "This booking is a request that waits for your answer. The time is kept for the customer."
+      }
+    },
+    "cal.answer": {
+      "placeholders": [],
+      "text": {
+        "he": "מענה לבקשה",
+        "ar": "الرد على الطلب",
+        "en": "Answer the request"
       }
     },
     "catalog.services": {
@@ -4038,6 +4087,179 @@
         "en": "AI this month: {cost}"
       },
       "extension": "ai"
+    },
+    "admin.nav.requests": {
+      "placeholders": [],
+      "text": {
+        "he": "בקשות",
+        "ar": "الطلبات",
+        "en": "Requests"
+      },
+      "extension": "approval"
+    },
+    "requests.title": {
+      "placeholders": [],
+      "text": {
+        "he": "בקשות שממתינות לאישור",
+        "ar": "طلبات بانتظار الموافقة",
+        "en": "Requests awaiting approval"
+      },
+      "extension": "approval"
+    },
+    "requests.all": {
+      "placeholders": [],
+      "text": {
+        "he": "כל הבקשות",
+        "ar": "كل الطلبات",
+        "en": "All requests"
+      },
+      "extension": "approval"
+    },
+    "requests.intro": {
+      "placeholders": [],
+      "text": {
+        "he": "בקשות לתור שממתינות לתשובה שלך, הקרובות קודם. השעה שמורה ללקוח עד שתעני.",
+        "ar": "طلبات الحجز التي تنتظر ردّك، الأقرب أولاً. الوقت محجوز للزبون حتى تردّي.",
+        "en": "Booking requests awaiting your answer, soonest first. The time is kept for the customer until you answer."
+      },
+      "extension": "approval"
+    },
+    "requests.none": {
+      "placeholders": [],
+      "text": {
+        "he": "אין בקשות ממתינות.",
+        "ar": "لا توجد طلبات بالانتظار.",
+        "en": "No requests are waiting."
+      },
+      "extension": "approval"
+    },
+    "requests.requestedAt": {
+      "placeholders": [],
+      "text": {
+        "he": "התבקש",
+        "ar": "تاريخ الطلب",
+        "en": "Requested"
+      },
+      "extension": "approval"
+    },
+    "requests.note": {
+      "placeholders": [],
+      "text": {
+        "he": "הערת הלקוח",
+        "ar": "ملاحظة الزبون",
+        "en": "Customer's note"
+      },
+      "extension": "approval"
+    },
+    "requests.firstVisit": {
+      "placeholders": [],
+      "text": {
+        "he": "ביקור ראשון",
+        "ar": "زيارة أولى",
+        "en": "First visit"
+      },
+      "extension": "approval"
+    },
+    "requests.approve": {
+      "placeholders": [],
+      "text": {
+        "he": "אישור הבקשה",
+        "ar": "الموافقة على الطلب",
+        "en": "Approve request"
+      },
+      "extension": "approval"
+    },
+    "requests.refuse": {
+      "placeholders": [],
+      "text": {
+        "he": "דחיית הבקשה",
+        "ar": "رفض الطلب",
+        "en": "Refuse request"
+      },
+      "extension": "approval"
+    },
+    "requests.refuseReason": {
+      "placeholders": [],
+      "text": {
+        "he": "סיבה ללקוח (לא חובה)",
+        "ar": "السبب للزبون (اختياري)",
+        "en": "Reason for the customer (optional)"
+      },
+      "extension": "approval"
+    },
+    "requests.approved": {
+      "placeholders": [],
+      "text": {
+        "he": "אושר; האישור נשלח ללקוח.",
+        "ar": "تمت الموافقة؛ أُرسل التأكيد للزبون.",
+        "en": "Approved; the customer has been sent the confirmation."
+      },
+      "extension": "approval"
+    },
+    "requests.refused": {
+      "placeholders": [],
+      "text": {
+        "he": "נדחה; הלקוח קיבל הודעה.",
+        "ar": "تم الرفض؛ أُبلغ الزبون.",
+        "en": "Refused; the customer has been told."
+      },
+      "extension": "approval"
+    },
+    "requests.noReason": {
+      "placeholders": [],
+      "text": {
+        "he": "לא יכולנו לאשר את המועד הזה.",
+        "ar": "لم نتمكن من تأكيد هذا الموعد.",
+        "en": "We could not confirm this time."
+      },
+      "extension": "approval"
+    },
+    "manage.refusedText": {
+      "placeholders": [
+        "reason"
+      ],
+      "text": {
+        "he": "לא יכולנו לאשר את הבקשה: {reason}",
+        "ar": "لم نتمكن من الموافقة على هذا الطلب: {reason}",
+        "en": "We could not approve this request: {reason}"
+      },
+      "extension": "approval"
+    },
+    "manage.expiredText": {
+      "placeholders": [],
+      "text": {
+        "he": "המועד שביקשת עבר לפני שענינו. מצטערים, אפשר להזמין שוב.",
+        "ar": "مرّ الموعد المطلوب قبل أن نرد. نعتذر، يمكنك الحجز من جديد.",
+        "en": "The requested time passed before we answered. Sorry, you can book again."
+      },
+      "extension": "approval"
+    },
+    "event.request_new": {
+      "placeholders": [],
+      "text": {
+        "he": "בקשה חדשה לתור",
+        "ar": "طلب حجز جديد",
+        "en": "New booking request"
+      },
+      "extension": "approval"
+    },
+    "event.request_expired": {
+      "placeholders": [],
+      "text": {
+        "he": "בקשה לתור לא נענתה בזמן",
+        "ar": "طلب حجز لم يُرد عليه في الوقت",
+        "en": "A booking request was not answered in time"
+      },
+      "extension": "approval"
+    },
+    "settings.booking.approval": {
+      "placeholders": [],
+      "text": {
+        "he": "כל הזמנה באתר היא בקשה שדורשת את האישור שלך",
+        "ar": "كل حجز عبر الموقع هو طلب يحتاج إلى موافقتك",
+        "en": "Every online booking is a request that needs your approval"
+      },
+      "extension": "approval"
     },
     "pets.name": {
       "placeholders": [],

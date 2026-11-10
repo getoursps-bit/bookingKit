@@ -8,10 +8,3 @@ create table job_runs (
 );
 alter table job_runs enable row level security;
 
--- The one fixed reply to a message sent to the automated number. Widening the
--- list of kinds keeps every existing row valid.
-alter table message_outbox drop constraint message_outbox_kind_check;
-alter table message_outbox add constraint message_outbox_kind_check check (kind in (
-  'code', 'confirmation', 'reminder', 'customer_change', 'owner_change',
-  'import_link', 'owner_alert', 'owner_check', 'auto_reply'
-));

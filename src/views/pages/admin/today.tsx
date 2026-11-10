@@ -1,7 +1,9 @@
+import { Fragment } from "react";
 import { EnablePush } from "@/views/parts/admin/AdminPush";
 import { ActionForm, AdminNotice, Panel } from "@/views/parts/admin/parts";
 import { Phone, Time } from "@/views/parts/site/values";
 import { Icon } from "@/views/parts/ui/Icon";
+import { extensionViews } from "@/extension/views";
 import { getI18n } from "@/i18n/server";
 import type { MessageKey } from "@/i18n/t";
 import { bookingsBetween } from "@/core/booking/owner-data";
@@ -35,6 +37,7 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-extrabold">{t("admin.nav.today")}</h1>
       <AdminNotice {...search} />
+      {extensionViews().map((views) => (views.today ? <Fragment key={views.id}>{views.today({ csrf })}</Fragment> : null))}
       <div className="grid gap-4 lg:grid-cols-2">
         <Panel id="next" title={t("today.next")}>
           {bookings.length === 0 ? (

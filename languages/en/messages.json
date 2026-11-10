@@ -261,7 +261,8 @@
       "confirmed": "Confirmed",
       "cancelled": "Cancelled",
       "completed": "Completed",
-      "no_show": "No-show"
+      "no_show": "No-show",
+      "pending": "Awaiting approval"
     },
     "move": "Move appointment",
     "moveTitle": "Choose a new time",
@@ -276,7 +277,9 @@
     "gone": "This link is no longer valid",
     "goneText": "The appointment is over, was cancelled, or the link is wrong. You can book a new appointment.",
     "bookAgain": "Book a new appointment",
-    "private": "This is a personal link. Please don't share it."
+    "private": "This is a personal link. Please don't share it.",
+    "requested": "Request received! You'll get a message once the appointment is approved.",
+    "pendingNote": "The time is kept for you until we answer. You can move or cancel it here."
   },
   "err": {
     "expired": "This page has expired. Please try again.",
@@ -423,10 +426,13 @@
     "status": {
       "confirmed": "Confirmed",
       "completed": "Arrived",
-      "no_show": "No-show"
+      "no_show": "No-show",
+      "pending": "Awaiting approval"
     },
     "prev": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "pendingNote": "This booking is a request that waits for your answer. The time is kept for the customer.",
+    "answer": "Answer the request"
   },
   "catalog": {
     "services": "Services & prices",

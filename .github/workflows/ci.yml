@@ -18,7 +18,7 @@ jobs:
         # and languages; a plain one with no extensions; and one with the ai
         # extension alone, so nothing quietly depends on the default or on
         # an extension being on.
-        client: [client.json, tests/fixtures/client.sample.json, tests/fixtures/client.plain.json, tests/fixtures/client.notes.json]
+        client: [client.json, tests/fixtures/client.sample.json, tests/fixtures/client.plain.json, tests/fixtures/client.notes.json, tests/fixtures/client.requests.json]
     services:
       postgres:
         image: postgres:16-alpine

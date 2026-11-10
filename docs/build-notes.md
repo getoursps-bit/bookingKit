@@ -617,3 +617,62 @@ swappable drivers, behind one facade.
 - Sample: 229 unit (18 skipped), 61 browser. Plain: 232 unit (15 skipped),
   58 browser. Notes: 239 unit (8 skipped), 59 browser.
 - The page pictures were not rerun; nothing a visitor sees changed.
+
+## Step 2, part D3: booking approval (2026-11-10)
+
+The last of Safa's customisations. It is split between the core and an
+extension, because a booking that waits still has to keep its time.
+
+**In the core**
+
+- A booking can be `pending`: the customer proved the phone and the booking
+  waits for an answer. It keeps its time like a confirmed one (the database's
+  no-overlap rule counts it), it shows in the calendar with its own look, and
+  the customer can still move or cancel it from the private link.
+- `confirmBooking` asks the extension that provides `approval` whether a
+  booking waits. With none, or with approval switched off, it confirms at
+  once as before. `approvePending` confirms a waiting booking and sends the
+  usual confirmation.
+- The outbox takes message kinds an extension brings (`customerMessages`),
+  with the extension's own check that the message is still true at send time.
+- Two new places for an extension's views: a panel on the owner's today page
+  (`today`) and whole admin screens at `/admin/x/<slug>` with a place in the
+  menu (`adminPages`).
+
+**In `extensions/approval/`**
+
+- Decides that an online booking waits (`booking.approval`, on by default,
+  the owner's switch), tells the customer the request was received and the
+  owner that one arrived.
+- The requests screen and the today panel, each request with approve and
+  refuse; a refusal can carry a reason the customer is told.
+- A request nobody answered before its time ends by itself (the worker's
+  minute job).
+- A refused or expired request is a cancelled booking plus a row in
+  `booking_requests` that says why; the private link shows the reason and a
+  way to book again.
+
+**Decisions**
+
+- Refused and expired are not new core states. The core knows only that a
+  pending booking became cancelled.
+- The test suites switch `booking.approval` off after seeding, so every
+  other test books as before; the approval tests turn it on for themselves.
+- The owner's own bookings from the admin are confirmed at once and never
+  wait.
+
+**Not done**
+
+- No browser test books through the public site with approval on: the
+  browser test inserts two waiting bookings and has the owner approve one
+  and refuse the other. The booking-to-request path is covered by
+  `tests/unit/approval.db.test.ts`.
+- The request messages are new templates; a client on Meta needs them
+  approved there before going live.
+
+**Verified (D3)**
+
+- Default client: 246 unit tests (6 skipped), 62 browser tests, production
+  build and worker bundle.
+- Sample: 229 unit, 61 browser. Plain: 232 unit, 58 browser. Notes: 239
+  unit, 59 browser. Requests (approval alone): 237 unit, 59 browser.
