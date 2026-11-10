@@ -6,7 +6,8 @@
     ]
   },
   "extensions": [
-    "pets"
+    "pets",
+    "map-links"
   ],
   "brand": {
     "name": {

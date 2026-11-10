@@ -126,11 +126,16 @@ function PhotoField({
   photoUrl,
   uploads,
   t,
+  name = "photo",
+  removeName = "removePhoto",
 }: {
   label: string;
   photoUrl?: string | null;
   uploads: boolean;
   t: Translate;
+  /** The form fields of the file and of the "remove" tick, when a form has a second photo. */
+  name?: string;
+  removeName?: string;
 }) {
   if (!uploads) return <p className="text-sm text-ink-muted sm:col-span-2">{t("admin.error.storageOff")}</p>;
   return (
@@ -142,9 +147,9 @@ function PhotoField({
       ) : null}
       <div className="flex min-w-0 flex-1 basis-56 flex-col gap-2">
         <Field label={photoUrl ? t("catalog.replacePhoto") : label}>
-          <input type="file" name="photo" accept={PHOTO_TYPES} className="input" />
+          <input type="file" name={name} accept={PHOTO_TYPES} className="input" />
         </Field>
-        {photoUrl ? <Check name="removePhoto" label={t("catalog.removePhoto")} checked={false} /> : null}
+        {photoUrl ? <Check name={removeName} label={t("catalog.removePhoto")} checked={false} /> : null}
       </div>
     </div>
   );
@@ -325,6 +330,16 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
             uploads={uploads}
             t={t}
           />
+          {uploads ? (
+            <PhotoField
+              label={t("catalog.logo")}
+              photoUrl={profile?.logoKey ? storage.publicUrl(profile.logoKey) : null}
+              uploads={uploads}
+              t={t}
+              name="logo"
+              removeName="removeLogo"
+            />
+          ) : null}
           <Field label={t("catalog.name")}>
             <input name="name" required maxLength={80} defaultValue={profile?.name ?? ""} className="input" />
           </Field>

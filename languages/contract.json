@@ -3148,6 +3148,14 @@
         "en": "Cover photo (top of the home page)"
       }
     },
+    "catalog.logo": {
+      "placeholders": [],
+      "text": {
+        "he": "לוגו (בראש האתר, במקום הסמל)",
+        "ar": "الشعار (في أعلى الموقع، مكان الرمز)",
+        "en": "Logo (in the header, in place of the mark)"
+      }
+    },
     "catalog.replacePhoto": {
       "placeholders": [],
       "text": {

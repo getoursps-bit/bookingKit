@@ -447,6 +447,7 @@
     "uploadFailed": "{failed} of {total} photos were not uploaded: {names}. Use a JPG, PNG or WebP of up to 8 MB.",
     "photo": "Product photo",
     "cover": "Cover photo (top of the home page)",
+    "logo": "Logo (in the header, in place of the mark)",
     "replacePhoto": "Replace the photo",
     "removePhoto": "Remove the photo",
     "alt": "Photo description (for screen readers)",

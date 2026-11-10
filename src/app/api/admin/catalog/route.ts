@@ -129,6 +129,9 @@ export async function POST(request: NextRequest) {
       const oldCover = current?.coverKey ?? null;
       const cover = await choosePhoto(files.photo?.[0], form.removePhoto === "on", oldCover, "site");
       if (cover.error) return back("profile", { error: cover.error });
+      const oldLogo = current?.logoKey ?? null;
+      const logo = await choosePhoto(files.logo?.[0], form.removeLogo === "on", oldLogo, "site");
+      if (logo.error) return back("profile", { error: logo.error });
       await updateBusinessProfile(
         {
           name,
@@ -138,12 +141,13 @@ export async function POST(request: NextRequest) {
           address: text(form.address, 160),
           phoneE164: phone,
           social,
-          logoKey: current?.logoKey ?? null,
+          logoKey: logo.key,
           coverKey: cover.key,
         },
         writer,
       );
       await dropOldPhoto(oldCover, cover.key);
+      await dropOldPhoto(oldLogo, logo.key);
       return back("profile", { ok: "saved" });
     }
     case "template": {

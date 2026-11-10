@@ -1,4 +1,5 @@
 import { Icon, type IconName } from "@/views/parts/ui/Icon";
+import { extensionViews } from "@/extension/views";
 import { getI18n } from "@/i18n/server";
 import type { Translate } from "@/i18n/t";
 import { phoneLink, socialLink, wazeLink, whatsappLink } from "@/core/platform/links";
@@ -12,6 +13,10 @@ export function contactButtons(t: Translate, profile: BusinessProfile, chatNumbe
     { key: "call", label: t("contact.call"), icon: "phone", href: phoneLink(profile.phoneE164), external: false },
     { key: "whatsapp", label: t("contact.whatsapp"), icon: "chat", href: whatsappLink(chatNumber), external: true },
     { key: "waze", label: "Waze", icon: "navigate", href: wazeLink(profile.address), external: true },
+    // What the extensions add: other maps apps, say.
+    ...extensionViews().flatMap((views) =>
+      (views.contactLinks?.(profile) ?? []).map((link) => ({ ...link, icon: link.icon as IconName, external: true })),
+    ),
     {
       key: "instagram",
       label: t("contact.instagram"),

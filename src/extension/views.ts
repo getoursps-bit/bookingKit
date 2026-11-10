@@ -40,6 +40,12 @@ export type ExtensionViews = {
    * missing key, say); they are then shown but cannot be changed.
    */
   settings?: { features?: readonly string[]; caps?: readonly string[]; off?(): string | null };
+  /**
+   * Shortcuts it adds to the contact row, after the core's navigation
+   * button. One with no `href` (the owner has not filled in what it needs)
+   * is left out. `icon` is the name of one of the kit's icons.
+   */
+  contactLinks?(profile: { address: string | null; city: string | null }): { key: string; label: string; icon: string; href: string | null }[];
   /** Forms its views post, by name: served at /api/ext/<id>/<name>. The handler checks its own form. */
   actions?: Record<string, (request: NextRequest) => Promise<Response>>;
   /** Campaign pages, by slug. */

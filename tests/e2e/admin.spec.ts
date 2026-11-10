@@ -289,6 +289,29 @@ test("the owner sets the home page cover photo and removes it", async ({ page })
   }
 });
 
+test("the owner uploads a logo, which takes the place of the mark in the header, and removes it", async ({ page }) => {
+  const logo = () => page.locator("header img[src*='/site/']");
+  const form = page.locator('form:has(input[name="action"][value="profile"])');
+  await login(page);
+  try {
+    await page.goto("/admin/catalog#profile");
+    await form.locator('input[name="logo"]').setInputFiles(await photo("logo.png", "#68a"));
+    await form.locator('button[type="submit"]').click();
+    await expect(page.getByRole("status").filter({ hasText: "נשמר" })).toBeVisible();
+    await page.goto("/");
+    await expect(logo()).toHaveCount(1);
+
+    await page.goto("/admin/catalog#profile");
+    await form.locator('input[name="removeLogo"]').check();
+    await form.locator('button[type="submit"]').click();
+    await expect(page.getByRole("status").filter({ hasText: "נשמר" })).toBeVisible();
+    await page.goto("/");
+    await expect(logo()).toHaveCount(0);
+  } finally {
+    await sql("update business_profile set logo_key = null");
+  }
+});
+
 test("the owner adds, replaces and removes a product photo", async ({ page }) => {
   const name = `e2e product ${Date.now()}`;
   const imageKey = async () => (await sql<{ image_key: string | null }>("select image_key from products where name_he = $1", [name]))[0]?.image_key;
