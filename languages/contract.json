@@ -2731,14 +2731,6 @@
         "en": "New message to the messaging number"
       }
     },
-    "event.ai_cap_reached": {
-      "placeholders": [],
-      "text": {
-        "he": "הגעתם לתקרת ה-AI החודשית",
-        "ar": "وصلتم إلى الحد الشهري للذكاء الاصطناعي",
-        "en": "You've reached the monthly AI limit"
-      }
-    },
     "event.alerts_stopped": {
       "placeholders": [],
       "text": {
@@ -3539,22 +3531,6 @@
         "en": "How many minutes a time is held while the code is entered"
       }
     },
-    "settings.ai.photo": {
-      "placeholders": [],
-      "text": {
-        "he": "ניתוח תמונות חיות ב-AI",
-        "ar": "تحليل صور الحيوانات بالذكاء الاصطناعي",
-        "en": "AI pet photo analysis"
-      }
-    },
-    "settings.ai.summary": {
-      "placeholders": [],
-      "text": {
-        "he": "סיכום לפני תור ב-AI",
-        "ar": "ملخص قبل الموعد بالذكاء الاصطناعي",
-        "en": "AI summary before an appointment"
-      }
-    },
     "settings.messaging.whatsappOutage": {
       "placeholders": [],
       "text": {
@@ -3596,28 +3572,12 @@
         "en": "Messages per month"
       }
     },
-    "settings.cap.aiMonthlyAgorot": {
-      "placeholders": [],
-      "text": {
-        "he": "תקציב AI בחודש (אגורות)",
-        "ar": "ميزانية الذكاء الاصطناعي الشهرية (أغورات)",
-        "en": "Monthly AI budget (agorot)"
-      }
-    },
     "settings.saved": {
       "placeholders": [],
       "text": {
         "he": "ההגדרות נשמרו.",
         "ar": "حُفظت الإعدادات.",
         "en": "Settings saved."
-      }
-    },
-    "settings.aiOff": {
-      "placeholders": [],
-      "text": {
-        "he": "אין מפתח AI מוגדר, לכן המתגים האלה לא פעילים.",
-        "ar": "لا يوجد مفتاح ذكاء اصطناعي مهيأ، لذلك هذه المفاتيح غير فعّالة.",
-        "en": "No AI key is set up, so these switches are inactive."
       }
     },
     "settings.phoneHelp": {
@@ -3874,16 +3834,6 @@
         "en": "Message cost"
       }
     },
-    "stats.aiCost": {
-      "placeholders": [
-        "cost"
-      ],
-      "text": {
-        "he": "בינה מלאכותית החודש: {cost}",
-        "ar": "الذكاء الاصطناعي هذا الشهر: {cost}",
-        "en": "AI this month: {cost}"
-      }
-    },
     "stats.weekly": {
       "placeholders": [],
       "text": {
@@ -4033,6 +3983,53 @@
         "ar": "{hours} و{minutes}",
         "en": "{hours} {minutes}"
       }
+    },
+    "event.ai_cap_reached": {
+      "placeholders": [],
+      "text": {
+        "he": "הגעתם לתקרת ה-AI החודשית",
+        "ar": "وصلتم إلى الحد الشهري للذكاء الاصطناعي",
+        "en": "You've reached the monthly AI limit"
+      },
+      "extension": "ai"
+    },
+    "settings.ai.summary": {
+      "placeholders": [],
+      "text": {
+        "he": "סיכום לפני תור ב-AI",
+        "ar": "ملخص قبل الموعد بالذكاء الاصطناعي",
+        "en": "AI summary before an appointment"
+      },
+      "extension": "ai"
+    },
+    "settings.cap.aiMonthlyAgorot": {
+      "placeholders": [],
+      "text": {
+        "he": "תקציב AI בחודש (אגורות)",
+        "ar": "ميزانية الذكاء الاصطناعي الشهرية (أغورات)",
+        "en": "Monthly AI budget (agorot)"
+      },
+      "extension": "ai"
+    },
+    "settings.aiOff": {
+      "placeholders": [],
+      "text": {
+        "he": "אין מפתח AI מוגדר, לכן המתגים האלה לא פעילים.",
+        "ar": "لا يوجد مفتاح ذكاء اصطناعي مهيأ، لذلك هذه المفاتيح غير فعّالة.",
+        "en": "No AI key is set up, so these switches are inactive."
+      },
+      "extension": "ai"
+    },
+    "stats.aiCost": {
+      "placeholders": [
+        "cost"
+      ],
+      "text": {
+        "he": "בינה מלאכותית החודש: {cost}",
+        "ar": "الذكاء الاصطناعي هذا الشهر: {cost}",
+        "en": "AI this month: {cost}"
+      },
+      "extension": "ai"
     },
     "pets.name": {
       "placeholders": [],
@@ -4467,6 +4464,15 @@
         "he": "כלב / חתול",
         "ar": "كلب / قط",
         "en": "Dog / Cat"
+      },
+      "extension": "pets"
+    },
+    "settings.ai.photo": {
+      "placeholders": [],
+      "text": {
+        "he": "ניתוח תמונות חיות ב-AI",
+        "ar": "تحليل صور الحيوانات بالذكاء الاصطناعي",
+        "en": "AI pet photo analysis"
       },
       "extension": "pets"
     }

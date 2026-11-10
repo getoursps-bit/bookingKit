@@ -33,6 +33,13 @@ export type ExtensionViews = {
    * `language` is the language the notice is written in. Null for nothing.
    */
   privacy?(props: { part: "collected" | "shared" | "kept"; language: string }): ReactNode | null;
+  /**
+   * Where its settings (the manifest's `settings`) go on the owner's settings
+   * screen: switches under "features", monthly limits under "caps". `off`
+   * gives the key of a string that says why the switches cannot work yet (a
+   * missing key, say); they are then shown but cannot be changed.
+   */
+  settings?: { features?: readonly string[]; caps?: readonly string[]; off?(): string | null };
   /** Forms its views post, by name: served at /api/ext/<id>/<name>. The handler checks its own form. */
   actions?: Record<string, (request: NextRequest) => Promise<Response>>;
   /** Campaign pages, by slug. */

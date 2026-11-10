@@ -1,4 +1,6 @@
+import { aiOn } from "@ext/ai/server/api";
 import { ActionForm, Panel } from "@/components/admin/parts";
+import { hasExtension } from "@/extension/registry";
 import { defineViews } from "@/extension/views";
 import { pick } from "@/i18n/content";
 import { getI18n } from "@/i18n/server";
@@ -160,6 +162,8 @@ export default defineViews({
   customer: (props) => <CustomerPets {...props} />,
   catalog: (props) => <Rules {...props} />,
   actions: { photo: photoAction },
+  // Photo analysis is the ai extension's work, so its switch shows only with that extension on.
+  settings: hasExtension("ai") ? { features: ["ai.photo"], off: () => (aiOn() ? null : "settings.aiOff") } : undefined,
   privacy,
   landingPages: { "dog-grooming": dogGrooming },
 });

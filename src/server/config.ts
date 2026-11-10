@@ -14,8 +14,6 @@ export const PROVIDER_KEYS = {
   ],
   email: ["EMAIL_API_URL", "EMAIL_API_KEY", "EMAIL_FROM"],
   push: ["VAPID_PUBLIC_KEY", "VAPID_PRIVATE_KEY", "VAPID_SUBJECT"],
-  // The model and its prices are set with the key, so no model is ever picked by default.
-  ai: ["AI_API_KEY", "AI_MODEL", "AI_PRICE_INPUT_AGOROT_PER_MTOK", "AI_PRICE_OUTPUT_AGOROT_PER_MTOK"],
 } as const;
 
 export type ProviderName = keyof typeof PROVIDER_KEYS;
@@ -51,12 +49,6 @@ const schema = z
     VAPID_PUBLIC_KEY: optional,
     VAPID_PRIVATE_KEY: optional,
     VAPID_SUBJECT: optional,
-
-    AI_API_KEY: optional,
-    AI_MODEL: optional,
-    // Agorot per million tokens, from the provider's price list for AI_MODEL.
-    AI_PRICE_INPUT_AGOROT_PER_MTOK: z.string().trim().regex(/^\d+(\.\d+)?$/, "a number").optional(),
-    AI_PRICE_OUTPUT_AGOROT_PER_MTOK: z.string().trim().regex(/^\d+(\.\d+)?$/, "a number").optional(),
   })
   .superRefine((env, ctx) => {
     if (env.PROVIDERS !== "real") return;
@@ -99,6 +91,23 @@ export function getConfig(): Config {
 export function providerMode(name: ProviderName, config: Config = getConfig()): ProviderMode {
   if (config.PROVIDERS === "fake") return "fake";
   return PROVIDER_KEYS[name].every((key) => config[key]) ? "real" : "off";
+}
+
+/**
+ * The same for an outside service an extension brings, from the names of its
+ * own environment variables. It follows the same rule: all set (real), none
+ * set (off), and a partly filled service is an error.
+ */
+export function serviceMode(
+  keys: readonly string[],
+  env: Record<string, string | undefined> = process.env,
+  config: Config = getConfig(),
+): ProviderMode {
+  if (config.PROVIDERS === "fake") return "fake";
+  const missing = keys.filter((key) => !env[key]?.trim());
+  if (missing.length === 0) return "real";
+  if (missing.length === keys.length) return "off";
+  throw new Error(`Invalid environment configuration:\n${missing.map((key) => `  ${key}: required (the other keys of this service are set)`).join("\n")}`);
 }
 
 /** Test hook: forget the cached config so a test can change process.env. */

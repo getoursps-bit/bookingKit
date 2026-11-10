@@ -4,11 +4,14 @@ import sharp from "sharp";
 import { describe, expect, it } from "vitest";
 import { openDay } from "../setup/days";
 import { testDbAvailable, withMigratedSchema } from "../setup/db";
+import { createFakeAi } from "@ext/ai/server/fake";
+import { runAiJobs } from "@ext/ai/server/jobs";
+import { queueSummaries } from "@ext/ai/server/summary";
+import { PhotoResult } from "@ext/pets/server/photo-ai";
 import { acceptSuggestion, deleteExpiredPhotos, petPhotoLines, savePetPhoto } from "@ext/pets/server/photos";
 import { hasExtension } from "@/extension/registry";
-import { createFakeAi } from "@/server/ai/fake";
-import { queueSummaries, runAiJobs } from "@/server/ai/jobs";
-import { PhotoResult } from "@/server/ai/types";
+import { bookingsBetween } from "@/server/admin/data";
+import { erase } from "@/server/repos/customers";
 import { confirmBooking, requestHold } from "@/server/booking/service";
 import { addLocalDays } from "@/server/booking/slots";
 import { getStorage } from "@/server/storage";
@@ -50,6 +53,20 @@ const jobs = (pool: pg.Pool) =>
   pool.query("select kind, status, attempts, error, cost_agorot as cost, result from ai_jobs order by id").then((r) => r.rows);
 const spend = (pool: pg.Pool) => pool.query("select coalesce(sum(total_agorot), 0)::int as total from ai_spend").then((r) => r.rows[0].total);
 
+describe("settings of an extension", () => {
+  it("are known only while the extension is on", async () => {
+    const { allSettingDefaults, isSettingKey, settingValid } = await import("@/server/repos/settings");
+    expect(isSettingKey("booking.maxLines")).toBe(true);
+    expect(isSettingKey("ai.summary")).toBe(hasExtension("ai"));
+    expect(isSettingKey("ai.photo")).toBe(hasExtension("pets"));
+    expect(settingValid("ai.summary", "yes")).toBe(false);
+    if (hasExtension("ai")) {
+      expect(settingValid("ai.summary", true)).toBe(true);
+      expect(allSettingDefaults()).toMatchObject({ "ai.summary": false, "cap.aiMonthlyAgorot": 15000 });
+    }
+  });
+});
+
 describe("photo result check", () => {
   it("accepts only the fixed fields and conditions", () => {
     expect(PhotoResult.safeParse({ species: "dog", breed: "פודל", coat: "תלתלי", condition: "matted" }).success).toBe(true);
@@ -59,7 +76,7 @@ describe("photo result check", () => {
   });
 });
 
-describe.skipIf(!hasDb)("AI jobs", () => {
+describe.skipIf(!hasDb || !hasExtension("ai"))("AI jobs", () => {
   it("with the switch off, no job runs and nothing is spent", async () => {
     await withMigratedSchema(async (pool) => {
       const booking = await booked(pool, 1);
@@ -81,8 +98,16 @@ describe.skipIf(!hasDb)("AI jobs", () => {
       const [job] = await jobs(pool);
       expect(job).toMatchObject({ status: "done", cost: 5 });
       // The pet's name is in the note when the client books pets.
-      if (hasExtension("pets")) expect(job.result.textHe).toContain("בדיקה");
+      if (hasExtension("pets")) expect(job.result.text).toContain("בדיקה");
       expect(await spend(pool)).toBe(5);
+
+      // The owner reads the note with the booking, on her today page and calendar.
+      const [shown] = await bookingsBetween(new Date(), new Date(Date.now() + 30 * 86_400_000), {}, pool);
+      expect(shown?.summary).toBe(job.result.text);
+
+      // Erasing the customer removes the note, which holds what the customer wrote.
+      await erase(shown!.customerId, pool);
+      expect(await jobs(pool)).toEqual([]);
     });
   });
 
@@ -151,7 +176,7 @@ describe.skipIf(!hasDb)("AI jobs", () => {
   });
 });
 
-describe.skipIf(!hasDb || !hasExtension("pets"))("pet photos", () => {
+describe.skipIf(!hasDb || !hasExtension("pets") || !hasExtension("ai"))("pet photos", () => {
   it("re-encodes without metadata, suggests, saves the accepted values, and expires", async () => {
     await withMigratedSchema(async (pool) => {
       await setting(pool, "ai.photo", true);

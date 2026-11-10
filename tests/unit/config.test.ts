@@ -53,7 +53,6 @@ describe("config", () => {
       emailMessages: false,
       photoUploads: false,
       ownerPush: false,
-      aiAvailable: false,
     });
     resetConfigForTests();
     process.env.EMAIL_API_URL = "https://email.example.test";

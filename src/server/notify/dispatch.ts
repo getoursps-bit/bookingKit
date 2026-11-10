@@ -1,4 +1,5 @@
 import { DEFAULT_LOCALE, type Locale, localePath } from "../../i18n/locales";
+import { isMessageKey } from "../../i18n/keys";
 import { type MessageKey } from "../../i18n/t";
 import { translator } from "../../i18n/translator";
 import { getConfig } from "../config";
@@ -28,7 +29,6 @@ export const OWNER_EVENT_TITLES: Record<string, string> = {
   booking_cancelled: "תור בוטל",
   message_failed: "הודעה ללקוח לא נשלחה",
   reply_received: "הודעה חדשה מלקוח",
-  ai_cap_reached: "הגעתם לתקרת ה-AI החודשית",
   alerts_stopped: "ההתראות הפסיקו להגיע",
   message_cap: "מכסת ההודעות החודשית מתמלאת",
   owner_check: "בדיקה יומית",
@@ -184,5 +184,8 @@ async function sendToOwners(row: OutboxRow, db: Db, now: Date): Promise<void> {
 
 function title(row: OutboxRow): string {
   const type = row.kind === "owner_check" ? "alerts_stopped" : String(row.data.type ?? "");
-  return OWNER_EVENT_TITLES[type] ?? "התראה";
+  if (OWNER_EVENT_TITLES[type]) return OWNER_EVENT_TITLES[type];
+  // An extension's event: its title is the string "event.<type>" in its own language files.
+  const key = `event.${type}`;
+  return isMessageKey(key) ? translator(DEFAULT_LOCALE)(key) : "התראה";
 }

@@ -1,6 +1,6 @@
 {
   "languages": { "default": "he", "others": ["en"] },
-  "extensions": ["pets"],
+  "extensions": ["pets", "ai"],
   "brand": {
     "name": { "he": "Fluffy Fur", "en": "Fluffy Fur" },
     "mark": "paw",

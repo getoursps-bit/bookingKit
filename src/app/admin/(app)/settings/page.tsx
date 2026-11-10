@@ -1,9 +1,9 @@
 import { ActionForm, AdminNotice, Panel } from "@/components/admin/parts";
 import { getI18n } from "@/i18n/server";
 import type { MessageKey, Translate } from "@/i18n/t";
-import { getFeatures } from "@/server/features";
 import { displayPhone } from "@/server/links";
-import { getSettings, type SettingKey, type Settings } from "@/server/repos/settings";
+import { extensionViews } from "@/extension/views";
+import { getAllSettings } from "@/server/repos/settings";
 import { requireStaffPage } from "@/server/staff/session";
 
 export async function generateMetadata() {
@@ -11,7 +11,7 @@ export async function generateMetadata() {
   return { title: t("admin.nav.settings") };
 }
 
-const GROUPS: { id: string; title: MessageKey; keys: SettingKey[] }[] = [
+const GROUPS: { id: string; title: MessageKey; keys: string[] }[] = [
   {
     id: "booking",
     title: "settings.bookingTitle",
@@ -26,9 +26,9 @@ const GROUPS: { id: string; title: MessageKey; keys: SettingKey[] }[] = [
       "booking.holdMin",
     ],
   },
-  { id: "features", title: "settings.features", keys: ["ai.photo", "ai.summary", "messaging.whatsappOutage", "site.noindex"] },
+  { id: "features", title: "settings.features", keys: ["messaging.whatsappOutage", "site.noindex"] },
   { id: "numbers", title: "settings.numbers", keys: ["whatsapp.senderNumber", "whatsapp.chatNumber"] },
-  { id: "caps", title: "settings.caps", keys: ["cap.messagesMonthly", "cap.aiMonthlyAgorot"] },
+  { id: "caps", title: "settings.caps", keys: ["cap.messagesMonthly"] },
 ];
 
 function SettingInput({
@@ -38,8 +38,8 @@ function SettingInput({
   disabled,
 }: {
   t: Translate;
-  name: SettingKey;
-  value: Settings[SettingKey];
+  name: string;
+  value: unknown;
   disabled: boolean;
 }) {
   const label = t(`settings.${name}` as MessageKey);
@@ -76,16 +76,26 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
   const notice = await searchParams;
   const { csrf } = await requireStaffPage();
   const { t } = await getI18n();
-  const settings = await getSettings();
-  const aiAvailable = getFeatures().aiAvailable;
+  const settings = await getAllSettings();
+  // The extensions' settings join the core's: switches first in "features", limits last in "caps".
+  const extra = extensionViews().flatMap((views) => (views.settings ? [{ ...views.settings, why: views.settings.off?.() ?? null }] : []));
+  const off = new Set(extra.flatMap((part) => (part.why ? (part.features ?? []) : [])));
+  const offNotes = [...new Set(extra.flatMap((part) => (part.why ? [part.why] : [])))];
+  const groups = GROUPS.map((group) =>
+    group.id === "features"
+      ? { ...group, keys: [...extra.flatMap((part) => part.features ?? []), ...group.keys] }
+      : group.id === "caps"
+        ? { ...group, keys: [...group.keys, ...extra.flatMap((part) => part.caps ?? [])] }
+        : group,
+  );
 
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-extrabold">{t("admin.nav.settings")}</h1>
       <AdminNotice {...notice} />
-      {GROUPS.map((group) => {
+      {groups.map((group) => {
         // A disabled checkbox sends nothing, which would read as "off"; leave such keys out of the form.
-        const keys = group.keys.filter((key) => aiAvailable || !key.startsWith("ai."));
+        const keys = group.keys.filter((key) => !off.has(key));
         return (
           <Panel key={group.id} id={group.id} title={t(group.title)}>
             <ActionForm
@@ -100,7 +110,13 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
                   <SettingInput key={key} t={t} name={key} value={settings[key]} disabled={!keys.includes(key)} />
                 ))}
               </div>
-              {group.id === "features" && !aiAvailable ? <p className="text-sm text-ink-muted">{t("settings.aiOff")}</p> : null}
+              {group.id === "features"
+                ? offNotes.map((why) => (
+                    <p key={why} className="text-sm text-ink-muted">
+                      {t(why as MessageKey)}
+                    </p>
+                  ))
+                : null}
               {group.id === "numbers" ? (
                 <p id="phone-help" className="text-sm text-ink-muted">
                   {t("settings.phoneHelp")}

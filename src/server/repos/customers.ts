@@ -215,6 +215,7 @@ export async function erase(id: number, db?: Db): Promise<void> {
     for (const table of ["customer_contacts", ...extra, "trusted_devices", "push_subscriptions", "consents"]) {
       await query(`delete from ${table} where customer_id = $1`, [id], client);
     }
+    for (const extension of extensions()) await extension.customerData?.erase?.(id, client);
     await query("update appointments set notes = null, source = '{}'::jsonb where customer_id = $1", [id], client);
     await query("update message_outbox set data = '{}'::jsonb where customer_id = $1", [id], client);
     await query("update inbound_messages set body = null, from_number = 'erased' where customer_id = $1", [id], client);

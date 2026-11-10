@@ -1,7 +1,7 @@
 import { SubmitButton } from "@/components/booking/SubmitButton";
 import { Icon } from "@/components/ui/Icon";
 import { getI18n } from "@/i18n/server";
-import { COAT_CONDITIONS } from "@/server/ai/types";
+import { COAT_CONDITIONS } from "../server/photo-ai";
 import type { PetPhotoLine } from "../server/photos";
 import { say } from "../server/strings";
 

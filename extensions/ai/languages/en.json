@@ -1,0 +1,17 @@
+{
+  "event": {
+    "ai_cap_reached": "You've reached the monthly AI limit"
+  },
+  "settings": {
+    "ai": {
+      "summary": "AI summary before an appointment"
+    },
+    "cap": {
+      "aiMonthlyAgorot": "Monthly AI budget (agorot)"
+    },
+    "aiOff": "No AI key is set up, so these switches are inactive."
+  },
+  "stats": {
+    "aiCost": "AI this month: {cost}"
+  }
+}

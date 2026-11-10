@@ -37,27 +37,3 @@ create table push_subscriptions (
   check ((staff_id is null) <> (customer_id is null))
 );
 alter table push_subscriptions enable row level security;
-
-create table ai_jobs (
-  id bigint generated always as identity primary key,
-  kind text not null check (kind in ('photo', 'summary')),
-  appointment_id bigint not null references appointments (id) on delete cascade,
-  pet_id bigint references pets (id) on delete cascade,
-  status text not null default 'queued' check (status in ('queued', 'running', 'done', 'failed', 'skipped')),
-  attempts integer not null default 0,
-  model text,
-  prompt_version text,
-  cost_agorot integer not null default 0,
-  result jsonb,
-  error text,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  unique (kind, appointment_id, pet_id)
-);
-alter table ai_jobs enable row level security;
-
-create table ai_spend (
-  month date primary key,
-  total_agorot integer not null default 0
-);
-alter table ai_spend enable row level security;

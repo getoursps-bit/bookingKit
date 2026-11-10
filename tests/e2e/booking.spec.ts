@@ -7,7 +7,7 @@ import { searchPathOption } from "../../src/server/db-schema";
 import { DEV_DATABASE_URL } from "../setup/dev-db";
 import { DEFAULT_LOCALE, LOCALES, PACKS } from "../../src/i18n/languages.generated";
 import { CONTENT } from "../../src/i18n/packs.generated";
-import { PETS, strings } from "./client";
+import { AI, PETS, strings } from "./client";
 
 // The site's first language after the default one, if there is one; these tests take it as the "other" language.
 const OTHER = LOCALES.find((locale) => locale !== DEFAULT_LOCALE);
@@ -399,7 +399,7 @@ test("the booking page falls back to the phone when no code can be sent", async 
 });
 
 test("with photo analysis on, a pet photo can be added and the suggestion corrected", async ({ browser }) => {
-  test.skip(!PETS, "pet photos belong to the pets extension");
+  test.skip(!PETS || !AI, "pet photos belong to the pets extension and need the ai extension");
   const who = customer();
   const page = await newCustomerPage(browser, who.address);
   await reachCode(page, who);

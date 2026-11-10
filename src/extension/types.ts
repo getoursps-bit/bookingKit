@@ -1,4 +1,5 @@
 import type pg from "pg";
+import type { z } from "zod";
 import type { Locale } from "@/i18n/locales";
 import type { Db } from "@/server/db";
 import type { Appointment } from "@/server/repos/appointments";
@@ -87,11 +88,31 @@ export type Extension = {
   customerData?: {
     /** Its tables that have a `customer_id` column: moved on a merge, emptied on an erase. */
     tables: readonly string[];
+    /** Removes what it holds about the customer in tables without that column, inside the erase. */
+    erase?(customerId: number, db: Db): Promise<void>;
     /** Added to the customer's data export, under its own keys. */
     export?(customerId: number, db?: Db): Promise<Record<string, unknown>>;
   };
   /** Its part of the worker's daily clean-up, such as deleting old photos. Returns what it removed, for the log. */
   cleanup?(db: Db, now: Date): Promise<Record<string, number>>;
+  /**
+   * Its own settings, each with its type and default, stored with the core's.
+   * Where the owner changes them is in its views (`settings`).
+   */
+  settings?: Record<string, z.ZodType>;
+  /** Work the worker does for it every minute. Returns what it did, for the log. */
+  minute?(db: Db, now: Date): Promise<Record<string, number>>;
+  /** Jobs the worker runs for it once a day, at a local hour. A name is unique among all jobs. */
+  daily?: readonly { name: string; hour: number; run(now: Date, db: Db): Promise<unknown> }[];
+  /** A note for the owner on each of these bookings, shown with the booking on her today page and calendar. */
+  bookingNotes?(appointmentIds: number[], db: Db): Promise<Map<number, string>>;
+  /** What it cost in a month ("yyyy-mm-01"), for the owner's statistics. `label` is the key of a string with {cost}. */
+  monthlyCost?(month: string, db: Db): Promise<{ label: string; agorot: number }>;
+  /**
+   * What it offers another extension, by that extension's id. The other
+   * extension defines the shape and reads it; the core only carries it.
+   */
+  provides?: Record<string, unknown>;
   /** Form actions of the owner's content screen that belong to the extension, by the form's `action`. */
   catalogActions?: Record<string, (form: Form, ctx: { staffId: number }) => Promise<ActionResult>>;
 };

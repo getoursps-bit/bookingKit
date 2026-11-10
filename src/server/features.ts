@@ -14,8 +14,6 @@ export type Features = {
   /** Uploading photos (gallery, products, pets) needs object storage. */
   photoUploads: boolean;
   ownerPush: boolean;
-  /** AI also needs the owner's switches in settings; this says only that a key exists. */
-  aiAvailable: boolean;
 };
 
 export function getFeatures(config: Config = getConfig()): Features {
@@ -26,6 +24,5 @@ export function getFeatures(config: Config = getConfig()): Features {
     emailMessages: on("email"),
     photoUploads: on("storage"),
     ownerPush: on("push"),
-    aiAvailable: on("ai"),
   };
 }

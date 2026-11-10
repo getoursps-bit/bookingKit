@@ -15,7 +15,6 @@ const { cleanup: cleanupCodes } = await import("../src/server/identity/codes");
 const { dispatch } = await import("../src/server/notify/dispatch");
 const { claimDaily } = await import("./jobs/schedule");
 const { checkMessageCap, checkReceipts, queueDailyCheck } = await import("./jobs/ownerAlerts");
-const { queueSummaries, runAiJobs } = await import("../src/server/ai/jobs");
 const { extensions } = await import("../src/extension/registry");
 
 // Bad configuration stops the worker at once, so the container restarts and shows it,
@@ -69,8 +68,10 @@ const DAILY: { name: string; hour: number; run: (now: Date) => Promise<unknown> 
   },
   { name: "owner_check", hour: 8, run: (now) => queueDailyCheck(now, getPool()) },
   { name: "owner_receipts", hour: 14, run: (now) => checkReceipts(now, getPool()) },
-  // Pre-visit summaries are ready the evening before.
-  { name: "ai_summaries", hour: 19, run: (now) => queueSummaries(now, getPool()) },
+  // The daily jobs of the extensions that are on.
+  ...extensions().flatMap((extension) =>
+    (extension.daily ?? []).map((job) => ({ name: job.name, hour: job.hour, run: (now: Date) => job.run(now, getPool()) })),
+  ),
 ];
 
 async function everyMinute(): Promise<void> {
@@ -85,9 +86,16 @@ async function everyMinute(): Promise<void> {
       await job.run(now);
     }
   }
-  // AI never blocks anything else: at most a few jobs per minute, each with its own timeout.
-  const ai = await runAiJobs({ db, now, limit: 5 });
-  if (ai > 0) log.info({ ai }, "AI jobs run");
+  // Each extension's own work, after the core's. One that fails is logged and does not stop the others.
+  for (const extension of extensions()) {
+    if (!extension.minute) continue;
+    try {
+      const did = await extension.minute(db, now);
+      if (Object.values(did).some((count) => count > 0)) log.info({ extension: extension.id, ...did }, "extension work");
+    } catch (error) {
+      log.error({ err: error, extension: extension.id }, "extension work failed");
+    }
+  }
 }
 
 /** Runs one task at a time, so shutdown can wait for the one in flight. */

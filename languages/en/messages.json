@@ -390,7 +390,6 @@
     "booking_cancelled": "Appointment cancelled",
     "message_failed": "Customer message not sent",
     "reply_received": "New message to the messaging number",
-    "ai_cap_reached": "You've reached the monthly AI limit",
     "alerts_stopped": "Notifications have stopped arriving",
     "message_cap": "The monthly message limit is filling up"
   },
@@ -503,10 +502,6 @@
       "cutoffHours": "Up to how many hours before customers can change or cancel",
       "holdMin": "How many minutes a time is held while the code is entered"
     },
-    "ai": {
-      "photo": "AI pet photo analysis",
-      "summary": "AI summary before an appointment"
-    },
     "messaging": {
       "whatsappOutage": "WhatsApp is down – send everything by email"
     },
@@ -518,11 +513,9 @@
       "chatNumber": "Business chat number"
     },
     "cap": {
-      "messagesMonthly": "Messages per month",
-      "aiMonthlyAgorot": "Monthly AI budget (agorot)"
+      "messagesMonthly": "Messages per month"
     },
     "saved": "Settings saved.",
-    "aiOff": "No AI key is set up, so these switches are inactive.",
     "phoneHelp": "An Israeli number, for example 050-0000000."
   },
   "footer": {
@@ -564,7 +557,6 @@
     "messagesSplit": "WhatsApp {whatsapp} · email {email} · alerts {push}",
     "messagesFailed": "{n} failed",
     "cost": "Message cost",
-    "aiCost": "AI this month: {cost}",
     "weekly": "Bookings made each week",
     "weeklyNote": "Last {n} weeks, Sunday to Saturday. The current week isn't over yet.",
     "weekBar": "Week of {date}: {n} bookings",

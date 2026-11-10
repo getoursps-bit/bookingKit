@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { extensions } from "../../extension/registry";
 import { type Db, query, withTransaction } from "../db";
 import { writeAudit } from "./audit";
 
@@ -22,53 +23,77 @@ const SETTINGS_SCHEMA = {
   "booking.maxLines": z.number().int().min(1).max(10).default(3),
   "booking.cutoffHours": z.number().int().min(0).max(168).default(12),
   "booking.holdMin": z.number().int().min(1).max(60).default(10),
-  "ai.photo": z.boolean().default(false),
-  "ai.summary": z.boolean().default(false),
   "messaging.whatsappOutage": z.boolean().default(false),
   "site.noindex": z.boolean().default(true),
   "whatsapp.senderNumber": phone.default(null),
   "whatsapp.chatNumber": phone.default(null),
   "cap.messagesMonthly": z.number().int().min(0).default(1000),
-  // About 40 USD a month, in agorot.
-  "cap.aiMonthlyAgorot": z.number().int().min(0).default(15000),
 } as const;
 
 type Schema = typeof SETTINGS_SCHEMA;
 export type SettingKey = keyof Schema;
 export type Settings = { [K in SettingKey]: z.output<Schema[K]> };
 
-export const SETTINGS_DEFAULTS = Object.fromEntries(
-  Object.entries(SETTINGS_SCHEMA).map(([key, schema]) => [key, schema.parse(undefined)]),
-) as Settings;
+type AnySchema = Record<string, z.ZodType>;
+type Values<S extends AnySchema> = { [K in keyof S]: z.output<S[K]> };
 
-export function isSettingKey(key: string): key is SettingKey {
-  return Object.hasOwn(SETTINGS_SCHEMA, key);
+/** The core's settings and those of every extension that is on. */
+function fullSchema(): AnySchema {
+  return Object.assign({}, SETTINGS_SCHEMA, ...extensions().map((extension) => extension.settings ?? {})) as AnySchema;
+}
+
+function defaultsOf<S extends AnySchema>(schema: S): Values<S> {
+  return Object.fromEntries(Object.entries(schema).map(([key, type]) => [key, type.parse(undefined)])) as Values<S>;
+}
+
+export const SETTINGS_DEFAULTS = defaultsOf(SETTINGS_SCHEMA) as Settings;
+
+/** The default of every setting, the extensions' with the core's. */
+export function allSettingDefaults(): Record<string, unknown> {
+  return defaultsOf(fullSchema());
+}
+
+/** True for a setting of the core or of an extension that is on. */
+export function isSettingKey(key: string): boolean {
+  return Object.hasOwn(fullSchema(), key);
 }
 
 /** Checks a value for one setting without storing it. */
-export function settingValid(key: SettingKey, value: unknown): boolean {
-  return SETTINGS_SCHEMA[key].safeParse(value).success;
+export function settingValid(key: string, value: unknown): boolean {
+  return fullSchema()[key]?.safeParse(value).success ?? false;
 }
 
-export async function getSettings(db?: Db): Promise<Settings> {
+/**
+ * The stored values of the settings in `schema`. A missing or invalid row
+ * falls back to the default. An extension reads its own settings with this.
+ */
+export async function readSettings<S extends AnySchema>(schema: S, db?: Db): Promise<Values<S>> {
   const rows = await query<{ key: string; value: unknown }>("select key, value from settings", [], db);
-  const settings: Record<string, unknown> = { ...SETTINGS_DEFAULTS };
+  const settings: Record<string, unknown> = defaultsOf(schema);
   for (const row of rows) {
-    if (!isSettingKey(row.key)) continue;
-    const parsed = SETTINGS_SCHEMA[row.key].safeParse(row.value);
-    if (parsed.success) settings[row.key] = parsed.data;
+    const parsed = schema[row.key]?.safeParse(row.value);
+    if (parsed?.success) settings[row.key] = parsed.data;
   }
-  return settings as Settings;
+  return settings as Values<S>;
+}
+
+/** The core's settings. */
+export function getSettings(db?: Db): Promise<Settings> {
+  return readSettings(SETTINGS_SCHEMA, db) as Promise<Settings>;
+}
+
+/** Every setting, the extensions' with the core's, for the owner's settings screen. */
+export function getAllSettings(db?: Db): Promise<Record<string, unknown>> {
+  return readSettings(fullSchema(), db);
 }
 
 /** Validates and stores one setting, with an audit entry. Throws on an invalid value. */
-export async function updateSetting<K extends SettingKey>(
-  key: K,
-  value: Settings[K],
-  staffId: number | null,
-  db?: Db,
-): Promise<void> {
-  const parsed = SETTINGS_SCHEMA[key].parse(value);
+export async function updateSetting<K extends SettingKey>(key: K, value: Settings[K], staffId: number | null, db?: Db): Promise<void>;
+export async function updateSetting(key: string, value: unknown, staffId: number | null, db?: Db): Promise<void>;
+export async function updateSetting(key: string, value: unknown, staffId: number | null, db?: Db): Promise<void> {
+  const type = fullSchema()[key];
+  if (!type) throw new Error(`Unknown setting "${key}"`);
+  const parsed = type.parse(value);
   await withTransaction(async (client) => {
     const before = await query<{ value: unknown }>("select value from settings where key = $1", [key], client);
     await query(

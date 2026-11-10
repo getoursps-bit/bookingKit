@@ -1,3 +1,4 @@
+import { extensions } from "@/extension/registry";
 import type { Locale } from "@/i18n/locales";
 import { translatedSql } from "../translation/content";
 import { addLocalDays, weekdayOf } from "../booking/slots";
@@ -22,7 +23,8 @@ export type Stats = {
   visits: { completed: number; noShow: number };
   clicks: { book: number; orderWhatsapp: number };
   messages: { whatsapp: number; email: number; push: number; failed: number; costAgorot: number };
-  aiThisMonthAgorot: number;
+  /** What the extensions cost in the month of the last day: the key of a string with {cost}, and the cost. */
+  extraCosts: { label: string; agorot: number }[];
   /** Bookings made per week (Sunday to Saturday), oldest first; the last week is the current one. */
   weekly: { weekStart: string; count: number }[];
   /** Online bookings by campaign source; "" is a visit without campaign tags. */
@@ -71,7 +73,7 @@ export async function getStats(
   const { from, to, start, end } = periodBounds(days, now);
   const weeksStart = localDayBounds(addLocalDays(weekStartOf(to), -7 * (WEEKS_SHOWN - 1))).start;
 
-  const [bookings, visits, clicks, messages, ai, created, sources, services] = await Promise.all([
+  const [bookings, visits, clicks, messages, extraCosts, created, sources, services] = await Promise.all([
     query<{ total: number; online: number; owner: number; imported: number; cancelled: number }>(
       `select count(*)::int as total,
               count(*) filter (where created_by = 'customer')::int as online,
@@ -104,11 +106,7 @@ export async function getStats(
       [start, end],
       db,
     ),
-    query<{ total: number }>(
-      `select total_agorot::int as total from ai_spend where month = $1::date`,
-      [`${to.slice(0, 7)}-01`],
-      db,
-    ),
+    Promise.all(extensions().flatMap((extension) => (extension.monthlyCost ? [extension.monthlyCost(`${to.slice(0, 7)}-01`, db)] : []))),
     query<{ createdAt: Date }>(
       `select created_at as "createdAt" from appointments where ${REAL} and created_at >= $1 and created_at < $2`,
       [weeksStart, end],
@@ -143,7 +141,7 @@ export async function getStats(
     visits: visits[0]!,
     clicks: { book: clickCount("book"), orderWhatsapp: clickCount("order_whatsapp") },
     messages: messages[0]!,
-    aiThisMonthAgorot: ai[0]?.total ?? 0,
+    extraCosts,
     weekly: bucketByWeek(
       created.map((row) => localDateOf(row.createdAt)),
       to,

@@ -1,15 +1,20 @@
 import { type Db, query, withTransaction } from "../db";
 import { enqueue, type OutboxRow } from "./outbox";
 
+/**
+ * The core's events, and any an extension adds. An extension's event has a
+ * string "event.<type>" in its own language files, which is the title the
+ * owner reads.
+ */
 export type OwnerEventType =
   | "booking_created"
   | "booking_moved"
   | "booking_cancelled"
   | "message_failed"
   | "reply_received"
-  | "ai_cap_reached"
   | "alerts_stopped"
-  | "message_cap";
+  | "message_cap"
+  | (string & {});
 
 export type OwnerEvent = {
   id: number;

@@ -6,6 +6,7 @@ import he from "./languages/he.json" with { type: "json" };
 import rules from "./seed.json" with { type: "json" };
 import { describeLines, petLines, petServiceTags, previewService } from "./server/lines";
 import { listPets } from "./server/pets";
+import { PET_SETTINGS, petAi } from "./server/photo-ai";
 import { deleteExpiredPhotos } from "./server/photos";
 import { type AgeGroup, type PetRequest, setServiceRule, type Species, type WeightGroup } from "./server/rules";
 
@@ -45,6 +46,9 @@ export default defineExtension({
     export: async (customerId, db) => ({ pets: await listPets(customerId, db) }),
   },
   catalogActions: { rule: saveRule },
+  settings: PET_SETTINGS,
+  /** With the ai extension on: a look at a pet's photo, and the pet's facts for the pre-visit note. */
+  provides: { ai: petAi },
   /** Pet photos are deleted 90 days after their visit. */
   cleanup: async (db, now) => ({ photos: await deleteExpiredPhotos(now, db) }),
   /** Which service each kind and size of pet gets by default. */

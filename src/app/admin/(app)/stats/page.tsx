@@ -4,7 +4,7 @@ import { Panel } from "@/components/admin/parts";
 import { formatPrice } from "@/i18n/format";
 import type { Locale } from "@/i18n/locales";
 import { getI18n } from "@/i18n/server";
-import { isolate } from "@/i18n/t";
+import { isolate, type MessageKey } from "@/i18n/t";
 import { getStats, STATS_PERIODS, type StatsPeriod, WEEKS_SHOWN } from "@/server/admin/stats";
 import { requireStaffPage } from "@/server/staff/session";
 import { formatLocal, localDayBounds } from "@/server/time";
@@ -152,7 +152,7 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
         <Tile
           label={t("stats.cost")}
           value={isolate(formatPrice(messages.costAgorot, locale))}
-          detail={t("stats.aiCost", { cost: formatPrice(stats.aiThisMonthAgorot, locale) })}
+          detail={stats.extraCosts.map((cost) => t(cost.label as MessageKey, { cost: formatPrice(cost.agorot, locale) })).join(" · ") || undefined}
         />
         <Tile
           label={t("inbox.failed")}
