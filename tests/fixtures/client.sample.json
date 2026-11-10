@@ -26,7 +26,7 @@
       "display": "heebo",
       "languages": {
         "ar": "alexandria"
-      }
+      }, "displayLanguages": {}
     },
     "colors": {
       "ink": "#1f2a2e",

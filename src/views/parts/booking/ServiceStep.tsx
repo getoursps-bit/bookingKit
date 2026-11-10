@@ -48,7 +48,7 @@ export async function ServiceStep({
         <Duration minutes={service.durationMin} />
       </span>
       <span aria-hidden="true">·</span>
-      <span>{t("services.from", { price: formatPrice(service.priceFromAgorot, locale) })}</span>
+      <span>{service.priceFromAgorot > 0 ? t("services.from", { price: formatPrice(service.priceFromAgorot, locale) }) : t("services.onRequest")}</span>
     </span>
   );
 

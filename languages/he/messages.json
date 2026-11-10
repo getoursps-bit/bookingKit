@@ -92,6 +92,7 @@
     "duration": "משך",
     "price": "מחיר",
     "from": "החל מ-{price}",
+    "onRequest": "מחיר לפי בקשה",
     "callToBook": "את השירות הזה קובעים בטלפון בלבד"
   },
   "products": {

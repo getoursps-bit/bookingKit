@@ -18,7 +18,7 @@
     }
   },
   "theme": {
-    "fonts": { "sans": "rubik", "display": "fredoka", "languages": { "en": "nunito" } },
+    "fonts": { "sans": "rubik", "display": "fredoka", "languages": { "en": "nunito" }, "displayLanguages": {} },
     "colors": {
       "ink": "#3a1f2b",
       "ink-soft": "#5a3b4a",
