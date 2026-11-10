@@ -27,6 +27,9 @@ in `docs/reference/` to explain why the engine works the way it does.
 - Prefer a well-known library to hand-written code where one exists.
 - Client repos are separate clones with their own database, image and domain.
   Never connect this repo to a client's server or database.
+- A fix or feature every client should get is made here, then taken into each
+  client's project with `pnpm kit update`. Never fix the same thing in two
+  client projects by hand.
 
 ## Engine rules
 
@@ -51,6 +54,7 @@ in `docs/reference/` to explain why the engine works the way it does.
 - `pnpm migrate` (`--check` lists pending) and `pnpm seed` apply the schema and starting content; both are safe to repeat.
 - `pnpm brand` regenerates `src/app/brand.css`, `src/i18n/*.generated.ts` and `languages/contract.json` after `client.json` or a language pack changes.
 - `pnpm kit new [blueprints/<client>.yaml]` makes a new client's project folder next to the kit, with its `INITIAL_PROMPT.md`; `blueprints/example.yaml` explains every field.
+- `pnpm kit status` lists the client projects next to the kit and how far behind each is; `pnpm kit update`, run in a client's project, merges the kit's later changes in.
 - `pnpm lang:check [code]` checks the language packs against the reference pack and the seed.
 - `pnpm dev`, `pnpm test`, `pnpm lint`, `pnpm typecheck`, `pnpm build`.
 - `pnpm test:e2e` needs `pnpm exec playwright install chromium` once; it starts its own server on port 3600.

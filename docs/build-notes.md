@@ -752,3 +752,41 @@ tests skip when the services are not the grooming ones.
 - The kit after the test changes: default 249 unit and 62 browser tests with
   the production build; sample 232 and 61; plain 235 and 58; notes 242 and
   59; requests 240 and 59.
+
+## Step 3, part 2: every client level with the kit (2026-11-10)
+
+Asked for before the first client is made: clients must get the kit's later
+changes equally.
+
+- `pnpm kit new` now makes the project as a clone of the kit with one commit
+  on top (it was a plain copy with no history). The kit is the remote `kit`.
+  It needs the kit to have nothing uncommitted.
+- `pnpm kit update`, in a client's project: fetch the kit's `main`, merge,
+  keep the client's generated files and write them again, record the kit
+  commit in `kit.json`, commit, and say what is left (migrations, install,
+  the checks). On a conflict it stops with the merge open and names the
+  files. It refuses a project with uncommitted work.
+- `pnpm kit status`, in the kit: each client project next to it and how many
+  kit commits it is behind.
+- Clients' blueprints are git-ignored in the kit (only the example is
+  committed), so a clone never carries another client's blueprint.
+- The starting prompt and the client's `CLAUDE.md` say where a client's own
+  work belongs so that updates stay clean.
+
+**Limits**
+
+- Fluffy Fur and Safa were made before the kit and are not clones of it;
+  they get nothing until they are moved onto it.
+- An update changes the client's code only. Reaching the live site is that
+  client's own release, and applying a migration there is its own step.
+- A client that changed core files will meet conflicts on those lines; the
+  command names them but a person resolves them.
+- Blueprints not being committed means they exist only in the kit's folder
+  on this machine (each client's project keeps its own copy).
+
+**Verified**
+
+- `tests/unit/kit.test.ts`: on a copy of the kit, a project is made, the kit
+  gets a later commit, the update brings it in and keeps the client's name,
+  content and generated files; a change to the same line stops and names the
+  file; uncommitted work is refused.

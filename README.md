@@ -29,7 +29,8 @@ pnpm kit new                            # asks the questions and writes the blue
 ```
 
 It makes the folder next to the kit (or under `--into <folder>`) as a git
-repo of its own with one commit and no link back to the kit. In it:
+repo of its own: a clone of the kit with one commit on top, so the kit's
+later changes can be merged in. The kit must have nothing uncommitted. In it:
 
 - the kit's whole code, extensions that are off included;
 - `client.json` with the client's name, languages, extensions and look, and
@@ -43,6 +44,31 @@ repo of its own with one commit and no link back to the kit. In it:
 - `blueprint.yaml`, `kit.json` (which kit commit it came from) and
   `INITIAL_PROMPT.md`: what the first working session there is told, with a
   task for each of the client's wishes.
+
+### Keeping every client level with the kit
+
+```sh
+pnpm kit status    # in the kit: each client project next to it and how many kit changes it is behind
+pnpm kit update    # in a client's project: takes in the kit's changes since the last time
+```
+
+`pnpm kit update` fetches the kit's `main`, merges it, keeps the client's
+generated files and writes them again from its `client.json`, records the
+new kit commit in `kit.json`, and commits. It then says what is left: new
+database changes for `pnpm migrate`, `pnpm install` when the libraries
+changed, and the checks to run before the client's own release. If the kit
+and the client changed the same lines, it stops with the merge open and
+names the files; `git merge --abort` goes back. It refuses a project with
+uncommitted work.
+
+A fix reaches every client the same way: commit it in the kit, then run the
+update in each project that `pnpm kit status` shows behind, and release each
+through its own CI. A client's project that keeps its own needs in
+`client.json`, its own extensions and its own views meets no conflicts. The
+project remembers the kit by its folder; when the kit moves or goes to
+GitHub, run `pnpm kit update --from <folder or address>` once. Clients'
+blueprints in `blueprints/` are not committed (only the example is), so one
+client's project never carries another's.
 
 Nothing is installed and no server is contacted. A blueprint holds no
 secrets, phone numbers or customer data. The command refuses a blueprint it

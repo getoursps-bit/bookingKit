@@ -55,7 +55,7 @@ export function readBlueprint(text: string, root = KIT_ROOT): Blueprint {
   return parsed.data;
 }
 
-const git = (cwd: string, ...args: string[]): string => execFileSync("git", args, { cwd, encoding: "utf8" }).trim();
+const git = (cwd: string, ...args: string[]): string => execFileSync("git", args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
 
 /** Swaps one piece of a copied file; fails loudly when the kit's file no longer has that piece. */
 function edit(target: string, file: string, changes: [from: string | RegExp, to: string][]): void {
@@ -138,7 +138,7 @@ export function createProject(
   edit(target, "CLAUDE.md", [
     [
       /^# bookingKit\n[\s\S]*?(?=\n## Kit rules)/,
-      `# ${name}\n\n${blueprint.business}: a public site, online booking and an owner area. This project was made from bookingKit, a shared template, by \`pnpm kit new\`; \`kit.json\` says from which commit and \`blueprint.yaml\` is what it was made from. \`docs/designs/\` and \`docs/reference/\` are the kit's own history and explain why the engine works the way it does.\n`,
+      `# ${name}\n\n${blueprint.business}: a public site, online booking and an owner area. This project was made from bookingKit, a shared template, by \`pnpm kit new\`; \`kit.json\` says which kit commit it is level with and \`blueprint.yaml\` is what it was made from. \`pnpm kit update\` takes in the kit's later changes. \`docs/designs/\` and \`docs/reference/\` are the kit's own history and explain why the engine works the way it does.\n`,
     ],
     [
       /- A change that only one client needs belongs in that client's repo, as an\n  extension or a view of its own, not here\.\n/,
