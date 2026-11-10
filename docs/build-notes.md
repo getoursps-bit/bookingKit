@@ -609,3 +609,11 @@ swappable drivers, behind one facade.
 - Templates: Meta takes the template's name, Twilio its content SID, both
   in the same `provider_template` column, so a client's seed must hold the
   ones of its driver.
+
+**Verified (D2)**
+
+- Default client: 246 unit tests (1 skipped), 62 browser tests, production
+  build and worker bundle.
+- Sample: 229 unit (18 skipped), 61 browser. Plain: 232 unit (15 skipped),
+  58 browser. Notes: 239 unit (8 skipped), 59 browser.
+- The page pictures were not rerun; nothing a visitor sees changed.
