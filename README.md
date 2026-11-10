@@ -144,6 +144,11 @@ client with `ai` alone.
 the `pnpm import:dibs` script, its staging tables and the Dibs references.
 It has no pages, and the script refuses to run for a client that has it off.
 
+`map-links` adds Google Maps and Apple Maps to the contact row. `split-hours`
+lets a weekday have a second opening range after a break; the core already
+treats a day as a list of ranges, and this extension keeps the second one
+and asks the owner for it on the hours screen.
+
 ## Re-branding
 
 Everything that makes the site one client's is in `client.json`: its

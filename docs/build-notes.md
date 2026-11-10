@@ -535,3 +535,39 @@ proven by the unit test only. Safa's phone-width column will be the first.
 - Sample (he + ar, pets): 212 unit (17 skipped), 60 browser. Plain: 215
   unit (14 skipped), 57 browser. Notes (ai alone): 221 unit (8 skipped), 57
   browser.
+
+## Step 2, part D1: the first of Safa's customisations (2026-11-10)
+
+Three of the four things Safa's clinic changed are in the kit.
+
+- **Logo upload is in the core**, not an extension. The cover photo upload
+  was already in the core's content screen, every site has a logo, and the
+  header already showed one when `logoKey` was set. The owner uploads and
+  removes it beside the cover photo. This differs from the design, which
+  listed it as an extension.
+- **`map-links` extension**: Google Maps and Apple Maps in the contact row,
+  after Waze. New view point `contactLinks(profile)`. It has no server side.
+- **A day is a list of opening ranges in the core.** `src/core/booking/hours.ts`
+  has `HourRange`, `OpeningHours` (with an optional `more`) and
+  `hourRanges(day)`. Free times, the owner's own bookings, the hours table,
+  the "open now" line, the calendar's shading and the search-engine data all
+  read the list, so a visit never straddles a break. The core still stores
+  one range a day.
+- **`split-hours` extension** keeps a second range: columns `opens2` and
+  `closes2` on `opening_hours`, the tick and two time fields on the hours
+  form, and the check that it starts at or after the first one closes. New
+  points: `openingRanges { load, read, save }` on the manifest and
+  `hoursFields` in the views.
+- The `notes` test client now has `ai` and `split-hours`; the `sample`
+  client has `pets` and `map-links`.
+
+**Not done:** the approval flow (a booking is a request the owner approves).
+Seeding a second range is left to the client's own starting content (step 3).
+
+**Verified**
+
+- Default client: 236 unit tests (1 skipped), 62 browser tests.
+- Sample: 219 unit (18 skipped), 61 browser. Plain: 222 unit (15 skipped),
+  58 browser. Notes: 229 unit (8 skipped), 59 browser, including the owner
+  adding, getting refused and removing a second range.
+- The production build and the page pictures were not rerun for this part.
