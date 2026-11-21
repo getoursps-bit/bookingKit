@@ -6,11 +6,8 @@ copy of Fluffy Fur (a grooming salon), which is why the default brand and the
 pet features are still here.
 
 The direction is in `docs/designs/` (one file per step); stage notes are in
-`docs/build-notes.md`. The step being built now is
-`docs/designs/step4_owner_platform.md` (owner area, roles, and the money,
-connector and MCP modules); start there. Fluffy Fur's own design, brief and
-build notes are kept in `docs/reference/` to explain why the engine works the
-way it does.
+`docs/build-notes.md`. Fluffy Fur's own design, brief and build notes are kept
+in `docs/reference/` to explain why the engine works the way it does.
 
 ## Kit rules
 
