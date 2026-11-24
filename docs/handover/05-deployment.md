@@ -135,7 +135,9 @@ browser tests, dependency audit. On `main` only: build the image, run each
 script in it, push by SHA. A client project's matrix is trimmed by
 `pnpm kit new` to the test clients that fit it.
 
-The kit and the clients currently have **no git remote**. To use CI, each
-repo needs a host (GitHub: `git remote add origin <url> && git push -u origin main`),
-and each client's `kit` remote must point at the kit's new address
-(`pnpm kit update --from <url>` once).
+The kit is at `git@github.com:getoursps-bit/bookingKit.git` (remote
+`origin`). Each client repo needs its own host for CI
+(`git remote add origin <url> && git push -u origin main`), and its `kit`
+remote can then point at the kit's GitHub address instead of the local
+folder (`pnpm kit update --from git@github.com:getoursps-bit/bookingKit.git`
+once), so a team member's machine does not need the kit next to it.
