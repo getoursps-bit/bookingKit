@@ -495,7 +495,20 @@
     "eraseConfirm": "نعم، حذف",
     "erased": "حُذفت البيانات الشخصية.",
     "merged": "دُمج الزبونان.",
-    "title": "زبون"
+    "title": "زبون",
+    "total": "الزبائن ({count})",
+    "empty": "لا يوجد زبائن بعد.",
+    "clear": "مسح البحث",
+    "sort": "ترتيب",
+    "sortRecent": "آخر زيارة",
+    "sortName": "الاسم",
+    "sortBookings": "أكثر المواعيد",
+    "lastVisit": "آخر زيارة",
+    "nextBooking": "الموعد القادم",
+    "pages": "الصفحات",
+    "previous": "السابق",
+    "next": "التالي",
+    "pageOf": "صفحة {page} من {pages}"
   },
   "inbox": {
     "events": "التحديثات",

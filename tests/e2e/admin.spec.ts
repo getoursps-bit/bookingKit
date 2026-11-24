@@ -202,6 +202,30 @@ test("the owner logs in and every admin page works on a phone", async ({ page })
   }
 });
 
+test("the customers page lists customers without a search, and the search narrows it", async ({ page }) => {
+  const t = strings(DEFAULT_LOCALE);
+  const name = `e2e listed customer ${Date.now()}`;
+  const [customer] = await sql<{ id: string }>("insert into customers (display_name, source) values ($1, 'owner') returning id", [name]);
+  try {
+    await login(page);
+    // Sorted by name, so a fresh customer with no visit is easy to reach on the first pages.
+    await page.goto(`/admin/customers?sort=name&q=${encodeURIComponent(name)}`);
+    await expect(page.getByRole("link", { name: new RegExp(name) })).toBeVisible();
+
+    await page.goto("/admin/customers");
+    await expect(page.locator('a[href^="/admin/customers/"]').first()).toBeVisible();
+    await noSideScroll(page);
+    const axe = await new AxeBuilder({ page }).analyze();
+    expect(axe.violations.map((violation) => violation.id)).toEqual([]);
+
+    await page.getByRole("searchbox").fill("no customer has this name");
+    await page.getByRole("button", { name: t["customers.find"]! }).click();
+    await expect(page.getByText(t["customers.none"]!)).toBeVisible();
+  } finally {
+    await sql("delete from customers where id = $1", [customer!.id]);
+  }
+});
+
 test("the calendar shows the day in Hebrew, right to left", async ({ page }) => {
   await login(page);
   await page.goto("/admin/calendar");

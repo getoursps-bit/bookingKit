@@ -64,23 +64,70 @@ export async function bookingsBetween(
   }));
 }
 
-export type CustomerHit = { id: number; name: string; phone: string | null; bookings: number };
+export const CUSTOMER_SORTS = ["recent", "name", "bookings"] as const;
+export type CustomerSort = (typeof CUSTOMER_SORTS)[number];
+export const CUSTOMERS_PER_PAGE = 50;
 
-/** Customers whose name contains the words or whose phone contains the digits. */
-export async function searchCustomers(text: string, db: Db = getPool()): Promise<CustomerHit[]> {
-  const term = text.trim();
-  if (!term) return [];
+export type CustomerRow = {
+  id: number;
+  name: string;
+  phone: string | null;
+  /** Bookings that were or are real: held and released times are not counted. */
+  bookings: number;
+  /** The start of the latest booking that has already begun and was kept (confirmed or completed). */
+  lastVisit: Date | null;
+  /** The start of the next booking that still stands (pending or confirmed). */
+  nextBooking: Date | null;
+};
+
+export type CustomerList = { rows: CustomerRow[]; total: number; page: number; pages: number };
+
+const ORDER: Record<CustomerSort, string> = {
+  recent: `"lastVisit" desc nulls last, c.id desc`,
+  name: "c.display_name, c.id",
+  bookings: "bookings desc, c.display_name, c.id",
+};
+
+/**
+ * Every customer who is not erased, a page at a time, for the owner's
+ * customers screen. `q` narrows the list to names that contain the words or
+ * phones that contain at least three of its digits.
+ */
+export async function listCustomers(
+  options: { q?: string; sort?: CustomerSort; page?: number; now?: Date } = {},
+  db: Db = getPool(),
+): Promise<CustomerList> {
+  const term = (options.q ?? "").trim();
   const digits = term.replace(/\D/g, "").replace(/^0/, "");
-  return query<CustomerHit>(
+  const sort = options.sort ?? "recent";
+  const where = `c.erased_at is null
+    and ($1 = '' or c.display_name ilike '%' || $1 || '%' or ($2 <> '' and c.phone_e164 like '%' || $2 || '%'))`;
+  const params = [term, digits.length >= 3 ? digits : ""];
+
+  const [{ total } = { total: 0 }] = await query<{ total: number }>(`select count(*)::int as total from customers c where ${where}`, params, db);
+  const pages = Math.max(1, Math.ceil(total / CUSTOMERS_PER_PAGE));
+  const page = Math.min(Math.max(1, Math.floor(options.page ?? 1)), pages);
+
+  const rows = await query<CustomerRow>(
     `select c.id::int, c.display_name as name, c.phone_e164 as phone,
-       (select count(*)::int from appointments a where a.customer_id = c.id) as bookings
+       count(a.id) filter (where a.status not in ('held', 'released'))::int as bookings,
+       max(a.starts_at) filter (where a.status in ('confirmed', 'completed') and a.starts_at <= $3) as "lastVisit",
+       min(a.starts_at) filter (where a.status in ('pending', 'confirmed') and a.starts_at > $3) as "nextBooking"
      from customers c
-     where c.erased_at is null
-       and (c.display_name ilike '%' || $1 || '%' or ($2 <> '' and c.phone_e164 like '%' || $2 || '%'))
-     order by c.display_name limit 50`,
-    [term, digits.length >= 3 ? digits : ""],
+     left join appointments a on a.customer_id = c.id
+     where ${where}
+     group by c.id
+     order by ${ORDER[sort]}
+     limit ${CUSTOMERS_PER_PAGE} offset $4`,
+    [...params, options.now ?? new Date(), (page - 1) * CUSTOMERS_PER_PAGE],
     db,
   );
+  return {
+    rows,
+    total,
+    page,
+    pages,
+  };
 }
 
 export type CustomerBooking = { id: number; start: Date; status: AppointmentStatus; services: string };
