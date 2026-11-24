@@ -53,8 +53,8 @@ country; then payments, accounting, invoices, courses and the shop.
 
 ## For the developer taking this over
 
-Read first, in this order: the kit's `CLAUDE.md` (the rules),
-`docs/designs/step2_modules_languages.md` (core, views, extensions and how
+Read first, in this order: `docs/handover/README.md` (the handover set),
+the kit's `CLAUDE.md` (the rules), `docs/designs/step2_modules_languages.md` (core, views, extensions and how
 an extension is wired), `src/extension/types.ts` and
 `src/extension/views.ts` (the extension points that exist today), and the
 last two sections of `docs/build-notes.md` (`kit new` and `kit update`).

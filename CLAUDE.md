@@ -48,6 +48,13 @@ in `docs/reference/` to explain why the engine works the way it does.
 - Ask before choosing a provider, adding a paid service, or changing a decision in a design.
 - Finish each build stage with tests passing and a short note in `docs/build-notes.md`.
 
+## Handover docs
+
+`docs/handover/README.md` is the long form of these rules, written for a
+developer or an agent taking the project over: the product, the
+architecture, where a change belongs with step-by-step recipes, client
+projects, deployment and testing. Read it before a task that is new to you.
+
 ## Commands
 
 - `docker compose -f docker/compose.dev.yml up -d` starts local Postgres (port 5435).
