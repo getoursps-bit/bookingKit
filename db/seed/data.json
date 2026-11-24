@@ -131,6 +131,10 @@
       "channel": "email"
     },
     {
+      "key": "staff_reset",
+      "channel": "email"
+    },
+    {
       "key": "confirmation",
       "channel": "messaging",
       "category": "utility",

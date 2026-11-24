@@ -348,3 +348,4 @@ You do not need to read Hebrew to test everything:
 | Errors after an update | Run `node worker/migrate.js --check` and apply anything pending |
 | Lost the authenticator phone | Log in with a code by email; or run `node worker/staff-create.js <email>` again on the server to reset password and key |
 | The login code email does not arrive | Check spam; owner area → Messages; three sends per 15 minutes, then wait |
+| Forgot the password | Login page → "Forgot your password?": a code comes by email, then choose a new password (at least 12 characters). Every device is logged out. Needs email to be set up; without it, run `node worker/staff-create.js <email>` on the server |

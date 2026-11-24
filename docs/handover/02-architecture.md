@@ -146,8 +146,9 @@ registries. Changing the look of a client is editing `client.json` and its
 
 ## Security in short
 
-Owner sign-in: email, password and an authenticator code (or an email code),
-sessions hashed in `staff_sessions`, CSRF token on every form. Customer
+Owner sign-in: email, password and an authenticator code (or an email code);
+a forgotten password is replaced with another emailed code, which ends every
+session. Sessions are hashed in `staff_sessions`, CSRF token on every form. Customer
 identity: a code to a phone or email, trusted devices, rate limits
 (`rate_limits` table). Webhooks are signed (`WEBHOOK_SECRET_MESSAGING`).
 Every change by staff is written to `audit_log` with `writeAudit()`. Row

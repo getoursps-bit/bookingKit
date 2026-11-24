@@ -48,9 +48,9 @@ export function route(kind: MessageKind, to: Recipient, ctx: RouteContext): Chan
   // only, inside the chat they opened, so no consent or template is needed.
   if (kind === "auto_reply") return whatsapp ? ["messaging"] : [];
 
-  // The owner's login code goes to the staff email only, and the monthly cap
-  // (for customer messages) never locks the owner out.
-  if (kind === "staff_code") return email ? ["email"] : [];
+  // The owner's login and password reset codes go to the staff email only,
+  // and the monthly cap (for customer messages) never locks the owner out.
+  if (kind === "staff_code" || kind === "staff_reset") return email ? ["email"] : [];
 
   if (kind === "code") {
     // The cap stops codes: the page then offers "call the salon".

@@ -356,7 +356,9 @@
       "Locked": "Too many attempts. You can try again in 15 minutes.",
       "Code": "The code is wrong or has already been used.",
       "expired": "Time's up. Please start again.",
-      "EmailFailed": "The email could not be sent. Try again, or log in with your password."
+      "EmailFailed": "The email could not be sent. Try again, or log in with your password.",
+      "Short": "The new password is too short.",
+      "ResetEmailFailed": "The email could not be sent. Please try again in a few minutes."
     },
     "emailOption": "Log in with a code by email",
     "passwordOption": "Log in with password and authenticator app",
@@ -366,8 +368,16 @@
     "emailCodeTitle": "The code from your email",
     "emailSent": "If this address belongs to an admin account, a code is on its way. It is valid for {minutes} minutes.",
     "resend": "Send a new code",
+    "forgot": "Forgot your password?",
+    "resetTitle": "Reset your password",
+    "resetHelp": "We'll send a 6-digit code to the admin account's email, then you can choose a new password.",
+    "resetCodeTitle": "Choose a new password",
+    "newPassword": "New password",
+    "newPasswordHelp": "At least {min} characters.",
+    "savePassword": "Save password",
     "ok": {
-      "out": "You've logged out."
+      "out": "You've logged out.",
+      "reset": "Your password was changed and you've been logged out on every device. Log in with the new password."
     }
   },
   "today": {

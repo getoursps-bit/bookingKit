@@ -3,7 +3,7 @@
 // or typed in, never passed on the command line where shell history keeps it)
 import { createInterface } from "node:readline/promises";
 import { closePool } from "../src/core/platform/db";
-import { hashPassword, newTotpSecret, saveStaff } from "../src/core/platform/staff/auth";
+import { hashPassword, MIN_PASSWORD_LENGTH, newTotpSecret, saveStaff } from "../src/core/platform/staff/auth";
 
 async function main(): Promise<void> {
   const email = process.argv[2]?.trim().toLowerCase();
@@ -11,10 +11,12 @@ async function main(): Promise<void> {
   let password = process.env.STAFF_PASSWORD;
   if (!password) {
     const rl = createInterface({ input: process.stdin, output: process.stdout });
-    password = await rl.question("Password (at least 12 characters): ");
+    password = await rl.question(`Password (at least ${MIN_PASSWORD_LENGTH} characters): `);
     rl.close();
   }
-  if (password.length < 12) throw new Error("The password must have at least 12 characters");
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    throw new Error(`The password must have at least ${MIN_PASSWORD_LENGTH} characters`);
+  }
   const totp = newTotpSecret(email);
   await saveStaff(email, await hashPassword(password), totp.secret);
   console.log(`Staff account ready: ${email}`);

@@ -15,7 +15,9 @@ import {
   newTotpSecret,
   resolveSession,
   revokeSession,
+  resetPassword,
   sendEmailCode,
+  sendResetCode,
 } from "@/core/platform/staff/auth";
 import { localDateTimeToUtc } from "@/core/platform/time";
 import { testDog } from "../setup/pets";
@@ -24,6 +26,15 @@ const hasDb = await testDbAvailable();
 
 // A made-up test password; never a real one.
 const PASSWORD = "test-password-not-real";
+
+/** The 6-digit code in the last fake email of this kind to this address. */
+async function lastCode(pool: pg.Pool, email: string, templateKey: string): Promise<string> {
+  const { rows } = await pool.query<{ body: string }>(
+    "select body from fake_messages where recipient = $1 and template_key = $2 order by id desc limit 1",
+    [email, templateKey],
+  );
+  return /(\d{6})/.exec(rows[0]?.body ?? "")?.[1] ?? "";
+}
 
 async function addStaff(pool: pg.Pool, email = "owner@example.test") {
   const totp = newTotpSecret(email);
@@ -107,6 +118,77 @@ describe.skipIf(!hasDb)("staff login", () => {
       await sendEmailCode(staff.email, "he", pool);
       await sendEmailCode(staff.email, "he", pool);
       expect(await sendEmailCode(staff.email, "he", pool)).toEqual({ ok: false, reason: "Locked" });
+    });
+  });
+
+  it("sets a new password with an emailed reset code, once, and signs out every device", async () => {
+    await withMigratedSchema(async (pool) => {
+      const staff = await addStaff(pool);
+      const phone = await createSession(staff.id, "phone", pool);
+      const laptop = await createSession(staff.id, "laptop", pool);
+      expect(await sendResetCode("Owner@Example.test", "he", pool)).toEqual({ ok: true });
+      const code = await lastCode(pool, staff.email, "staff_reset");
+      expect(code).toMatch(/^\d{6}$/);
+      const stored = await pool.query("select reset_code_hash from staff where id = $1", [staff.id]);
+      expect(JSON.stringify(stored.rows)).not.toContain(code);
+      const outbox = await pool.query("select kind, channel, status from message_outbox where kind = 'staff_reset'");
+      expect(outbox.rows).toEqual([{ kind: "staff_reset", channel: "email", status: "sent" }]);
+
+      const NEW = "new-test-password-not-real";
+      const wrong = code === "000000" ? "111111" : "000000";
+      expect(await resetPassword(staff.email, wrong, NEW, pool)).toEqual({ ok: false, reason: "Code" });
+      // Too short is refused before the code is tried, so it costs no try.
+      expect(await resetPassword(staff.email, code, "short", pool)).toEqual({ ok: false, reason: "Short" });
+      expect(await resetPassword(staff.email, code, NEW, pool)).toEqual({ ok: true });
+      expect(await resetPassword(staff.email, code, "another-password-not-real", pool)).toEqual({
+        ok: false,
+        reason: "Code",
+      });
+
+      expect(await checkPassword(staff.email, PASSWORD, pool)).toEqual({ ok: false, reason: "Wrong" });
+      expect(await checkPassword(staff.email, NEW, pool)).toEqual({ ok: true, staffId: staff.id });
+      expect(await resolveSession(phone.raw, pool)).toBeNull();
+      expect(await resolveSession(laptop.raw, pool)).toBeNull();
+      const audit = await pool.query("select staff_id::int, entity, action from audit_log where action = 'password_reset'");
+      expect(audit.rows).toEqual([{ staff_id: staff.id, entity: "staff", action: "password_reset" }]);
+      const hashes = await pool.query("select password_hash from staff where id = $1", [staff.id]);
+      expect(JSON.stringify(hashes.rows)).not.toContain(NEW);
+    });
+  });
+
+  it("keeps the reset code apart from the login code, answers the same for an unknown email, and limits it", async () => {
+    await withMigratedSchema(async (pool) => {
+      const staff = await addStaff(pool);
+      expect(await sendResetCode("nobody@example.test", "he", pool)).toEqual({ ok: true });
+      const none = await pool.query("select count(*)::int as n from fake_messages where recipient = 'nobody@example.test'");
+      expect(none.rows[0].n).toBe(0);
+
+      await sendEmailCode(staff.email, "he", pool);
+      await sendResetCode(staff.email, "he", pool);
+      const login = await lastCode(pool, staff.email, "staff_code");
+      const reset = await lastCode(pool, staff.email, "staff_reset");
+      // A login code does not reset the password, and asking for a reset kept the login code alive.
+      if (login !== reset) {
+        expect(await resetPassword(staff.email, login, "new-test-password-not-real", pool)).toEqual({
+          ok: false,
+          reason: "Code",
+        });
+      }
+      expect(await checkEmailCode(staff.email, login, pool)).toBe(staff.id);
+
+      const wrong = reset === "000000" ? "111111" : "000000";
+      for (let i = 0; i < 5; i++) {
+        expect((await resetPassword(staff.email, wrong, "new-test-password-not-real", pool)).ok).toBe(false);
+      }
+      expect(await resetPassword(staff.email, reset, "new-test-password-not-real", pool)).toEqual({
+        ok: false,
+        reason: "Code",
+      });
+
+      // The third send in 15 minutes is the last one.
+      await sendResetCode(staff.email, "he", pool);
+      await sendResetCode(staff.email, "he", pool);
+      expect(await sendResetCode(staff.email, "he", pool)).toEqual({ ok: false, reason: "Locked" });
     });
   });
 
