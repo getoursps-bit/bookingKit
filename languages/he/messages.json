@@ -485,7 +485,20 @@
     "eraseConfirm": "כן, למחוק",
     "erased": "הפרטים האישיים נמחקו.",
     "merged": "הלקוחות אוחדו.",
-    "title": "לקוח"
+    "title": "לקוח",
+    "total": "לקוחות ({count})",
+    "empty": "אין עדיין לקוחות.",
+    "clear": "ניקוי החיפוש",
+    "sort": "מיון",
+    "sortRecent": "ביקור אחרון",
+    "sortName": "שם",
+    "sortBookings": "הכי הרבה תורים",
+    "lastVisit": "ביקור אחרון",
+    "nextBooking": "התור הבא",
+    "pages": "עמודים",
+    "previous": "הקודם",
+    "next": "הבא",
+    "pageOf": "עמוד {page} מתוך {pages}"
   },
   "inbox": {
     "events": "עדכונים",
