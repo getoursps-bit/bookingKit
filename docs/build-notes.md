@@ -794,3 +794,47 @@ changes equally.
   its own suite (227 unit tests, 59 browser tests, production build); after
   the kit's next commit `pnpm kit status` showed it behind and
   `pnpm kit update` brought it level with a clean tree and passing typecheck.
+
+## Step 4, stage 1: the customers list (2026-11-24)
+
+Requirement R1 (`docs/requirements.md`): the owner's customers page was
+empty until she searched, because the page asked for customers only when
+there was a search term.
+
+- `listCustomers({ q, sort, page })` in `src/core/booking/owner-data.ts`
+  replaces `searchCustomers()`: every customer who is not erased, 50 to a
+  page, with the number of bookings, the last visit and the next booking.
+  Sorted by last visit (default; customers with no visit last), name, or
+  number of bookings. `q` narrows by part of the name or 3+ digits of the
+  phone, as before. A page number outside the list is brought inside it.
+- Counting: a booking is any that was or is real (held and released times
+  are not); a visit is a confirmed or completed booking that has started;
+  the next booking is the first pending or confirmed one still ahead.
+- The page (`admin.customers` view): the search, the three sorts as links,
+  the list, and previous / next links. Plain links and a GET form, so it
+  works without JavaScript. New strings `customers.total`, `empty`, `clear`,
+  `sort`, `sortRecent`, `sortName`, `sortBookings`, `lastVisit`,
+  `nextBooking`, `pages`, `previous`, `next`, `pageOf` in every pack.
+- No migration: the existing index on `appointments (customer_id)` is
+  enough for one business's customers.
+
+**Verified**
+
+- `tests/unit/customers.db.test.ts` (new): listing without a search, the
+  order, erased customers left out, what counts as a booking and a visit,
+  both other sorts, search by name and phone, paging and its limits.
+- `tests/e2e/admin.spec.ts`: a new test that the page lists customers with
+  no search, has no sideways scroll and no axe violation at phone width, and
+  that a search with no match says so.
+- Default client: lint, typecheck, 262 unit tests (6 skipped), production
+  build and worker bundle; browser tests 61 passed. The two that failed
+  (`site.spec.ts`: hours without JavaScript, LocalBusiness JSON-LD) failed
+  on the local database's opening hours, which hold an example client's
+  hours rather than the kit's seed; they do not touch this change.
+- Unit tests as the other test clients (`scripts/with-client.sh`): plain
+  248 passed, sample 245, requests 253, notes 255, none failed. Their
+  browser tests were not run locally; CI runs them.
+
+**Not done**
+
+- Clients take this with `pnpm kit update`; nothing to migrate.

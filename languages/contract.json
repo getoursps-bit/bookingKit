@@ -3449,6 +3449,115 @@
         "en": "Customer"
       }
     },
+    "customers.total": {
+      "placeholders": [
+        "count"
+      ],
+      "text": {
+        "he": "לקוחות ({count})",
+        "ar": "الزبائن ({count})",
+        "en": "Customers ({count})"
+      }
+    },
+    "customers.empty": {
+      "placeholders": [],
+      "text": {
+        "he": "אין עדיין לקוחות.",
+        "ar": "لا يوجد زبائن بعد.",
+        "en": "No customers yet."
+      }
+    },
+    "customers.clear": {
+      "placeholders": [],
+      "text": {
+        "he": "ניקוי החיפוש",
+        "ar": "مسح البحث",
+        "en": "Clear the search"
+      }
+    },
+    "customers.sort": {
+      "placeholders": [],
+      "text": {
+        "he": "מיון",
+        "ar": "ترتيب",
+        "en": "Sort"
+      }
+    },
+    "customers.sortRecent": {
+      "placeholders": [],
+      "text": {
+        "he": "ביקור אחרון",
+        "ar": "آخر زيارة",
+        "en": "Last visit"
+      }
+    },
+    "customers.sortName": {
+      "placeholders": [],
+      "text": {
+        "he": "שם",
+        "ar": "الاسم",
+        "en": "Name"
+      }
+    },
+    "customers.sortBookings": {
+      "placeholders": [],
+      "text": {
+        "he": "הכי הרבה תורים",
+        "ar": "أكثر المواعيد",
+        "en": "Most appointments"
+      }
+    },
+    "customers.lastVisit": {
+      "placeholders": [],
+      "text": {
+        "he": "ביקור אחרון",
+        "ar": "آخر زيارة",
+        "en": "Last visit"
+      }
+    },
+    "customers.nextBooking": {
+      "placeholders": [],
+      "text": {
+        "he": "התור הבא",
+        "ar": "الموعد القادم",
+        "en": "Next appointment"
+      }
+    },
+    "customers.pages": {
+      "placeholders": [],
+      "text": {
+        "he": "עמודים",
+        "ar": "الصفحات",
+        "en": "Pages"
+      }
+    },
+    "customers.previous": {
+      "placeholders": [],
+      "text": {
+        "he": "הקודם",
+        "ar": "السابق",
+        "en": "Previous"
+      }
+    },
+    "customers.next": {
+      "placeholders": [],
+      "text": {
+        "he": "הבא",
+        "ar": "التالي",
+        "en": "Next"
+      }
+    },
+    "customers.pageOf": {
+      "placeholders": [
+        "page",
+        "pages"
+      ],
+      "text": {
+        "he": "עמוד {page} מתוך {pages}",
+        "ar": "صفحة {page} من {pages}",
+        "en": "Page {page} of {pages}"
+      }
+    },
     "inbox.events": {
       "placeholders": [],
       "text": {

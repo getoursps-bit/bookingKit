@@ -485,7 +485,20 @@
     "eraseConfirm": "Yes, delete",
     "erased": "Personal details deleted.",
     "merged": "Customers merged.",
-    "title": "Customer"
+    "title": "Customer",
+    "total": "Customers ({count})",
+    "empty": "No customers yet.",
+    "clear": "Clear the search",
+    "sort": "Sort",
+    "sortRecent": "Last visit",
+    "sortName": "Name",
+    "sortBookings": "Most appointments",
+    "lastVisit": "Last visit",
+    "nextBooking": "Next appointment",
+    "pages": "Pages",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {page} of {pages}"
   },
   "inbox": {
     "events": "Updates",
