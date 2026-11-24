@@ -2,6 +2,11 @@
 
 Status: draft for approval. Nothing here is built yet.
 
+The requirements this design answers, with their ids, the owner's
+decisions and how to tell each is met, are in
+[`../requirements.md`](../requirements.md). Where the two disagree, the
+requirements win.
+
 ## Summary
 
 **How clients get the updates.** Every item is built in bookingKit and

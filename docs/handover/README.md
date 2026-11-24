@@ -29,7 +29,8 @@ must never be broken.
 | 5 | [`04-clients.md`](04-clients.md) | Making a client project, updating it, what a client may change |
 | 6 | [`05-deployment.md`](05-deployment.md) | Local setup, the image, the server, releases, rollback |
 | 7 | [`06-testing.md`](06-testing.md) | The checks, the test clients, when a change is done |
-| 8 | [`../designs/step4_owner_platform.md`](../designs/step4_owner_platform.md) | **The work that is next**, its order and its open decisions |
+| 8 | [`../requirements.md`](../requirements.md) | **What was asked for**: every requirement with an id, the owner's decisions, and how to tell each is met |
+| 9 | [`../designs/step4_owner_platform.md`](../designs/step4_owner_platform.md) | **How it will be built**: the order of work and its open decisions |
 
 Deeper references, read when a task touches them:
 
@@ -50,7 +51,7 @@ Deeper references, read when a task touches them:
 |---|---|---|
 | Fix a bug every client has | `02-architecture.md` | Fix in the kit, test, commit, `pnpm kit update` in each client (`04-clients.md`) |
 | Add a feature | `03-adding-features.md` "Where does it belong" | Follow the matching recipe |
-| Build the next planned step | `../designs/step4_owner_platform.md` | Its "For the developer taking this over" and "Order of work" |
+| Build the next planned step | `../requirements.md`, then `../designs/step4_owner_platform.md` | Its "For the developer taking this over" and "Order of work" |
 | Make a new client | `04-clients.md` | The `new-client` skill (`.claude/skills/new-client/SKILL.md`) does it end to end |
 | Change one client only | `04-clients.md` "What a client may change" | Work in that client's repo, never in the kit |
 | Deploy or release | `05-deployment.md` | Write or update the client's `DEPLOY.md` |
