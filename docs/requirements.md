@@ -179,6 +179,7 @@ Decision needed: one Google Cloud project for all clients, or one each.
 | R9.4 | The owner can change a role, sign someone out everywhere, or remove them. | |
 | R9.5 | The number of users is limited per client; adding past the limit is refused with "your plan has N seats". The limit cannot be raised from the owner area or the database. | |
 | R9.6 | The same mechanism switches paid modules on (for example MCP, connectors, advanced statistics, shop). | |
+| R9.7 | A staff member who forgot the password sets a new one from the login page: a 6-digit code is sent to the account's email, and the code and the new password (at least 12 characters) are entered together. Every session of the account then ends, and the person logs in as usual, with the new password and the app code, or with an email login code. Offered only when email is set up. Agreed 2026-11-24. | The old password is refused and the new one works; devices that were logged in are logged out; an unknown email gets the same answer as a known one; five wrong codes void the code |
 
 Decision needed: a signed licence or a plain number in the server's
 settings; seats per plan; which modules are paid.

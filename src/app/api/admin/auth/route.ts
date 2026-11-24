@@ -12,8 +12,12 @@ import {
   EMAIL_CODE_TTL_MIN,
   EMAIL_PENDING_COOKIE,
   PENDING_COOKIE,
+  RESET_CODE_TTL_MIN,
+  RESET_PENDING_COOKIE,
+  resetPassword,
   revokeSession,
   sendEmailCode,
+  sendResetCode,
   SESSION_COOKIE,
 } from "@/core/platform/staff/auth";
 
@@ -21,7 +25,7 @@ export const dynamic = "force-dynamic";
 
 const PENDING_MS = 5 * 60_000;
 
-/** Login, either password then app code or a code by email, and logout. */
+/** Login, either password then app code or a code by email; a new password by an emailed code; and logout. */
 export async function POST(request: NextRequest) {
   const form = await readForm(request);
   if (!csrfOk(request, form)) return next(request, "/admin/login?error=expired", {}, 403);
@@ -58,6 +62,38 @@ export async function POST(request: NextRequest) {
     const value = `${Buffer.from(address).toString("base64url")}:${expires.getTime()}`;
     const response = next(request, "/admin/login?step=emailcode&ok=sent");
     setCookie(request, response, EMAIL_PENDING_COOKIE, signValue(secret, value), expires);
+    return response;
+  }
+
+  if (form.action === "resetSend") {
+    const address = (form.email ?? "").trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+$/.test(address)) return next(request, "/admin/login?step=reset&error=Wrong", {}, 400);
+    const sent = await sendResetCode(address, toLocale(form.locale));
+    if (!sent.ok) {
+      const error = sent.reason === "Locked" ? "Locked" : "ResetEmailFailed";
+      return next(request, `/admin/login?step=reset&error=${error}`, {}, sent.reason === "Locked" ? 429 : 502);
+    }
+    // As with the login code, the address rides in a signed cookie.
+    const expires = new Date(Date.now() + RESET_CODE_TTL_MIN * 60_000);
+    const value = `${Buffer.from(address).toString("base64url")}:${expires.getTime()}`;
+    const response = next(request, "/admin/login?step=resetcode&ok=sent");
+    setCookie(request, response, RESET_PENDING_COOKIE, signValue(secret, value), expires);
+    return response;
+  }
+
+  if (form.action === "resetSet") {
+    const pending = verifySignedValue(secret, request.cookies.get(RESET_PENDING_COOKIE)?.value ?? "");
+    const [encoded, expiresText] = (pending ?? "").split(":");
+    if (!encoded || !expiresText || Number(expiresText) < Date.now()) {
+      return next(request, "/admin/login?step=reset&error=expired", {}, 401);
+    }
+    const address = Buffer.from(encoded, "base64url").toString();
+    const result = await resetPassword(address, (form.code ?? "").replace(/\D/g, ""), form.password ?? "");
+    if (!result.ok) return next(request, `/admin/login?step=resetcode&error=${result.reason}`, {}, 400);
+    // Every session ended with the reset, this one too: log in again with the new password.
+    const response = next(request, "/admin/login?ok=reset");
+    response.cookies.delete(RESET_PENDING_COOKIE);
+    response.cookies.delete(SESSION_COOKIE);
     return response;
   }
 

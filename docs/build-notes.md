@@ -794,3 +794,59 @@ changes equally.
   its own suite (227 unit tests, 59 browser tests, production build); after
   the kit's next commit `pnpm kit status` showed it behind and
   `pnpm kit update` brought it level with a clean tree and passing typecheck.
+
+## Step 4: a forgotten owner password (R9.7, 2026-11-24)
+
+Asked for as "make sure it sends emails for reset password". The kit had no
+reset: a forgotten password meant an email login code, or `staff:create` on
+the server. Agreed on 2026-11-24: a code by email (not a link), every session
+ends, and the second step stays.
+
+**Built**
+
+- Login page: "Forgot your password?" under the password form when email is
+  on. Step `reset` asks for the email; step `resetcode` takes the code and
+  the new password together. Then back to the login page with "your password
+  was changed", logged out everywhere.
+- `sendResetCode()` / `resetPassword()` in `src/core/platform/staff/auth.ts`.
+  The login code and the reset code now share one sender and one checker
+  (`sendStaffCode`, `tryStaffCode`) with the same limits: 10 minutes, five
+  tries counted before comparing, three sends per address in 15 minutes, the
+  same answer for an unknown address, only the keyed hash stored. A too-short
+  password is refused before the code is tried. A right code sets the
+  password, deletes every `staff_sessions` row of the account and writes
+  `password_reset` to `audit_log`, in one transaction.
+- Migration `0015_staff_password_reset.sql` (additive): `staff.reset_code_hash`,
+  `reset_code_expires_at`, `reset_code_attempts`. Separate columns, so asking
+  for a reset never cancels a login code.
+- Outbox kind `staff_reset`: routed like `staff_code` (email only, outside
+  the monthly cap, no "message failed" alert, skipped if left in the queue).
+  Template `staff_reset` (email) in Hebrew, English and Arabic; seed row.
+- The signed cookie `bk_admin_reset` carries the address to the code step.
+- `MIN_PASSWORD_LENGTH` (12) is shared by the reset and `pnpm staff:create`.
+- Docs: R9.7 in the requirements, a bullet in the step 4 design (part 9),
+  a row in the guide's troubleshooting table, the architecture summary.
+
+**Verified**
+
+- `tests/unit/staff.db.test.ts`: a reset code sets the new password once;
+  the old password is refused; two open sessions end; the audit row is
+  written; neither code nor password is stored in clear; too short costs no
+  try; a login code does not reset and a reset leaves the login code alive;
+  unknown address, five wrong tries and the send limit.
+- `tests/unit/routing.test.ts`: `staff_reset` goes by email only, even at the
+  monthly cap.
+- `tests/e2e/admin.spec.ts`: the whole flow on a phone in Hebrew (axe clean,
+  no sideways scroll), then a login with the new password and the app code.
+- `pnpm lint`, `typecheck`, `test`, `test:e2e`, `build`, `lang:check` pass
+  for the default client.
+
+**Not done**
+
+- Real delivery was not tried: locally and in CI `PROVIDERS=fake`, so the
+  email lands in `fake_messages`. A client's server needs its email keys set
+  (see the guide) for the code to reach an inbox.
+- Each client needs `node worker/migrate.js` and `node worker/seed.js` after
+  `pnpm kit update` brings this in, for the new columns and the template.
+- No "change password" screen for a logged-in owner; the reset is the only
+  way from the owner side.

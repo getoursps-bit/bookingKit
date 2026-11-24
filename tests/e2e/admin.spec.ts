@@ -132,6 +132,55 @@ test("the owner can log in with a code sent to her email instead", async ({ page
   await expect(page).toHaveURL(/\/admin$/);
 });
 
+test("the owner who forgot the password sets a new one with a code by email", async ({ page }) => {
+  // Its own account, so the other tests keep their password.
+  const email = `e2e-reset-${Date.now()}@example.test`;
+  const secret = generateSecret();
+  // Made-up passwords for the test account only.
+  const fresh = "e2e-new-password-not-real";
+  await sql("insert into staff (email, password_hash, totp_secret) values ($1, $2, $3)", [
+    email,
+    await argon2.hash(PASSWORD, { type: argon2.argon2id }),
+    secret,
+  ]);
+  try {
+    await page.goto("/lang/he?back=/admin/login");
+    await page.getByRole("link", { name: "שכחתי סיסמה" }).click();
+    await expect(page).toHaveURL(/step=reset/);
+    await page.locator('input[name="email"]').fill(email);
+    await page.locator('form[action="/api/admin/auth"] button[type="submit"]').click();
+    await expect(page).toHaveURL(/step=resetcode/);
+    await noSideScroll(page);
+    const axe = await new AxeBuilder({ page }).analyze();
+    expect(axe.violations.map((violation) => violation.id)).toEqual([]);
+    const [message] = await sql<{ body: string }>(
+      "select body from fake_messages where recipient = $1 and template_key = 'staff_reset' order by id desc limit 1",
+      [email],
+    );
+    const code = /(\d{6})/.exec(message?.body ?? "")?.[1] ?? "";
+    await page.locator('input[name="code"]').fill(code);
+    await page.locator('input[name="password"]').fill(fresh);
+    await page.locator('form[action="/api/admin/auth"] button[type="submit"]').click();
+    await expect(page).toHaveURL(/\/admin\/login\?ok=reset/);
+    await expect(page.getByRole("status")).toContainText("הסיסמה הוחלפה");
+
+    // The old password no longer works; the new one does, with the app code as before.
+    await page.locator('input[name="email"]').fill(email);
+    await page.locator('input[name="password"]').fill(PASSWORD);
+    await page.locator('form[action="/api/admin/auth"] button[type="submit"]').click();
+    await expect(page).toHaveURL(/error=Wrong/);
+    await page.locator('input[name="email"]').fill(email);
+    await page.locator('input[name="password"]').fill(fresh);
+    await page.locator('form[action="/api/admin/auth"] button[type="submit"]').click();
+    await page.locator('input[name="code"]').fill(await generate({ secret }));
+    await page.locator('form[action="/api/admin/auth"] button[type="submit"]').click();
+    await expect(page).toHaveURL(/\/admin$/);
+  } finally {
+    await sql("delete from staff where email = $1", [email]);
+    await sql("delete from fake_messages where recipient = $1", [email]);
+  }
+});
+
 test("the owner logs in and every admin page works on a phone", async ({ page }) => {
   await login(page);
   await expect(page.getByRole("heading", { level: 1, name: "היום" })).toBeVisible();

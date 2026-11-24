@@ -25,12 +25,14 @@ describe("route", () => {
     expect(route("code", { phone, email: null, prefer: "email" }, ctx())).toEqual([]);
   });
 
-  it("sends the owner's login code by email only, even at the monthly cap", () => {
+  it("sends the owner's login and reset codes by email only, even at the monthly cap", () => {
     expect(route("staff_code", { phone: null, email, prefer: "email" }, ctx({ cap: 10, count: 10 }))).toEqual([
       "email",
     ]);
     expect(route("staff_code", { phone, email }, ctx())).toEqual(["email"]);
     expect(route("staff_code", { phone: null, email }, ctx({ mail: false }))).toEqual([]);
+    expect(route("staff_reset", { phone, email }, ctx({ cap: 10, count: 10 }))).toEqual(["email"]);
+    expect(route("staff_reset", { phone, email: null }, ctx())).toEqual([]);
   });
 
   it("stops codes at the monthly cap, leaving the call button", () => {

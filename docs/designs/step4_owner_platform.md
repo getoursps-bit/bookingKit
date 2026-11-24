@@ -489,6 +489,16 @@ Today the `staff` table has no role: everyone signed in can do everything.
 - **Inviting**: the owner enters an email and a role; the person gets a link
   and signs in with the existing email code and password. The owner can
   change a role, sign someone out of every device, or remove them.
+- **A forgotten password** (R9.7, agreed 2026-11-24): "Forgot your
+  password?" on the login page sends a 6-digit code to the account's email
+  (outbox kind `staff_reset`, email only, like the login code). The code and
+  a new password are entered on one screen. The reset ends every session of
+  the account, and the person then logs in as usual: a reset changes only
+  the password, never skips the second step. The reset code has its own
+  columns, so it never cancels a login code, and the same limits: valid 10
+  minutes, five tries, three sends per address in 15 minutes, the same
+  answer for an unknown address. Chosen over a link in the email because it
+  reuses the login code's machinery and needs no new page.
 - **The seat limit (paid)**: each client has a **licence**, a signed token
   in an environment variable (`KIT_LICENCE`), checked with the kit's public
   key. It says how many staff seats the client has and which paid features

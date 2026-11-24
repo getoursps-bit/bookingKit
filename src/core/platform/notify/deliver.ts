@@ -94,7 +94,7 @@ export async function deliver(
   }
 
   await markFailed(row.id, { channel: null, error: lastError }, db);
-  if (row.kind !== "code" && row.kind !== "staff_code" && row.kind !== "owner_alert" && row.kind !== "owner_check") {
+  if (row.kind !== "code" && row.kind !== "staff_code" && row.kind !== "staff_reset" && row.kind !== "owner_alert" && row.kind !== "owner_check") {
     await addOwnerEvent("message_failed", row.appointmentId, { outboxId: row.id, kind: row.kind }, {}, db);
   }
   return { ok: false, reason: channels.length === 0 ? "NoChannel" : "Failed" };

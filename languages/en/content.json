@@ -71,6 +71,10 @@
       "body": "Your admin login code: {code}. The code is valid for 10 minutes. If you did not ask for it, you can ignore this email.",
       "subject": "%BRAND% admin login code"
     },
+    "staff_reset:email": {
+      "body": "Your code to reset the admin password: {code}. The code is valid for 10 minutes. If you did not ask to reset your password, you can ignore this email and your password will not change.",
+      "subject": "%BRAND% admin password reset"
+    },
     "confirmation:messaging": {
       "body": "Your %BRAND% appointment is booked for {when}. To view, change or cancel: {link}"
     },

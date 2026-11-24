@@ -44,6 +44,7 @@ export async function dispatch(row: OutboxRow, db: Db = getPool(), now: Date = n
   switch (row.kind) {
     case "code":
     case "staff_code":
+    case "staff_reset":
       // Codes are sent at once by the web app; one left in the queue is stale.
       await markSkipped(row.id, "stale code", db);
       return;

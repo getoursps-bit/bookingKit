@@ -11,6 +11,7 @@ export type OutboxKind =
   | "owner_check"
   | "auto_reply"
   | "staff_code"
+  | "staff_reset"
   /** A customer message kind an extension brings (its manifest's `customerMessages`). */
   | (string & {});
 export type Channel = "messaging" | "email" | "push";
@@ -205,7 +206,7 @@ export async function requeueForNextChannel(id: number, db?: Db): Promise<void> 
 export async function monthlyCount(now: Date = new Date(), db?: Db): Promise<number> {
   const [row] = await query<{ count: number }>(
     `select count(*)::int as count from message_outbox
-     where channel in ('messaging', 'email') and kind not in ('owner_alert', 'owner_check', 'staff_code')
+     where channel in ('messaging', 'email') and kind not in ('owner_alert', 'owner_check', 'staff_code', 'staff_reset')
        and status in ('sent', 'delivered', 'read')
        and created_at >= date_trunc('month', $1::timestamptz)`,
     [now],

@@ -13,7 +13,10 @@ import { CSRF_COOKIE } from "@/core/platform/security";
 import {
   EMAIL_CODE_TTL_MIN,
   EMAIL_PENDING_COOKIE,
+  MIN_PASSWORD_LENGTH,
   PENDING_COOKIE,
+  RESET_CODE_TTL_MIN,
+  RESET_PENDING_COOKIE,
   resolveSession,
   SESSION_COOKIE,
 } from "@/core/platform/staff/auth";
@@ -39,7 +42,8 @@ export default async function LoginPage({
   if (await resolveSession(jar.get(SESSION_COOKIE)?.value)) redirect("/admin");
   const csrf = jar.get(CSRF_COOKIE)?.value ?? "";
   // Two ways in: password then app code (the default), or a code by email
-  // when email is set up.
+  // when email is set up. A forgotten password is replaced with another
+  // emailed code, so that too needs email.
   const emailOn = getFeatures().emailMessages;
   const step =
     search.step === "code" && jar.has(PENDING_COOKIE)
@@ -48,18 +52,24 @@ export default async function LoginPage({
         ? "emailcode"
         : search.step === "email" && emailOn
           ? "email"
-          : "password";
+          : search.step === "resetcode" && emailOn && jar.has(RESET_PENDING_COOKIE)
+            ? "resetcode"
+            : search.step === "reset" && emailOn
+              ? "reset"
+              : "password";
   const codeStep = step === "code" || step === "emailcode";
   const error = notice(t, "login.error", search.error);
   const ok =
-    search.ok === "sent" && step === "emailcode"
-      ? t("login.emailSent", { minutes: EMAIL_CODE_TTL_MIN })
+    search.ok === "sent" && (step === "emailcode" || step === "resetcode")
+      ? t("login.emailSent", { minutes: step === "emailcode" ? EMAIL_CODE_TTL_MIN : RESET_CODE_TTL_MIN })
       : notice(t, "login.ok", search.ok);
   const title = {
     password: t("login.title"),
     code: t("login.codeTitle"),
     email: t("login.emailTitle"),
     emailcode: t("login.emailCodeTitle"),
+    reset: t("login.resetTitle"),
+    resetcode: t("login.resetCodeTitle"),
   }[step];
 
   return (
@@ -78,11 +88,11 @@ export default async function LoginPage({
       {ok ? <Alert kind="ok">{ok}</Alert> : null}
       <form method="post" action="/api/admin/auth" className="card flex flex-col gap-4 p-5">
         <input type="hidden" name="csrf" value={csrf} />
-        {step === "email" ? (
+        {step === "email" || step === "reset" ? (
           <>
-            <input type="hidden" name="action" value="emailSend" />
+            <input type="hidden" name="action" value={step === "reset" ? "resetSend" : "emailSend"} />
             <input type="hidden" name="locale" value={locale} />
-            <p className="text-sm text-ink-soft">{t("login.emailHelp")}</p>
+            <p className="text-sm text-ink-soft">{step === "reset" ? t("login.resetHelp") : t("login.emailHelp")}</p>
             <div className="field">
               <label htmlFor="email" className="field-label">
                 {t("login.email")}
@@ -101,6 +111,46 @@ export default async function LoginPage({
               />
             </div>
             <SubmitButton className="btn btn-primary">{t("login.sendCode")}</SubmitButton>
+          </>
+        ) : step === "resetcode" ? (
+          <>
+            <input type="hidden" name="action" value="resetSet" />
+            <div className="field">
+              <label htmlFor="code" className="field-label">
+                {t("login.code")}
+              </label>
+              <input
+                id="code"
+                name="code"
+                dir="ltr"
+                className="input text-center text-2xl font-bold tracking-[0.4em]"
+                required
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                pattern="\d{6}"
+                maxLength={6}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="password" className="field-label">
+                {t("login.newPassword")}
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                dir="ltr"
+                className="input"
+                required
+                minLength={MIN_PASSWORD_LENGTH}
+                autoComplete="new-password"
+                aria-describedby="password-help"
+              />
+              <p id="password-help" className="text-sm text-ink-soft">
+                {t("login.newPasswordHelp", { min: MIN_PASSWORD_LENGTH })}
+              </p>
+            </div>
+            <SubmitButton className="btn btn-primary">{t("login.savePassword")}</SubmitButton>
           </>
         ) : codeStep ? (
           <>
@@ -161,9 +211,17 @@ export default async function LoginPage({
           </>
         )}
       </form>
-      {step === "emailcode" ? (
-        <a href="/admin/login?step=email" className="self-center text-sm font-semibold underline">
+      {step === "emailcode" || step === "resetcode" ? (
+        <a
+          href={step === "resetcode" ? "/admin/login?step=reset" : "/admin/login?step=email"}
+          className="self-center text-sm font-semibold underline"
+        >
           {t("login.resend")}
+        </a>
+      ) : null}
+      {emailOn && step === "password" ? (
+        <a href="/admin/login?step=reset" className="self-center text-sm font-semibold underline">
+          {t("login.forgot")}
         </a>
       ) : null}
       {emailOn && step !== "code" ? (

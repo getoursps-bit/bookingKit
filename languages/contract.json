@@ -2522,6 +2522,22 @@
         "en": "The email could not be sent. Try again, or log in with your password."
       }
     },
+    "login.error.Short": {
+      "placeholders": [],
+      "text": {
+        "he": "הסיסמה החדשה קצרה מדי.",
+        "ar": "كلمة المرور الجديدة قصيرة جدًا.",
+        "en": "The new password is too short."
+      }
+    },
+    "login.error.ResetEmailFailed": {
+      "placeholders": [],
+      "text": {
+        "he": "לא הצלחנו לשלוח את האימייל. נא לנסות שוב בעוד כמה דקות.",
+        "ar": "لم نستطع إرسال البريد الإلكتروني. يرجى المحاولة مجددًا بعد بضع دقائق.",
+        "en": "The email could not be sent. Please try again in a few minutes."
+      }
+    },
     "login.emailOption": {
       "placeholders": [],
       "text": {
@@ -2588,12 +2604,78 @@
         "en": "Send a new code"
       }
     },
+    "login.forgot": {
+      "placeholders": [],
+      "text": {
+        "he": "שכחתי סיסמה",
+        "ar": "نسيتم كلمة المرور؟",
+        "en": "Forgot your password?"
+      }
+    },
+    "login.resetTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "איפוס סיסמה",
+        "ar": "إعادة تعيين كلمة المرور",
+        "en": "Reset your password"
+      }
+    },
+    "login.resetHelp": {
+      "placeholders": [],
+      "text": {
+        "he": "נשלח קוד בן 6 ספרות לאימייל של חשבון הניהול, ואז אפשר לבחור סיסמה חדשה.",
+        "ar": "سنرسل رمزًا من 6 أرقام إلى بريد حساب الإدارة، ثم يمكنكم اختيار كلمة مرور جديدة.",
+        "en": "We'll send a 6-digit code to the admin account's email, then you can choose a new password."
+      }
+    },
+    "login.resetCodeTitle": {
+      "placeholders": [],
+      "text": {
+        "he": "בחירת סיסמה חדשה",
+        "ar": "اختيار كلمة مرور جديدة",
+        "en": "Choose a new password"
+      }
+    },
+    "login.newPassword": {
+      "placeholders": [],
+      "text": {
+        "he": "סיסמה חדשה",
+        "ar": "كلمة المرور الجديدة",
+        "en": "New password"
+      }
+    },
+    "login.newPasswordHelp": {
+      "placeholders": [
+        "min"
+      ],
+      "text": {
+        "he": "לפחות {min} תווים.",
+        "ar": "{min} حرفًا على الأقل.",
+        "en": "At least {min} characters."
+      }
+    },
+    "login.savePassword": {
+      "placeholders": [],
+      "text": {
+        "he": "שמירת הסיסמה",
+        "ar": "حفظ كلمة المرور",
+        "en": "Save password"
+      }
+    },
     "login.ok.out": {
       "placeholders": [],
       "text": {
         "he": "יצאתם מהמערכת.",
         "ar": "خرجتم من النظام.",
         "en": "You've logged out."
+      }
+    },
+    "login.ok.reset": {
+      "placeholders": [],
+      "text": {
+        "he": "הסיסמה הוחלפה ויצאתם מכל המכשירים. אפשר להיכנס עם הסיסמה החדשה.",
+        "ar": "تم تغيير كلمة المرور وخرجتم من كل الأجهزة. يمكنكم الدخول بكلمة المرور الجديدة.",
+        "en": "Your password was changed and you've been logged out on every device. Log in with the new password."
       }
     },
     "today.next": {
@@ -5079,6 +5161,26 @@
               "he": "קוד כניסה לניהול %BRAND%",
               "ar": "رمز الدخول إلى إدارة %BRAND%",
               "en": "%BRAND% admin login code"
+            }
+          }
+        },
+        "staff_reset:email": {
+          "body": {
+            "placeholders": [
+              "code"
+            ],
+            "text": {
+              "he": "קוד לאיפוס הסיסמה לאזור הניהול: {code}. הקוד בתוקף ל-10 דקות. אם לא ביקשת לאפס את הסיסמה, אפשר להתעלם מהאימייל, והסיסמה לא תשתנה.",
+              "ar": "رمز إعادة تعيين كلمة المرور لمنطقة الإدارة: {code}. الرمز صالح لمدة 10 دقائق. إن لم تطلبوا إعادة تعيين كلمة المرور، يمكن تجاهل هذه الرسالة ولن تتغير كلمة المرور.",
+              "en": "Your code to reset the admin password: {code}. The code is valid for 10 minutes. If you did not ask to reset your password, you can ignore this email and your password will not change."
+            }
+          },
+          "subject": {
+            "placeholders": [],
+            "text": {
+              "he": "איפוס סיסמה לניהול %BRAND%",
+              "ar": "إعادة تعيين كلمة مرور إدارة %BRAND%",
+              "en": "%BRAND% admin password reset"
             }
           }
         },

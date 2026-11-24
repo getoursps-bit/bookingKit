@@ -2,7 +2,8 @@ import { randomInt, timingSafeEqual } from "node:crypto";
 import argon2 from "argon2";
 import { generateSecret, generateURI, verify as verifyTotp } from "otplib";
 import { DEFAULT_LOCALE, type Locale } from "../../../i18n/locales";
-import { type Db, getPool, query } from "../db";
+import { type Db, getPool, query, withTransaction } from "../db";
+import { writeAudit } from "../audit";
 import { newRawToken, secretHash } from "../identity/hash";
 import { Notify } from "../notify";
 import { claimOne } from "../outbox";
@@ -12,6 +13,7 @@ import { hit } from "../rateLimits";
 // so the home-screen app stays in):
 // - email and password (Argon2id), then a time-based code from an app;
 // - or a 6-digit code sent to the staff email.
+// A forgotten password is replaced with another emailed code (`resetPassword`).
 
 export { SESSION_COOKIE, SESSION_DAYS } from "./cookie";
 import { SESSION_DAYS } from "./cookie";
@@ -19,6 +21,8 @@ import { brandName } from "@/brand";
 export const PENDING_COOKIE = "bk_admin_2fa";
 /** The address an emailed login code was sent to, signed, while the code is live. */
 export const EMAIL_PENDING_COOKIE = "bk_admin_mail";
+/** The address a password reset code was sent to, signed, while the code is live. */
+export const RESET_PENDING_COOKIE = "bk_admin_reset";
 const LOCK = { windowMin: 15, maxFailures: 10 };
 
 export type Staff = { id: number; email: string };
@@ -80,20 +84,36 @@ export async function checkTotp(staffId: number, code: string, db: Db = getPool(
 }
 
 export const EMAIL_CODE_TTL_MIN = 10;
+export const RESET_CODE_TTL_MIN = 10;
+/** The shortest password a staff member may choose, here and in `pnpm staff:create`. */
+export const MIN_PASSWORD_LENGTH = 12;
 const EMAIL_CODE_TRIES = 5;
 const EMAIL_CODE_SENDS = { windowMin: 15, max: 3 };
 
 export type EmailCodeSend = { ok: true } | { ok: false; reason: "Locked" | "EmailFailed" };
 
+// The two codes sent to the staff email: one logs in, one sets a new
+// password. Each has its own columns, so asking for one never cancels the other.
+const CODES = {
+  login: { kind: "staff_code", column: "email_code", limitKey: "login:email-code", ttlMin: EMAIL_CODE_TTL_MIN },
+  reset: { kind: "staff_reset", column: "reset_code", limitKey: "login:reset-code", ttlMin: RESET_CODE_TTL_MIN },
+} as const;
+type CodePurpose = keyof typeof CODES;
+
+function codeHash(purpose: CodePurpose, staffId: number, code: string): string {
+  return secretHash(purpose === "login" ? `staff:${staffId}:${code}` : `staff:${staffId}:${purpose}:${code}`);
+}
+
 /**
- * Emails a login code to a staff account. The answer is the same whether or
- * not the address has an account, so the page never tells which emails exist.
- * Three sends per address in 15 minutes; each new code replaces the last.
- * The code goes through an outbox row and `route()` like every message.
+ * Emails a code to a staff account. The answer is the same whether or not the
+ * address has an account, so the page never tells which emails exist. Three
+ * sends per address and purpose in 15 minutes; each new code replaces the
+ * last. The code goes through an outbox row and `route()` like every message.
  */
-export async function sendEmailCode(email: string, locale: Locale, db: Db = getPool()): Promise<EmailCodeSend> {
+async function sendStaffCode(purpose: CodePurpose, email: string, locale: Locale, db: Db): Promise<EmailCodeSend> {
+  const { kind, column, limitKey, ttlMin } = CODES[purpose];
   const address = email.trim().toLowerCase();
-  if (!(await hit(`login:email-code:${address}`, EMAIL_CODE_SENDS.windowMin, EMAIL_CODE_SENDS.max, db))) {
+  if (!(await hit(`${limitKey}:${address}`, EMAIL_CODE_SENDS.windowMin, EMAIL_CODE_SENDS.max, db))) {
     return { ok: false, reason: "Locked" };
   }
   const [staff] = await query<{ id: number; email: string; locked: boolean }>(
@@ -106,43 +126,62 @@ export async function sendEmailCode(email: string, locale: Locale, db: Db = getP
 
   const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
   await query(
-    `update staff set email_code_hash = $2, email_code_attempts = 0,
-       email_code_expires_at = now() + make_interval(mins => $3::int)
+    `update staff set ${column}_hash = $2, ${column}_attempts = 0,
+       ${column}_expires_at = now() + make_interval(mins => $3::int)
      where id = $1`,
-    [staff.id, secretHash(`staff:${staff.id}:${code}`), EMAIL_CODE_TTL_MIN],
+    [staff.id, codeHash(purpose, staff.id, code), ttlMin],
     db,
   );
-  const [id] = await Notify.queue([{ kind: "staff_code", templateKey: "staff_code", staffId: staff.id }], db);
+  const [id] = await Notify.queue([{ kind, templateKey: kind, staffId: staff.id }], db);
   const row = id ? await claimOne(id, db) : null;
   const sent = row
     ? await Notify.send(row, { phone: null, email: staff.email, prefer: "email", locale }, { code }, { db })
     : null;
   if (!sent?.ok) {
-    await query("update staff set email_code_hash = null, email_code_expires_at = null where id = $1", [staff.id], db);
+    await query(`update staff set ${column}_hash = null, ${column}_expires_at = null where id = $1`, [staff.id], db);
     return { ok: false, reason: "EmailFailed" };
   }
   return { ok: true };
 }
 
 /**
- * Checks an emailed login code. Five tries per code, counted in the database
- * before comparing; a right code is used up. A locked account is refused.
+ * Uses up one try of a live code and says whether it was right: five tries per
+ * code, counted in the database before comparing. A locked account is refused.
+ * Returns the staff id and the stored hash, so the caller can spend the code.
  */
-export async function checkEmailCode(email: string, code: string, db: Db = getPool()): Promise<number | null> {
+async function tryStaffCode(
+  purpose: CodePurpose,
+  email: string,
+  code: string,
+  db: Db,
+): Promise<{ id: number; hash: string } | null> {
+  const { column } = CODES[purpose];
   const address = email.trim().toLowerCase();
   if (!/^\d{6}$/.test(code)) return null;
   const [staff] = await query<{ id: number; hash: string }>(
-    `update staff set email_code_attempts = email_code_attempts + 1
-     where lower(email) = $1 and email_code_hash is not null and email_code_expires_at > now()
-       and email_code_attempts < $2 and not coalesce(locked_until > now(), false)
-     returning id::int, email_code_hash as hash`,
+    `update staff set ${column}_attempts = ${column}_attempts + 1
+     where lower(email) = $1 and ${column}_hash is not null and ${column}_expires_at > now()
+       and ${column}_attempts < $2 and not coalesce(locked_until > now(), false)
+     returning id::int, ${column}_hash as hash`,
     [address, EMAIL_CODE_TRIES],
     db,
   );
   if (!staff) return null;
-  const given = Buffer.from(secretHash(`staff:${staff.id}:${code}`));
+  const given = Buffer.from(codeHash(purpose, staff.id, code));
   const stored = Buffer.from(staff.hash);
   if (given.length !== stored.length || !timingSafeEqual(given, stored)) return null;
+  return staff;
+}
+
+/** Emails a login code to a staff account (see `sendStaffCode`). */
+export function sendEmailCode(email: string, locale: Locale, db: Db = getPool()): Promise<EmailCodeSend> {
+  return sendStaffCode("login", email, locale, db);
+}
+
+/** Checks an emailed login code; a right code is used up. */
+export async function checkEmailCode(email: string, code: string, db: Db = getPool()): Promise<number | null> {
+  const staff = await tryStaffCode("login", email, code, db);
+  if (!staff) return null;
   await query(
     `update staff set email_code_hash = null, email_code_expires_at = null, email_code_attempts = 0, failed_logins = 0
      where id = $1`,
@@ -150,6 +189,47 @@ export async function checkEmailCode(email: string, code: string, db: Db = getPo
     db,
   );
   return staff.id;
+}
+
+/** Emails a code for setting a new password (see `sendStaffCode`). */
+export function sendResetCode(email: string, locale: Locale, db: Db = getPool()): Promise<EmailCodeSend> {
+  return sendStaffCode("reset", email, locale, db);
+}
+
+export type ResetResult = { ok: true } | { ok: false; reason: "Code" | "Short" };
+
+/**
+ * Sets a new password with an emailed reset code. A password that is too short
+ * is refused before the code is tried, so it costs no try. A right code is
+ * used up, every session of the account ends (the person logs in again, with
+ * the app code or an email code as usual), and the change is audited.
+ */
+export async function resetPassword(
+  email: string,
+  code: string,
+  password: string,
+  db: Db = getPool(),
+): Promise<ResetResult> {
+  if (password.length < MIN_PASSWORD_LENGTH) return { ok: false, reason: "Short" };
+  const staff = await tryStaffCode("reset", email, code, db);
+  if (!staff) return { ok: false, reason: "Code" };
+  const passwordHash = await hashPassword(password);
+  const done = await withTransaction(async (client) => {
+    // The hash in the where clause makes a code good for one reset, even when
+    // two arrive at once.
+    const [row] = await query(
+      `update staff set password_hash = $3, reset_code_hash = null, reset_code_expires_at = null,
+         reset_code_attempts = 0, failed_logins = 0
+       where id = $1 and reset_code_hash = $2 returning id`,
+      [staff.id, staff.hash, passwordHash],
+      client,
+    );
+    if (!row) return false;
+    await query("delete from staff_sessions where staff_id = $1", [staff.id], client);
+    await writeAudit(client, { staffId: staff.id, actor: "staff", entity: "staff", entityId: staff.id, action: "password_reset" });
+    return true;
+  }, db);
+  return done ? { ok: true } : { ok: false, reason: "Code" };
 }
 
 export function newTotpSecret(email: string): { secret: string; uri: string } {
